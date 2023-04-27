@@ -1,0 +1,21 @@
+spring:
+  profiles:
+    active: '@activatedProperties@'
+application:
+    name: order-service
+
+springdoc:
+    show-actuator: false
+    swagger-ui:
+        doc-expansion: none
+        operations-sorter: method
+        showCommonExtensions: true
+
+management:
+    endpoints:
+        web:
+            exposure:
+                include: "*"
+
+server:
+port: 8081
