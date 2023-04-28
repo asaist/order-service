@@ -13,5 +13,10 @@ public class Series {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "series_id")
     private Long id;
+    @Column(name = "seria_name")
+    private String series_name;
+    @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "track_id")
+    private Track track;
 
 }

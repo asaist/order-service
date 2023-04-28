@@ -38,7 +38,5 @@ public class Track {
     private TrackStatus ExpertGroupStatus;
     @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "track")
     private List<Lecture> lectures;
-    @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "track")
-    private List<KeyWord> keyWords;
 
 }

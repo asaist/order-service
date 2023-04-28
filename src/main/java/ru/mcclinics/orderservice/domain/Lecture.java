@@ -18,7 +18,7 @@ public class Lecture {
     @Column(name = "lecture_id")
     private Long id;
     @Column(name = "lacture_name")
-    private String name;
+    private String lecture_name;
     @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
     private Author author;
@@ -34,4 +34,7 @@ public class Lecture {
     @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinColumn(name = "track_id")
     private Track track;
+    @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "series_id")
+    private Series series;
 }

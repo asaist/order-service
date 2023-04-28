@@ -18,8 +18,5 @@ public class KeyWord {
     @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinColumn(name = "skill_id")
     private Skill skill;
-    @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "track_id")
-    private Track track;
 
 }
