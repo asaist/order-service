@@ -1,6 +1,7 @@
 package ru.mcclinics.orderservice.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +22,7 @@ public class Track {
     private String name;
     @Column(name = "track_annotation")
     private String annotation;
-    @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id")
     private Author author;
     @Column(name = "create_date")
@@ -37,6 +38,10 @@ public class Track {
     @Enumerated
     private TrackStatus ExpertGroupStatus;
     @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "track")
+    @JsonManagedReference
     private List<Lecture> lectures;
+    @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "track")
+    @JsonManagedReference
+    private List<Series> series;
 
 }

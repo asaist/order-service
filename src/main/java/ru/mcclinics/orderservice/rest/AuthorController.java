@@ -1,15 +1,13 @@
 package ru.mcclinics.orderservice.rest;
 
-import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import ru.mcclinics.orderservice.domain.Track;
-import ru.mcclinics.orderservice.service.TrackService;
-import ru.mcclinics.orderservice.swagger.SwaggerConfiguration;
+import ru.mcclinics.orderservice.domain.Author;
+import ru.mcclinics.orderservice.service.AuthorService;
 
 import java.util.List;
 
@@ -18,17 +16,16 @@ import static org.springframework.http.HttpStatus.OK;
 @Slf4j(topic = "order-service")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/track")
-public class TrackController {
+@RequestMapping("/api/author")
+public class AuthorController {
+    private final AuthorService authorService;
 
-    private final TrackService trackService;
-
-    @GetMapping("/tracks")
+    @GetMapping("/authors")
     @ResponseStatus(OK)
-    public List<Track> getAllTracks() {
-        log.info("/tracks");
-        List<Track> tracks = trackService.findTracks();
-        return tracks;
-    }
+    public List<Author> getAllTracks() {
+        log.info("/authors");
+        List<Author> authors = authorService.findAuthors();
+        return authors;
 
+    }
 }

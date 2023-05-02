@@ -1,4 +1,4 @@
-package ru.mcclinics.orderservice.mcclinics;
+package ru.mcclinics.orderservice.cors;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

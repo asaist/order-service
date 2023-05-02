@@ -15,8 +15,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AuthorService {
-    @Autowired
-    private AuthorRepository authorRepository;
+
+    private final AuthorRepository authorRepository;
     @Transactional(readOnly = true)
     public List<Author> findAuthors(){return authorRepository.findAll();}
 }

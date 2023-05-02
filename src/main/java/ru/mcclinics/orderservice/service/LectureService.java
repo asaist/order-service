@@ -15,8 +15,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class LectureService {
-    @Autowired
-    private LectureRepository lectureRepository;
+
+    private final LectureRepository lectureRepository;
     @Transactional(readOnly = true)
     public List<Lecture> findLectures(){return lectureRepository.findAll();}
 }

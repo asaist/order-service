@@ -1,7 +1,7 @@
 spring:
   profiles:
     active: '@activatedProperties@'
-application:
+  application:
     name: order-service
 
 springdoc:

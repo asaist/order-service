@@ -15,8 +15,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class TrackService {
-    @Autowired
-    private TrackRepository trackRepository;
-    @Transactional(readOnly = true)
+
+    private final TrackRepository trackRepository;
     public List<Track> findTracks(){return trackRepository.findAll();}
 }

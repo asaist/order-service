@@ -11,5 +11,3 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create
-  emf:
-    packagesToScan: ru.mcclinics.order.domain
