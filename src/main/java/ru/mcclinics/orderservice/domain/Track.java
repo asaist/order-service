@@ -19,7 +19,7 @@ public class Track {
     @Column(name = "track_id")
     private Long id;
     @Column(name = "track_name")
-    private String name;
+    private String trackName;
     @Column(name = "track_annotation")
     private String annotation;
     @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
@@ -38,10 +38,10 @@ public class Track {
     @Enumerated
     private TrackStatus ExpertGroupStatus;
     @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "track")
-    @JsonManagedReference
+    @JsonManagedReference(value="track-lecture")
     private List<Lecture> lectures;
     @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "track")
-    @JsonManagedReference
+    @JsonManagedReference(value="track-series")
     private List<Series> series;
 
 }

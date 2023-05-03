@@ -32,10 +32,10 @@ public class Lecture {
     private String content;
     @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinColumn(name = "track_id")
-    @JsonBackReference
+    @JsonBackReference(value="track-lecture")
     private Track track;
     @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "series_id")
-    @JsonBackReference
+    @JsonBackReference(value="series-lecture")
     private Series series;
 }

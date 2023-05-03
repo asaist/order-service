@@ -20,11 +20,11 @@ public class Series {
     @Column(name = "seria_name")
     private String series_name;
     @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "series")
-    @JsonManagedReference
+    @JsonManagedReference(value="series-lecture")
     private List<Lecture> lectures;
     @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinColumn(name = "track_id")
-    @JsonBackReference
+    @JsonBackReference(value="track-series")
     private Track track;
 
 }
