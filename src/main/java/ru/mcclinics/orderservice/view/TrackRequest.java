@@ -16,12 +16,6 @@ public class TrackRequest {
     @Schema(description = "Идентификатор автора", example = "123", implementation = Long.class)
     @JsonProperty("author_id")
     private Long authorId;
-    @Schema(
-            description = "Дата создания трека",
-            format = "yyyy-MM-dd",
-            example = "2000-01-01",
-            implementation = Date.class)
-    private LocalDate createDate;
 
 
 }
