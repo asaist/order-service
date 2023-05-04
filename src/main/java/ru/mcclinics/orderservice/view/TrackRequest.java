@@ -11,7 +11,6 @@ public class TrackRequest {
     @Schema(description = "Идентификатор трека", example = "123", implementation = Long.class)
     @JsonProperty("id")
     private Long id;
-    private String trackName;
     @Schema(description = "Идентификатор автора", example = "123", implementation = Long.class)
     @JsonProperty("author_id")
     private Long authorId;
