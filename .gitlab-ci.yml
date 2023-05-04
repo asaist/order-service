@@ -17,6 +17,8 @@ build-mvn-microservices-stage:
 
 build-docker-microservices-stage:
   stage: build-docker
+  variables:
+    GIT_STRATEGY: clone
   needs:
     - build-mvn-microservices-stage
   tags:
