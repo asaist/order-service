@@ -1,11 +1,14 @@
 package ru.mcclinics.orderservice.rest;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 import ru.mcclinics.orderservice.domain.Author;
 import ru.mcclinics.orderservice.service.AuthorService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.springframework.http.HttpStatus.OK;
@@ -29,6 +32,5 @@ public class AuthorController {
         log.info("/create [author {}]", author);
         return service.create(author);
     }
-
 
 }

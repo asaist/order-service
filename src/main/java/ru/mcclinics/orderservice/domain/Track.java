@@ -5,9 +5,11 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import ru.mcclinics.orderservice.dto.TrackDto;
 
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 @Setter
 @Getter
@@ -26,7 +28,7 @@ public class Track {
     @JoinColumn(name = "author_id")
     private Author author;
     @Column(name = "create_date")
-    private LocalDate createDate;
+    private LocalDateTime createDate;
     @Column(name = "dep_lead_date")
     private LocalDate DepartmentLeadDate;
     @Column(name = "expert_group_date")
@@ -37,11 +39,18 @@ public class Track {
     @Column(name = "expert_group_status")
     @Enumerated
     private TrackStatus ExpertGroupStatus;
-    @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "track")
-    @JsonManagedReference(value="track-lecture")
-    private List<Lecture> lectures;
-    @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "track")
-    @JsonManagedReference(value="track-series")
-    private List<Series> series;
+//    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy = "track")
+//    @JsonManagedReference(value="track-lecture")
+//    private List<Lecture> lectures;
+//    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.LAZY, mappedBy = "track")
+//    @JsonManagedReference(value="track-series")
+//    private List<Series> series;
 
+    public Track(TrackDto track) {
+        this.id = track.getId();
+        this.trackName = track.getName();
+    }
+    public Track() {
+
+    }
 }

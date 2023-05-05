@@ -1,59 +1,86 @@
 package ru.mcclinics.orderservice.rest;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.mcclinics.orderservice.domain.Track;
+import ru.mcclinics.orderservice.dto.TrackDto;
 import ru.mcclinics.orderservice.service.TrackService;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
+import static java.util.stream.Collectors.toList;
 import static org.springframework.http.HttpStatus.OK;
 
 @Slf4j(topic = "order-service")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/track")
+@RequestMapping("track")
 public class TrackController {
 
     private final TrackService service;
 
 
-    @GetMapping("/tracks")
+    @GetMapping
     @ResponseStatus(OK)
-    public List<Track> getAllTracks() {
+    public List<TrackDto> getAllTracks() {
         log.info("/tracks");
         List<Track> tracks = service.findTracks();
-        return tracks;
-    }
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Track create(@RequestBody Track track){
-        log.info("/create [track {}]", track);
-        return service.create(track);
+        List<TrackDto> trackDtos = tracks.stream().map(TrackDto::new).collect(toList());
+        return trackDtos;
     }
 
-    @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Map<String, String> update(@PathVariable String id, @RequestBody Map<String, String> message){
-        Map<String, String> messageFromDb = getMessage("id");
-        messageFromDb.putAll(message);
-        messageFromDb.put("id", id);
-        return messageFromDb;
+    @GetMapping("{id}")
+    public TrackDto getOne(@PathVariable("id") TrackDto trackDto){
+        return trackDto;
     }
 
-    @DeleteMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public void delete(@RequestBody Track track){
-        Map<String, String> message = getMessage(id);
-        messages.remove(message);
+
+
+//    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+//    public Track create(@RequestBody TrackDto trackDto){
+//        Track track = new Track();
+//        track.setTrackName(trackDto.getName());
+//        log.info("/create [track {}]", track);
+//        return service.save(track);
+//    }
+
+    @PostMapping
+    public Track create(@RequestBody TrackDto trackDto){
+        Track track = new Track();
+        track.setId(trackDto.getId());
+        track.setTrackName(trackDto.getName());
+        track.setCreateDate(LocalDateTime.now());
+        return service.save(track);
     }
 
-    private Map<String, String> getTrack(String id) {
-        return messages.stream()
-                .filter(message -> message.get("id").equals(id))
-                .findFirst()
-                .orElseThrow(NotFoundException::new);
+    @PutMapping("{id}")
+    public Track update(
+            @PathVariable("id") TrackDto messageFromDb,
+            @RequestBody TrackDto messageFromUser
+    ){
+        BeanUtils.copyProperties(messageFromUser, messageFromDb, "id");
+        return service.save(new Track(messageFromDb));
     }
+
+    @DeleteMapping("{id}")
+    public void delete(@PathVariable("id") Long id){
+        Track track = new Track();
+        track.setId(id);
+        service.delete(track);
+    }
+
+//    private Map<String, String> getTrack(String id) {
+//        return messages.stream()
+//                .filter(message -> message.get("id").equals(id))
+//                .findFirst()
+//                .orElseThrow(NotFoundException::new);
+//    }
 
 
 }
