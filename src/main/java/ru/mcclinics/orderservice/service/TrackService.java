@@ -19,7 +19,10 @@ public class TrackService {
     private final TrackRepository trackRepository;
     public List<Track> findTracks(){return trackRepository.findAll();}
 
-    public Track create(Track track) {
+    public Track save(Track track) {
         return trackRepository.save(track);
+    }
+    public void delete(Track track) {
+        trackRepository.delete(track);
     }
 }
