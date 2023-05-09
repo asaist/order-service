@@ -8,45 +8,45 @@ function getIndex(list, id) {
 }
 
 
-var messageApi = Vue.resource('/message{/id}');
+var trackApi = Vue.resource('/track{/id}');
 
-Vue.component('message-form', {
-    props:['messages', 'messageAttr'],
+Vue.component('track-form', {
+    props:['tracks', 'trackAttr'],
     data: function (){
         return {
-            text: '',
+            name: '',
             id: ''
         }
     },
     watch: {
-        messageAttr: function(newVal, oldVal){
-            this.text = newVal.text;
+        trackAttr: function(newVal, oldVal){
+            this.name = newVal.name;
             this.id = newVal.id;
         }
     },
     template:
         '<div>' +
-            '<input type="text" placeholder="Write something" v-model="text" />' +
-            '<input type="button" value="Save" @click="save" />' +
+        '<input type="name" placeholder="Write something" v-model="name" />' +
+        '<input type="button" value="Save" @click="save" />' +
         '</div>',
     methods: {
         save: function () {
-            var message = {text: this.text};
+            var track = {name: this.name};
 
             if (this.id) {
-                messageApi.update({id: this.id}, message).then(result =>
+                trackApi.update({id: this.id}, track).then(result =>
                     result.json().then(data =>{
-                        var index = getIndex(this.messages, data.id);
-                        this.messages.splice(index, 1, data);
-                        this.text = ''
+                        var index = getIndex(this.tracks, data.id);
+                        this.tracks.splice(index, 1, data);
+                        this.name = ''
                         this.id = ''
                     })
                 )
             } else {
-                messageApi.save({}, message).then(result =>
+                trackApi.save({}, track).then(result =>
                     result.json().then(data => {
-                        this.messages.push(data);
-                        this.text = ''
+                        this.tracks.push(data);
+                        this.name = ''
                     })
                 )
             }
@@ -54,24 +54,24 @@ Vue.component('message-form', {
     }
 })
 
-Vue.component('message-row',{
-    props: ['message', 'editMethod', 'messages'],
+Vue.component('track-row',{
+    props: ['track', 'editMethod', 'tracks'],
     template:
         '<div>' +
-            '<i>({{ message.id }})</i> {{ message.text }} ' +
-            '<span style="position: absolute; right: 0">' +
-                '<input type="button" value="Edit" @click="edit" />' +
-                '<input type="button" value="X" @click="del" />' +
-            '</span>' +
+        '<i>({{ track.id }})</i> {{ track.name }} ' +
+        '<span style="position: absolute; right: 0">' +
+        '<input type="button" value="Edit" @click="edit" />' +
+        '<input type="button" value="X" @click="del" />' +
+        '</span>' +
         '</div>',
     methods: {
         edit: function () {
-            this.editMethod(this.message);
+            this.editMethod(this.track);
         },
         del: function () {
-            messageApi.remove({id: this.message.id}).then(result => {
+            trackApi.remove({id: this.track.id}).then(result => {
                 if (result.ok) {
-                    this.messages.splice(this.messages.indexOf(this.message), 1)
+                    this.tracks.splice(this.tracks.indexOf(this.track), 1)
                 }
             })
         }
@@ -79,29 +79,29 @@ Vue.component('message-row',{
 });
 
 
-Vue.component('messages-list', {
-    props:['messages'],
+Vue.component('tracks-list', {
+    props:['tracks'],
     data: function() {
         return {
-            message: null
+            track: null
         }
     },
     template:
         '<div style="position: relative; width: 300px;">' +
-            '<message-form :messages="messages" :messageAttr="message" />' +
-            '<message-row v-for="message in messages" :key="message.id" :message="message"' +
-            ':editMethod="editMethod" :messages="messages" />' +
+        '<track-form :tracks="tracks" :trackAttr="track" />' +
+        '<track-row v-for="track in tracks" :key="track.id" :track="track"' +
+        ':editMethod="editMethod" :tracks="tracks" />' +
         '</div>',
     created: function() {
-        messageApi.get().then(result =>
+        trackApi.get().then(result =>
             result.json().then(data =>
-                data.forEach(message => this.messages.push(message))
+                data.forEach(track => this.tracks.push(track))
             )
         )
     },
     methods: {
-        editMethod: function (message) {
-            this.message = message;
+        editMethod: function (track) {
+            this.track = track;
         }
     }
 })
@@ -109,8 +109,8 @@ Vue.component('messages-list', {
 
 var app = new Vue({
     el: '#app',
-    template: '<messages-list :messages="messages" />',
+    template: '<tracks-list :tracks="tracks" />',
     data: {
-        messages: []
+        tracks: []
     }
 })
