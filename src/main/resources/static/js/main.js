@@ -14,31 +14,31 @@ Vue.component('track-form', {
     props:['tracks', 'trackAttr'],
     data: function (){
         return {
-            trackName: '',
+            name: '',
             id: ''
         }
     },
     watch: {
         trackAttr: function(newVal, oldVal){
-            this.trackName = newVal.trackName;
+            this.name = newVal.name;
             this.id = newVal.id;
         }
     },
     template:
         '<div>' +
-        '<input type="trackName" placeholder="Write something" v-model="trackName" />' +
+        '<input type="name" placeholder="Write something" v-model="name" />' +
         '<input type="button" value="Save" @click="save" />' +
         '</div>',
     methods: {
         save: function () {
-            var track = {trackName: this.trackName};
+            var track = {name: this.name};
 
             if (this.id) {
                 trackApi.update({id: this.id}, track).then(result =>
                     result.json().then(data =>{
                         var index = getIndex(this.tracks, data.id);
                         this.tracks.splice(index, 1, data);
-                        this.trackName = ''
+                        this.name = ''
                         this.id = ''
                     })
                 )
@@ -46,7 +46,7 @@ Vue.component('track-form', {
                 trackApi.save({}, track).then(result =>
                     result.json().then(data => {
                         this.tracks.push(data);
-                        this.trackName = ''
+                        this.name = ''
                     })
                 )
             }
@@ -58,7 +58,7 @@ Vue.component('track-row',{
     props: ['track', 'editMethod', 'tracks'],
     template:
         '<div>' +
-        '<i>({{ track.id }})</i> {{ track.trackName }} ' +
+        '<i>({{ track.id }})</i> {{ track.name }} ' +
         '<span style="position: absolute; right: 0">' +
         '<input type="button" value="Edit" @click="edit" />' +
         '<input type="button" value="X" @click="del" />' +

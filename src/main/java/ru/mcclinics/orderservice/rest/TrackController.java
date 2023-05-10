@@ -1,13 +1,10 @@
 package ru.mcclinics.orderservice.rest;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.mcclinics.orderservice.domain.Track;
-import ru.mcclinics.orderservice.domain.Views;
 import ru.mcclinics.orderservice.dto.TrackDto;
 import ru.mcclinics.orderservice.service.TrackService;
 
@@ -26,24 +23,15 @@ public class TrackController {
     private final TrackService service;
 
 
-//    @GetMapping
-//    @ResponseStatus(OK)
-//    public List<TrackDto> getAllTracks() {
-//        log.info("/tracks");
-//        List<Track> tracks = service.findTracks();
-//        List<TrackDto> trackDtos = tracks.stream().map(TrackDto::new).collect(toList());
-//        return trackDtos;
-//    }
-
     @GetMapping
     @ResponseStatus(OK)
-    @JsonView(Views.IdName.class)
-    public List<Track> getAllTracks() {
+    public List<TrackDto> getAllTracks() {
         log.info("/tracks");
         List<Track> tracks = service.findTracks();
-
-        return tracks;
+        List<TrackDto> trackDtos = tracks.stream().map(TrackDto::new).collect(toList());
+        return trackDtos;
     }
+
 
     @GetMapping("{id}")
     public TrackDto getOne(@PathVariable("id") TrackDto trackDto){
