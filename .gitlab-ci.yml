@@ -1,41 +1,4 @@
-stages:
-  - build-mvn
-  - build-docker
-  - restart-compose
-
-build-mvn-microservices-stage:
-  stage: build-mvn
-  tags:
-    - microservices
-  only:
-    - master
+build-job:
+  stage: build
   script:
-    - mvn clean package -U -P prod -s settings.xml
-  artifacts:
-    paths:
-      - target/*.jar
-
-build-docker-microservices-stage:
-  stage: build-docker
-  needs:
-    - build-mvn-microservices-stage
-  tags:
-    - microservices
-  only:
-    - master
-  script:
-    - docker build -t order-service:latest --pull -f Dockerfile .
-  artifacts:
-    paths:
-      - target/*.jar
-
-restart-docker-microservices-compose:
-  stage: restart-compose
-  needs:
-    - build-docker-microservices-stage
-  tags:
-    - microservices
-  only:
-    - master
-  script:
-    - docker-compose -f /mcclinics/docker-compose.yml up -d
+    - echo "Hello, $GITLAB_USER_LOGIN!11!"

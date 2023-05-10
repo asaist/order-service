@@ -20,11 +20,11 @@ class OrderServiceApplicationTests {
 
 	@Test
 	public void findTracks(){
-		List<Track> list = trackService.findTracks();
+//		List<Track> list = trackService.findTracks();
 		System.out.println("ОК");
-		list.forEach(t -> System.out.println(
-				t.getAuthor() + ":" + t.getId() + ":" + t.getLectures().size()
-		));
+//		list.forEach(t -> System.out.println(
+//				t.getAuthor() + ":" + t.getId() + ":" + t.getLectures().size()
+//		));
 	}
 
 }
