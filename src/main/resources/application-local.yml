@@ -25,3 +25,7 @@ server:
     key-store: classpath:ssl/javabegin_ssl.p12
     key-store-password: rootroot
     key-store-provider: SunJSSE
+
+logging:
+  level:
+    org.springframework.web.client.RestTemplate: DEBUG

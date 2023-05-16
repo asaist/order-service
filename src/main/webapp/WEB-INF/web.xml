@@ -7,7 +7,7 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>order</web-resource-name>
-            <url-pattern>*.jsp</url-pattern>
+            <url-pattern>*.html</url-pattern>
         </web-resource-collection>
         <auth-constraint>
             <role-name>uma_authorization</role-name>
