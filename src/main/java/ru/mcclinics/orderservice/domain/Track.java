@@ -55,5 +55,9 @@ public class Track {
     public Track() {
 
     }
+    public Track(String trackName, String annotation) {
+        this.trackName = trackName;
+        this.annotation = annotation;
+    }
 
 }
