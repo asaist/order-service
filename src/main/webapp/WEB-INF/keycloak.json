@@ -1,0 +1,9 @@
+{
+  "realm": "SAMGMU",
+  "auth-server-url": "https://sso.samsmu.ru/auth",
+  "ssl-required": "none",
+  "resource": "course",
+  "public-client": true,
+  "confidential-port": 0
+}
+

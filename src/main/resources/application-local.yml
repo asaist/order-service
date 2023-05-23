@@ -11,3 +11,21 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: none
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          jwk-set-uri: http://localhost:8180/realms/SpringBootKeycloak/protocol/openid-connect/certs
+
+
+server:
+  ssl:
+    enabled: true
+    key-store-type: PKCS12
+    key-store: classpath:ssl/javabegin_ssl.p12
+    key-store-password: rootroot
+    key-store-provider: SunJSSE
+
+logging:
+  level:
+    org.springframework.web.client.RestTemplate: DEBUG
