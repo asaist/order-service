@@ -3,6 +3,13 @@ spring:
     active: '@activatedProperties@'
   application:
     name: order-service
+  freemarker:
+    expose-request-attributes: true
+#    template-loader-path: classpath:/resources/templates
+#    suffix: .ftlh
+  mustache:
+    servlet:
+      expose-request-attributes: true
 
 springdoc:
     show-actuator: false
@@ -19,3 +26,7 @@ management:
 
 server:
   port: 8081
+  servlet:
+    encoding:
+      force: true
+      charset: UTF-8

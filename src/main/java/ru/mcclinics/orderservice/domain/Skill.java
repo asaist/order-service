@@ -1,9 +1,10 @@
 package ru.mcclinics.orderservice.domain;
 
-import jakarta.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
 
+import jakarta.persistence.*;
 import java.util.List;
 @Getter
 @Setter

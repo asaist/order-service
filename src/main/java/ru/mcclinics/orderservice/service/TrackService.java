@@ -18,7 +18,7 @@ public class TrackService {
 
     private final TrackRepository trackRepository;
     public List<Track> findTracks(){return trackRepository.findAll();}
-
+    public List<Track> findTrackByName(String trackName){return trackRepository.findByTrackNameStartsWithIgnoreCase(trackName);}
     public Track save(Track track) {
         return trackRepository.save(track);
     }
