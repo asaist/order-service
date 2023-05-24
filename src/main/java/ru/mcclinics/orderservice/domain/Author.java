@@ -2,9 +2,6 @@ package ru.mcclinics.orderservice.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
-
-
-
 @Table(name = "author")
 @Entity
 @Data
@@ -22,5 +19,8 @@ public class Author {
 
     public Author(String lastName) {
         this.lastName = lastName;
+    }
+
+    public Author() {
     }
 }

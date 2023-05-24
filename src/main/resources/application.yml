@@ -5,11 +5,6 @@ spring:
     name: order-service
   freemarker:
     expose-request-attributes: true
-#    template-loader-path: classpath:/resources/templates
-#    suffix: .ftlh
-  mustache:
-    servlet:
-      expose-request-attributes: true
 
 springdoc:
     show-actuator: false
