@@ -1,14 +1,13 @@
 package ru.mcclinics.orderservice.domain;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 
-@Getter
-@Setter
+
 @Table(name = "author")
 @Entity
+@Data
 public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,4 +19,8 @@ public class Author {
     private String firstName;
     @Column(name = "middle_name")
     private String middleName;
+
+    public Author(String lastName) {
+        this.lastName = lastName;
+    }
 }

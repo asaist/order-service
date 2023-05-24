@@ -2,16 +2,13 @@ package ru.mcclinics.orderservice.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import ru.mcclinics.orderservice.dto.TrackDto;
 
-
+import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 @Setter
 @Getter
 @Table(name = "track")
@@ -27,7 +24,7 @@ public class Track {
     private String annotation;
     @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id")
-    private Author author;
+    private User author;
     @Column(name = "create_date", updatable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createDate;
@@ -54,6 +51,14 @@ public class Track {
     }
     public Track() {
 
+    }
+    public Track(String trackName, String annotation, User user) {
+        this.trackName = trackName;
+        this.annotation = annotation;
+        this.author = user;
+    }
+    public String getAuthorName(){
+        return author!=null ? author.getUsername() : "<none>";
     }
 
 }

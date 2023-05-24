@@ -28,7 +28,12 @@ Vue.component('track-form', {
         '<div>' +
         '<input type="name" placeholder="Write something" v-model="name" />' +
         '<input type="button" value="Save" @click="save" />' +
-        '</div>',
+        '</div>' +
+        '<div>' +
+            '<input type="name1" placeholder="Write something" v-model="name1" />' +
+        '</div>'
+    ,
+
     methods: {
         save: function () {
             var track = {name: this.name};
