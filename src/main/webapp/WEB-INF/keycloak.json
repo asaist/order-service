@@ -1,6 +1,6 @@
 {
   "realm": "SAMGMU",
-  "auth-server-url": "https://sso.samsmu.ru/auth",
+  "auth-server-url": "http://localhost:8080/auth/",
   "ssl-required": "none",
   "resource": "course",
   "public-client": true,
