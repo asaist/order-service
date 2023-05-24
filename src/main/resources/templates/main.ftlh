@@ -15,7 +15,7 @@
     </form>
     <div>Список треков</div>
     <form method="get" action="/main">
-        <input type="text" name="filter" value="${filter}">
+        <input type="text" name="filter" value="${filter?ifExists}">
         <button type="submit">Найти</button>
     </form>
 
