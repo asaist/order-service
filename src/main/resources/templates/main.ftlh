@@ -3,6 +3,8 @@
 <@c.page>
     <div>
         <@l.logout />
+        <span><a href="/user">Список авторов</a></span>
+
     </div>
 
     <form method="post">
