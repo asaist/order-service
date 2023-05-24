@@ -4,12 +4,11 @@
     <div>
         <@l.logout />
         <span><a href="/user">Список авторов</a></span>
-
     </div>
-
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         <input type="text" name="trackName" placeholder="Track name" />
         <input type="text" name="annotation" placeholder="Track annotation" />
+        <input type="file" name="file">
         <input type="hidden" name="_csrf" value="${_csrf.token}"/>
         <button type="submit">add</button>
     </form>
@@ -24,6 +23,11 @@
         <b>${track.id}</b>
         <span>${track.trackName}</span>
         <strong>${track.authorName}</strong>
+        <div>
+            <#if track.fileName??>
+                <img src="/img/${track.fileName}">
+            </#if>
+        </div>
     </div>
     <#else>
     No tracks

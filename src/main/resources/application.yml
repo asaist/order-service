@@ -25,3 +25,7 @@ server:
     encoding:
       force: true
       charset: UTF-8
+files:
+  upload:
+    baseDir: /C:/Users/Artist/IdeaProjects/order-service/files
+
