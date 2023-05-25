@@ -50,19 +50,19 @@ public class MainController {
                 @AuthenticationPrincipal User user,
                 @RequestParam String trackName,
                 @RequestParam String annotation,
-                @RequestParam("file") MultipartFile file,
+//                @RequestParam("file") MultipartFile file,
                Map<String, Object> model) throws IOException {
         Track track = new Track(trackName, annotation, user);
-        if (file != null && !file.getOriginalFilename().isEmpty()) {
-            File uploadDir = new File(uploadPath);
-            if(!uploadDir.exists()) {
-                uploadDir.mkdirs();
-            }
-            String uuidFile = UUID.randomUUID().toString();
-            String resultFileName = uuidFile + "." + file.getOriginalFilename();
-            file.transferTo(new File(uploadPath + "/" + resultFileName));
-            track.setFileName(resultFileName);
-        }
+//        if (file != null && !file.getOriginalFilename().isEmpty()) {
+//            File uploadDir = new File(uploadPath);
+//            if(!uploadDir.exists()) {
+//                uploadDir.mkdirs();
+//            }
+//            String uuidFile = UUID.randomUUID().toString();
+//            String resultFileName = uuidFile + "." + file.getOriginalFilename();
+//            file.transferTo(new File(uploadPath + "/" + resultFileName));
+//            track.setFileName(resultFileName);
+//        }
         track.setCreateDate(LocalDateTime.now());
         service.save(track);
         Iterable<Track> tracks = service.findTracks();

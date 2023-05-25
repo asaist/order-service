@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import ru.mcclinics.orderservice.service.UserService;
 
 @Configuration
@@ -33,6 +34,9 @@ public class WebSecurityConfig {
             .and()
                 .logout()
                 .permitAll();
+//        http.securityContext(securityContext -> securityContext.
+//                securityContextRepository(new HttpSessionSecurityContextRepository())
+//        );
 
         return http.build();
     }
