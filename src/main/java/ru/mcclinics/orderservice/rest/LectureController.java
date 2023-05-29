@@ -26,6 +26,7 @@ public class LectureController {
     private final TrackService trackService;
 //    private final SeriesService seriesService;
 
+
     @GetMapping
     public String lectureList(@RequestParam(required = false, defaultValue = "") String filter, Model model){
         List<Lecture> lectures;
