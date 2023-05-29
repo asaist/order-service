@@ -45,9 +45,9 @@ public class Track {
     @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "track")
     @JsonManagedReference(value="track-lecture")
     private List<Lecture> lectures;
-//    @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "track")
-//    @JsonManagedReference(value="track-series")
-//    private List<Series> series;
+    @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "track")
+    @JsonManagedReference(value="track-series")
+    private List<Series> series;
 
     public Track(TrackDto track) {
 
@@ -63,6 +63,9 @@ public class Track {
     }
     public String getAuthorName(){
         return author!=null ? author.getUsername() : "<none>";
+    }
+    public String getAnnotation(){
+        return annotation!=null ? annotation : "<none>";
     }
 
 }

@@ -8,6 +8,7 @@
                 <button class="btn btn-primary mt-2" type="submit">Search</button>
             </form>
         </div>
+        <button class="btn btn-icon btn-sm mx-2" type="button"  data-toggle="modal" data-target="#addTrackModal"><i class="fas fa-plus"></i></button>
     </div>
     <a class="btn btn-primary mt-2" data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
         Add new Track

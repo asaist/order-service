@@ -6,11 +6,13 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import ru.mcclinics.orderservice.domain.Track;
 import ru.mcclinics.orderservice.domain.User;
+import ru.mcclinics.orderservice.dto.TrackDto;
 import ru.mcclinics.orderservice.service.TrackService;
 
 import java.io.File;
@@ -45,6 +47,22 @@ public class MainController {
         model.addAttribute("filter", filter);
         return "main";
     }
+
+    @GetMapping("/table-track")
+    public String listTrackForTable(Model model) {
+        Iterable<Track> tracks = service.findTracks();
+
+        model.addAttribute("tracks", tracks);
+
+        return "table-track";
+    }
+
+    @GetMapping("/table-track/{id}")
+    public String getOne(@PathVariable("id") Track track, Model model){
+        model.addAttribute("track", track);
+        return "track_up";
+    }
+
     @PostMapping("/main")
     public String add(
                 @AuthenticationPrincipal User user,

@@ -18,7 +18,11 @@ public class Series {
     @Column(name = "series_id")
     private Long id;
     @Column(name = "seria_name")
-    private String series_name;
+    private String seriesName;
+    @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id")
+    private User author;
+    private String annotation;
     @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "series")
     @JsonManagedReference(value="series-lecture")
     private List<Lecture> lectures;
