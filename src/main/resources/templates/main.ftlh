@@ -13,7 +13,7 @@
         Add new Track
     </a>
     <div class="collapse mt-2" id="collapseExample">
-        <div class="form-group" >
+        <div class="form-group">
             <form method="post" enctype="multipart/form-data">
                 <div class="form-group mt-2">
                     <input type="text" class="form-control" name="trackName" placeholder="Track name" />
@@ -35,20 +35,29 @@
         </div>
     </div>
 
-
-
+    <table class="table">
+    <thead>
+    <tr>
+        <th>id</th>
+        <th>trackName</th>
+        <th>authorName</th>
+    </tr>
+    </thead>
+    <tbody>
     <#list tracks as track>
-        <div>
-            <b>${track.id}</b>
-            <span>${track.trackName}</span>
-            <strong>${track.authorName}</strong>
-            <div>
-                <#if track.fileName??>
-                    <img src="/img/${track.fileName}">
-                </#if>
-            </div>
-        </div>
+        <tr>
+            <td>${track.id}</td>
+            <td>${track.trackName}</td>
+            <td>${track.authorName}</td>
+<#--            <div>-->
+<#--                <#if track.fileName??>-->
+<#--                    <img src="/img/${track.fileName}">-->
+<#--                </#if>-->
+<#--            </div>-->
+        </tr>
     <#else>
         No tracks
     </#list>
+    </tbody>
+    </table>
 </@c.page>

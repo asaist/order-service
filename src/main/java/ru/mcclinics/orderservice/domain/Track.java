@@ -2,6 +2,7 @@ package ru.mcclinics.orderservice.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
 import ru.mcclinics.orderservice.dto.TrackDto;
@@ -9,6 +10,8 @@ import ru.mcclinics.orderservice.dto.TrackDto;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
+
 @Setter
 @Getter
 @Table(name = "track")
@@ -39,15 +42,15 @@ public class Track {
     @Column(name = "expert_group_status")
     @Enumerated
     private TrackStatus ExpertGroupStatus;
-//    @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "track")
-//    @JsonManagedReference(value="track-lecture")
-//    private List<Lecture> lectures;
+    @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "track")
+    @JsonManagedReference(value="track-lecture")
+    private List<Lecture> lectures;
 //    @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "track")
 //    @JsonManagedReference(value="track-series")
 //    private List<Series> series;
 
     public Track(TrackDto track) {
-        this.id = track.getId();
+
         this.trackName = track.getName();
     }
     public Track() {

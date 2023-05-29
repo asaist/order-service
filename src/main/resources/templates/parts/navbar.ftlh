@@ -15,6 +15,9 @@
                     <a class="nav-link active" aria-current="page" href="/main">Tracks</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/lectures">Lecture List</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="/user">User list</a>
                 </li>
             </ul>
