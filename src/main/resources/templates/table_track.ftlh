@@ -15,9 +15,11 @@
     <div class="container-fluid p-3">
       <h3>Доступные треки</h3>
 
-      <form class="d-flex my-2">        
-        <input type="text" class="form-control ml-2 w-50" id="" placeholder="Введите название трека">
-        <button class="btn btn-icon btn-sm mx-2" type="submit" ><i class="fas fa-search"></i></button>
+      <form class="d-flex my-2">
+        <form method="get" action="/table_track" class="form-inline">
+          <input type="text" name="filter" class="form-control ml-2 w-50" value="${filter?ifExists}" placeholder="Введите название трека">
+          <button class="btn btn-icon btn-sm mx-2" type="submit" ><i class="fas fa-search"></i></button>
+        </form>
         <button class="btn btn-icon btn-sm mx-2" type="button"  data-toggle="modal" data-target="#addTrackModal"><i class="fas fa-plus"></i></button>        
 
         <!-- Modal -->

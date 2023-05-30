@@ -48,13 +48,19 @@ public class MainController {
         return "main";
     }
 
-    @GetMapping("/table-track")
-    public String listTrackForTable(Model model) {
+    @GetMapping("/table_track")
+    public String listTrackForTable(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
         Iterable<Track> tracks = service.findTracks();
+        if (filter !=null && !filter.isEmpty()){
+            tracks = service.findTrackByName(filter);
+        } else {
+            tracks = service.findTracks();
+        }
 
         model.addAttribute("tracks", tracks);
+        model.addAttribute("filter", filter);
 
-        return "table-track";
+        return "table_track";
     }
 
     @GetMapping("/table-track/{id}")
