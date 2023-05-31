@@ -26,21 +26,21 @@
         <div class="modal fade" id="addTrackModal" tabindex="-1" role="dialog" aria-labelledby="addTrackModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
+              <form method="post" action="/table_track" enctype="multipart/form-data">
               <div class="modal-header">
                 <h5 class="modal-title" id="addTrackModalLabel">Заявка на создание трека</h5>
                 <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
               </div>
               <div class="modal-body">                
 
-                <select class="form-control" name="institute" size="1">
+                <select class="form-control" name="university" size="1">
                   <option selected="" disabled="">Выберите институт</option>
-                  <option value="Институт клинической медицины">Институт клинической медицины</option>
-                  <option value="Институт профилактической медицины">Институт профилактической медицины</option>
-                  <option value="НИИ кардиологии">НИИ кардиологии</option>
-                  <option value="Институт эксперементальной медицины">Институт эксперементальной медицины</option>
+                  <#list universities as university>
+                    <option value="${university.universityId}">${university.universityName}</option>
+                  </#list>
                 </select>
 
-                <div class="my-4">
+               <!-- <div class="my-4">
                   <p><b>Руководитель образовательного трека</b></p>
                   <div>
                     <div class="form-check mb-10">
@@ -136,26 +136,28 @@
                       </div>                      
                     </div>
                   </div>
-                </div>
+                </div> -->
 
                 <div class="my-4">
                   <b>Название образовательного трека</b><br>
-                  <textarea class="form-control" name="track-name" cols="80" rows="1" placeholder="Введите название образовательного трека"></textarea>
+                  <textarea class="form-control" name="trackName" cols="80" rows="1" placeholder="Введите название образовательного трека"></textarea>
                 </div>
 
                 <div class="my-4">
                   <b>Аннотация образовательного трека</b><br>
-                  <textarea class="form-control" name="track-annotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#"></textarea>
+                  <textarea class="form-control" name="annotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#"></textarea>
                 </div>
                 <div class="my-4">
                   <b>Дополнительные ключевые слова</b> <br>
-                  <textarea class="form-control" name="module-annotation" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив их ;"></textarea>
-                </div>                  
+                  <textarea class="form-control" name="keyWordsFrontEnd" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив их ;"></textarea>
+                </div>
               </div>
+                <input type="hidden" name="_csrf" value="${_csrf.token}"/>
               <div class="modal-footer">
                 <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Отменить</button>
-                <button type="button" class="btn btn-primary">Добавить трек</button>
+                <button type="submit" class="btn btn-primary">Добавить трек</button>
               </div>
+              </form>
             </div>
           </div>
         </div>
@@ -176,12 +178,12 @@
         <#list tracks as track>
           <tr class="cursor-pointer">
 
-            <th scope="row" onclick="window.location='table-track/${track.id}'">${track.id}</th>
-            <td  onclick="window.location='table-track/${track.id}'">${track.trackName}</td>
-            <td  onclick="window.location='table-track/${track.id}'">${track.authorName}</td>
-            <td  onclick="window.location='table-track/${track.id}'">${track.annotation}</td>
-            <td  onclick="window.location='table-track/${track.id}'"></td>
-            <td  onclick="window.location='table-track/${track.id}'">${track.createDate}</td>
+            <th scope="row" onclick="window.location='table_track/${track.id}'">${track.id}</th>
+            <td  onclick="window.location='table_track/${track.id}'">${track.trackName}</td>
+            <td  onclick="window.location='table_track/${track.id}'">${track.authorName}</td>
+            <td  onclick="window.location='table_track/${track.id}'">${track.annotation}</td>
+            <td  onclick="window.location='table_track/${track.id}'"></td>
+            <td  onclick="window.location='table_track/${track.id}'">${track.createDate}</td>
             <td>
               <i class="fas fa-edit mr-10 status text-secondary"></i>
               <i class="fas fa-users mr-10 status text-secondary" id="targetAudienceUsers" onclick="targetAudience()"></i>

@@ -28,6 +28,9 @@ public class Track {
     @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id")
     private User author;
+    @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "university_id")
+    private University university;
     private String fileName;
     @Column(name = "create_date", updatable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
@@ -48,6 +51,8 @@ public class Track {
     @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "track")
     @JsonManagedReference(value="track-series")
     private List<Series> series;
+    @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "track")
+    private List<KeyWord> keyWords;
 
     public Track(TrackDto track) {
 
@@ -61,11 +66,20 @@ public class Track {
         this.annotation = annotation;
         this.author = user;
     }
+    public Track(String trackName, String annotation, User user, University university) {
+        this.trackName = trackName;
+        this.annotation = annotation;
+        this.author = user;
+        this.university = university;
+    }
     public String getAuthorName(){
         return author!=null ? author.getUsername() : "<none>";
     }
     public String getAnnotation(){
         return annotation!=null ? annotation : "<none>";
+    }
+    public String getUniversityName(){
+        return university!=null ? university.getUniversityName() : "<none>";
     }
 
 }

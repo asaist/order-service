@@ -9,23 +9,23 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import ru.mcclinics.orderservice.domain.Track;
+import ru.mcclinics.orderservice.domain.University;
 import ru.mcclinics.orderservice.domain.User;
-import ru.mcclinics.orderservice.dto.TrackDto;
 import ru.mcclinics.orderservice.service.TrackService;
+import ru.mcclinics.orderservice.service.UniversityService;
 
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Map;
-import java.util.UUID;
 
 @Controller
 @RequiredArgsConstructor
 public class MainController {
 
-    private final TrackService service;
+    private final TrackService trackService;
+    private final UniversityService universityService;
 
     @Value("${files.upload.baseDir}")
     private String uploadPath;
@@ -35,12 +35,12 @@ public class MainController {
     }
     @GetMapping("/main")
     public String main(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
-        Iterable<Track> tracks = service.findTracks();
+        Iterable<Track> tracks = trackService.findTracks();
 
         if (filter !=null && !filter.isEmpty()){
-            tracks = service.findTrackByName(filter);
+            tracks = trackService.findTrackByName(filter);
         } else {
-            tracks = service.findTracks();
+            tracks = trackService.findTracks();
         }
 
         model.addAttribute("tracks", tracks);
@@ -50,20 +50,20 @@ public class MainController {
 
     @GetMapping("/table_track")
     public String listTrackForTable(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
-        Iterable<Track> tracks = service.findTracks();
+        Iterable<Track> tracks = trackService.findTracks();
         if (filter !=null && !filter.isEmpty()){
-            tracks = service.findTrackByName(filter);
+            tracks = trackService.findTrackByName(filter);
         } else {
-            tracks = service.findTracks();
+            tracks = trackService.findTracks();
         }
 
         model.addAttribute("tracks", tracks);
         model.addAttribute("filter", filter);
-
+        model.addAttribute("universities", universityService.getUniversityList());
         return "table_track";
     }
 
-    @GetMapping("/table-track/{id}")
+    @GetMapping("/table_track/{id}")
     public String getOne(@PathVariable("id") Track track, Model model){
         model.addAttribute("track", track);
         return "track_up";
@@ -88,9 +88,40 @@ public class MainController {
 //            track.setFileName(resultFileName);
 //        }
         track.setCreateDate(LocalDateTime.now());
-        service.save(track);
-        Iterable<Track> tracks = service.findTracks();
+        trackService.save(track);
+        Iterable<Track> tracks = trackService.findTracks();
         model.put("tracks", tracks);
         return "main";
+    }
+
+    @PostMapping("/table_track")
+    public String addTrack(
+            @AuthenticationPrincipal User user,
+            @RequestParam University university,
+            @RequestParam String trackName,
+            @RequestParam String annotation,
+            @RequestParam String keyWordsFrontEnd,
+//                @RequestParam("file") MultipartFile file,
+            Map<String, Object> model) throws IOException {
+        String[] strMain = keyWordsFrontEnd.split("; ");
+        for (int i = 0;i < strMain.length; i++){
+
+        }
+        Track track = new Track(trackName, annotation, user, university);
+//        if (file != null && !file.getOriginalFilename().isEmpty()) {
+//            File uploadDir = new File(uploadPath);
+//            if(!uploadDir.exists()) {
+//                uploadDir.mkdirs();
+//            }
+//            String uuidFile = UUID.randomUUID().toString();
+//            String resultFileName = uuidFile + "." + file.getOriginalFilename();
+//            file.transferTo(new File(uploadPath + "/" + resultFileName));
+//            track.setFileName(resultFileName);
+//        }
+        track.setCreateDate(LocalDateTime.now());
+        trackService.save(track);
+        Iterable<Track> tracks = trackService.findTracks();
+        model.put("tracks", tracks);
+        return "redirect:/table_track";
     }
 }
