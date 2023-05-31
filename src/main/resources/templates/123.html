@@ -1,0 +1,28 @@
+server.port=8080
+
+spring.security.oauth2.client.registration.oauth2-demo-thymeleaf-client.client-id=oauth2-demo-thymeleaf-client
+spring.security.oauth2.client.registration.oauth2-demo-thymeleaf-client.client-secret=2273e28b-3010-4d97-97b8-baa518a330e6
+spring.security.oauth2.client.registration.oauth2-demo-thymeleaf-client.scope=openid, profile, roles
+spring.security.oauth2.client.registration.oauth2-demo-thymeleaf-client.authorization-grant-type=authorization_code
+spring.security.oauth2.client.registration.oauth2-demo-thymeleaf-client.redirect-uri=http://localhost:8080/login/oauth2/code/oauth2-demo-thymeleaf-client
+
+spring.security.oauth2.client.provider.oauth2-demo-thymeleaf-client.issuer-uri=http://localhost:8180/auth/realms/oauth2-demo-realm
+
+
+#server.port=8080
+#spring.datasource.url=jdbc:postgresql://localhost:5432/order
+#spring.datasource.username=postgres
+#spring.datasource.password=postgres
+
+#spring.security.oauth2.client.registration.oauth2-demo-thymeleaf-client.client-id=course
+#spring.security.oauth2.client.registration.oauth2-demo-thymeleaf-client.client-secret=a4a572f3-0037-4569-8c54-468d6abaec4e
+#spring.security.oauth2.client.registration.oauth2-demo-thymeleaf-client.scope=openid, profile, roles
+#spring.security.oauth2.client.registration.oauth2-demo-thymeleaf-client.authorization-grant-type=authorization_code
+#spring.security.oauth2.client.registration.oauth2-demo-thymeleaf-client.redirect-uri=http://localhost:8080/login/oauth2/code/course
+#spring.security.oauth2.client.registration.oauth2-demo-thymeleaf-client.provider=keycloak
+
+#spring.security.oauth2.resourceserver.jwt.issuer-uri=http://localhost:8180/realms/SAMGMU
+#spring.security.oauth2.resourceserver.jwt.jwk-set-uri=http://localhost:8080/realms/SAMGMU/protocol/openid-connect/certs
+#
+#spring.security.oauth2.client.provider.keycloak.issuer-uri=http://localhost:8180/auth/realms/SAMGMU
+#spring.security.oauth2.client.provider.keycloak.token-uri=http://localhost:8180/auth/realms/SAMGMU/protocol/openid-connect/token
