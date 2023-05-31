@@ -12,6 +12,9 @@
                     <a class="nav-link active" aria-current="page" href="/">Home</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/scheme">Схема</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="/table_track">Доступные треки</a>
                 </li>
                 <li class="nav-item">
