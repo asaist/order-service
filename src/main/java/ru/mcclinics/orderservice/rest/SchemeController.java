@@ -18,7 +18,7 @@ public class SchemeController {
     private final UniversityService universityService;
     private final LectureService lectureService;
 
-    @GetMapping("/scheme")
+    @GetMapping("/")
     public String main(Model model) {
         Iterable<Track> tracks = trackService.findTracks();
         Iterable<University> universities = universityService.getUniversityList();

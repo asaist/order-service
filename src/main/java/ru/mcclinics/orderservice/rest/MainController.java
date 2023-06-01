@@ -29,10 +29,10 @@ public class MainController {
 
     @Value("${files.upload.baseDir}")
     private String uploadPath;
-    @GetMapping("/")
-    public String greeting(Map<String, Object> model){
-        return "greeting";
-    }
+//    @GetMapping("/")
+//    public String greeting(Map<String, Object> model){
+//        return "scheme";
+//    }
     @GetMapping("/main")
     public String main(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
         Iterable<Track> tracks = trackService.findTracks();

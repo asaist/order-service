@@ -23,20 +23,23 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain configure1(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests()
-                .requestMatchers("/", "/registration", "/static/**").permitAll()
-                .anyRequest().authenticated()
-            .and()
-                .formLogin()
-                .loginPage("/login")
-                .permitAll()
-            .and()
-                .logout()
-                .permitAll();
-//        http.securityContext(securityContext -> securityContext.
-//                securityContextRepository(new HttpSessionSecurityContextRepository())
-//        );
+//        http
+//                .authorizeRequests()
+//                .requestMatchers("/", "/registration", "/static/**").permitAll()
+//                .anyRequest().authenticated()
+//            .and()
+//                .formLogin()
+//                .loginPage("/login")
+//                .permitAll()
+//            .and()
+//                .logout()
+//                .permitAll();
+////        http.securityContext(securityContext -> securityContext.
+////                securityContextRepository(new HttpSessionSecurityContextRepository())
+////        );
+        http.authorizeRequests()
+                .requestMatchers("/**").permitAll() // Разрешаем доступ к открытым ресурсам всем пользователям
+                .anyRequest().authenticated(); // Все остальные запросы требуют аутентификации
 
         return http.build();
     }

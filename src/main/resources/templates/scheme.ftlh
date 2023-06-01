@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
-    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="https://track.samsmu.ru/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://track.samsmu.ru/css/styles.css">
   </head>
   <body>
     <div class="d-flex">
@@ -714,10 +714,10 @@
       </div>
     </div>
 
-    <script src="js/jquery-3.2.1.slim.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script> 
-    <script src="js/bootstrap.bundle.min.js"></script> 
+    <script src="https://track.samsmu.ru/js/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://track.samsmu.ru/js/popper.min.js"></script>
+    <script src="https://track.samsmu.ru/js/bootstrap.min.js"></script>
+    <script src="https://track.samsmu.ru/js/bootstrap.bundle.min.js"></script>
     <script>
       function authorSamGMU() {
         let authorSamGMU = document.getElementById('authorSamGMU');
