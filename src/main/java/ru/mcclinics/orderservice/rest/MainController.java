@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.mcclinics.orderservice.dao.KeyWordRepository;
+import ru.mcclinics.orderservice.domain.KeyWord;
 import ru.mcclinics.orderservice.domain.Track;
 import ru.mcclinics.orderservice.domain.University;
 import ru.mcclinics.orderservice.domain.User;
@@ -18,6 +20,8 @@ import ru.mcclinics.orderservice.service.UniversityService;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -26,6 +30,7 @@ public class MainController {
 
     private final TrackService trackService;
     private final UniversityService universityService;
+    private final KeyWordRepository keyWordRepository;
 
     @Value("${files.upload.baseDir}")
     private String uploadPath;
@@ -103,11 +108,17 @@ public class MainController {
             @RequestParam String keyWordsFrontEnd,
 //                @RequestParam("file") MultipartFile file,
             Map<String, Object> model) throws IOException {
-        String[] strMain = keyWordsFrontEnd.split("; ");
-        for (int i = 0;i < strMain.length; i++){
-
-        }
+        String[] strMain = keyWordsFrontEnd.split(";");
+        List<KeyWord> keyWordList = new ArrayList<>();
         Track track = new Track(trackName, annotation, user, university);
+        track.setCreateDate(LocalDateTime.now());
+        for (String line : strMain) {
+            KeyWord keyWord = new KeyWord();
+            keyWord.setValue(line);
+            keyWord.setTrack(track);
+            keyWordList.add(keyWord);
+        }
+        track.setKeyWords(keyWordList);
 //        if (file != null && !file.getOriginalFilename().isEmpty()) {
 //            File uploadDir = new File(uploadPath);
 //            if(!uploadDir.exists()) {
@@ -118,7 +129,6 @@ public class MainController {
 //            file.transferTo(new File(uploadPath + "/" + resultFileName));
 //            track.setFileName(resultFileName);
 //        }
-        track.setCreateDate(LocalDateTime.now());
         trackService.save(track);
         Iterable<Track> tracks = trackService.findTracks();
         model.put("tracks", tracks);

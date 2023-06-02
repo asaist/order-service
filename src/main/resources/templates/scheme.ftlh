@@ -69,12 +69,11 @@
                 </div>
                 <div class="modal-body">                
 
-                  <select class="form-control" name="institute" size="1" onclick="trackSignature()">
+                  <select class="form-control" name="university" size="1" onclick="trackSignature()">
                     <option selected="" disabled="">Выберите институт</option>
-                    <option value="Институт клинической медицины">Институт клинической медицины</option>
-                    <option value="Институт профилактической медицины">Институт профилактической медицины</option>
-                    <option value="НИИ кардиологии">НИИ кардиологии</option>
-                    <option value="Институт эксперементальной медицины">Институт эксперементальной медицины</option>
+                    <#list universities as university>
+                      <option value="${university.universityId}">${university.universityName}</option>
+                    </#list>
                   </select>
 
                   <div class="my-4">
@@ -87,10 +86,9 @@
                       <div class="hidden" id="authorSamGMU">
                         <select class="form-control mb-20" name="author">
                           <option>Выберите автора</option>
-                          <option value="Иванов">Иванов</option>
-                          <option value="Петров">Петров</option>
-                          <option value="Сидоров">Сидоров</option>
-                          <option value="Толстой">Толстой</option>
+                          <#list users as user>
+                            <option value="${user.id}">${user.username}</option>
+                          </#list>
                         </select>
                         <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Добавить руководителя трека</button>  
                       </div>
@@ -177,12 +175,12 @@
 
                   <div class="my-4">
                     <b>Название образовательного трека</b><br>
-                    <textarea class="form-control" name="track-name" cols="80" rows="1" placeholder="Введите название образовательного трека"></textarea>
+                    <textarea class="form-control" name="trackName" cols="80" rows="1" placeholder="Введите название образовательного трека"></textarea>
                   </div>
 
                   <div class="my-4">
                     <b>Аннотация образовательного трека</b><br>
-                    <textarea class="form-control" id="track-annotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#" onclick="trackCheck()"></textarea>
+                    <textarea class="form-control" id="annotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#" onclick="trackCheck()"></textarea>
                   </div>
                   <div class="my-4">
                     <b>Дополнительные ключевые слова</b> <br>
@@ -204,10 +202,9 @@
                     <div class="mb-10">                    
                       <select class="form-control" class="form-control" name="track" size="1">
                         <option select class="form-control"ed="" disabled="">Выберите образовательный трек</option>
-                        <option value="Трек 1">Трек 1</option>
-                        <option value="Трек 2">Трек 2</option>
-                        <option value="Трек 3">Трек 3</option>
-                        <option value="Трек 4">Трек 4</option>
+                        <#list tracks as track>
+                          <option value="${track.id}">${track.trackName}</option>
+                        </#list>
                       </select class="form-control">
                     </div>
                     <div class="mb-10">
@@ -223,10 +220,9 @@
                       <div class="hidden" id="authorSamGMUModule">
                         <select class="form-control mb-20" name="author">
                           <option>Выберите автора</option>
-                          <option value="Иванов">Иванов</option>
-                          <option value="Петров">Петров</option>
-                          <option value="Сидоров">Сидоров</option>
-                          <option value="Толстой">Толстой</option>
+                          <#list users as user>
+                            <option value="${user.id}">${user.username}</option>
+                          </#list>
                         </select class="form-control">
                         <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Добавить автора</button>  
                       </div>
@@ -456,10 +452,9 @@
                     <div class="mb-10">                    
                       <select class="form-control" class="form-control" name="track" size="1">
                         <option select class="form-control">Выберите образовательный трек</option>
-                        <option value="Трек 1">Трек 1</option>
-                        <option value="Трек 2">Трек 2</option>
-                        <option value="Трек 3">Трек 3</option>
-                        <option value="Трек 4">Трек 4</option>
+                        <#list tracks as track>
+                          <option value="${track.id}">${track.trackName}</option>
+                        </#list>
                       </select class="form-control">
                     </div>
 
