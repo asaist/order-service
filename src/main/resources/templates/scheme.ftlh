@@ -448,20 +448,21 @@
             </div>
             <!-- Заявка на Лекцию -->
             <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+              <form method="post" action="/addLecture" enctype="multipart/form-data">
               <div>
-                <form method="post" action="/addLecture" enctype="multipart/form-data">
+
                   <div class="d-flex justify-content-center">
                     <h5>Заявка на создание лекции</h5>
                   </div>
                   <div class="modal-body">
                     <div class="mb-10">
-                      <form id="trackForm" method="get" action="/" enctype="multipart/form-data">
-                        <select  id="track" class="form-control" class="form-control" name="lectureTrack" size="1">
+                      <form id="trackForm" method="get" enctype="multipart/form-data">
+                        <select  id="track" class="form-control" name="lectureTrack" size="1">
                           <option select class="form-control">Выберите образовательный трек</option>
                           <#list tracks as track>
                             <option value="${track.id}">${track.trackName}</option>
                           </#list>
-                        </select>
+                        </select class="form-control">
                       </form>
                     </div>
 
@@ -503,7 +504,7 @@
                         <#list series as series>
                           <option value="${series.id}">${series.seriesName}</option>
                         </#list>
-                      </select>
+                      </select class="form-control">
                     </div>
 
                     <div class="mb-10">
@@ -739,8 +740,9 @@
                   <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Добавить лекцию</button>
                   </div>
-                </form>
+
               </div>
+              </form>
             </div>
           </div>
         </div>

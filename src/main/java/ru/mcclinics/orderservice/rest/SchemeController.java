@@ -113,7 +113,6 @@ public class SchemeController {
     ) {
         String[] strMain = lectureKeyWords.split(";");
         List<KeyWord> keyWordList = new ArrayList<>();
-
         Lecture lecture = new Lecture(lectureName, lectureUser, lectureAnnotation,  keyWordList, lectureTrack, lectureSeries);
         for (String line : strMain) {
             KeyWord keyWord = new KeyWord();
@@ -121,6 +120,7 @@ public class SchemeController {
             keyWord.setLecture(lecture);
             keyWordList.add(keyWord);
         }
+
         lecture.setKeyWords(keyWordList);
         lecture.setCreateDate(LocalDateTime.now());
         lectureService.save(lecture);
