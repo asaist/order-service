@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Setter
 @Getter
@@ -44,6 +45,8 @@ public class Lecture {
     @JoinColumn(name = "series_id")
     @JsonBackReference(value="series-lecture")
     private Series series;
+    @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "lecture")
+    private List<KeyWord> keyWords;
 
     public String getAuthorName(){
         return author!=null ? author.getUsername() : "<none>";
@@ -64,5 +67,13 @@ public class Lecture {
         this.track = track;
         this.annotation = annotation;
         this.videoReference = videoReference;
+    }
+    public Lecture(String lectureName, User author,String annotation, List<KeyWord> keyWords, Track track, Series series) {
+        this.lectureName = lectureName;
+        this.author = author;
+        this.track = track;
+        this.annotation = annotation;
+        this.keyWords = keyWords;
+        this.series = series;
     }
 }

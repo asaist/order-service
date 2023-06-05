@@ -40,7 +40,7 @@ public class WebSecurityConfig {
         http.authorizeRequests()
                 .requestMatchers("/**").permitAll() // Разрешаем доступ к открытым ресурсам всем пользователям
                 .anyRequest().authenticated(); // Все остальные запросы требуют аутентификации
-
+        http.csrf().disable();
         return http.build();
     }
     @Autowired

@@ -154,7 +154,6 @@
                   <textarea class="form-control" name="keyWordsFrontEnd" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив их ;"></textarea>
                 </div>
               </div>
-                <input type="hidden" name="_csrf" value="${_csrf.token}"/>
               <div class="modal-footer">
                 <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Отменить</button>
                 <button type="submit" class="btn btn-primary">Добавить трек</button>

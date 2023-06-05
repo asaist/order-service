@@ -28,7 +28,7 @@
 <#--                        <label class="custom-file-label" for="customFile">Choose file</label>-->
 <#--                    </div>-->
 <#--                </div>-->
-                <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+<#--                <input type="hidden" name="_csrf" value="${_csrf.token}"/>-->
                 <div class="form-group mt-2">
                     <button type="submit" class="btn btn-primary ml-2">Add</button>
                 </div>

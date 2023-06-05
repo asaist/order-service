@@ -130,6 +130,7 @@ public class MainController {
 //            track.setFileName(resultFileName);
 //        }
         trackService.save(track);
+        keyWordRepository.saveAll(keyWordList);
         Iterable<Track> tracks = trackService.findTracks();
         model.put("tracks", tracks);
         return "redirect:/table_track";

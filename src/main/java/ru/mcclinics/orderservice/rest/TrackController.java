@@ -4,8 +4,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
+import ru.mcclinics.orderservice.domain.Series;
 import ru.mcclinics.orderservice.domain.Track;
 import ru.mcclinics.orderservice.dto.TrackDto;
+import ru.mcclinics.orderservice.service.SeriesService;
 import ru.mcclinics.orderservice.service.TrackService;
 
 import java.time.LocalDateTime;
@@ -18,10 +20,11 @@ import static org.springframework.http.HttpStatus.OK;
 @Slf4j(topic = "order-service")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("track")
+@RequestMapping("/track")
 public class TrackController {
 
     private final TrackService service;
+    private final SeriesService seriesService;
 
 
     @GetMapping
@@ -73,6 +76,12 @@ public class TrackController {
         Track track = new Track();
         track.setId(id);
         service.delete(track);
+    }
+
+    @GetMapping("/findSeriesByTrack/{id}")
+    public List<Series> getSeriesByTrack(@PathVariable("id") Long id) {
+        log.info("/tracks");
+        return seriesService.findSeriesByTrackId(id);
     }
 
 
