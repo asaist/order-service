@@ -12,7 +12,7 @@
                 <input type="password" name="password" class="form-control" placeholder="Password"/>
             </div>
         </div>
-        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+<#--        <input type="hidden" name="_csrf" value="${_csrf.token}"/>-->
         <#if !isRegisterForm><a href="/registration">Add new user</a></#if>
         <button class="btn btn-primary" type="submit" ><#if isRegisterForm>Create<#else>Sign in</#if></button>
     </form>
@@ -20,7 +20,7 @@
 
 <#macro logout>
     <form action="/logout" method="post">
-        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+<#--        <input type="hidden" name="_csrf" value="${_csrf.token}"/>-->
         <button class="btn btn-primary" type="submit" >Sign out</button>
     </form>
 </#macro>

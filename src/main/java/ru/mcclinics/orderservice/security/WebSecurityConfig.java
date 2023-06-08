@@ -37,10 +37,20 @@ public class WebSecurityConfig {
 ////        http.securityContext(securityContext -> securityContext.
 ////                securityContextRepository(new HttpSessionSecurityContextRepository())
 ////        );
-        http.authorizeRequests()
-                .requestMatchers("/**").permitAll() // Разрешаем доступ к открытым ресурсам всем пользователям
-                .anyRequest().authenticated(); // Все остальные запросы требуют аутентификации
-        http.csrf().disable();
+        //рабочий спек
+//        http.authorizeRequests()
+//                .requestMatchers("/**").permitAll() // Разрешаем доступ к открытым ресурсам всем пользователям
+//                .anyRequest().authenticated(); // Все остальные запросы требуют аутентификации
+//        http.csrf().disable();
+        //
+        http
+                .csrf()
+                .disable()
+                .authorizeHttpRequests()
+                .anyRequest()
+                .authenticated()
+                .and()
+                .oauth2Login();
         return http.build();
     }
     @Autowired

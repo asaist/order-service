@@ -30,7 +30,7 @@
                         <option value="${track.id}">${track.trackName}</option>
                     </#list>
                 </select>
-                <input type="hidden" name="_csrf" value="${_csrf.token}"/>
+<#--                <input type="hidden" name="_csrf" value="${_csrf.token}"/>-->
                 <div class="form-group mt-2">
                     <button type="submit" class="btn btn-primary ml-2">Add</button>
                 </div>
