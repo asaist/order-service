@@ -1,5 +1,6 @@
 package ru.mcclinics.orderservice.rest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -26,14 +27,16 @@ public class SchemeController {
     private final UserService userService;
     private final KeyWordRepository keyWordRepository;
     private final SeriesService seriesService;
+    private final EmployeeDtoClientService employeeDtoClientService;
 
     @GetMapping("/")
-    public String main(Model model) {
+    public String main(Model model) throws JsonProcessingException {
         model.addAttribute("tracks", trackService.findTracks());
         model.addAttribute("universities", universityService.getUniversityList());
         model.addAttribute("lectures", lectureService.findLectures());
         model.addAttribute("users", userService.findUsers());
         model.addAttribute("series", seriesService.findSeries());
+        model.addAttribute("employees", employeeDtoClientService.getEmployeeDtoList());
         return "scheme";
     }
 

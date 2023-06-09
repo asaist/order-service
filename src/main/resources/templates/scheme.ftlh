@@ -87,8 +87,8 @@
                         <div class="hidden" id="authorSamGMU">
                           <select class="form-control mb-20" name="trackUser">
                             <option>Выберите автора</option>
-                            <#list users as user>
-                              <option value="${user.id}">${user.username}</option>
+                            <#list employees as employee>
+                              <option value="${employee.employeeGuid}">${employee.firstName}</option>
                             </#list>
                           </select>
                           <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Добавить руководителя трека</button>
