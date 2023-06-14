@@ -15,6 +15,7 @@ public class AuthorService {
 
     private final AuthorRepository authorRepository;
     public List<Author> findAuthors(){return authorRepository.findAll();}
+    public Author findAuthorByGuid(String guid) {return authorRepository.findAuthorByGuid(guid);}
 
     public Author create(Author author) {
         return authorRepository.save(author);

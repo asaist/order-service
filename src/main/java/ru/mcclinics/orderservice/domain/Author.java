@@ -2,6 +2,8 @@ package ru.mcclinics.orderservice.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import ru.mcclinics.orderservice.dto.EmployeeDto;
+
 @Table(name = "author")
 @Entity
 @Data
@@ -16,11 +18,19 @@ public class Author {
     private String firstName;
     @Column(name = "middle_name")
     private String middleName;
+    private String guid;
 
     public Author(String lastName) {
         this.lastName = lastName;
     }
 
     public Author() {
+    }
+
+    public Author(EmployeeDto employeeDto) {
+        this.guid = employeeDto.getEmployeeGuid();
+        this.lastName= employeeDto.getLastName();
+        this.firstName = employeeDto.getFirstName();
+        this.middleName = employeeDto.getPatronymicName();
     }
 }

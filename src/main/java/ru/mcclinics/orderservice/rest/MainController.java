@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.mcclinics.orderservice.dao.KeyWordRepository;
-import ru.mcclinics.orderservice.domain.KeyWord;
-import ru.mcclinics.orderservice.domain.Track;
-import ru.mcclinics.orderservice.domain.University;
-import ru.mcclinics.orderservice.domain.User;
+import ru.mcclinics.orderservice.domain.*;
 import ru.mcclinics.orderservice.service.TrackService;
 import ru.mcclinics.orderservice.service.UniversityService;
 
@@ -81,7 +78,7 @@ public class MainController {
                 @RequestParam String annotation,
 //                @RequestParam("file") MultipartFile file,
                Map<String, Object> model) throws IOException {
-        Track track = new Track(trackName, annotation, user);
+        Track track = new Track(trackName, annotation);
 //        if (file != null && !file.getOriginalFilename().isEmpty()) {
 //            File uploadDir = new File(uploadPath);
 //            if(!uploadDir.exists()) {
@@ -110,7 +107,8 @@ public class MainController {
             Map<String, Object> model) throws IOException {
         String[] strMain = keyWordsFrontEnd.split(";");
         List<KeyWord> keyWordList = new ArrayList<>();
-        Track track = new Track(trackName, annotation, user, university);
+        Author user1 = new Author();
+        Track track = new Track(trackName, annotation, user1, university);
         track.setCreateDate(LocalDateTime.now());
         for (String line : strMain) {
             KeyWord keyWord = new KeyWord();

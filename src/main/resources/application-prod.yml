@@ -1,8 +1,29 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/develop
+    url: jdbc:postgresql://localhost:5432/order
     username: postgres
     password: postgres
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 10
+  jpa:
+    database: POSTGRESQL
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          keycloak:
+#            client-id: course
+#            client-secret: 5f4f078c-f3f1-4cd7-b884-b22abe8c6138
+#            authorization-grant-type: authorization_code
+#            scope:
+#              - openid
+#              - profile
+#              - roles
+#            redirect-uri: https://track.samsmu.ru/login/oauth2/code/course
+#        provider:
+#          keycloak:
+#            issuer-uri: https://sso.samsmu.ru/auth/realms/SAMGMU

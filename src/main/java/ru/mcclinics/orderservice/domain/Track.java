@@ -27,7 +27,7 @@ public class Track {
     private String annotation;
     @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "author_id")
-    private User author;
+    private Author author;
     @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "university_id")
     private University university;
@@ -61,19 +61,18 @@ public class Track {
     public Track() {
 
     }
-    public Track(String trackName, String annotation, User user) {
+    public Track(String trackName, String annotation) {
         this.trackName = trackName;
         this.annotation = annotation;
-        this.author = user;
     }
-    public Track(String trackName, String annotation, User user, University university) {
+    public Track(String trackName, String annotation, Author author, University university) {
         this.trackName = trackName;
         this.annotation = annotation;
-        this.author = user;
+        this.author = author;
         this.university = university;
     }
     public String getAuthorName(){
-        return author!=null ? author.getUsername() : "<none>";
+        return author!=null ? author.getFirstName() : "<none>";
     }
     public String getAnnotation(){
         return annotation!=null ? annotation : "<none>";

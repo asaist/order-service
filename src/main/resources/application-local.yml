@@ -11,5 +11,21 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
-
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          keycloak:
+#            client-id: course
+#            client-secret: 5f4f078c-f3f1-4cd7-b884-b22abe8c6138
+#            authorization-grant-type: authorization_code
+#            scope:
+#              - openid
+#              - profile
+#              - roles
+#            redirect-uri: http://localhost:8081/login/oauth2/code/course
+##            redirect-uri: https://track.samsmu.ru/login/oauth2/code/course
+#        provider:
+#          keycloak:
+#            issuer-uri: https://sso.samsmu.ru/auth/realms/SAMGMU
 

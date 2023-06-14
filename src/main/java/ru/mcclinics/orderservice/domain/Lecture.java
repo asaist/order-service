@@ -23,7 +23,7 @@ public class Lecture {
     private String lectureName;
     @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
-    private User author;
+    private Author author;
     @Column(name = "video_reference")
     private String videoReference;
     @Column(name = "lecture_annotation")
@@ -49,7 +49,7 @@ public class Lecture {
     private List<KeyWord> keyWords;
 
     public String getAuthorName(){
-        return author!=null ? author.getUsername() : "<none>";
+        return author!=null ? author.getFirstName() : "<none>";
     }
     public String getAnnotation(){
         return annotation!=null ? annotation : "<none>";
@@ -61,19 +61,18 @@ public class Lecture {
     public Lecture() {
     }
 
-    public Lecture(String lectureName, User author,String annotation, String videoReference, Track track) {
+    public Lecture(String lectureName, Author author,String annotation, String videoReference, Track track) {
         this.lectureName = lectureName;
         this.author = author;
         this.track = track;
         this.annotation = annotation;
         this.videoReference = videoReference;
     }
-    public Lecture(String lectureName, User author,String annotation, List<KeyWord> keyWords, Track track, Series series) {
+    public Lecture(String lectureName, Author author, String annotation, Track track, Series series) {
         this.lectureName = lectureName;
         this.author = author;
         this.track = track;
         this.annotation = annotation;
-        this.keyWords = keyWords;
         this.series = series;
     }
 }

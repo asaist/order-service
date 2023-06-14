@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
     <link rel="stylesheet" href="https://track.samsmu.ru/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://track.samsmu.ru/css/styles.css">
+    <link rel="shortcut icon" href="#">
   </head>
   <body>
     <div class="d-flex">
@@ -70,7 +71,7 @@
                   </div>
                   <div class="modal-body">
 
-                    <select class="form-control" name="university" size="1" onclick="trackSignature()">
+                    <select class="form-control" name="university">
                       <option selected="" disabled="">Выберите институт</option>
                       <#list universities as university>
                         <option value="${university.universityId}">${university.universityName}</option>
@@ -85,10 +86,10 @@
                           <label class="form-check-label">Автор является сотрудником СамГМУ</label>
                         </div>
                         <div class="hidden" id="authorSamGMU">
-                          <select class="form-control mb-20" name="trackUser">
+                          <select class="form-control mb-20" name="trackAuthor">
                             <option>Выберите автора</option>
-                            <#list employees as employee>
-                              <option value="${employee.employeeGuid}">${employee.firstName}</option>
+                            <#list employees as employeeDto>
+                              <option value="${employeeDto}">${employeeDto.firstName}</option>
                             </#list>
                           </select>
                           <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Добавить руководителя трека</button>
@@ -221,12 +222,12 @@
                         <label class="form-check-label">Автор является сотрудником СамГМУ</label>
                       </div>
                       <div class="hidden" id="authorSamGMUModule">
-                        <select class="form-control mb-20" name="seriesUser">
+                        <select class="form-control mb-20" name="seriesAuthor">
                           <option>Выберите автора</option>
-                          <#list users as user>
-                            <option value="${user.id}">${user.username}</option>
+                          <#list employees as employeeDto>
+                            <option value="${employeeDto}">${employeeDto.firstName}</option>
                           </#list>
-                        </select class="form-control">
+                        </select>
                         <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Добавить автора</button>  
                       </div>
                       <div id="authorWorldModule">
@@ -518,10 +519,10 @@
                           <label class="form-check-label">Автор является сотрудником СамГМУ</label>
                         </div>
                         <div class="hidden" id="authorSamGMULecture">
-                          <select class="form-control mb-20" name="lectureUser">
+                          <select class="form-control mb-20" name="lectureAuthor">
                             <option>Выберите автора</option>
-                            <#list users as user>
-                              <option value="${user.id}">${user.username}</option>
+                            <#list employees as employeeDto>
+                              <option value="${employeeDto}">${employeeDto.firstName}</option>
                             </#list>
                           </select class="form-control">
                           <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Добавить автора</button>

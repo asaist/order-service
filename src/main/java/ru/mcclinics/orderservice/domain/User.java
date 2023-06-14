@@ -6,6 +6,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.*;
+import ru.mcclinics.orderservice.dto.EmployeeDto;
+
 import java.util.Collection;
 import java.util.Set;
 @Data
@@ -22,6 +24,13 @@ public class User implements UserDetails {
     @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
+    private String guid;
+    public User() {
+    }
+    public User(EmployeeDto employeeDto) {
+        this.guid = employeeDto.getEmployeeGuid();
+        this.username= employeeDto.getLastName() + employeeDto.getFirstName() + employeeDto.getPatronymicName();
+    }
 
     public boolean isAdmin() {
         return roles.contains(Role.ADMIN);

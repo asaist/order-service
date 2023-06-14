@@ -23,7 +23,7 @@ public class Series {
     private String seriesName;
     @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id")
-    private User author;
+    private Author author;
     private String annotation;
     @Column(name = "create_date", updatable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
@@ -41,7 +41,7 @@ public class Series {
     public Series() {
     }
 
-    public Series(String seriesName, User author, String annotation, Track track) {
+    public Series(String seriesName, Author author, String annotation, Track track) {
         this.seriesName = seriesName;
         this.author = author;
         this.annotation = annotation;
