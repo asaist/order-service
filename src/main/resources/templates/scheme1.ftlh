@@ -1,16 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en">
   <head>
     <meta charset="UTF-8">
     <title>3D timeline</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
-    <link rel="stylesheet" href="https://track.samsmu.ru/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://track.samsmu.ru/css/styles.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="shortcut icon" href="#">
   </head>
   <body>
     <div class="d-flex">
@@ -65,156 +62,156 @@
         <div class="applicationBodySchema">         
           <div class="tab-content" id="myTabContent">
            <!-- Заявка на Трек -->
-            <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-              <form method="post" action="/addTrack" enctype="multipart/form-data">
-                <div>
-                  <div class="d-flex justify-content-center">
-                    <h5 class="modal-title">Заявка на создание трека</h5>
-                  </div>
-                  <div class="modal-body">
+            <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">   
+              <div>
+                <div class="d-flex justify-content-center">
+                  <h5 class="modal-title">Заявка на создание трека</h5>                
+                </div>
+                <div class="modal-body">                
 
-                    <select class="form-control" name="university">
-                      <option selected="" disabled="">Выберите институт</option>
-                      <#list universities as university>
-                        <option value="${university.universityId}">${university.universityName}</option>
-                      </#list>
-                    </select>
+                  <select class="form-control" name="institute" size="1" onclick="trackSignature()">
+                    <option selected="" disabled="">Выберите институт</option>
+                    <option value="Институт клинической медицины">Институт клинической медицины</option>
+                    <option value="Институт профилактической медицины">Институт профилактической медицины</option>
+                    <option value="НИИ кардиологии">НИИ кардиологии</option>
+                    <option value="Институт эксперементальной медицины">Институт эксперементальной медицины</option>
+                  </select>
 
-                    <div class="my-4">
-                      <p><b>Руководитель образовательного трека</b></p>
-                      <div>
-                        <div class="form-check mb-10">
-                          <input class="form-check-input" type="checkbox" name="is-emsloyee" onclick="authorSamGMU()">
-                          <label class="form-check-label">Автор является сотрудником СамГМУ</label>
-                        </div>
-                        <div class="hidden" id="authorSamGMU">
-                          <select class="form-control mb-20" name="trackAuthor">
-                            <option>Выберите автора</option>
-                            <#list authors as author>
-                              <option value="${author.authorId}">${author.lastName} ${author.firstName} ${author.middleName}</option>
-                            </#list>
+                  <div class="my-4">
+                    <p><b>Руководитель образовательного трека</b></p>
+                    <div>
+                      <div class="form-check mb-10">
+                        <input class="form-check-input" type="checkbox" name="is-emsloyee" onclick="authorSamGMU()">
+                        <label class="form-check-label">Автор является сотрудником СамГМУ</label>
+                      </div>
+                      <div class="hidden" id="authorSamGMU">
+                        <select class="form-control mb-20" name="author">
+                          <option>Выберите автора</option>
+                          <option value="Иванов">Иванов</option>
+                          <option value="Петров">Петров</option>
+                          <option value="Сидоров">Сидоров</option>
+                          <option value="Толстой">Толстой</option>
+                        </select>
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Добавить руководителя трека</button>  
+                      </div>
+                      <div id="authorWorld">
+                        <textarea class="form-control mb-10" name="module-name" cols="80" rows="1" placeholder="Введите ФИО автора"></textarea>
+                        <div class="d-flex mb-10">
+                          <select class="form-control w-50 mr-10" name="regalia" size="1">
+                            <option selected="" disabled="">Выберите регалии</option>
+                            <option value="Профессор">Профессор</option>
+                            <option value="К.М.Н.">К.М.Н.</option>
+                            <option value="Доцент">Доцент</option>
+                            <option value="Зав. кафедрой">Зав. кафедрой</option>
                           </select>
-                          <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Добавить руководителя трека</button>
+                          <button type="button" class="btn btn-primary">
+                            <i class="fas fa-plus"></i>
+                          </button>
                         </div>
-                        <div id="authorWorld">
-                          <textarea class="form-control mb-10" name="module-name" cols="80" rows="1" placeholder="Введите ФИО автора"></textarea>
-                          <div class="d-flex mb-10">
-                            <select class="form-control w-50 mr-10" name="regalia" size="1">
-                              <option selected="" disabled="">Выберите регалии</option>
-                              <option value="Профессор">Профессор</option>
-                              <option value="К.М.Н.">К.М.Н.</option>
-                              <option value="Доцент">Доцент</option>
-                              <option value="Зав. кафедрой">Зав. кафедрой</option>
-                            </select>
-                            <button type="button" class="btn btn-primary">
-                              <i class="fas fa-plus"></i>
-                            </button>
-                          </div>
-                          <div class="accordion mb-10" id="accordionDocsPerson">
-                            <div class="accordion-item">
-                              <h2 class="accordion-header" id="headingOne">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                  <b>Добавление документов автора</b>
-                                </button>
-                              </h2>
-                              <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionDocsPerson">
-                                <div class="accordion-body">
-                                  <div class="mb-10">
-                                    <b>Загрузите паспорт</b><br>
-                                    <div class="d-flex">
-                                      <input class="form-control mr-10" type="file" id="pasport" name="pasport">
-                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
-                                    </div>
+                        <div class="accordion mb-10" id="accordionDocsPerson">
+                          <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                <b>Добавление документов автора</b>
+                              </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionDocsPerson">
+                              <div class="accordion-body"> 
+                                <div class="mb-10">                             
+                                  <b>Загрузите паспорт</b><br>
+                                  <div class="d-flex">
+                                    <input class="form-control mr-10" type="file" id="pasport" name="pasport">
+                                    <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
                                   </div>
-                                  <div class="mb-10">
-                                    <b>Загрузите диплом о в/о"</b><br>
-                                    <div class="d-flex">
-                                      <input class="form-control mr-10" type="file" id="diploma1" name="diploma1">
-                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
-                                    </div>
-                                  </div>
-                                  <div class="mb-10">
-                                    <b>Загрузите диплом о научном звании</b><br>
-                                    <div class="d-flex">
-                                      <input class="form-control mr-10" type="file" id="diploma2" name="diploma2">
-                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
-                                    </div>
-                                  </div>
-                                  <div class="mb-10">
-                                    <b>Загрузите диплом о научной степени</b><br>
-                                    <div class="d-flex">
-                                      <input class="form-control mr-10" type="file" id="diploma3" name="diploma3">
-                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
-                                    </div>
-                                  </div>
-                                  <div class="mb-10">
-                                    <b>Загрузите справку об отсутствии судимости</b><br>
-                                    <div class="d-flex">
-                                      <input class="form-control mr-10" type="file" id="criminal" name="criminal">
-                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
-                                    </div>
-                                  </div>
-                                  <div class="mb-10">
-                                    <b>Загрузите справку о состоянии здоровья</b><br>
-                                    <div class="d-flex">
-                                      <input class="form-control mr-10" type="file" id="health" name="health">
-                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
-                                    </div>
-                                  </div>
-                                  <div class="mb-20">
-                                    <b>Загрузите последнюю страницу трудовой книжки</b><br>
-                                    <div class="d-flex">
-                                      <input class="form-control mr-10" type="file" id="workbook" name="workbook">
-                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
-                                    </div>
-                                  </div>
-                                  <button type="button" class="btn btn-outline-primary">Добавить руководителя трека</button>
                                 </div>
+                                <div class="mb-10"> 
+                                  <b>Загрузите диплом о в/о"</b><br>
+                                  <div class="d-flex">
+                                    <input class="form-control mr-10" type="file" id="diploma1" name="diploma1">
+                                    <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
+                                  </div>
+                                </div>
+                                <div class="mb-10"> 
+                                  <b>Загрузите диплом о научном звании</b><br>
+                                  <div class="d-flex">
+                                    <input class="form-control mr-10" type="file" id="diploma2" name="diploma2">
+                                    <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
+                                  </div>
+                                </div>
+                                <div class="mb-10"> 
+                                  <b>Загрузите диплом о научной степени</b><br>
+                                  <div class="d-flex">
+                                    <input class="form-control mr-10" type="file" id="diploma3" name="diploma3">
+                                    <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
+                                  </div>
+                                </div>
+                                <div class="mb-10"> 
+                                  <b>Загрузите справку об отсутствии судимости</b><br>
+                                  <div class="d-flex">
+                                    <input class="form-control mr-10" type="file" id="criminal" name="criminal">
+                                    <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
+                                  </div>
+                                </div>
+                                <div class="mb-10"> 
+                                  <b>Загрузите справку о состоянии здоровья</b><br>
+                                  <div class="d-flex">
+                                    <input class="form-control mr-10" type="file" id="health" name="health">
+                                    <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
+                                  </div>
+                                </div>
+                                <div class="mb-20">      
+                                  <b>Загрузите последнюю страницу трудовой книжки</b><br>
+                                  <div class="d-flex">
+                                    <input class="form-control mr-10" type="file" id="workbook" name="workbook">
+                                    <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
+                                  </div>
+                                </div>
+                                <button type="button" class="btn btn-outline-primary">Добавить руководителя трека</button>
                               </div>
                             </div>
-                          </div>
-                        </div>
+                          </div>   
+                        </div>                      
                       </div>
                     </div>
-
-                    <div class="my-4">
-                      <b>Название образовательного трека</b><br>
-                      <textarea class="form-control" name="trackName" cols="80" rows="1" placeholder="Введите название образовательного трека"></textarea>
-                    </div>
-
-                    <div class="my-4">
-                      <b>Аннотация образовательного трека</b><br>
-                      <textarea class="form-control" name="trackAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#" onclick="trackCheck()"></textarea>
-                    </div>
-                    <div class="my-4">
-                      <b>Дополнительные ключевые слова</b> <br>
-                      <textarea class="form-control" name="trackKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив их ;"></textarea>
-                    </div>
                   </div>
-                  <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Добавить трек</button>
+
+                  <div class="my-4">
+                    <b>Название образовательного трека</b><br>
+                    <textarea class="form-control" name="track-name" cols="80" rows="1" placeholder="Введите название образовательного трека"></textarea>
                   </div>
+
+                  <div class="my-4">
+                    <b>Аннотация образовательного трека</b><br>
+                    <textarea class="form-control" id="track-annotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#" onclick="trackCheck()"></textarea>
+                  </div>
+                  <div class="my-4">
+                    <b>Дополнительные ключевые слова</b> <br>
+                    <textarea class="form-control" name="module-annotation" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив их ;"></textarea>
+                  </div>                  
                 </div>
-              </form>
+                <div class="modal-footer">                
+                  <button type="button" class="btn btn-primary">Добавить трек</button>
+                </div>
+              </div> 
             </div> 
           <!-- Заявка на Модуль -->
             <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-              <form method="post" action="/addSeries" enctype="multipart/form-data">
               <div>
                 <div class="d-flex justify-content-center">
                   <h5>Заявка на создание модуля</h5>                
                 </div>                  
                 <div class="modal-body"> 
                     <div class="mb-10">                    
-                      <select class="form-control" class="form-control" name="seriesTrack" size="1">
-                        <option select class="form-control">Выберите образовательный трек</option>
-                        <#list tracks as track>
-                          <option value="${track.id}">${track.trackName}</option>
-                        </#list>
+                      <select class="form-control" class="form-control" name="track" size="1">
+                        <option select class="form-control"ed="" disabled="">Выберите образовательный трек</option>
+                        <option value="Трек 1">Трек 1</option>
+                        <option value="Трек 2">Трек 2</option>
+                        <option value="Трек 3">Трек 3</option>
+                        <option value="Трек 4">Трек 4</option>
                       </select class="form-control">
                     </div>
                     <div class="mb-10">
-                      <input type="text" class="form-control mb-2" name="seriesName" placeholder="Название образовательного модуля">
+                      <input type="text" class="form-control mb-2" id="headSeries" placeholder="Название образовательного модуля">                    
                     </div>
                     <div class="my-4">
                     <p><b>Автор образовательного модуля</b></p>
@@ -224,12 +221,13 @@
                         <label class="form-check-label">Автор является сотрудником СамГМУ</label>
                       </div>
                       <div class="hidden" id="authorSamGMUModule">
-                        <select class="form-control mb-20" name="seriesAuthor">
+                        <select class="form-control mb-20" name="author">
                           <option>Выберите автора</option>
-                          <#list authors as author>
-                            <option value="${author.authorId}">${author.lastName} ${author.firstName} ${author.middleName}</option>
-                          </#list>
-                        </select>
+                          <option value="Иванов">Иванов</option>
+                          <option value="Петров">Петров</option>
+                          <option value="Сидоров">Сидоров</option>
+                          <option value="Толстой">Толстой</option>
+                        </select class="form-control">
                         <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Добавить автора</button>  
                       </div>
                       <div id="authorWorldModule">
@@ -315,12 +313,12 @@
 
                     <div class="my-4">
                       <b>Аннотация/содержание образовательного Модуля</b><br>
-                      <textarea class="form-control" name="seriesAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#"></textarea>
+                      <textarea class="form-control" name="track-annotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#"></textarea>
                     </div>
 
                     <div class="mt-10 mb-10">
                       <b>Дополнительные ключеные слова</b><br>
-                      <textarea class="form-control" name="seriesKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;"></textarea>
+                      <textarea class="form-control" name="module-annotation" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;"></textarea>
                     </div>
 
                     <div class="accordion accordion-flush my-4" id="acModuleAdditionalGuide">
@@ -444,180 +442,146 @@
 
                 </div>
                 <div class="modal-footer">                
-                  <button type="submit" class="btn btn-primary">Добавить модуль</button>
+                  <button type="button" class="btn btn-primary">Добавить модуль</button>
                 </div>
               </div>
-              </form>
             </div>
-            <!-- Заявка на Лекцию -->
+          <!-- Заявка на Лекцию -->
             <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
-              <form method="post" action="/addLecture" enctype="multipart/form-data">
               <div>
-
-                  <div class="d-flex justify-content-center">
-                    <h5>Заявка на создание лекции</h5>
-                  </div>
-                  <div class="modal-body">
-                    <div class="mb-10">
-                      <form id="trackForm" method="get" enctype="multipart/form-data">
-                        <select  id="track" class="form-control" name="lectureTrack" size="1">
-                          <option select class="form-control">Выберите образовательный трек</option>
-                          <#list tracks as track>
-                            <option value="${track.id}">${track.trackName}</option>
-                          </#list>
-                        </select class="form-control">
-                      </form>
+                <div class="d-flex justify-content-center">
+                  <h5>Заявка на создание лекции</h5>                
+                </div>                  
+                <div class="modal-body"> 
+                    <div class="mb-10">                    
+                      <select class="form-control" class="form-control" name="track" size="1">
+                        <option select class="form-control">Выберите образовательный трек</option>
+                        <option value="Трек 1">Трек 1</option>
+                        <option value="Трек 2">Трек 2</option>
+                        <option value="Трек 3">Трек 3</option>
+                        <option value="Трек 4">Трек 4</option>
+                      </select class="form-control">
                     </div>
 
-<#--                    <script>-->
-<#--                      const selectElement = document.querySelector('#track');-->
-
-<#--                      selectElement.addEventListener('change', (event) => {-->
-<#--                        console.log(event.target.value);-->
-<#--                        const series = document.querySelector('#series');-->
-<#--                        &lt;#&ndash;getData(`/hui/findSeriesByTrack/${event.target.value}`).then(data => console.log(data)).catch(err => console.log(err));&ndash;&gt;-->
-<#--                        $.ajax({-->
-<#--                          type: "GET",-->
-<#--                          url: `/hui/findSeriesByTrack/${event.target.value}`,-->
-<#--                          async: false,-->
-<#--                          success: function (res) {-->
-<#--                            console.log(res);-->
-<#--                          },-->
-<#--                        });-->
-<#--                      });-->
-
-<#--                    async function getData(url){-->
-<#--                    const response = await fetch(url);-->
-<#--                    if(!response.ok) {                           // ok - boolean(статус 200?)-->
-<#--                    throw new Error('cant fetch');      // обработка ошибки-->
-<#--                    }-->
-<#--                    const jsonData = await response.json(); // ответ в JSON ковертируем в объект-->
-<#--                    return jsonData;                        // возвращаем объект-->
-<#--                    }-->
-
-
-
-<#--                    </script>-->
-
-
-
-                    <div class="mb-10">
-                      <select  id="series" class="form-control" name="lectureSeries" size="1">
+                    <div class="mb-10">                    
+                      <select class="form-control" class="form-control" name="" size="1">
                         <option select class="form-control">Выберите образовательный модуль</option>
-                        <#list series as series>
-                          <option value="${series.id}">${series.seriesName}</option>
-                        </#list>
+                        <option value="Трек 1">Модуль 1</option>
+                        <option value="Трек 2">Модуль 2</option>
+                        <option value="Трек 3">Модуль 3</option>
+                        <option value="Трек 4">Модуль 4</option>
                       </select class="form-control">
                     </div>
 
                     <div class="mb-10">
-                      <input type="text" class="form-control mb-2" name="lectureName" placeholder="Название образовательной лекции">
+                      <input type="text" class="form-control mb-2" id="headSeries" placeholder="Название образовательной лекции">                    
                     </div>
                     <div class="my-4">
-                      <p><b>Автор образовательной лекции</b></p>
-                      <div>
-                        <div class="form-check mb-10">
-                          <input class="form-check-input" type="checkbox" name="is-emsloyee" onclick="authorSamGMULecture()">
-                          <label class="form-check-label">Автор является сотрудником СамГМУ</label>
-                        </div>
-                        <div class="hidden" id="authorSamGMULecture">
-                          <select class="form-control mb-20" name="lectureAuthor">
-                            <option>Выберите автора</option>
-                            <#list authors as author>
-                              <option value="${author.authorId}">${author.lastName} ${author.firstName} ${author.middleName}</option>
-                            </#list>
+                    <p><b>Автор образовательной лекции</b></p>
+                    <div>
+                      <div class="form-check mb-10">
+                        <input class="form-check-input" type="checkbox" name="is-emsloyee" onclick="authorSamGMULecture()">
+                        <label class="form-check-label">Автор является сотрудником СамГМУ</label>
+                      </div>
+                      <div class="hidden" id="authorSamGMULecture">
+                        <select class="form-control mb-20" name="author">
+                          <option>Выберите автора</option>
+                          <option value="Иванов">Иванов</option>
+                          <option value="Петров">Петров</option>
+                          <option value="Сидоров">Сидоров</option>
+                          <option value="Толстой">Толстой</option>
+                        </select class="form-control">
+                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Добавить автора</button>  
+                      </div>
+                      <div id="authorWorldLecture">
+                        <textarea class="form-control mb-10" name="module-name" cols="80" rows="1" placeholder="Введите ФИО автора"></textarea>
+                        <div class="d-flex mb-10">
+                          <select class="form-control w-50 mr-10" name="regalia" size="1">
+                            <option select class="form-control"ed="" disabled="">Выберите регалии</option>
+                            <option value="Профессор">Профессор</option>
+                            <option value="К.М.Н.">К.М.Н.</option>
+                            <option value="Доцент">Доцент</option>
+                            <option value="Зав. кафедрой">Зав. кафедрой</option>
                           </select class="form-control">
-                          <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Добавить автора</button>
+                          <button type="button" class="btn btn-primary">
+                            <i class="fas fa-plus"></i>
+                          </button>
                         </div>
-                        <div id="authorWorldLecture">
-                          <textarea class="form-control mb-10" name="module-name" cols="80" rows="1" placeholder="Введите ФИО автора"></textarea>
-                          <div class="d-flex mb-10">
-                            <select class="form-control w-50 mr-10" name="regalia" size="1">
-                              <option select class="form-control"ed="" disabled="">Выберите регалии</option>
-                              <option value="Профессор">Профессор</option>
-                              <option value="К.М.Н.">К.М.Н.</option>
-                              <option value="Доцент">Доцент</option>
-                              <option value="Зав. кафедрой">Зав. кафедрой</option>
-                            </select class="form-control">
-                            <button type="button" class="btn btn-primary">
-                              <i class="fas fa-plus"></i>
-                            </button>
-                          </div>
-                          <div class="accordion accordion-flush mb-10" id="accordionDocsPerson">
-                            <div class="accordion-item">
-                              <h2 class="accordion-header" id="headingOne">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                  <b>Добавление документов автора</b>
-                                </button>
-                              </h2>
-                              <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionDocsPerson">
-                                <div class="accordion-body">
-                                  <div class="mb-10">
-                                    <b>Загрузите паспорт</b><br>
-                                    <div class="d-flex">
-                                      <input class="form-control mr-10" type="file" id="pasport" name="pasport">
-                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
-                                    </div>
-                                  </div>
-                                  <div class="mb-10">
-                                    <b>Загрузите диплом о в/о"</b><br>
-                                    <div class="d-flex">
-                                      <input class="form-control mr-10" type="file" id="diploma1" name="diploma1">
-                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
-                                    </div>
-                                  </div>
-                                  <div class="mb-10">
-                                    <b>Загрузите диплом о научном звании</b><br>
-                                    <div class="d-flex">
-                                      <input class="form-control mr-10" type="file" id="diploma2" name="diploma2">
-                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
-                                    </div>
-                                  </div>
-                                  <div class="mb-10">
-                                    <b>Загрузите диплом о научной степени</b><br>
-                                    <div class="d-flex">
-                                      <input class="form-control mr-10" type="file" id="diploma3" name="diploma3">
-                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
-                                    </div>
-                                  </div>
-                                  <div class="mb-10">
-                                    <b>Загрузите справку об отсутствии судимости</b><br>
-                                    <div class="d-flex">
-                                      <input class="form-control mr-10" type="file" id="criminal" name="criminal">
-                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
-                                    </div>
-                                  </div>
-                                  <div class="mb-10">
-                                    <b>Загрузите справку о состоянии здоровья</b><br>
-                                    <div class="d-flex">
-                                      <input class="form-control mr-10" type="file" id="health" name="health">
-                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
-                                    </div>
-                                  </div>
-                                  <div class="mb-20">
-                                    <b>Загрузите последнюю страницу трудовой книжки</b><br>
-                                    <div class="d-flex">
-                                      <input class="form-control mr-10" type="file" id="workbook" name="workbook">
-                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
-                                    </div>
+                        <div class="accordion accordion-flush mb-10" id="accordionDocsPerson">
+                          <div class="accordion-item">
+                            <h2 class="accordion-header" id="headingOne">
+                              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                <b>Добавление документов автора</b>
+                              </button>
+                            </h2>
+                            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionDocsPerson">
+                              <div class="accordion-body"> 
+                                <div class="mb-10">                             
+                                  <b>Загрузите паспорт</b><br>
+                                  <div class="d-flex">
+                                    <input class="form-control mr-10" type="file" id="pasport" name="pasport">
+                                    <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
                                   </div>
                                 </div>
+                                <div class="mb-10"> 
+                                  <b>Загрузите диплом о в/о"</b><br>
+                                  <div class="d-flex">
+                                    <input class="form-control mr-10" type="file" id="diploma1" name="diploma1">
+                                    <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
+                                  </div>
+                                </div>
+                                <div class="mb-10"> 
+                                  <b>Загрузите диплом о научном звании</b><br>
+                                  <div class="d-flex">
+                                    <input class="form-control mr-10" type="file" id="diploma2" name="diploma2">
+                                    <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
+                                  </div>
+                                </div>
+                                <div class="mb-10"> 
+                                  <b>Загрузите диплом о научной степени</b><br>
+                                  <div class="d-flex">
+                                    <input class="form-control mr-10" type="file" id="diploma3" name="diploma3">
+                                    <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
+                                  </div>
+                                </div>
+                                <div class="mb-10"> 
+                                  <b>Загрузите справку об отсутствии судимости</b><br>
+                                  <div class="d-flex">
+                                    <input class="form-control mr-10" type="file" id="criminal" name="criminal">
+                                    <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
+                                  </div>
+                                </div>
+                                <div class="mb-10"> 
+                                  <b>Загрузите справку о состоянии здоровья</b><br>
+                                  <div class="d-flex">
+                                    <input class="form-control mr-10" type="file" id="health" name="health">
+                                    <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
+                                  </div>
+                                </div>
+                                <div class="mb-20">      
+                                  <b>Загрузите последнюю страницу трудовой книжки</b><br>
+                                  <div class="d-flex">
+                                    <input class="form-control mr-10" type="file" id="workbook" name="workbook">
+                                    <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
+                                  </div>
+                                </div>                            
                               </div>
-                            </div>
-                          </div>
-                          <button type="button" class="btn btn-outline-primary">Добавить автора</button>
-                        </div>
+                            </div>                          
+                          </div>                           
+                        </div> 
+                        <button type="button" class="btn btn-outline-primary">Добавить автора</button>                     
                       </div>
                     </div>
+                  </div>
 
                     <div class="my-4">
                       <b>Аннотация/содержание образовательного Модуля</b><br>
-                      <textarea class="form-control" name="lectureAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#"></textarea>
+                      <textarea class="form-control" name="track-annotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#"></textarea>
                     </div>
 
                     <div class="mt-10 mb-10">
                       <b>Дополнительные ключеные слова</b><br>
-                      <textarea class="form-control" name="lectureKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;"></textarea>
+                      <textarea class="form-control" name="module-annotation" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;"></textarea>
                     </div>
 
                     <div class="accordion accordion-flush my-4" id="acLectureAdditionalGuide">
@@ -686,7 +650,7 @@
                                 <option value="Сердце">Сердце</option>
                                 <option value="Опорнодвигательная система">Опорнодвигательная система</option>
                               </select class="form-control">
-                            </div>
+                            </div>    
                             <div class="mt-10 mb-10">
                               <b>Ось Внешних факторов</b><br>
                               <select class="form-control" name="exfacts" size="1">
@@ -728,38 +692,32 @@
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </div>                    
 
                     <div class="form-check mt-10 mb-10">
-                      <input class="form-check-input" type="checkbox" name="is-subsurvey" onclick="subshootingLecture()">
-                      <label class="form-check-label">Подсъёмки (при наличии)</label>
-                    </div>
+                        <input class="form-check-input" type="checkbox" name="is-subsurvey" onclick="subshootingLecture()">
+                        <label class="form-check-label">Подсъёмки (при наличии)</label>
+                      </div>
 
-                    <div class="mt-10">
+                    <div class="mt-10">                    
                       <textarea id="subsurveyLecture" class="hidden form-control" cols="50" rows="2" placeholder="Краткое описание подсъёмки"></textarea>
                     </div>
 
-                  </div>
-                  <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Добавить лекцию</button>
-                  </div>
-
+                </div>
+                <div class="modal-footer">                
+                  <button type="button" class="btn btn-primary">Добавить лекцию</button>
+                </div>
               </div>
-              </form>
-            </div>
+            </div>                  
           </div>
         </div>
       </div>
     </div>
 
-    <script src="https://track.samsmu.ru/js/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://track.samsmu.ru/js/popper.min.js"></script>
-    <script src="https://track.samsmu.ru/js/bootstrap.min.js"></script>
-    <script src="https://track.samsmu.ru/js/bootstrap.bundle.min.js"></script>
     <script src="js/jquery-3.2.1.slim.min.js"></script>
     <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script>
+    <script src="js/bootstrap.min.js"></script> 
+    <script src="js/bootstrap.bundle.min.js"></script> 
     <script>
       function authorSamGMU() {
         let authorSamGMU = document.getElementById('authorSamGMU');

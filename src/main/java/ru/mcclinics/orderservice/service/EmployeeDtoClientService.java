@@ -5,7 +5,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import net.minidev.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -76,8 +75,9 @@ public class EmployeeDtoClientService {
         List<EmployeeDto> employeeDtoList = Arrays.asList(employeeDtos);
         return employeeDtoList;
     }
-    @Scheduled(cron = "0 00 06 * * *")
+    @Scheduled(cron = "0 55 06 * * *")
     public void getEmployeeDto() throws JsonProcessingException {
+
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -135,7 +135,7 @@ public class EmployeeDtoClientService {
                 authorService.create(authorMapFromUsers.get(key));
             }
         }
-        int j = 1;
+        System.out.println("GOT EMPLOYEE");
     }
 
 
