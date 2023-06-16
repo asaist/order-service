@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.mcclinics.orderservice.dao.KeyWordRepository;
 import ru.mcclinics.orderservice.domain.*;
+import ru.mcclinics.orderservice.dto.Mkb10Dto;
 import ru.mcclinics.orderservice.service.*;
 
 import java.time.LocalDateTime;
@@ -26,6 +27,7 @@ public class SchemeController {
     private final KeyWordRepository keyWordRepository;
     private final SeriesService seriesService;
     private final AuthorService authorService;
+    private final EntityDtoParamService entityDtoParamService;
 
     @GetMapping("/")
     public String main(Model model) throws JsonProcessingException {
@@ -35,6 +37,10 @@ public class SchemeController {
         model.addAttribute("series", seriesService.findSeries());
         model.addAttribute("users", userService.findUsers());
         model.addAttribute("authors", authorService.findAuthors());
+        List<Mkb10Dto> entityDtoList = entityDtoParamService.getEntityDtoList();
+//        entityDtoList.removeIf(obj -> obj.getCode() == null);
+//        entityDtoList.stream().filter(b -> b.getCode().equals(null)).getFirst().ifPresent(books::remove);
+        model.addAttribute("mkb10", entityDtoList);
         return "scheme";
     }
 

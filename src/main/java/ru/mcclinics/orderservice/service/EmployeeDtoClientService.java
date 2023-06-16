@@ -108,8 +108,7 @@ public class EmployeeDtoClientService {
         HttpEntity<?> entity = new HttpEntity<>(headers2);
 
         ResponseEntity<EmployeeDto[]> response4 = restTemplate.exchange(
-                "https://dev.service.samsmu.ru/users/users/employee?toPosition=150000" +
-                        "",
+                "https://dev.service.samsmu.ru/users/users/employee?toPosition=150000",
                 HttpMethod.GET,
                 entity,
                 EmployeeDto[].class

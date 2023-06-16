@@ -363,10 +363,9 @@
                               <b>Ось МКБ</b><br>
                               <select class="form-control" name="mkb" size="1">
                                 <option select class="form-control"ed="" disabled="">Выберите значение</option>
-                                <option value="Вентряная оспа">Вентряная оспа</option>
-                                <option value="Воспаление">Воспаление</option>
-                                <option value="Ожирение">Ожирение</option>
-                                <option value="ИБС">ИБС</option>
+                                <#list mkb10 as mkb>
+                                  <option value="${mkb.id}">${mkb.code} ${mkb.name} </option>
+                                </#list>
                               </select class="form-control">
                             </div>
 

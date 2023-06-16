@@ -9,8 +9,7 @@ import java.io.Serializable;
 @Setter
 @Getter
 @ToString
-public class
-EmployeeDto extends EntityDto implements Serializable {
+public class EmployeeDto extends EntityDto implements Serializable {
     private String employeeGuid;
 
     private String firstName;
