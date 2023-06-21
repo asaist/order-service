@@ -60,13 +60,15 @@
           <li class="nav-item" role="presentation">
             <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Лекция</button>
           </li>          
-        </ul>             
+        </ul>
+        <#assign page_size = 10>
+        <#assign current_page = 2>
 
         <div class="applicationBodySchema">         
           <div class="tab-content" id="myTabContent">
            <!-- Заявка на Трек -->
             <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-              <form method="post" action="/addTrack" enctype="multipart/form-data">
+              <form method="post" action="/addTrack" id="createTrack" enctype="multipart/form-data">
                 <div>
                   <div class="d-flex justify-content-center">
                     <h5 class="modal-title">Заявка на создание трека</h5>
@@ -80,24 +82,26 @@
                       </#list>
                     </select>
 
+
                     <div class="my-4">
-                      <p><b>Руководитель образовательного трека</b></p>
+                      <p><i class="fas fa-angle-double-right text-primary mr-10"></i><b>Руководитель образовательного трека</b></p>
                       <div>
                         <div class="form-check mb-10">
-                          <input class="form-check-input" type="checkbox" name="is-emsloyee" onclick="authorSamGMU()">
+                          <input class="form-check-input" type="checkbox" name="is-emsloyee"  onclick="authorSamGMU()">
                           <label class="form-check-label">Автор является сотрудником СамГМУ</label>
                         </div>
-                        <div class="hidden" id="authorSamGMU">
-                          <select class="form-control mb-20" name="trackAuthor">
+                        <div class="d-flex" id="authorSamGMU">
+                          <select class="form-control mb-20" name="author" onchange="selectAuthor(this.value)" id="select">
                             <option>Выберите автора</option>
                             <#list authors as author>
                               <option value="${author.authorId}">${author.lastName} ${author.firstName} ${author.middleName}</option>
                             </#list>
                           </select>
-                          <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Добавить руководителя трека</button>
+                          <button type="button" class="btn ml-10" style="height: 30px;" onclick="addManTrack()"><i class="fas fa-plus"></i></button>
                         </div>
+
                         <div id="authorWorld">
-                          <textarea class="form-control mb-10" name="module-name" cols="80" rows="1" placeholder="Введите ФИО автора"></textarea>
+                          <input class="form-control mb-10" type="text" id="inputNameAuthor"  placeholder="Введите ФИО автора"></input>
                           <div class="d-flex mb-10">
                             <select class="form-control w-50 mr-10" name="regalia" size="1">
                               <option selected="" disabled="">Выберите регалии</option>
@@ -168,11 +172,16 @@
                                       <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
                                     </div>
                                   </div>
-                                  <button type="button" class="btn btn-outline-primary">Добавить руководителя трека</button>
                                 </div>
                               </div>
                             </div>
                           </div>
+                          <button type="button" class="btn btn-outline-primary" onclick="inputNameAuthor()">Сохранить</button>
+                        </div>
+
+                        <div>
+                          <table class="table table-hover" id="tableAuthor" name="authors">
+                          </table>
                         </div>
                       </div>
                     </div>
@@ -192,7 +201,7 @@
                     </div>
                   </div>
                   <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Добавить трек</button>
+                    <button type="submit" id="submitButton" class="btn btn-primary">Добавить трек</button>
                   </div>
                 </div>
               </form>
@@ -361,7 +370,8 @@
 
                             <div class="mt-10 mb-10">
                               <b>Ось МКБ</b><br>
-                              <select class="form-control" name="mkb" size="1">
+                              <input type="text" id="myInput" class="form-control mt-10 mb-10" onkeyup="filterOptions()" placeholder="Параметры поиска...">
+                              <select id="mySelect" class="form-control" name="mkb" size="1">
                                 <option select class="form-control"ed="" disabled="">Выберите значение</option>
                                 <#list mkb10 as mkb>
                                   <option value="${mkb.id}">${mkb.code} ${mkb.name} </option>
@@ -814,8 +824,145 @@
         signature.classList.add("bg-white");
         let iconSignature = document.getElementById('iconSignature');
         iconSignature.classList.add('text-white');
-      }       
-    </script> 
+      }
+      var authors = [];
+      function selectAuthor(el) {
+        var e = document.getElementById("select");
+        var value = e.value;
+        var text = e.options[e.selectedIndex].text;
+        // let select = document.getElementById("select");
+        // let value = select.value;
+        let tableAuthor = document.getElementById('tableAuthor');
+        let nameTr = document.createElement('tr');
+        tableAuthor.append(nameTr);
+        let nameTd = document.createElement('td');
+        nameTd.classList.add('text-primary');
+        nameTd.textContent = text;
+        nameTr.append(nameTd);
+        console.log(text);
+        console.log(e.value.replace(/\s/g, ""));
+        authors.push(e.value.replace(/\s/g, ""));
+        console.log(authors);
+        let checkTd = document.createElement('td');
+        nameTr.append(checkTd);
+        let radioBtn = document.createElement('input');
+        radioBtn.setAttribute('type','radio');
+        radioBtn.setAttribute('name','flexRadioDefault');
+        radioBtn.classList.add('form-check-input');
+        checkTd.append(radioBtn);
+        let removeTd = document.createElement('td');
+        nameTr.append(removeTd);
+        let close = document.createElement('i');
+        close.classList.add('fas', 'fa-times', 'text-danger', 'ml-10','mt-m5');
+        close.setAttribute('onclick', 'removeTr(this)');
+        checkTd.append(close);
+      }
+
+      function addManTrack() {
+        let select = document.getElementById('select');
+        select.setAttribute('size', '3');
+      }
+
+      const button = document.querySelector('#submitButton');
+      button.addEventListener('click', sendData);
+
+      const pageSize = 10;
+      const options = document.querySelectorAll('#select');
+      const pages = [];
+      for (let i = 0; i < options.length; i += pageSize) {
+        pages.push(Array.from(options).slice(i, i + pageSize));
+      }
+      console.log(options.length);
+
+      const form = document.querySelector('#createTrack');
+      form.addEventListener('submit', (event) => {
+        event.preventDefault(); // остановить стандартное поведение формы
+        // здесь будет код отправки данных на сервер
+        const formData = new FormData();
+        formData.append('university', form.university.value);
+        formData.append('trackName', form.trackName.value);
+        formData.append('trackAnnotation', form.trackAnnotation.value);
+        formData.append('trackKeyWords', form.trackKeyWords.value);
+        const intString = authors.join(',');
+        formData.append('authors', intString);
+
+        try {
+          const response = fetch('/addTrack2', {
+            method: 'POST',
+            body: formData,
+          });
+          form.reset();
+          document.getElementById('tableAuthor').innerHTML = "";
+          authors = [];
+          if (!response.ok) {
+            throw new Error(response.statusText);
+          }
+
+          const data = response.json();
+          console.log(data);
+        } catch (error) {
+          console.error(error);
+        }
+      });
+
+      function handleSubmit(event) {
+        // Отменяем стандартное поведение формы
+        event.preventDefault();
+
+        // Очищаем поля формы
+        document.getElementById("createTrack").reset();
+
+        // Другие действия по обработке отправки формы...
+      }
+
+
+
+
+
+      function sendData() {
+
+        $(document).ready(function() {
+          $('#createTrack').submit(function(event) {
+            event.preventDefault(); // отменяем стандартное поведение формы
+
+            var formData = $(this).serialize(); // сериализуем данные формы
+
+            $.ajax({
+              type: 'POST',
+              url: '/addTrack', // адрес обработчика на сервере
+              data: formData, authors,// передаем данные формы
+              success: function(response) {
+                console.log(response); // выводим ответ сервера в консоль
+              },
+              error: function(xhr, status, error) {
+                console.error(error); // выводим ошибку в консоль
+              }
+            });
+          });
+        });
+      }
+
+    </script>
+    <script>
+      function filterOptions() {
+        // Получаем элементы
+        var input, filter, select, option, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        select = document.getElementById("mySelect");
+        option = select.getElementsByTagName("option");
+
+        // Проходим по всем опциям и скрываем те, которые не соответствуют поиску
+        for (i = 0; i < option.length; i++) {
+          txtValue = option[i].textContent || option[i].innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            option[i].style.display = "";
+          } else {
+            option[i].style.display = "none";
+          }
+        }
+      }
+    </script>
 
   </body>
 </html>

@@ -24,8 +24,8 @@ spring:
               - openid
               - profile
               - roles
-            redirect-uri: http://localhost:8081/login/oauth2/code/course
-#            redirect-uri: https://track.samsmu.ru/login/oauth2/code/course
+#            redirect-uri: http://localhost:8081/login/oauth2/code/course
+            redirect-uri: https://track.samsmu.ru/login/oauth2/code/course
         provider:
           keycloak:
 #            issuer-uri: http://localhost:8180/auth/realms/SAMGMU

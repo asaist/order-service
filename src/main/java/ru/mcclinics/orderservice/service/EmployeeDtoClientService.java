@@ -100,7 +100,7 @@ public class EmployeeDtoClientService {
         // парсим JSON-строку
         JSONObject jsonObject = new JSONObject(map1);
         String tokenKeyCloak = jsonObject.getAsString("access_token");
-        int i =1;
+
 
         HttpHeaders headers2 = new HttpHeaders();
         headers2.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);

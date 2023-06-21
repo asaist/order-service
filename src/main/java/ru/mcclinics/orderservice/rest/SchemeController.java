@@ -4,18 +4,15 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.mcclinics.orderservice.dao.KeyWordRepository;
 import ru.mcclinics.orderservice.domain.*;
 import ru.mcclinics.orderservice.dto.Mkb10Dto;
 import ru.mcclinics.orderservice.service.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -44,17 +41,42 @@ public class SchemeController {
         return "scheme";
     }
 
-    @PostMapping("/addTrack")
+    @PostMapping("/addTrack1")
     public String addTrack(
-            @RequestParam University university,
-            @RequestParam Author trackAuthor,
-            @RequestParam String trackName,
-            @RequestParam String trackAnnotation,
-            @RequestParam String trackKeyWords,
+//            @RequestParam University university,
+//            @RequestParam String authors,
+//            @RequestParam String trackName,
+//            @RequestParam String trackAnnotation,
+//            @RequestParam String trackKeyWords,
 //                @RequestParam("file") MultipartFile file,
             Map<String, Object> model
     ){
-        Track track = new Track(trackName, trackAnnotation, trackAuthor, university);
+        Track track = new Track();
+        track.setCreateDate(LocalDateTime.now());
+//        String[] strMain = trackKeyWords.split(";");
+//        List<KeyWord> keyWordList = new ArrayList<>();
+//        for (String line : strMain) {
+//            KeyWord keyWord = new KeyWord();
+//            keyWord.setValue(line);
+//            keyWord.setTrack(track);
+//            keyWordList.add(keyWord);
+//        }
+//        track.setKeyWords(keyWordList);
+//        trackService.save(track);
+//        keyWordRepository.saveAll(keyWordList);
+        Iterable<Track> tracks = trackService.findTracks();
+        model.put("tracks", tracks);
+        return "redirect:/";
+    }
+
+    @PostMapping("/addTrack2")
+    public String addTrack(@RequestParam("university") String university,
+                           @RequestParam("trackName") String trackName,
+                           @RequestParam("trackAnnotation") String trackAnnotation,
+                           @RequestParam("trackKeyWords") String trackKeyWords,
+                           @RequestParam("authors") List<Integer> authors
+    ){
+        Track track = new Track(trackName, trackAnnotation);
         track.setCreateDate(LocalDateTime.now());
         String[] strMain = trackKeyWords.split(";");
         List<KeyWord> keyWordList = new ArrayList<>();
@@ -64,11 +86,18 @@ public class SchemeController {
             keyWord.setTrack(track);
             keyWordList.add(keyWord);
         }
+        List<Long> longList = authors.stream()
+                .map(i -> (long) i)
+                .collect(Collectors.toList());
+        List<Author> authorList = authorService.findAuthorsByListId(longList);
+        Set<Author> authorSet = new HashSet<>(authorList);
+        track.setAuthors(authorSet);
+        University university1 = universityService.getUniversityById(Long.parseLong(university));
+        track.setUniversity(university1);
         track.setKeyWords(keyWordList);
         trackService.save(track);
         keyWordRepository.saveAll(keyWordList);
         Iterable<Track> tracks = trackService.findTracks();
-        model.put("tracks", tracks);
         return "redirect:/";
     }
     @PostMapping("/addSeries")

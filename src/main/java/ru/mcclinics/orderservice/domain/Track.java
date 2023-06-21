@@ -10,7 +10,9 @@ import ru.mcclinics.orderservice.dto.TrackDto;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -25,9 +27,11 @@ public class Track {
     private String trackName;
     @Column(name = "track_annotation")
     private String annotation;
-    @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
-    @JoinColumn(name = "author_id")
-    private Author author;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "track_author",
+            joinColumns = {@JoinColumn(name = "track_id", referencedColumnName = "track_id")},
+            inverseJoinColumns = {@JoinColumn(name = "author_id", referencedColumnName = "author_id")})
+    private Set<Author> authors = new HashSet<>();
     @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "university_id")
     private University university;
@@ -65,14 +69,20 @@ public class Track {
         this.trackName = trackName;
         this.annotation = annotation;
     }
-    public Track(String trackName, String annotation, Author author, University university) {
+    public Track(String trackName, String annotation, Set<Author> authors, University university) {
         this.trackName = trackName;
         this.annotation = annotation;
-        this.author = author;
+        this.authors = authors;
+        this.university = university;
+    }
+    public Track(String trackName, String annotation, University university) {
+        this.trackName = trackName;
+        this.annotation = annotation;
+        this.authors = authors;
         this.university = university;
     }
     public String getAuthorName(){
-        return author!=null ? author.getFirstName() : "<none>";
+        return authors !=null ? "authors" : "<none>";
     }
     public String getAnnotation(){
         return annotation!=null ? annotation : "<none>";

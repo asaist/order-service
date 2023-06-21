@@ -17,4 +17,5 @@ public class UniversityService {
         this.universityRepository = universityRepository;
     }
     public List<University> getUniversityList(){return universityRepository.findAll();}
+    public University getUniversityById(Long id){return universityRepository.findUniversityByUniversityId(id);}
 }

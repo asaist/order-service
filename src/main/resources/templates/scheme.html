@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles.css">    
   </head>
   <body>
     <div class="d-flex">
@@ -46,19 +46,23 @@
       </div>
 
 
-      <div class="right-body">        
-        <ul class="nav nav-pills" id="myTab" role="tablist">
-          <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Трек</button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Модуль</button>
-          </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Лекция</button>
-          </li>          
-        </ul>             
-
+      <div class="right-body">  
+         
+          <ul class="nav nav-pills" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active px-4" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Трек</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link px-4" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Модуль</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link px-4" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Лекция</button>
+            </li>  
+            <li class="nav-item" role="presentation">
+              <button class="nav-link px-4" id="structure-tab" onclick="location.href='table-track.html';" type="button" aria-selected="false">Структура</button>
+            </li>        
+          </ul> 
+         
         <div class="applicationBodySchema">         
           <div class="tab-content" id="myTabContent">
            <!-- Заявка на Трек -->
@@ -78,24 +82,24 @@
                   </select>
 
                   <div class="my-4">
-                    <p><b>Руководитель образовательного трека</b></p>
+                    <p><i class="fas fa-angle-double-right text-primary mr-10"></i><b>Руководитель образовательного трека</b></p>
                     <div>
                       <div class="form-check mb-10">
-                        <input class="form-check-input" type="checkbox" name="is-emsloyee" onclick="authorSamGMU()">
+                        <input class="form-check-input" type="checkbox" name="is-emsloyee"  onclick="authorSamGMU()">
                         <label class="form-check-label">Автор является сотрудником СамГМУ</label>
                       </div>
-                      <div class="hidden" id="authorSamGMU">
-                        <select class="form-control mb-20" name="author">
-                          <option>Выберите автора</option>
-                          <option value="Иванов">Иванов</option>
-                          <option value="Петров">Петров</option>
-                          <option value="Сидоров">Сидоров</option>
-                          <option value="Толстой">Толстой</option>
+                      <div class="d-flex d-xl-none" id="authorSamGMU">
+                        <select class="form-control mb-20" name="author" onchange="selectAuthor(this.value)" id="select">  
+                          <option>Иванов Иван Иванович</option>
+                          <option>Петров Петр Петрович</option>
+                          <option>Сидоров</option>
+                          <option>Толстой Лев Николаевич</option>
                         </select>
-                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Добавить руководителя трека</button>  
+                        <button type="button" class="btn ml-10" style="height: 30px;" onclick="addManTrack()"><i class="fas fa-plus"></i></button>  
                       </div>
+
                       <div id="authorWorld">
-                        <textarea class="form-control mb-10" name="module-name" cols="80" rows="1" placeholder="Введите ФИО автора"></textarea>
+                        <input class="form-control mb-10" type="text" id="inputNameAuthor"  placeholder="Введите ФИО автора"></input>
                         <div class="d-flex mb-10">
                           <select class="form-control w-50 mr-10" name="regalia" size="1">
                             <option selected="" disabled="">Выберите регалии</option>
@@ -165,27 +169,32 @@
                                     <input class="form-control mr-10" type="file" id="workbook" name="workbook">
                                     <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
                                   </div>
-                                </div>
-                                <button type="button" class="btn btn-outline-primary">Добавить руководителя трека</button>
+                                </div>                                
                               </div>
                             </div>
                           </div>   
-                        </div>                      
+                        </div> 
+                        <button type="button" class="btn btn-outline-primary" onclick="inputNameAuthor()">Сохранить</button>                     
+                      </div>                     
+
+                      <div>
+                        <table class="table table-hover" id="tableAuthor">                          
+                        </table>
                       </div>
                     </div>
                   </div>
 
                   <div class="my-4">
-                    <b>Название образовательного трека</b><br>
+                    <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Название образовательного трека</b><br>
                     <textarea class="form-control" name="track-name" cols="80" rows="1" placeholder="Введите название образовательного трека"></textarea>
                   </div>
 
                   <div class="my-4">
-                    <b>Аннотация образовательного трека</b><br>
+                    <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Аннотация образовательного трека</b><br>
                     <textarea class="form-control" id="track-annotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#" onclick="trackCheck()"></textarea>
                   </div>
                   <div class="my-4">
-                    <b>Дополнительные ключевые слова</b> <br>
+                    <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Дополнительные ключевые слова</b> <br>
                     <textarea class="form-control" name="module-annotation" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив их ;"></textarea>
                   </div>                  
                 </div>
@@ -214,7 +223,7 @@
                       <input type="text" class="form-control mb-2" id="headSeries" placeholder="Название образовательного модуля">                    
                     </div>
                     <div class="my-4">
-                    <p><b>Автор образовательного модуля</b></p>
+                    <p><i class="fas fa-angle-double-right text-primary mr-10"></i><b>Автор образовательного модуля</b></p>
                     <div>
                       <div class="form-check mb-10">
                         <input class="form-check-input" type="checkbox" name="is-emsloyee" onclick="authorSamGMUModule()">
@@ -312,12 +321,12 @@
                   </div>
 
                     <div class="my-4">
-                      <b>Аннотация/содержание образовательного Модуля</b><br>
+                      <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Аннотация/содержание образовательного Модуля</b><br>
                       <textarea class="form-control" name="track-annotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#"></textarea>
                     </div>
 
                     <div class="mt-10 mb-10">
-                      <b>Дополнительные ключеные слова</b><br>
+                      <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Дополнительные ключеные слова</b><br>
                       <textarea class="form-control" name="module-annotation" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;"></textarea>
                     </div>
 
@@ -477,7 +486,7 @@
                       <input type="text" class="form-control mb-2" id="headSeries" placeholder="Название образовательной лекции">                    
                     </div>
                     <div class="my-4">
-                    <p><b>Автор образовательной лекции</b></p>
+                    <p><i class="fas fa-angle-double-right text-primary mr-10"></i><b>Автор образовательной лекции</b></p>
                     <div>
                       <div class="form-check mb-10">
                         <input class="form-check-input" type="checkbox" name="is-emsloyee" onclick="authorSamGMULecture()">
@@ -575,12 +584,12 @@
                   </div>
 
                     <div class="my-4">
-                      <b>Аннотация/содержание образовательного Модуля</b><br>
+                      <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Аннотация/содержание образовательной лекции</b><br>
                       <textarea class="form-control" name="track-annotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#"></textarea>
                     </div>
 
                     <div class="mt-10 mb-10">
-                      <b>Дополнительные ключеные слова</b><br>
+                      <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Дополнительные ключеные слова</b><br>
                       <textarea class="form-control" name="module-annotation" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;"></textarea>
                     </div>
 
@@ -705,10 +714,10 @@
 
                 </div>
                 <div class="modal-footer">                
-                  <button type="button" class="btn btn-primary">Добавить лекцию</button>
+                  <button type="button" class="btn btn-primary" onclick="location.href='viewLecture.html';">Добавить лекцию</button>
                 </div>
               </div>
-            </div>                  
+            </div>                        
           </div>
         </div>
       </div>
@@ -720,17 +729,24 @@
     <script src="js/bootstrap.bundle.min.js"></script> 
     <script>
       function authorSamGMU() {
-        let authorSamGMU = document.getElementById('authorSamGMU');
-        authorSamGMU.classList.toggle("hidden");
+        let authorSamGMU = document.getElementById('authorSamGMU');        
+        authorSamGMU.classList.toggle("d-xl-none");
         let authorWorld = document.getElementById('authorWorld');
         authorWorld.classList.toggle("hidden");
       }
+
+      function addManTrack() {
+        let select = document.getElementById('select');
+        select.setAttribute('size', '3');
+      }
+
       function authorSamGMUModule() {
         let authorSamGMUModule = document.getElementById('authorSamGMUModule');
         authorSamGMUModule.classList.toggle("hidden");
         let authorWorldModule = document.getElementById('authorWorldModule');
         authorWorldModule.classList.toggle("hidden");
       }
+
       function authorSamGMULecture() {
         let authorSamGMULecture = document.getElementById('authorSamGMULecture');
         authorSamGMULecture.classList.toggle("hidden");
@@ -773,7 +789,52 @@
         signature.classList.add("bg-white");
         let iconSignature = document.getElementById('iconSignature');
         iconSignature.classList.add('text-white');
-      }       
+      }   
+
+      function selectAuthor(el) {  
+        let select = document.getElementById("select");
+        let value = select.value;  
+        let tableAuthor = document.getElementById('tableAuthor');      
+        let nameTr = document.createElement('tr');
+        tableAuthor.append(nameTr);        
+        let nameTd = document.createElement('td');
+        nameTd.classList.add('text-primary');
+        nameTd.textContent = value;        
+        nameTr.append(nameTd);        
+        let checkTd = document.createElement('td');
+        nameTr.append(checkTd);
+        let radioBtn = document.createElement('input');
+        radioBtn.setAttribute('type','radio');
+        radioBtn.setAttribute('name','flexRadioDefault');
+        radioBtn.classList.add('form-check-input');
+        checkTd.append(radioBtn);
+        let removeTd = document.createElement('td');
+        nameTr.append(removeTd);
+        let close = document.createElement('i');
+        close.classList.add('fas', 'fa-times', 'text-danger', 'ml-10','mt-m5');
+        close.setAttribute('onclick', 'removeTr(this)');
+        checkTd.append(close);
+        
+      } 
+
+      function removeTr(el) {
+        let trAuthor = document.querySelector('tr');
+        trAuthor.remove();
+      }
+
+      function inputNameAuthor() {        
+        let tableAuthor = document.getElementById('tableAuthor');      
+        let inputNameAuthor = document.createElement('tr');
+        tableAuthor.append(inputNameAuthor);
+        let inputNameAuthorTd = document.createElement('td');
+        
+        let x = document.getElementById("inputNameAuthor").value;
+        
+          inputNameAuthorTd.innerHTML = x;
+        inputNameAuthor.append(inputNameAuthorTd);
+      }
+
+
     </script> 
 
   </body>
