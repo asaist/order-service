@@ -8,8 +8,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
     <link rel="stylesheet" href="https://track.samsmu.ru/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://track.samsmu.ru/css/styles.css">
+    <link rel="stylesheet" href="https://track.samsmu.ru/css/select2.min.css">
     <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/select2.min.css">
+
+<#--    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />-->
+<#--    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>-->
+
+
     <link rel="shortcut icon" href="#">
   </head>
   <body>
@@ -91,8 +98,8 @@
                           <label class="form-check-label">Автор является сотрудником СамГМУ</label>
                         </div>
                         <div class="d-flex" id="authorSamGMU">
-                          <select class="form-control mb-20" name="author" onchange="selectAuthor(this.value)" id="select">
-                            <option>Выберите автора</option>
+                          <select class="js-example-basic-single form-control mb-20" name="author" onchange="selectAuthor(this.value)" id="select">
+<#--                            <option>Выберите автора</option>-->
                             <#list authors as author>
                               <option value="${author.authorId}">${author.lastName} ${author.firstName} ${author.middleName}</option>
                             </#list>
@@ -760,15 +767,18 @@
         </div>
       </div>
     </div>
-
+    <script src="https://track.samsmu.ru/js/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://track.samsmu.ru/js/select2.min.js"></script>
+    <script src="js/jquery-3.2.1.slim.min.js"></script>
+    <script src="js/select2.min.js"></script>
     <script src="https://track.samsmu.ru/js/jquery-3.2.1.slim.min.js"></script>
     <script src="https://track.samsmu.ru/js/popper.min.js"></script>
     <script src="https://track.samsmu.ru/js/bootstrap.min.js"></script>
     <script src="https://track.samsmu.ru/js/bootstrap.bundle.min.js"></script>
-    <script src="js/jquery-3.2.1.slim.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
+
     <script>
       function authorSamGMU() {
         let authorSamGMU = document.getElementById('authorSamGMU');
@@ -863,6 +873,27 @@
         select.setAttribute('size', '3');
       }
 
+      $(document).ready(function() {
+        $('.js-example-basic-single').select2();
+      });
+
+      // $('#select').select2({
+      //   allowClear: true,
+      //   multiple: true,
+      //   maximumSelectionLength: 1,
+      //   placeholder: 'Выберите автора...',
+      //   language: {
+      //     maximumSelected: function(e) {
+      //       return "Вы можете выбрать не более 1 элемента";
+      //       console.log('select');
+      //     }
+      //   }
+      //
+      // });
+      // $('#serviceSelect').on('select2:select', function (e) {
+      //   addService();
+      // });
+
       const button = document.querySelector('#submitButton');
       button.addEventListener('click', sendData);
 
@@ -943,6 +974,28 @@
       }
 
     </script>
+<#--    Фильтр для МКБ-->
+    <script>
+      function filterOptions() {
+        // Получаем элементы
+        var input, filter, select, option, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        select = document.getElementById("mySelect");
+        option = select.getElementsByTagName("option");
+
+        // Проходим по всем опциям и скрываем те, которые не соответствуют поиску
+        for (i = 0; i < option.length; i++) {
+          txtValue = option[i].textContent || option[i].innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            option[i].style.display = "";
+          } else {
+            option[i].style.display = "none";
+          }
+        }
+      }
+    </script>
+
     <script>
       function filterOptions() {
         // Получаем элементы
