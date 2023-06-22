@@ -240,9 +240,9 @@
                       <div class="hidden" id="authorSamGMUModule">
                         <select class="form-control mb-20" name="seriesAuthor">
                           <option>Выберите автора</option>
-                          <#list authors as author>
-                            <option value="${author.authorId}">${author.lastName} ${author.firstName} ${author.middleName}</option>
-                          </#list>
+<#--                          <#list authors as author>-->
+<#--                            <option value="${author.authorId}">${author.lastName} ${author.firstName} ${author.middleName}</option>-->
+<#--                          </#list>-->
                         </select>
                         <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Добавить автора</button>  
                       </div>
@@ -537,9 +537,9 @@
                         <div class="hidden" id="authorSamGMULecture">
                           <select class="form-control mb-20" name="lectureAuthor">
                             <option>Выберите автора</option>
-                            <#list authors as author>
-                              <option value="${author.authorId}">${author.lastName} ${author.firstName} ${author.middleName}</option>
-                            </#list>
+<#--                            <#list authors as author>-->
+<#--                              <option value="${author.authorId}">${author.lastName} ${author.firstName} ${author.middleName}</option>-->
+<#--                            </#list>-->
                           </select class="form-control">
                           <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Добавить автора</button>
                         </div>

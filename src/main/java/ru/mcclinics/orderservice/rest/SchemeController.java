@@ -32,8 +32,8 @@ public class SchemeController {
         model.addAttribute("universities", universityService.getUniversityList());
         model.addAttribute("lectures", lectureService.findLectures());
         model.addAttribute("series", seriesService.findSeries());
-        model.addAttribute("users", userService.findUsers());
-        model.addAttribute("authors", authorService.findAuthors());
+//        model.addAttribute("users", userService.findUsers());
+//        model.addAttribute("authors", authorService.findAuthors());
         List<Mkb10Dto> entityDtoList = entityDtoParamService.getEntityDtoList();
 //        entityDtoList.removeIf(obj -> obj.getCode() == null);
 //        entityDtoList.stream().filter(b -> b.getCode().equals(null)).getFirst().ifPresent(books::remove);
