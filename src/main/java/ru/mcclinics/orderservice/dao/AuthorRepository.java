@@ -1,5 +1,7 @@
 package ru.mcclinics.orderservice.dao;
 
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,4 +16,11 @@ public interface AuthorRepository extends JpaRepository<Author, Long> {
     List<Author> findByLastNameStartsWithIgnoreCase(String lastName);
     Author findAuthorByGuid(String guid);
     List<Author> findAuthorByAuthorIdIn(List<Long> authors);
+
+    Slice<Author> findByLastNameContainingIgnoreCase(String query, Pageable pageable);
+
+
+
+
+//    Slice<Author> findByNameContainingIgnoreCase(String query, Pageable pageable);
 }

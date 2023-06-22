@@ -9,12 +9,9 @@
     <link rel="stylesheet" href="https://track.samsmu.ru/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://track.samsmu.ru/css/styles.css">
     <link rel="stylesheet" href="https://track.samsmu.ru/css/select2.min.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/select2.min.css">
 
-<#--    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />-->
-<#--    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>-->
+<!--    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />-->
+<!--    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>-->
 
 
     <link rel="shortcut icon" href="#">
@@ -68,7 +65,10 @@
             <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Лекция</button>
           </li>          
         </ul>
-
+<!--
+        <#assign page_size = 10>
+        <#assign current_page = 2>
+-->
         <div class="applicationBodySchema">         
           <div class="tab-content" id="myTabContent">
            <!-- Заявка на Трек -->
@@ -96,12 +96,12 @@
                           <label class="form-check-label">Автор является сотрудником СамГМУ</label>
                         </div>
                         <div class="d-flex" id="authorSamGMU">
-                          <select class="js-data-example-ajax form-control mb-10" name="author" onchange="selectAuthor(this.value)" id="select"></select>
-<#--                            <option>Выберите автора</option>-->
-<#--                            <#list authors as author>-->
-<#--                              <option value="${author.authorId}">${author.lastName} ${author.firstName} ${author.middleName}</option>-->
-<#--                            </#list>-->
-
+                          <select class="js-example-basic-single" name="author"  id="select">
+<!--                            <option>Выберите автора</option>-->
+<!--                            <#list authors as author>-->
+<!--                              <option value="${author.authorId}">${author.lastName} ${author.firstName} ${author.middleName}</option>-->
+<!--                            </#list>-->
+                          </select>
                           <button type="button" class="btn ml-10" style="height: 30px;" onclick="addManTrack()"><i class="fas fa-plus"></i></button>
                         </div>
 
@@ -483,35 +483,35 @@
                       </form>
                     </div>
 
-<#--                    <script>-->
-<#--                      const selectElement = document.querySelector('#track');-->
+<!--                    <script>-->
+<!--                      const selectElement = document.querySelector('#track');-->
 
-<#--                      selectElement.addEventListener('change', (event) => {-->
-<#--                        console.log(event.target.value);-->
-<#--                        const series = document.querySelector('#series');-->
-<#--                        &lt;#&ndash;getData(`/hui/findSeriesByTrack/${event.target.value}`).then(data => console.log(data)).catch(err => console.log(err));&ndash;&gt;-->
-<#--                        $.ajax({-->
-<#--                          type: "GET",-->
-<#--                          url: `/hui/findSeriesByTrack/${event.target.value}`,-->
-<#--                          async: false,-->
-<#--                          success: function (res) {-->
-<#--                            console.log(res);-->
-<#--                          },-->
-<#--                        });-->
-<#--                      });-->
+<!--                      selectElement.addEventListener('change', (event) => {-->
+<!--                        console.log(event.target.value);-->
+<!--                        const series = document.querySelector('#series');-->
+<!--                        &lt;#&ndash;getData(`/hui/findSeriesByTrack/${event.target.value}`).then(data => console.log(data)).catch(err => console.log(err));&ndash;&gt;-->
+<!--                        $.ajax({-->
+<!--                          type: "GET",-->
+<!--                          url: `/hui/findSeriesByTrack/${event.target.value}`,-->
+<!--                          async: false,-->
+<!--                          success: function (res) {-->
+<!--                            console.log(res);-->
+<!--                          },-->
+<!--                        });-->
+<!--                      });-->
 
-<#--                    async function getData(url){-->
-<#--                    const response = await fetch(url);-->
-<#--                    if(!response.ok) {                           // ok - boolean(статус 200?)-->
-<#--                    throw new Error('cant fetch');      // обработка ошибки-->
-<#--                    }-->
-<#--                    const jsonData = await response.json(); // ответ в JSON ковертируем в объект-->
-<#--                    return jsonData;                        // возвращаем объект-->
-<#--                    }-->
+<!--                    async function getData(url){-->
+<!--                    const response = await fetch(url);-->
+<!--                    if(!response.ok) {                           // ok - boolean(статус 200?)-->
+<!--                    throw new Error('cant fetch');      // обработка ошибки-->
+<!--                    }-->
+<!--                    const jsonData = await response.json(); // ответ в JSON ковертируем в объект-->
+<!--                    return jsonData;                        // возвращаем объект-->
+<!--                    }-->
 
 
 
-<#--                    </script>-->
+<!--                    </script>-->
 
 
 
@@ -765,18 +765,13 @@
         </div>
       </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    <script src="https://track.samsmu.ru/js/select2.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.full.min.js"></script>
     <script src="https://track.samsmu.ru/js/popper.min.js"></script>
     <script src="https://track.samsmu.ru/js/bootstrap.min.js"></script>
     <script src="https://track.samsmu.ru/js/bootstrap.bundle.min.js"></script>
-    <script src="js/jquery-3.7.0.min.js"></script>
-    <script src="js/select2.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script>
 
-    <script>
+<script type="text/javascript">
       function authorSamGMU() {
         let authorSamGMU = document.getElementById('authorSamGMU');
         authorSamGMU.classList.toggle("hidden");
@@ -833,6 +828,7 @@
         iconSignature.classList.add('text-white');
       }
       var authors = [];
+	  
       function selectAuthor(el) {
         var e = document.getElementById("select");
         var value = e.value;
@@ -869,46 +865,39 @@
         let select = document.getElementById('select');
         select.setAttribute('size', '3');
       }
-
+ 
       $(document).ready(function() {
-        $(".js-data-example-ajax").select2({
+        $('.js-example-basic-single').select2({
           ajax: {
-            // url: "https://track.samsmu.ru/api/author/authors",
-            url: "http://localhost:8081/api/author/authors",
+            url: 'https://track.samsmu.ru/api/author/authors',
             type: 'GET',
             dataType: 'json',
             delay: 250,
             data: function (params) {
               return {
-                q: params.term, // search term
-                page: params.page
+                offset: (params.page - 1) * 10, // вычисляем текущее смещение
+                limit: 10 // количество элементов на странице
               };
             },
-            processResults: function (data) {
-              var authors = data.map(function (author) {
-                return {id: author.id, text: author.lastName + ' ' + author.firstName + ' ' + author.middleName};
-              });
+            processResults: function (data, params) {
+              params.page = params.page || 1; // устанавливаем значение параметра "page", если оно не задано
+              console.log(data.size);
               return {
-                results: authors
+                results: data,
+                pagination: {
+                  more: ((params.page - 1) * 10) < data.total_count // определяем, есть ли еще данные для загрузки
+                }
               };
             },
-            transport: function (params, success, failure) {
-              var $request = $.ajax(params);
-              $request.then(success);
-              $request.fail(failure);
-              return $request;
-            }
+            cache: true
           },
           placeholder: 'Выберите автора',
-          minimumInputLength: 1,
-          templateResult: function (author) {
-            return author.text;
-          },
-          templateSelection: function (author) {
-            return author.text;
-          }
-        });
+          minimumInputLength: 0,
+          allowClear: true,
+          width: '100%',
+          theme: 'bootstrap5'
       });
+
       // $('#select').select2({
       //   allowClear: true,
       //   multiple: true,
@@ -967,6 +956,7 @@
           console.error(error);
         }
       });
+	  });
 
       function handleSubmit(event) {
         // Отменяем стандартное поведение формы
@@ -978,10 +968,25 @@
         // Другие действия по обработке отправки формы...
       }
 
+	
+      function filterOptions() {
+        // Получаем элементы
+        var input, filter, select, option, i, txtValue;
+        input = document.getElementById("myInput");
+        filter = input.value.toUpperCase();
+        select = document.getElementById("mySelect");
+        option = select.getElementsByTagName("option");
 
-
-
-
+        // Проходим по всем опциям и скрываем те, которые не соответствуют поиску
+        for (i = 0; i < option.length; i++) {
+          txtValue = option[i].textContent || option[i].innerText;
+          if (txtValue.toUpperCase().indexOf(filter) > -1) {
+            option[i].style.display = "";
+          } else {
+            option[i].style.display = "none";
+          }
+        }
+      }
       function sendData() {
 
         $(document).ready(function() {
@@ -1005,27 +1010,6 @@
         });
       }
 
-    </script>
-<#--    Фильтр для МКБ-->
-    <script>
-      function filterOptions() {
-        // Получаем элементы
-        var input, filter, select, option, i, txtValue;
-        input = document.getElementById("myInput");
-        filter = input.value.toUpperCase();
-        select = document.getElementById("mySelect");
-        option = select.getElementsByTagName("option");
-
-        // Проходим по всем опциям и скрываем те, которые не соответствуют поиску
-        for (i = 0; i < option.length; i++) {
-          txtValue = option[i].textContent || option[i].innerText;
-          if (txtValue.toUpperCase().indexOf(filter) > -1) {
-            option[i].style.display = "";
-          } else {
-            option[i].style.display = "none";
-          }
-        }
-      }
     </script>
 
     <script>

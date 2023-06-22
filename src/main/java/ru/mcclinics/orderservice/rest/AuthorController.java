@@ -21,11 +21,27 @@ import static org.springframework.http.HttpStatus.OK;
 public class AuthorController {
     private final AuthorService service;
 
-    @GetMapping("/authors")
+    @GetMapping("/authors1")
     @ResponseStatus(OK)
-    public List<Author> getAllTracks() {
+    public List<Author> getAllAuthors(@RequestParam("offset") int offset, @RequestParam("limit") int limit) {
         log.info("/authors");
+        List<Author> authors = service.findAuthors(offset, limit);
+        return authors;
+    }
+    @RequestMapping(value = "/authors2", method = RequestMethod.GET)
+    public List<Author> getAuthors(@RequestParam("q") String query,
+                                   @RequestParam("page") int page) {
+//        SearchRequest searchRequest = new SearchRequest(query, page);
         List<Author> authors = service.findAuthors();
+        return authors;
+    }
+    @GetMapping("/authors")
+    public List<Author> getAllAuthors(@RequestParam(value = "q", required = false) String query,
+                                      @RequestParam(value = "page", defaultValue = "1") int page,
+                                      @RequestParam(value = "pageSize", defaultValue = "20") int pageSize) {
+
+         log.info("/authors");
+        List<Author> authors = service.findAuthors(query, page, pageSize);
         return authors;
     }
     @PostMapping
