@@ -769,12 +769,11 @@
     </div>
     <script src="https://track.samsmu.ru/js/jquery-3.2.1.slim.min.js"></script>
     <script src="https://track.samsmu.ru/js/select2.min.js"></script>
-    <script src="js/jquery-3.2.1.slim.min.js"></script>
-    <script src="js/select2.min.js"></script>
-    <script src="https://track.samsmu.ru/js/jquery-3.2.1.slim.min.js"></script>
     <script src="https://track.samsmu.ru/js/popper.min.js"></script>
     <script src="https://track.samsmu.ru/js/bootstrap.min.js"></script>
     <script src="https://track.samsmu.ru/js/bootstrap.bundle.min.js"></script>
+    <script src="js/jquery-3.2.1.slim.min.js"></script>
+    <script src="js/select2.min.js"></script>
     <script src="js/popper.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/bootstrap.bundle.min.js"></script>
