@@ -11,9 +11,7 @@ import java.io.Serializable;
 @ToString
 public class EmployeeDto extends EntityDto implements Serializable {
     private String employeeGuid;
-
     private String firstName;
     private String lastName;
     private String patronymicName;
-
 }

@@ -28,6 +28,8 @@ public class Author {
     @Column(name = "middle_name")
     private String middleName;
     private String guid;
+    @Column(name = "academic_degree_name")
+    private String academicDegreeName;
     @JsonIgnore
     @ManyToMany(mappedBy = "authors")
     private Set<Track> tracks = new HashSet<>();

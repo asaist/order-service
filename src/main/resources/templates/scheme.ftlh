@@ -839,13 +839,22 @@
         var text = e.options[e.selectedIndex].text;
         // let select = document.getElementById("select");
         // let value = select.value;
+
         let tableAuthor = document.getElementById('tableAuthor');
-        let nameTr = document.createElement('tr');
-        tableAuthor.append(nameTr);
+
+        let divDoc = document.createElement('tr');
+        divDoc.classList.add('divDoc');
+        tableAuthor.append(divDoc);
+
+        let divDocTd = document.createElement('td');
+        divDocTd.setAttribute('colspan', '5');
+        divDoc.append(divDocTd);
+
         let nameTd = document.createElement('td');
         nameTd.classList.add('text-primary');
         nameTd.textContent = text;
         nameTr.append(nameTd);
+
         console.log(text);
         console.log(e.value.replace(/\s/g, ""));
         authors.push(e.value.replace(/\s/g, ""));
