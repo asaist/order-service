@@ -16,8 +16,8 @@ public interface AuthorRepository extends JpaRepository<Author, Long> {
     List<Author> findByLastNameStartsWithIgnoreCase(String lastName);
     Author findAuthorByGuid(String guid);
     List<Author> findAuthorByAuthorIdIn(List<Long> authors);
-
-    Slice<Author> findByLastNameContainingIgnoreCase(String query, Pageable pageable);
+    @Query("SELECT a FROM Author a WHERE CONCAT(a.lastName, ' ', a.firstName) LIKE %:name%")
+    Slice<Author> findByFullNameContainingIgnoreCase(@Param("name")String query, Pageable pageable);
 
 
 

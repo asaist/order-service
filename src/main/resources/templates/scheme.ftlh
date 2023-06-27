@@ -108,84 +108,96 @@
                         <div id="authorWorld">
                           <input class="form-control mb-10" type="text" id="inputNameAuthor"  placeholder="Введите ФИО автора"></input>
                           <div class="d-flex mb-10">
-                            <select class="form-control w-50 mr-10" name="regalia" size="1">
-                              <option selected="" disabled="">Выберите регалии</option>
-                              <option value="Профессор">Профессор</option>
-                              <option value="К.М.Н.">К.М.Н.</option>
-                              <option value="Доцент">Доцент</option>
-                              <option value="Зав. кафедрой">Зав. кафедрой</option>
+                            <select class="form-control w-75 mr-10" id="regalia" size="1" onclick="selectReg(this.value)">
+                              <option  disabled>Выберите регалии</option>
+                              <option>Профессор</option>
+                              <option>К.М.Н.</option>
+                              <option>Доцент</option>
+                              <option>Зав. кафедрой</option>
                             </select>
-                            <button type="button" class="btn btn-primary">
-                              <i class="fas fa-plus"></i>
-                            </button>
                           </div>
-                          <div class="accordion mb-10" id="accordionDocsPerson">
-                            <div class="accordion-item">
-                              <h2 class="accordion-header" id="headingOne">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                  <b>Добавление документов автора</b>
-                                </button>
-                              </h2>
-                              <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionDocsPerson">
-                                <div class="accordion-body">
-                                  <div class="mb-10">
-                                    <b>Загрузите паспорт</b><br>
-                                    <div class="d-flex">
-                                      <input class="form-control mr-10" type="file" id="pasport" name="pasport">
-                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
-                                    </div>
-                                  </div>
-                                  <div class="mb-10">
-                                    <b>Загрузите диплом о в/о"</b><br>
-                                    <div class="d-flex">
-                                      <input class="form-control mr-10" type="file" id="diploma1" name="diploma1">
-                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
-                                    </div>
-                                  </div>
-                                  <div class="mb-10">
-                                    <b>Загрузите диплом о научном звании</b><br>
-                                    <div class="d-flex">
-                                      <input class="form-control mr-10" type="file" id="diploma2" name="diploma2">
-                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
-                                    </div>
-                                  </div>
-                                  <div class="mb-10">
-                                    <b>Загрузите диплом о научной степени</b><br>
-                                    <div class="d-flex">
-                                      <input class="form-control mr-10" type="file" id="diploma3" name="diploma3">
-                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
-                                    </div>
-                                  </div>
-                                  <div class="mb-10">
-                                    <b>Загрузите справку об отсутствии судимости</b><br>
-                                    <div class="d-flex">
-                                      <input class="form-control mr-10" type="file" id="criminal" name="criminal">
-                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
-                                    </div>
-                                  </div>
-                                  <div class="mb-10">
-                                    <b>Загрузите справку о состоянии здоровья</b><br>
-                                    <div class="d-flex">
-                                      <input class="form-control mr-10" type="file" id="health" name="health">
-                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
-                                    </div>
-                                  </div>
-                                  <div class="mb-20">
-                                    <b>Загрузите последнюю страницу трудовой книжки</b><br>
-                                    <div class="d-flex">
-                                      <input class="form-control mr-10" type="file" id="workbook" name="workbook">
-                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
+
+                          <div class="d-flex" id="addRegalii">
                           </div>
-                          <button type="button" class="btn btn-outline-primary" onclick="inputNameAuthor()">Сохранить</button>
+
+                          <button type="button" class="btn btn-primary mt-3" multiple onclick="inputNameAuthor()">
+                            <i class="fas fa-plus"></i>
+                          </button>
+
+<#--                          <div class="accordion mb-10" id="accordionDocsPerson">-->
+<#--                            <div class="accordion-item">-->
+<#--                              <h2 class="accordion-header" id="headingOne">-->
+<#--                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">-->
+<#--                                  <b>Добавление документов автора</b>-->
+<#--                                </button>-->
+<#--                              </h2>-->
+<#--                              <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionDocsPerson">-->
+<#--                                <div class="accordion-body">-->
+<#--                                  <div class="mb-10">-->
+<#--                                    <b>Загрузите паспорт</b><br>-->
+<#--                                    <div class="d-flex">-->
+<#--                                      <input class="form-control mr-10" type="file" id="pasport" name="pasport">-->
+<#--                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>-->
+<#--                                    </div>-->
+<#--                                  </div>-->
+<#--                                  <div class="mb-10">-->
+<#--                                    <b>Загрузите диплом о в/о"</b><br>-->
+<#--                                    <div class="d-flex">-->
+<#--                                      <input class="form-control mr-10" type="file" id="diploma1" name="diploma1">-->
+<#--                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>-->
+<#--                                    </div>-->
+<#--                                  </div>-->
+<#--                                  <div class="mb-10">-->
+<#--                                    <b>Загрузите диплом о научном звании</b><br>-->
+<#--                                    <div class="d-flex">-->
+<#--                                      <input class="form-control mr-10" type="file" id="diploma2" name="diploma2">-->
+<#--                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>-->
+<#--                                    </div>-->
+<#--                                  </div>-->
+<#--                                  <div class="mb-10">-->
+<#--                                    <b>Загрузите диплом о научной степени</b><br>-->
+<#--                                    <div class="d-flex">-->
+<#--                                      <input class="form-control mr-10" type="file" id="diploma3" name="diploma3">-->
+<#--                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>-->
+<#--                                    </div>-->
+<#--                                  </div>-->
+<#--                                  <div class="mb-10">-->
+<#--                                    <b>Загрузите справку об отсутствии судимости</b><br>-->
+<#--                                    <div class="d-flex">-->
+<#--                                      <input class="form-control mr-10" type="file" id="criminal" name="criminal">-->
+<#--                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>-->
+<#--                                    </div>-->
+<#--                                  </div>-->
+<#--                                  <div class="mb-10">-->
+<#--                                    <b>Загрузите справку о состоянии здоровья</b><br>-->
+<#--                                    <div class="d-flex">-->
+<#--                                      <input class="form-control mr-10" type="file" id="health" name="health">-->
+<#--                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>-->
+<#--                                    </div>-->
+<#--                                  </div>-->
+<#--                                  <div class="mb-20">-->
+<#--                                    <b>Загрузите последнюю страницу трудовой книжки</b><br>-->
+<#--                                    <div class="d-flex">-->
+<#--                                      <input class="form-control mr-10" type="file" id="workbook" name="workbook">-->
+<#--                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>-->
+<#--                                    </div>-->
+<#--                                  </div>-->
+<#--                                </div>-->
+<#--                              </div>-->
+<#--                            </div>-->
+<#--                          </div>-->
+<#--                          <button type="button" class="btn btn-outline-primary" onclick="inputNameAuthor()">Сохранить</button>-->
                         </div>
 
                         <div>
                           <table class="table table-hover" id="tableAuthor" name="authors">
+                            <tr>
+                              <th class="nameTd">ФИО автора</th>
+                              <th class="text-center regTd">Должность, степень, звание</th>
+                              <th class="text-center checkTd">Руководитель трека</th>
+                              <th class="text-center docTd">Документы</th>
+                              <th class="text-center removeTd"><i class="fas fa-trash-alt"></i></th>
+                            </tr>
                           </table>
                         </div>
                       </div>
@@ -835,11 +847,22 @@
       var authors = [];
       function selectAuthor(el) {
         var e = document.getElementById("select");
+
+        var selectData = $('#select').select2('data');
+        var selectedIndex = $('#select').prop('selectedIndex');
+        console.log(selectData, "selectData");
+        console.log(selectedIndex, "индекс selectData");
+        // var academicDegreeName = selectData[selectedIndex].academicDegreeName; // дает nextInt вместо того, в котором лежит data
+        var academicDegreeName = selectData[0].academicDegreeName;
+        console.log(academicDegreeName, "уч.степень");
+
         var value = e.value;
         var text = e.options[e.selectedIndex].text;
+        var id = e.options[e.selectedIndex].id;
+        var index = e.options[e.selectedIndex];
+        console.log(index, "индекс HTML");
         // let select = document.getElementById("select");
         // let value = select.value;
-
         let tableAuthor = document.getElementById('tableAuthor');
 
         let divDoc = document.createElement('tr');
@@ -850,28 +873,228 @@
         divDocTd.setAttribute('colspan', '5');
         divDoc.append(divDocTd);
 
+        let tr1 = document.createElement('table');
+        tr1.classList.add('w-100', 'tr1');
+        divDocTd.append(tr1);
+
+        let nameTr = document.createElement('tr');
+        tr1.append(nameTr);
         let nameTd = document.createElement('td');
         nameTd.classList.add('text-primary');
         nameTd.textContent = text;
         nameTr.append(nameTd);
 
+        console.log(academicDegreeName, "ученая степень");
         console.log(text);
+        console.log(id);
+        console.log(value);
         console.log(e.value.replace(/\s/g, ""));
         authors.push(e.value.replace(/\s/g, ""));
         console.log(authors);
+
+        let prof = document.createElement('td');
+        prof.classList.add('text-center','regTd');
+        prof.innerHTML = academicDegreeName;
+        nameTr.append(prof);
+
         let checkTd = document.createElement('td');
+        checkTd.classList.add('checkTd');
         nameTr.append(checkTd);
         let radioBtn = document.createElement('input');
         radioBtn.setAttribute('type','radio');
         radioBtn.setAttribute('name','flexRadioDefault');
         radioBtn.classList.add('form-check-input');
         checkTd.append(radioBtn);
+
+        let docTd = document.createElement('td');
+        docTd.classList.add('text-center', 'docTd');
+        docTd.setAttribute('onclick','showDoc(this)');
+        nameTr.append(docTd);
+        let docTdIcon = document.createElement('i');
+        docTdIcon.classList.add('fas', 'fa-file-upload', 'text-primary');
+
+        docTd.append(docTdIcon);
+
         let removeTd = document.createElement('td');
+        removeTd.classList.add('removeTd', 'text-center');
         nameTr.append(removeTd);
         let close = document.createElement('i');
-        close.classList.add('fas', 'fa-times', 'text-danger', 'ml-10','mt-m5');
-        close.setAttribute('onclick', 'removeTr(this)');
-        checkTd.append(close);
+        close.classList.add('fas', 'fa-times', 'text-danger');
+        removeTd.append(close);
+
+        //Строка для добавления документов (скрытая)
+
+        let trDoc = document.createElement('tr');
+        trDoc.classList.add('hidden','trDoc', 'mt-10');
+        tr1.append(trDoc);
+
+        let tdDoc = document.createElement('td');
+        tdDoc.setAttribute('colspan','5');
+        trDoc.append(tdDoc);
+
+        let passport = document.createElement('div');
+        passport.classList.add('mb-10');
+        tdDoc.append(passport);
+        let passportLabel = document.createElement('b');
+        passportLabel.textContent = 'Загрузите паспорт';
+        passport.append(passportLabel);
+        let br = document.createElement('br');
+        passportLabel.append(br);
+        let trDocPassport = document.createElement('div');
+        trDocPassport.classList.add('d-flex');
+        passport.append(trDocPassport);
+
+        let passportInput = document.createElement('input');
+        passportInput.classList.add('form-control', 'mr-10', 'w-75');
+        passportInput.setAttribute('type', 'file');
+        trDocPassport.append(passportInput);
+
+        let btnUpload = document.createElement('button');
+        btnUpload.classList.add('btn', 'btn-primary', 'ml-10');
+        btnUpload.setAttribute('type', 'button');
+        trDocPassport.append(btnUpload);
+        let uploadIcon = document.createElement('i');
+        uploadIcon.classList.add('fas', 'fa-file-upload');
+        btnUpload.append(uploadIcon);
+
+        let diplom = document.createElement('div');
+        diplom.classList.add('mb-10');
+        tdDoc.append(diplom);
+        let diplomLabel = document.createElement('b');
+        diplomLabel.textContent = 'Загрузите диплом о в/о';
+        diplom.append(diplomLabel);
+        let brDip = document.createElement('br');
+        diplomLabel.append(brDip);
+        let trDocDiplom = document.createElement('div');
+        trDocDiplom.classList.add('d-flex');
+        diplom.append(trDocDiplom);
+        let diplomInput = document.createElement('input');
+        diplomInput.classList.add('form-control', 'mr-10', 'w-75');
+        diplomInput.setAttribute('type', 'file');
+        trDocDiplom.append(diplomInput);
+        let btnUploadDip = document.createElement('button');
+        btnUploadDip.classList.add('btn', 'btn-primary', 'ml-10');
+        btnUploadDip.setAttribute('type', 'button');
+        trDocDiplom.append(btnUploadDip);
+        let uploadIconDip = document.createElement('i');
+        uploadIconDip.classList.add('fas', 'fa-file-upload');
+        btnUploadDip.append(uploadIconDip);
+
+        let rank = document.createElement('div');
+        rank.classList.add('mb-10');
+        tdDoc.append(rank);
+        let rankLabel = document.createElement('b');
+        rankLabel.textContent = 'Загрузите диплом о научном звании';
+        rank.append(rankLabel);
+        let brRank = document.createElement('br');
+        rankLabel.append(brRank);
+        let trDocRank = document.createElement('div');
+        trDocRank.classList.add('d-flex');
+        rank.append(trDocRank);
+        let rankInput = document.createElement('input');
+        rankInput.classList.add('form-control', 'mr-10', 'w-75');
+        rankInput.setAttribute('type', 'file');
+        trDocRank.append(rankInput);
+        let btnUploadRank = document.createElement('button');
+        btnUploadRank.classList.add('btn', 'btn-primary', 'ml-10');
+        btnUploadRank.setAttribute('type', 'button');
+        trDocRank.append(btnUploadRank);
+        let uploadIconRank = document.createElement('i');
+        uploadIconRank.classList.add('fas', 'fa-file-upload');
+        btnUploadRank.append(uploadIconRank);
+
+        let degree = document.createElement('div');
+        degree.classList.add('mb-10');
+        tdDoc.append(degree);
+        let degreeLabel = document.createElement('b');
+        degreeLabel.textContent = 'Загрузите диплом о научной степени';
+        degree.append(degreeLabel);
+        let brDegree = document.createElement('br');
+        degreeLabel.append(brDegree);
+        let trDocDegree = document.createElement('div');
+        trDocDegree.classList.add('d-flex');
+        degree.append(trDocDegree);
+        let degreeInput = document.createElement('input');
+        degreeInput.classList.add('form-control', 'mr-10', 'w-75');
+        degreeInput.setAttribute('type', 'file');
+        trDocDegree.append(degreeInput);
+        let btnUploadDegree = document.createElement('button');
+        btnUploadDegree.classList.add('btn', 'btn-primary', 'ml-10');
+        btnUploadDegree.setAttribute('type', 'button');
+        trDocDegree.append(btnUploadDegree);
+        let uploadIconDegree = document.createElement('i');
+        uploadIconDegree.classList.add('fas', 'fa-file-upload');
+        btnUploadDegree.append(uploadIconDegree);
+
+        let criminal = document.createElement('div');
+        criminal.classList.add('mb-10');
+        tdDoc.append(criminal);
+        let criminalLabel = document.createElement('b');
+        criminalLabel.textContent = 'Загрузите справку об отсутствии судимости';
+        criminal.append(criminalLabel);
+        let brCriminal = document.createElement('br');
+        criminalLabel.append(brCriminal);
+        let trDocCriminal = document.createElement('div');
+        trDocCriminal.classList.add('d-flex');
+        criminal.append(trDocCriminal);
+        let criminalInput = document.createElement('input');
+        criminalInput.classList.add('form-control', 'mr-10', 'w-75');
+        criminalInput.setAttribute('type', 'file');
+        trDocCriminal.append(criminalInput);
+        let btnUploadCriminal = document.createElement('button');
+        btnUploadCriminal.classList.add('btn', 'btn-primary', 'ml-10');
+        btnUploadCriminal.setAttribute('type', 'button');
+        trDocCriminal.append(btnUploadCriminal);
+        let uploadIconCriminal = document.createElement('i');
+        uploadIconCriminal.classList.add('fas', 'fa-file-upload');
+        btnUploadCriminal.append(uploadIconCriminal);
+
+        let health = document.createElement('div');
+        health.classList.add('mb-10');
+        tdDoc.append(health);
+        let healthLabel = document.createElement('b');
+        healthLabel.textContent = 'Загрузите справку о состоянии здоровья';
+        health.append(healthLabel);
+        let brHealth = document.createElement('br');
+        healthLabel.append(brHealth);
+        let trDocHealth = document.createElement('div');
+        trDocHealth.classList.add('d-flex');
+        health.append(trDocHealth);
+        let healthInput = document.createElement('input');
+        healthInput.classList.add('form-control', 'mr-10', 'w-75');
+        healthInput.setAttribute('type', 'file');
+        trDocHealth.append(healthInput);
+        let btnUploadHealth = document.createElement('button');
+        btnUploadHealth.classList.add('btn', 'btn-primary', 'ml-10');
+        btnUploadHealth.setAttribute('type', 'button');
+        trDocHealth.append(btnUploadHealth);
+        let uploadIconHealth = document.createElement('i');
+        uploadIconHealth.classList.add('fas', 'fa-file-upload');
+        btnUploadHealth.append(uploadIconHealth);
+
+        let experience = document.createElement('div');
+        experience.classList.add('mb-10');
+        tdDoc.append(experience);
+        let experienceLabel = document.createElement('b');
+        experienceLabel.textContent = 'Загрузите последнюю страницу трудовой книжки';
+        experience.append(experienceLabel);
+        let brExperience = document.createElement('br');
+        experienceLabel.append(brExperience);
+        let trDocExperience = document.createElement('div');
+        trDocExperience.classList.add('d-flex');
+        experience.append(trDocExperience);
+        let experienceInput = document.createElement('input');
+        experienceInput.classList.add('form-control', 'mr-10', 'w-75');
+        experienceInput.setAttribute('type', 'file');
+        trDocExperience.append(experienceInput);
+        let btnUploadExperience = document.createElement('button');
+        btnUploadExperience.classList.add('btn', 'btn-primary', 'ml-10');
+        btnUploadExperience.setAttribute('type', 'button');
+        trDocExperience.append(btnUploadExperience);
+        let uploadIconExperience = document.createElement('i');
+        uploadIconExperience.classList.add('fas', 'fa-file-upload');
+        btnUploadExperience.append(uploadIconExperience);
+        //
       }
 
       function addManTrack() {
@@ -882,8 +1105,8 @@
       $(document).ready(function() {
         $(".js-data-example-ajax").select2({
           ajax: {
-            // url: "https://track.samsmu.ru/api/author/authors",
-            url: "http://localhost:8081/api/author/authors",
+            url: "https://track.samsmu.ru/api/author/authors",
+            // url: "http://localhost:8081/api/author/authors",
             type: 'GET',
             dataType: 'json',
             delay: 250,
@@ -895,7 +1118,7 @@
             },
             processResults: function (data) {
               var authors = data.map(function (author) {
-                return {id: author.id, text: author.lastName + ' ' + author.firstName + ' ' + author.middleName};
+                return {id: author.id, text: author.lastName + ' ' + author.firstName + ' ' + author.middleName, academicDegreeName: author.academicDegreeName};
               });
               return {
                 results: authors

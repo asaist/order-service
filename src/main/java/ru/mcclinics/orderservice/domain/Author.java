@@ -28,6 +28,7 @@ public class Author {
     @Column(name = "middle_name")
     private String middleName;
     private String guid;
+    @JsonProperty("academicDegreeName")
     @Column(name = "academic_degree_name")
     private String academicDegreeName;
     @JsonIgnore
