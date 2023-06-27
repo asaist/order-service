@@ -95,7 +95,7 @@
                           <input class="form-check-input" type="checkbox" name="is-emsloyee"  onclick="authorSamGMU()">
                           <label class="form-check-label">Автор является сотрудником СамГМУ</label>
                         </div>
-                        <div class="d-flex" id="authorSamGMU">
+                        <div class="hidden" id="authorSamGMU">
                           <select class="js-data-example-ajax form-control mb-10" name="author" onchange="selectAuthor(this.value)" id="select"></select>
 <#--                            <option>Выберите автора</option>-->
 <#--                            <#list authors as author>-->
@@ -1105,8 +1105,8 @@
       $(document).ready(function() {
         $(".js-data-example-ajax").select2({
           ajax: {
-            url: "https://track.samsmu.ru/api/author/authors",
-            // url: "http://localhost:8081/api/author/authors",
+            // url: "https://track.samsmu.ru/api/author/authors",
+            url: "http://localhost:8081/api/author/authors",
             type: 'GET',
             dataType: 'json',
             delay: 250,
@@ -1141,6 +1141,7 @@
           }
         });
       });
+
       // $('#select').select2({
       //   allowClear: true,
       //   multiple: true,
@@ -1157,6 +1158,7 @@
       // $('#serviceSelect').on('select2:select', function (e) {
       //   addService();
       // });
+
 
       const button = document.querySelector('#submitButton');
       button.addEventListener('click', sendData);
@@ -1186,9 +1188,9 @@
             method: 'POST',
             body: formData,
           });
-          form.reset();
-          document.getElementById('tableAuthor').innerHTML = "";
-          authors = [];
+          // form.reset();
+          // document.getElementById('tableAuthor').innerHTML = "";
+          // authors = [];
           if (!response.ok) {
             throw new Error(response.statusText);
           }
