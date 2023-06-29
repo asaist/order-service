@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.mcclinics.orderservice.dao.KeyWordRepository;
 import ru.mcclinics.orderservice.domain.*;
 import ru.mcclinics.orderservice.dto.Mkb10Dto;
+import ru.mcclinics.orderservice.dto.RequestData;
 import ru.mcclinics.orderservice.service.*;
 
 import java.time.LocalDateTime;
@@ -70,30 +71,26 @@ public class SchemeController {
     }
 
     @PostMapping("/addTrack2")
-    public String addTrack(@RequestParam("university") String university,
-                           @RequestParam("trackName") String trackName,
-                           @RequestParam("trackAnnotation") String trackAnnotation,
-                           @RequestParam("trackKeyWords") String trackKeyWords,
-                           @RequestParam("authors") List<Integer> authors
+    public String addTrack(@RequestBody RequestData requestData
     ){
-        Track track = new Track(trackName, trackAnnotation);
+        Track track = new Track();
         track.setCreateDate(LocalDateTime.now());
-        String[] strMain = trackKeyWords.split(";");
+//        String[] strMain = trackKeyWords.split(";");
         List<KeyWord> keyWordList = new ArrayList<>();
-        for (String line : strMain) {
-            KeyWord keyWord = new KeyWord();
-            keyWord.setValue(line);
-            keyWord.setTrack(track);
-            keyWordList.add(keyWord);
-        }
-        List<Long> longList = authors.stream()
-                .map(i -> (long) i)
-                .collect(Collectors.toList());
-        List<Author> authorList = authorService.findAuthorsByListId(longList);
-        Set<Author> authorSet = new HashSet<>(authorList);
-        track.setAuthors(authorSet);
-        University university1 = universityService.getUniversityById(Long.parseLong(university));
-        track.setUniversity(university1);
+//        for (String line : strMain) {
+//            KeyWord keyWord = new KeyWord();
+//            keyWord.setValue(line);
+//            keyWord.setTrack(track);
+//            keyWordList.add(keyWord);
+//        }
+//        List<Long> longList = authors.stream()
+//                .map(i -> (long) i)
+//                .collect(Collectors.toList());
+//        List<Author> authorList = authorService.findAuthorsByListId(longList);
+//        Set<Author> authorSet = new HashSet<>(authorList);
+//        track.setAuthors(authorSet);
+//        University university1 = universityService.getUniversityById(Long.parseLong(university));
+//        track.setUniversity(university1);
         track.setKeyWords(keyWordList);
         trackService.save(track);
         keyWordRepository.saveAll(keyWordList);

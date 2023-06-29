@@ -849,6 +849,15 @@
         document.getElementById('select').options[0].selected = true; //очищаем селект
       }
 
+      class Author {
+        constructor(id, fullName, degree, isSupervisor) {
+          this.id = id;
+          this.fullName = fullName;
+          this.degree = degree;
+          this.isSupervisor = isSupervisor;
+        }
+      }
+
       var authors = [];
       function selectAuthor(el) {
         var e = document.getElementById("select");
@@ -893,8 +902,9 @@
         console.log(text);
         console.log(id);
         console.log(value);
+        let author = new Author(value, text, academicDegreeName, false);
         console.log(e.value.replace(/\s/g, ""));
-        authors.push(e.value.replace(/\s/g, ""));
+        authors.push(author);
         console.log(authors);
 
         let prof = document.createElement('td');
@@ -1178,31 +1188,44 @@
       form.addEventListener('submit', (event) => {
         event.preventDefault(); // остановить стандартное поведение формы
         // здесь будет код отправки данных на сервер
-        const formData = new FormData();
-        formData.append('university', form.university.value);
-        formData.append('trackName', form.trackName.value);
-        formData.append('trackAnnotation', form.trackAnnotation.value);
-        formData.append('trackKeyWords', form.trackKeyWords.value);
-        const intString = authors.join(',');
-        formData.append('authors', intString);
+        // const formData = new FormData();
+        // formData.append('university', form.university.value);
+        // formData.append('trackName', form.trackName.value);
+        // formData.append('trackAnnotation', form.trackAnnotation.value);
+        // formData.append('trackKeyWords', form.trackKeyWords.value);
+        // const intString = authors.join(',');
+        // formData.append('authors', authors);
 
-        try {
-          const response = fetch('/addTrack2', {
-            method: 'POST',
-            body: formData,
-          });
-          // form.reset();
-          // document.getElementById('tableAuthor').innerHTML = "";
-          // authors = [];
-          if (!response.ok) {
-            throw new Error(response.statusText);
-          }
+        const university = form.university.value;
+        const trackName = form.trackName.value;
+        const trackAnnotation = form.trackAnnotation.value;
+        const trackKeyWords = form.trackKeyWords.value;
+        console.log(university);
+        const data = {
+          authors,
+          university,
+          trackName,
+          trackAnnotation,
+          trackKeyWords
+        };
+        console.log(data);
 
-          const data = response.json();
-          console.log(data);
-        } catch (error) {
-          console.error(error);
-        }
+        fetch("/addTrack2", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(data)
+        })
+                .then(response => response.json())
+                .then(data => {
+                  console.log("Response from backend:", data);
+                  // You can perform additional actions with the backend response here
+                })
+                .catch(error => {
+                  console.error("Error:", error);
+                  // Handling the error when sending the request
+                });
       });
 
       function handleSubmit(event) {
@@ -1266,13 +1289,17 @@
         inputNameAuthorTd.classList.add('text-primary', 'nameTd');
         inputNameAuthor.append(inputNameAuthorTd);
         document.getElementById('inputNameAuthor').value = ' ';
+        console.log(inputNameAuthorTd.textContent);
 
         let prof = document.createElement('td');
         let regalia = document.getElementById('regalia').value;
         prof.innerHTML = regalia;
         prof.classList.add('regTd', 'text-center');
         inputNameAuthor.append(prof);
-
+        console.log(regalia);
+        let author = new Author(null, inputNameAuthorTd.textContent, regalia, false);
+        authors.push(author);
+        console.log(authors);
         let checkTd = document.createElement('td');
         checkTd.classList.add('checkTd');
         inputNameAuthor.append(checkTd);
