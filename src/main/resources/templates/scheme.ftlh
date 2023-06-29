@@ -102,7 +102,7 @@
 <#--                              <option value="${author.authorId}">${author.lastName} ${author.firstName} ${author.middleName}</option>-->
 <#--                            </#list>-->
 
-                          <button type="button" class="btn ml-10" style="height: 30px;" onclick="addManTrack()"><i class="fas fa-plus"></i></button>
+                          <button type="button" class="btn btn-primary" onclick="addManTrack()"><i class="fas fa-plus"></i></button>
                         </div>
 
                         <div id="authorWorld">
@@ -120,7 +120,7 @@
                           <div class="d-flex" id="addRegalii">
                           </div>
 
-                          <button type="button" class="btn btn-primary mt-3" multiple onclick="inputNameAuthor()">
+                          <button type="button" class="btn btn-primary mt-3" id="createAuthorButton">
                             <i class="fas fa-plus"></i>
                           </button>
 
@@ -844,6 +844,11 @@
         let iconSignature = document.getElementById('iconSignature');
         iconSignature.classList.add('text-white');
       }
+
+      function addManTrack() {
+        document.getElementById('select').options[0].selected = true; //очищаем селект
+      }
+
       var authors = [];
       function selectAuthor(el) {
         var e = document.getElementById("select");
@@ -1097,11 +1102,6 @@
         //
       }
 
-      function addManTrack() {
-        let select = document.getElementById('select');
-        select.setAttribute('size', '3');
-      }
-
       $(document).ready(function() {
         $(".js-data-example-ajax").select2({
           ajax: {
@@ -1162,6 +1162,9 @@
 
       const button = document.querySelector('#submitButton');
       button.addEventListener('click', sendData);
+
+      const createAuthorButton = document.querySelector('#createAuthorButton');
+      createAuthorButton.addEventListener('click', inputNameAuthor);
 
       const pageSize = 10;
       const options = document.querySelectorAll('#select');
@@ -1238,6 +1241,271 @@
           });
         });
       }
+
+      function inputNameAuthor() {
+        let tableAuthor = document.getElementById('tableAuthor');
+
+        let divDoc = document.createElement('tr');
+        divDoc.classList.add('divDoc');
+        tableAuthor.append(divDoc);
+
+        let divDocTd = document.createElement('td');
+        divDocTd.setAttribute('colspan', '5');
+        divDoc.append(divDocTd);
+
+        let tr1 = document.createElement('table');
+        tr1.classList.add('w-100', 'tr1');
+        divDocTd.append(tr1);
+
+        let inputNameAuthor = document.createElement('tr');
+        tr1.append(inputNameAuthor);
+        let inputNameAuthorTd = document.createElement('td');
+
+        let x = document.getElementById('inputNameAuthor').value;
+        inputNameAuthorTd.innerHTML = x;
+        inputNameAuthorTd.classList.add('text-primary', 'nameTd');
+        inputNameAuthor.append(inputNameAuthorTd);
+        document.getElementById('inputNameAuthor').value = ' ';
+
+        let prof = document.createElement('td');
+        let regalia = document.getElementById('regalia').value;
+        prof.innerHTML = regalia;
+        prof.classList.add('regTd', 'text-center');
+        inputNameAuthor.append(prof);
+
+        let checkTd = document.createElement('td');
+        checkTd.classList.add('checkTd');
+        inputNameAuthor.append(checkTd);
+        let radioBtn = document.createElement('input');
+        radioBtn.setAttribute('type','radio');
+        radioBtn.setAttribute('name','flexRadioDefault');
+        radioBtn.classList.add('form-check-input');
+        checkTd.append(radioBtn);
+
+        let docTd = document.createElement('td');
+        docTd.setAttribute('onclick','showDoc(this)');
+        docTd.classList.add('text-center', 'docTd');
+
+
+        inputNameAuthor.append(docTd);
+        let docTdIcon = document.createElement('i');
+        docTdIcon.classList.add('fas', 'fa-file-upload', 'text-primary');
+        docTd.append(docTdIcon);
+
+        let removeTd = document.createElement('td');
+        removeTd.classList.add('removeTd', 'text-center');
+        inputNameAuthor.append(removeTd);
+        let close = document.createElement('i');
+        close.classList.add('fas', 'fa-times', 'text-danger');
+        removeTd.append(close);
+
+        //Строка для добавления документов (скрытая)
+        let trDoc = document.createElement('tr');
+        trDoc.classList.add('hidden', 'trDoc','mt-10');
+        trDoc.setAttribute('id', 'trDoc');
+        tr1.append(trDoc);
+
+        let tdDoc = document.createElement('td');
+        tdDoc.setAttribute('colspan','5');
+        trDoc.append(tdDoc);
+
+        let passport = document.createElement('div');
+        passport.classList.add('mb-10');
+        tdDoc.append(passport);
+        let passportLabel = document.createElement('b');
+        passportLabel.textContent = 'Загрузите паспорт';
+        passport.append(passportLabel);
+        let br = document.createElement('br');
+        passportLabel.append(br);
+        let trDocPassport = document.createElement('div');
+        trDocPassport.classList.add('d-flex');
+        passport.append(trDocPassport);
+
+        let passportInput = document.createElement('input');
+        passportInput.classList.add('form-control', 'mr-10', 'w-75');
+        passportInput.setAttribute('type', 'file');
+        trDocPassport.append(passportInput);
+
+        let btnUpload = document.createElement('button');
+        btnUpload.classList.add('btn', 'btn-primary', 'ml-10');
+        btnUpload.setAttribute('type', 'button');
+        trDocPassport.append(btnUpload);
+        let uploadIcon = document.createElement('i');
+        uploadIcon.classList.add('fas', 'fa-file-upload');
+        btnUpload.append(uploadIcon);
+
+        let diplom = document.createElement('div');
+        diplom.classList.add('mb-10');
+        tdDoc.append(diplom);
+        let diplomLabel = document.createElement('b');
+        diplomLabel.textContent = 'Загрузите диплом о в/о';
+        diplom.append(diplomLabel);
+        let brDip = document.createElement('br');
+        diplomLabel.append(brDip);
+        let trDocDiplom = document.createElement('div');
+        trDocDiplom.classList.add('d-flex');
+        diplom.append(trDocDiplom);
+        let diplomInput = document.createElement('input');
+        diplomInput.classList.add('form-control', 'mr-10', 'w-75');
+        diplomInput.setAttribute('type', 'file');
+        trDocDiplom.append(diplomInput);
+        let btnUploadDip = document.createElement('button');
+        btnUploadDip.classList.add('btn', 'btn-primary', 'ml-10');
+        btnUploadDip.setAttribute('type', 'button');
+        trDocDiplom.append(btnUploadDip);
+        let uploadIconDip = document.createElement('i');
+        uploadIconDip.classList.add('fas', 'fa-file-upload');
+        btnUploadDip.append(uploadIconDip);
+
+        let rank = document.createElement('div');
+        rank.classList.add('mb-10');
+        tdDoc.append(rank);
+        let rankLabel = document.createElement('b');
+        rankLabel.textContent = 'Загрузите диплом о научном звании';
+        rank.append(rankLabel);
+        let brRank = document.createElement('br');
+        rankLabel.append(brRank);
+        let trDocRank = document.createElement('div');
+        trDocRank.classList.add('d-flex');
+        rank.append(trDocRank);
+        let rankInput = document.createElement('input');
+        rankInput.classList.add('form-control', 'mr-10', 'w-75');
+        rankInput.setAttribute('type', 'file');
+        trDocRank.append(rankInput);
+        let btnUploadRank = document.createElement('button');
+        btnUploadRank.classList.add('btn', 'btn-primary', 'ml-10');
+        btnUploadRank.setAttribute('type', 'button');
+        trDocRank.append(btnUploadRank);
+        let uploadIconRank = document.createElement('i');
+        uploadIconRank.classList.add('fas', 'fa-file-upload');
+        btnUploadRank.append(uploadIconRank);
+
+        let degree = document.createElement('div');
+        degree.classList.add('mb-10');
+        tdDoc.append(degree);
+        let degreeLabel = document.createElement('b');
+        degreeLabel.textContent = 'Загрузите диплом о научной степени';
+        degree.append(degreeLabel);
+        let brDegree = document.createElement('br');
+        degreeLabel.append(brDegree);
+        let trDocDegree = document.createElement('div');
+        trDocDegree.classList.add('d-flex');
+        degree.append(trDocDegree);
+        let degreeInput = document.createElement('input');
+        degreeInput.classList.add('form-control', 'mr-10', 'w-75');
+        degreeInput.setAttribute('type', 'file');
+        trDocDegree.append(degreeInput);
+        let btnUploadDegree = document.createElement('button');
+        btnUploadDegree.classList.add('btn', 'btn-primary', 'ml-10');
+        btnUploadDegree.setAttribute('type', 'button');
+        trDocDegree.append(btnUploadDegree);
+        let uploadIconDegree = document.createElement('i');
+        uploadIconDegree.classList.add('fas', 'fa-file-upload');
+        btnUploadDegree.append(uploadIconDegree);
+
+        let criminal = document.createElement('div');
+        criminal.classList.add('mb-10');
+        tdDoc.append(criminal);
+        let criminalLabel = document.createElement('b');
+        criminalLabel.textContent = 'Загрузите справку об отсутствии судимости';
+        criminal.append(criminalLabel);
+        let brCriminal = document.createElement('br');
+        criminalLabel.append(brCriminal);
+        let trDocCriminal = document.createElement('div');
+        trDocCriminal.classList.add('d-flex');
+        criminal.append(trDocCriminal);
+        let criminalInput = document.createElement('input');
+        criminalInput.classList.add('form-control', 'mr-10', 'w-75');
+        criminalInput.setAttribute('type', 'file');
+        trDocCriminal.append(criminalInput);
+        let btnUploadCriminal = document.createElement('button');
+        btnUploadCriminal.classList.add('btn', 'btn-primary', 'ml-10');
+        btnUploadCriminal.setAttribute('type', 'button');
+        trDocCriminal.append(btnUploadCriminal);
+        let uploadIconCriminal = document.createElement('i');
+        uploadIconCriminal.classList.add('fas', 'fa-file-upload');
+        btnUploadCriminal.append(uploadIconCriminal);
+
+        let health = document.createElement('div');
+        health.classList.add('mb-10');
+        tdDoc.append(health);
+        let healthLabel = document.createElement('b');
+        healthLabel.textContent = 'Загрузите справку о состоянии здоровья';
+        health.append(healthLabel);
+        let brHealth = document.createElement('br');
+        healthLabel.append(brHealth);
+        let trDocHealth = document.createElement('div');
+        trDocHealth.classList.add('d-flex');
+        health.append(trDocHealth);
+        let healthInput = document.createElement('input');
+        healthInput.classList.add('form-control', 'mr-10', 'w-75');
+        healthInput.setAttribute('type', 'file');
+        trDocHealth.append(healthInput);
+        let btnUploadHealth = document.createElement('button');
+        btnUploadHealth.classList.add('btn', 'btn-primary', 'ml-10');
+        btnUploadHealth.setAttribute('type', 'button');
+        trDocHealth.append(btnUploadHealth);
+        let uploadIconHealth = document.createElement('i');
+        uploadIconHealth.classList.add('fas', 'fa-file-upload');
+        btnUploadHealth.append(uploadIconHealth);
+
+        let experience = document.createElement('div');
+        experience.classList.add('mb-10');
+        tdDoc.append(experience);
+        let experienceLabel = document.createElement('b');
+        experienceLabel.textContent = 'Загрузите последнюю страницу трудовой книжки';
+        experience.append(experienceLabel);
+        let brExperience = document.createElement('br');
+        experienceLabel.append(brExperience);
+        let trDocExperience = document.createElement('div');
+        trDocExperience.classList.add('d-flex');
+        experience.append(trDocExperience);
+        let experienceInput = document.createElement('input');
+        experienceInput.classList.add('form-control', 'mr-10', 'w-75');
+        experienceInput.setAttribute('type', 'file');
+        trDocExperience.append(experienceInput);
+        let btnUploadExperience = document.createElement('button');
+        btnUploadExperience.classList.add('btn', 'btn-primary', 'ml-10');
+        btnUploadExperience.setAttribute('type', 'button');
+        trDocExperience.append(btnUploadExperience);
+        let uploadIconExperience = document.createElement('i');
+        uploadIconExperience.classList.add('fas', 'fa-file-upload');
+        btnUploadExperience.append(uploadIconExperience);
+        //
+
+        document.getElementById('regalia').options[0].selected = true; //очищаем селект
+        let badge = document.querySelectorAll('.badgeProf');
+        for( let i = 0; i < badge.length; i++ ){
+          badge[i].outerHTML = "";
+        }
+
+      }
+
+
+      function selectReg(el) {
+        let addRegalii = document.getElementById('addRegalii');
+        let value = regalia.value;
+        let text = regalia.options[regalia.selectedIndex].text;
+        let nameProf = document.createElement('div');
+        nameProf.classList.add('text-white', 'my-3', 'mr-10', 'badge', 'bg-primary', 'd-flex', 'rounded-pill', 'badgeProf')
+        nameProf.textContent = text;
+        addRegalii.append(nameProf);
+        let closeIcon = document.createElement('i');
+        closeIcon.classList.add('far', 'fa-times-circle', 'ml-10', 'closeBadge','text-white', 'cursor-pointer');
+        nameProf.append(closeIcon);
+      }
+
+      function showDoc(el) {
+        var tbl = el.parentElement.parentElement;
+        tbl.rows[1].classList.toggle('hidden');
+      }
+
+
+
+      //удаление текущего элемента
+      $(document).on('click', '.badgeProf', function() {
+        $(this).remove();
+      });
 
     </script>
 <#--    Фильтр для МКБ-->
