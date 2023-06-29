@@ -1112,6 +1112,11 @@
         //
       }
 
+      $(document).on('click', '.fa-times', function() {
+        $(this).closest('.divDoc').remove();
+        console.log($(this).closest('.divDoc'));
+      });
+
       $(document).ready(function() {
         $(".js-data-example-ajax").select2({
           ajax: {
