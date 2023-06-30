@@ -938,6 +938,9 @@
         nameTr.append(removeTd);
         let close = document.createElement('i');
         close.classList.add('fas', 'fa-times', 'text-danger');
+        close.setAttribute('id', 'removeAuthorFromTable');
+        close.setAttribute('onclick','removeAuthorFromArray(this)');
+        close.setAttribute('authorIndex', (authors.length - 1).toString());
         removeTd.append(close);
 
         //Строка для добавления документов (скрытая)
@@ -1117,6 +1120,8 @@
 
       $(document).on('click', '.fa-times', function() {
         $(this).closest('.divDoc').remove();
+        // let authorId = $(this).getAttribute("authorindex");
+        // console.log(authorId);
       });
 
       $(document).ready(function() {
@@ -1324,8 +1329,6 @@
         let docTd = document.createElement('td');
         docTd.setAttribute('onclick','showDoc(this)');
         docTd.classList.add('text-center', 'docTd');
-
-
         inputNameAuthor.append(docTd);
         let docTdIcon = document.createElement('i');
         docTdIcon.classList.add('fas', 'fa-file-upload', 'text-primary');
@@ -1336,7 +1339,9 @@
         inputNameAuthor.append(removeTd);
         let close = document.createElement('i');
         close.classList.add('fas', 'fa-times', 'text-danger');
-        close.setAttribute('id', 'removeAuthorFromTable')
+        close.setAttribute('id', 'removeAuthorFromTable');
+        close.setAttribute('onclick','removeAuthorFromArray(this)');
+        close.setAttribute('authorIndex', (authors.length - 1).toString());
         removeTd.append(close);
 
         //Строка для добавления документов (скрытая)
@@ -1540,6 +1545,15 @@
         tbl.rows[1].classList.toggle('hidden');
       }
 
+
+
+      function removeAuthorFromArray(el) {
+        var index = el.getAttribute("authorIndex");
+        console.log(index, 'на удаление индекс')
+        if (index !== -1) {
+          authors.splice(index, 1);
+        }
+      }
       // const buttonAuthorIsSupervisor = document.querySelector('#isSupervisor');
       function AuthorIsSupervisor(el) {
         // Предполагая, что у вас есть доступ к данных автора, например, через data-атрибуты
