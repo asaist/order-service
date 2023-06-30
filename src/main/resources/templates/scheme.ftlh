@@ -905,7 +905,7 @@
         let author = new Author(value, text, academicDegreeName, false);
         console.log(e.value.replace(/\s/g, ""));
         authors.push(author);
-        console.log(authors);
+        console.log(authors.length);
 
         let prof = document.createElement('td');
         prof.classList.add('text-center','regTd');
@@ -918,6 +918,9 @@
         let radioBtn = document.createElement('input');
         radioBtn.setAttribute('type','radio');
         radioBtn.setAttribute('name','flexRadioDefault');
+        radioBtn.setAttribute('onclick','AuthorIsSupervisor(this)');
+        radioBtn.setAttribute('id','isSupervisor');
+        radioBtn.setAttribute('authorIndex', (authors.length - 1).toString());
         radioBtn.classList.add('form-check-input');
         checkTd.append(radioBtn);
 
@@ -1114,7 +1117,6 @@
 
       $(document).on('click', '.fa-times', function() {
         $(this).closest('.divDoc').remove();
-        console.log($(this).closest('.divDoc'));
       });
 
       $(document).ready(function() {
@@ -1180,6 +1182,7 @@
 
       const createAuthorButton = document.querySelector('#createAuthorButton');
       createAuthorButton.addEventListener('click', inputNameAuthor);
+
 
       const pageSize = 10;
       const options = document.querySelectorAll('#select');
@@ -1305,12 +1308,16 @@
         let author = new Author(null, inputNameAuthorTd.textContent, regalia, false);
         authors.push(author);
         console.log(authors);
+
         let checkTd = document.createElement('td');
         checkTd.classList.add('checkTd');
         inputNameAuthor.append(checkTd);
         let radioBtn = document.createElement('input');
         radioBtn.setAttribute('type','radio');
         radioBtn.setAttribute('name','flexRadioDefault');
+        radioBtn.setAttribute('onclick','AuthorIsSupervisor(this)');
+        radioBtn.setAttribute('id','isSupervisor');
+        radioBtn.setAttribute('authorIndex', (authors.length - 1).toString());
         radioBtn.classList.add('form-check-input');
         checkTd.append(radioBtn);
 
@@ -1329,6 +1336,7 @@
         inputNameAuthor.append(removeTd);
         let close = document.createElement('i');
         close.classList.add('fas', 'fa-times', 'text-danger');
+        close.setAttribute('id', 'removeAuthorFromTable')
         removeTd.append(close);
 
         //Строка для добавления документов (скрытая)
@@ -1530,6 +1538,30 @@
       function showDoc(el) {
         var tbl = el.parentElement.parentElement;
         tbl.rows[1].classList.toggle('hidden');
+      }
+
+      // const buttonAuthorIsSupervisor = document.querySelector('#isSupervisor');
+      function AuthorIsSupervisor(el) {
+        // Предполагая, что у вас есть доступ к данных автора, например, через data-атрибуты
+        var authorId = el.getAttribute("authorindex");
+        console.log(authorId, 'функция AuthorIsSupervisor');
+        // Вызываем функцию removeAuthor() с передачей идентификатора автора для удаления
+        setAuthorSupervisor(authorId);
+        // Обновляем интерфейс пользователя, чтобы отразить изменения, например, перерисовываем таблицу
+        // redrawTable();
+      };
+
+
+      function setAuthorSupervisor(authorId) {
+        console.log(authorId, 'authorId');
+        for (let i = 0; i < authors.length; i++) {
+          if (i === parseInt(authorId)) {
+            authors[i].isSupervisor = true;
+            console.log(authors[i].isSupervisor, 'isSupervisor');
+          } else {
+            authors[i].isSupervisor = false;
+          }
+        }
       }
 
 
