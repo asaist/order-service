@@ -2,18 +2,21 @@ package ru.mcclinics.orderservice.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.mcclinics.orderservice.dao.KeyWordRepository;
 import ru.mcclinics.orderservice.domain.*;
-import ru.mcclinics.orderservice.dto.Mkb10Dto;
-import ru.mcclinics.orderservice.dto.RequestData;
+import ru.mcclinics.orderservice.dto.*;
 import ru.mcclinics.orderservice.service.*;
 
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Controller
 @RequiredArgsConstructor
@@ -26,6 +29,7 @@ public class SchemeController {
     private final SeriesService seriesService;
     private final AuthorService authorService;
     private final EntityDtoParamService entityDtoParamService;
+
 
     @GetMapping("/")
     public String main(Model model) throws JsonProcessingException {
@@ -71,19 +75,31 @@ public class SchemeController {
     }
 
     @PostMapping("/addTrack2")
-    public String addTrack(@RequestBody RequestData requestData
+    public ResponseEntity<TrackDto> addTrack(@RequestBody RequestData requestData
     ){
-        Track track = new Track();
+        Long trackId = null;
+        if(requestData.getTrackId() != null){
+            trackId = Long.parseLong(requestData.getTrackId());
+        }
+        List<AuthorDto> authorsDtoList = requestData.getAuthors();
+        String university = requestData.getUniversity();
+        String trackName = requestData.getTrackName();
+        String trackAnnotation = requestData.getTrackAnnotation();
+        String trackKeyWords = requestData.getTrackKeyWords();
+//        List<Integer> authorsFromDB = requestData.getAuthorsFromDataBase();
+
+        Track track = new Track(trackName, trackAnnotation);
         track.setCreateDate(LocalDateTime.now());
-//        String[] strMain = trackKeyWords.split(";");
+
+        String[] strMain = trackKeyWords.split(";");
         List<KeyWord> keyWordList = new ArrayList<>();
-//        for (String line : strMain) {
-//            KeyWord keyWord = new KeyWord();
-//            keyWord.setValue(line);
-//            keyWord.setTrack(track);
-//            keyWordList.add(keyWord);
-//        }
-//        List<Long> longList = authors.stream()
+        for (String line : strMain) {
+            KeyWord keyWord = new KeyWord();
+            keyWord.setValue(line);
+            keyWord.setTrack(track);
+            keyWordList.add(keyWord);
+        }
+//        List<Long> longList = authorsFromDB.stream()
 //                .map(i -> (long) i)
 //                .collect(Collectors.toList());
 //        List<Author> authorList = authorService.findAuthorsByListId(longList);
@@ -91,11 +107,61 @@ public class SchemeController {
 //        track.setAuthors(authorSet);
 //        University university1 = universityService.getUniversityById(Long.parseLong(university));
 //        track.setUniversity(university1);
+        Long index = null;
+        for (AuthorDto authorDto : authorsDtoList) {
+            if (authorDto.getIsSupervisor()) {
+                index = Long.parseLong(authorDto.getId());
+            }
+        }
+        if (index != null) {
+            Author supervisor = authorService.findAuthorById(index);
+            track.setSupervisor(supervisor);
+        }
+        List<Author> authorsFromDB = new ArrayList<>();
+        List<Author> authorsFront = new ArrayList<>();
+        List<Author> authorsFrontSavedDB = new ArrayList<>();
+        List<Author> authors = authorsDtoList.stream().map(Author::new).collect(toList());
+        for (Author author : authors) {
+            if (author.getAuthorId() == null) {
+                authorsFront.add(author);
+            } else {
+                authorsFromDB.add(author);
+            }
+        }
+        List<Long> ids = authorsFromDB.stream()
+                .filter(author -> author.getAuthorId() != null)
+                .map(Author::getAuthorId)
+                .toList();
+        List<Author> authorList = authorService.findAuthorsByListId(ids);
+
+        for(Author author : authorsFront){
+            authorService.create(author);
+            authorsFrontSavedDB.add(author);
+        }
+        authorList.addAll(authorsFrontSavedDB);
+        Set<Author> authorSet = new HashSet<>(authorList);
+        track.setAuthors(authorSet);
+
+        University university1 = universityService.getUniversityById(Long.parseLong(university));
+        track.setUniversity(university1);
+
+
         track.setKeyWords(keyWordList);
+        track.setId(trackId);
         trackService.save(track);
         keyWordRepository.saveAll(keyWordList);
         Iterable<Track> tracks = trackService.findTracks();
-        return "redirect:/";
+        return ResponseEntity.ok(new TrackDto(track));
+    }
+
+    @PostMapping("/editTrack")
+    public ResponseEntity<String> update(@RequestBody RequestData requestData
+    ){
+        TrackDto messageFromDb = new TrackDto();
+
+
+
+        return ResponseEntity.ok("1");
     }
     @PostMapping("/addSeries")
     public String addSeries(

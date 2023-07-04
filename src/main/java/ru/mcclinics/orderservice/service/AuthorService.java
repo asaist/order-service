@@ -40,6 +40,7 @@ public class AuthorService {
     }
     public List<Author> findAuthorsByListId(List<Long> authors){return authorRepository.findAuthorByAuthorIdIn(authors);}
     public Author findAuthorByGuid(String guid) {return authorRepository.findAuthorByGuid(guid);}
+    public Author findAuthorById(Long id) {return authorRepository.findAuthorByAuthorId(id);}
 
     public Author create(Author author) {
         return authorRepository.save(author);

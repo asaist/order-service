@@ -219,6 +219,7 @@
                   </div>
                   <div class="modal-footer">
                     <button type="submit" id="submitButton" class="btn btn-primary">Добавить трек</button>
+                    <button type="submit" id="editTrack" class="btn btn-primary hidden">Редактировать трек</button>
                   </div>
                 </div>
               </form>
@@ -859,6 +860,7 @@
       }
 
       var authors = [];
+      // var authorsFromDB = [];
       function selectAuthor(el) {
         var e = document.getElementById("select");
 
@@ -905,7 +907,7 @@
         let author = new Author(value, text, academicDegreeName, false);
         console.log(e.value.replace(/\s/g, ""));
         authors.push(author);
-        console.log(authors.length);
+        console.log(authors);
 
         let prof = document.createElement('td');
         prof.classList.add('text-center','regTd');
@@ -1127,8 +1129,8 @@
       $(document).ready(function() {
         $(".js-data-example-ajax").select2({
           ajax: {
-            // url: "https://track.samsmu.ru/api/author/authors",
-            url: "http://localhost:8081/api/author/authors",
+            url: "https://track.samsmu.ru/api/author/authors",
+            // url: "http://localhost:8081/api/author/authors",
             type: 'GET',
             dataType: 'json',
             delay: 250,
@@ -1182,8 +1184,8 @@
       // });
 
 
-      const button = document.querySelector('#submitButton');
-      button.addEventListener('click', sendData);
+      const button = document.querySelector('#editTrack');
+      button.addEventListener('click', editTrack);
 
       const createAuthorButton = document.querySelector('#createAuthorButton');
       createAuthorButton.addEventListener('click', inputNameAuthor);
@@ -1196,7 +1198,7 @@
         pages.push(Array.from(options).slice(i, i + pageSize));
       }
       console.log(options.length);
-
+      let savedTrack = null;
       const form = document.querySelector('#createTrack');
       form.addEventListener('submit', (event) => {
         event.preventDefault(); // остановить стандартное поведение формы
@@ -1206,14 +1208,15 @@
         // formData.append('trackName', form.trackName.value);
         // formData.append('trackAnnotation', form.trackAnnotation.value);
         // formData.append('trackKeyWords', form.trackKeyWords.value);
-        // const intString = authors.join(',');
-        // formData.append('authors', authors);
 
+        // formData.append('authors', authors);
+        // const authorsFromDataBase = authorsFromDB.join(',');
         const university = form.university.value;
         const trackName = form.trackName.value;
         const trackAnnotation = form.trackAnnotation.value;
         const trackKeyWords = form.trackKeyWords.value;
         console.log(university);
+
         const data = {
           authors,
           university,
@@ -1221,6 +1224,9 @@
           trackAnnotation,
           trackKeyWords
         };
+        if (savedTrack) {
+          data.trackId = savedTrack;
+        }
         console.log(data);
 
         fetch("/addTrack2", {
@@ -1232,13 +1238,18 @@
         })
                 .then(response => response.json())
                 .then(data => {
-                  console.log("Response from backend:", data);
-                  // You can perform additional actions with the backend response here
+                  const newTrackId = data.id;
+                  savedTrack = data.id;
+                  // Используйте полученный ID нового трека для нужных действий на фронтенде
+                  console.log('ID нового трека:', newTrackId);
                 })
                 .catch(error => {
-                  console.error("Error:", error);
-                  // Handling the error when sending the request
+                  console.error('Ошибка при отправке запроса:', error);
                 });
+        let addTrack = document.getElementById('submitButton');
+        addTrack.classList.add("hidden");
+        let editTrack = document.getElementById('editTrack');
+        editTrack.classList.remove("hidden");
       });
 
       function handleSubmit(event) {
@@ -1255,25 +1266,43 @@
 
 
 
-      function sendData() {
-
+      function editTrack() {
+        const form = document.querySelector('#createTrack');
         $(document).ready(function() {
-          $('#createTrack').submit(function(event) {
+          $('#editTrack').submit(function(event) {
             event.preventDefault(); // отменяем стандартное поведение формы
+            const university = form.university.value;
+            const trackName = form.trackName.value;
+            const trackAnnotation = form.trackAnnotation.value;
+            const trackKeyWords = form.trackKeyWords.value;
+            console.log(university);
+            const data = {
+              savedTrack,
+              authors,
+              university,
+              trackName,
+              trackAnnotation,
+              trackKeyWords
+            };
+            console.log(data);
 
-            var formData = $(this).serialize(); // сериализуем данные формы
-
-            $.ajax({
-              type: 'POST',
-              url: '/addTrack', // адрес обработчика на сервере
-              data: formData, authors,// передаем данные формы
-              success: function(response) {
-                console.log(response); // выводим ответ сервера в консоль
+            fetch("/editTrack", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json"
               },
-              error: function(xhr, status, error) {
-                console.error(error); // выводим ошибку в консоль
-              }
-            });
+              body: JSON.stringify(data)
+            })
+                    .then(response => response.json())
+                    .then(data => {
+                      const newTrackId = data.id;
+                      savedTrack = data.id;
+                      // Используйте полученный ID нового трека для нужных действий на фронтенде
+                      console.log('ID нового трека:', newTrackId);
+                    })
+                    .catch(error => {
+                      console.error('Ошибка при отправке запроса:', error);
+                    });
           });
         });
       }

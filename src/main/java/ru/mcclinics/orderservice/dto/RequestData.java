@@ -11,6 +11,7 @@ import java.util.List;
 @Getter
 @ToString
 public class RequestData extends EntityDto implements Serializable {
+    private String trackId;
     private List<AuthorDto> authors;
     private String university;
     private String trackName;

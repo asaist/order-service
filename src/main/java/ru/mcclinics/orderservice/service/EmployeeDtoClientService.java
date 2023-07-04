@@ -105,7 +105,7 @@ public class EmployeeDtoClientService {
         String tokenKeyCloak = jsonObject.getAsString("access_token");
         return tokenKeyCloak;
     }
-    @Scheduled(cron = "0 40 21 * * *")
+    @Scheduled(cron = "0 22 13 * * *")
     public String getEmployeeDegree() throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
         TokenManager tokenManager = new TokenManager();
@@ -120,7 +120,7 @@ public class EmployeeDtoClientService {
         for(Author author : authors) {
             headers2.set(HttpHeaders.AUTHORIZATION, "Bearer " + tokenManager.getToken());
             HttpEntity<?> entity = new HttpEntity<>(headers2);
-            if ((author.getGuid()!= null) && (author.getAcademicDegreeName() == null)) {
+            if ((author.getGuid()!= null) ) {
                 String url = baseUrl + author.getGuid() + "/EmployeeAcademicDegrees";
                 ResponseEntity<EmployeeDegreeDto[]> response2 = restTemplate.exchange(
                         url,
@@ -128,29 +128,18 @@ public class EmployeeDtoClientService {
                         entity,
                         EmployeeDegreeDto[].class
                 );
-
-                Map<String, EmployeeDegreeDto> degrees = new HashMap<>();
                 List<EmployeeDegreeDto> employeeDegreesList = Arrays.asList(response2.getBody());
-                Map<String, EmployeeDegreeDto> map3 = new HashMap<String, EmployeeDegreeDto>();
-                for(EmployeeDegreeDto employeeDegreeDto:employeeDegreesList){
-                    map3.put(employeeDegreeDto.getEmployeeGuid(), employeeDegreeDto);
-                }
-
-                if (response2.getBody().length != 0) {
-
+                if (response2.getBody().length != 0)
                     if (response2.getBody().length > 1) {
-                        map3.forEach((key, value) -> {
-                            if (value.getAcademicDegreeName().contains("Доктор")) {
-                                degrees.put(key, value);
+                        for (EmployeeDegreeDto dto : employeeDegreesList) {
+                            if (dto.getAcademicDegreeName().contains("Доктор")) {
+                                author.setAcademicDegreeName(dto.getAcademicDegreeName());
+                                break;
                             }
-                        });
+                        }
+                    } else if (response2.getBody().length == 1) {
+                        author.setAcademicDegreeName(employeeDegreesList.get(0).getAcademicDegreeName());
                     }
-                    if (response2.getBody().length == 1) {
-                        map3.forEach((key, value) -> {
-                            degrees.put(key, value);
-                        });
-                    }
-
 
 //                    Iterator<Map.Entry<String, EmployeeDegreeDto>> iterator = map3.entrySet().iterator();
 //                    while (iterator.hasNext()) {
@@ -165,14 +154,12 @@ public class EmployeeDtoClientService {
 //                            .orElse(null);
 
 
-                    List<EmployeeDegreeDto> result = new ArrayList<>(map3.values());
-                    author.setAcademicDegreeName(result.get(0).getAcademicDegreeName());
+//                    List<EmployeeDegreeDto> result = new ArrayList<>(map3.values());
+//                    author.setAcademicDegreeName(result.get(0).getAcademicDegreeName());
                     authorService.create(author);
                 }
-            }
+//            }
             int j = 0;
-
-
         }
         return "employeeDtoList";
     }
