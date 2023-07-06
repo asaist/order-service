@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>3D timeline</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css"> 
+  </head>
+  <body>
+    <div class="container-fluid p-3"> 
+      <div class="d-flex justify-content-between">
+        <h5 class="mb-4">Образовательный трек "Название трека"</h5>
+        <div class="d-flex">
+          <!--button class="btn" data-tooltip-right="Просмотр структуры"><i class="fas fa-network-wired text-primary fa-lg" onclick="location.href='trackScheme.html';"></i></button-->           
+          <button class="btn" data-tooltip-right="Вернуться к доступным трекам"><i class="fas fa-th-list text-primary fa-lg" onclick="location.href='table-track.html';"></i></button> 
+        </div>   
+      </div>
+      <div>
+        <p class="fs16"><b>Аннотация к образовательному треку</b></p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+        consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+        cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+        proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <p class="text-primary"><span class="mr-10">#Lorem</span> <span class="mr-10">#ipsum</span> <span class="mr-10">#dolor</span> <span class="mr-10">#sitamet</span></p>
+        <div class="d-flex my-2"><p class="mr-10 mb-0 fs16"><b>Целевая аудитория:</b></p><span class="badge rounded-pill bg-primary px-3 mr-10">студенты ИКМ</span> <span class="badge rounded-pill bg-primary mr-10 px-3">ординаторы</span></div>
+        <div class="d-flex my-2"><p class="mr-10 mb-0 fs16"><b>Руководитель трека:</b></p>
+          <button type="button" class="btn btn-icon" data-toggle="modal" data-target="#personModal">
+            <span class="text-primary"><i class="fas fa-user mr-10"></i>Иванов Иван Иванович</span>
+          </button>
+          <div class="modal fade" id="personModal" tabindex="-1" role="dialog" aria-labelledby="personModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="personModalLabel">Сведения о персоне</h5>
+                  <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <h5>Иванов Иван Иванович</h5>
+                  <div class="my-2">
+                    <span class="mr-10"><b>Должность</b></span>
+                    Зав.кафедрой
+                  </div>
+                  <div class="my-2">
+                    <span class="mr-10"><b>Ученое звание</b></span>
+                    Профессор
+                  </div>
+                  <div class="my-2">
+                    <span class="mr-10"><b>Ученая степень:</b></span>
+                    д.м.н.
+                  </div>
+                  <div class="my-2">
+                    <span class="mr-10"><b>Место работы:</b></span>
+                    Университет им.Сеченова, кафедра ортопедии
+                  </div>
+                  <div class="my-2">
+                    <span class="mb-10"><b>Документы:</b></span><br>
+                    <div class="d-flex">
+                      <div class="mr-10  text-center">
+                        <i class="fas fa-file-pdf fa-lg"></i><br>
+                        <span style="font-size: 8px;">Диплом</span>
+                      </div>
+                      <div class="mr-10 text-center">
+                        <i class="fas fa-file-pdf fa-lg"></i><br>
+                        <span style="font-size: 8px;">Сертификат</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Отменить</button>
+                <button type="button" class="btn btn-primary">Редактировать</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex my-2"><p class="mr-10 mb-0 fs16"><b>Эксперт:</b></p>
+          <button type="button" class="btn btn-icon" data-toggle="modal" data-target="#personModal">
+            <span class="text-primary"><i class="fas fa-user mr-10"></i>Иванов Иван Иванович</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="accordion accordion-flush my-4" id="accordionFlushMetDoc">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-MetDoc" aria-expanded="false" aria-controls="flush-MetDoc">
+              Методические материалы к треку
+            </button>
+          </h2>
+          <div id="flush-MetDoc" class="accordion-collapse collapse" data-bs-parent="#accordionFlushMetDoc">
+            <div class="accordion-body">
+              
+                <div class="cursor-pointer my-2 fs16" onclick="location.href='viewСompetenceProfile.html';"><i class="fas fa-user-graduate status text-primary mr-10"></i>Компетентностный профиль слушателя</div>
+                <div class="cursor-pointer my-2 fs16" onclick="location.href='viewСompetenceProfile.html';"><i class="fas fa-grip-vertical status text-primary mr-10"></i>Матрица компетенций</div>
+              
+            </div>
+          </div>
+        </div>  
+      </div>
+
+      <div class="accordion accordion-flush my-4" id="accordionFlushСontent">
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-Сontent" aria-expanded="false" aria-controls="flush-Сontent">
+              Содержание трека
+            </button>
+          </h2>
+          <div id="flush-Сontent" class="accordion-collapse collapse" data-bs-parent="#accordionFlushСontent">
+            <div class="accordion-body">
+
+              <ul class="nav nav-pills justify-content-end" id="pills-tab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="pills-table-tab" data-bs-toggle="pill" data-bs-target="#pills-table" type="button" role="tab" aria-controls="pills-table" aria-selected="true"><i class="fas fa-table"></i></button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="pills-network-wired-tab" data-bs-toggle="pill" data-bs-target="#pills-network-wired" type="button" role="tab" aria-controls="pills-network-wired" aria-selected="false"><i class="fas fa-network-wired"></i></button>
+                </li>                
+              </ul>
+              <div class="tab-content" id="pills-tabContent">
+                <div class="tab-pane fade" id="pills-table" role="tabpanel" aria-labelledby="pills-table-tab" tabindex="0">
+                    <button type="button" class="btn btn-outline-primary my-2" onclick="location.href='scheme.html';">Добавить контент</button>
+                    <table class="table table-bordered">
+                      <tr class="th-table">
+                        <th class="th-table" scope="col">№</th>
+                        <th class="th-table" scope="col">Название модуля</th>
+                        <th class="th-table" scope="col">Авторская группа</th>
+                        <th class="th-table" scope="col">Аннотация</th>
+                        <th class="th-table" scope="col">Ключевые слова</th>
+                        <th class="th-table" scope="col">Целевая аудитория</th>
+                        <th class="th-table" scope="col">Прочие метаданные по разделам</th>
+                        <th class="th-table" scope="col">Подсъемки</th>
+                        <th class="th-table" scope="col"></th>
+                      </tr>
+                      <tr class="cursor-pointer">
+                        <th scope="row" onclick="window.location='viewModule.html'">1</th>
+                        <td onclick="window.location='viewModule.html'">Название модуля 1</td>
+                        <td onclick="window.location='viewModule.html'">Иванов И.И.</td>
+                        <td onclick="window.location='viewModule.html'">Аннотация к образовательному модулю 1</td>
+                        <td onclick="window.location='viewModule.html'">Ключевые слова к модулю 1: Перечень;</td>
+                        <td onclick="window.location='viewModule.html'">Целевая аудитория к модулю 1: Перечень;</td>
+                        <td onclick="window.location='viewModule.html'">Описание по осям: Перечень; Компетенции: Перечень; Перечень;</td>
+                        <td onclick="window.location='viewModule.html'">Перечень неоходимых подсъемок</td>
+                        <td>
+                          <button type="button" class="btn btn-icon" data-tooltip-right="Редактировать">
+                            <i class="fas fa-edit"></i>
+                          </button>
+                        </td>
+                      </tr>
+                      <tr class="cursor-pointer">
+                        <th scope="row">n</th>
+                        <td>Название модуля n</td>
+                        <td>Иванов И.И.</td>
+                        <td>Аннотация к образовательному модулю n</td>
+                        <td>Ключевые слова к модулю n: Перечень;</td>
+                        <td>Целевая аудитория к модулю n: Перечень;</td>
+                        <td>Описание по осям: Перечень; Компетенции: Перечень; Перечень;</td>
+                        <td>Перечень неоходимых подсъемок</td>
+                        <td>
+                          <button type="button" class="btn btn-icon" data-tooltip-right="Редактировать">
+                            <i class="fas fa-edit"></i>
+                          </button>
+                        </td>
+                      </tr>        
+                    </table>
+                    
+                    <table class="table table-bordered">
+                      <tr class="th-table-lecture">
+                        <th class="th-table-lecture" scope="col">№</th>
+                        <th class="th-table-lecture" scope="col">Тема лекции</th>
+                        <th class="th-table-lecture" scope="col">Авторская группа</th>
+                        <th class="th-table-lecture" scope="col">Аннотация</th>
+                        <th class="th-table-lecture" scope="col">Ключевые слова</th>
+                        <th class="th-table-lecture" scope="col">Целевая аудитория</th>
+                        <th class="th-table-lecture" scope="col">Прочие метаданные по разделам</th>
+                        <th class="th-table-lecture" scope="col">Подсъемки</th>
+                        <th class="th-table-lecture" scope="col"></th>
+                      </tr>
+                      <tr class="cursor-pointer">
+                        <th scope="row">1</th>
+                        <td onclick="window.location='viewLecture.html'">Тема лекции 1</td>
+                        <td onclick="window.location='viewLecture.html'">Иванов И.И.</td>
+                        <td onclick="window.location='viewLecture.html'">Аннотация к лекции 1</td>
+                        <td onclick="window.location='viewLecture.html'">Ключевые слова к лекции 1: Перечень;</td>
+                        <td onclick="window.location='viewLecture.html'">Целевая аудитория к лекции 1: Перечень;</td>
+                        <td onclick="window.location='viewLecture.html'">Описание по осям: Перечень; Компетенции: Перечень; Перечень;</td>
+                        <td onclick="window.location='viewLecture.html'">Перечень неоходимых подсъемок</td>
+                        <td>
+                          <button type="button" class="btn btn-icon" data-tooltip-right="Редактировать" onclick="location.href='editLecture.html';">
+                            <i class="fas fa-edit"></i>
+                          </button>
+                        </td>
+                      </tr>                 
+                    </table>
+
+                    <div class="modal fade" id="editModuleModal" tabindex="-1" aria-labelledby="editModuleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="editModuleModalLabel">Заполнение карточки лекции</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                          </div>
+                          <div class="modal-body">
+                            <select class="form-control" name="institute" size="1">
+                              <option selected="" disabled="">Выберите модуль</option>
+                              <option value="">Модуль 1</option>
+                              <option value="">Модуль 2</option>
+                              <option value="">Модуль 3</option>
+                            </select>
+
+                            <select class="form-control" name="institute" size="1">
+                              <option selected="" disabled="">Выберите лекцию</option>
+                              <option value="">Лекция 1</option>
+                              <option value="">Лекция 2</option>
+                              <option value="">Лекция 3</option>
+                            </select>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-primary">Сохранить изменения</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                </div>
+                <div class="tab-pane fade show active h-100" id="pills-network-wired" role="tabpanel" aria-labelledby="pills-network-wired-tab" tabindex="0">
+                  <div class="my-3 rounded p-3" style="border: 1px solid #e9e9e9; background: #e9e9e9;">
+                    <div class="d-flex justify-content-end">
+                      <button type="button" class="btn btn-sm rounded px-3" style="border: 1px solid #e9e9e9" data-bs-toggle="modal" data-bs-target="#addContentModal"><i class="fas fa-plus"></i></button>
+                    </div>
+                    <div class="d-flex justify-content-center">  
+                      <h5 class="text-center m-0 p-0 flex-nowrap w-75">Образовательный трек «Патронаж ребенка от 0 до 1 года: медицинский и психологический аспекты» электронной образовательной среды СамГМУ</h5>
+                    </div>
+                  </div>
+
+                  <div class="modal fade" id="addContentModal" tabindex="-1" aria-labelledby="addContentModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">                          
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+                        </div>
+                        <div class="modal-body">
+                          <div class="d-flex justify-content-center mb-3"><h5>Выберите тип добавляемого контента</h5></div>
+                          <div class="d-flex justify-content-center">
+                            <button type="button" class="btn btn-primary mx-2" onclick="addModuleScheme()" data-bs-dismiss="modal">Модуль</button>
+                            <button type="button" class="btn btn-primary mx-2" onclick="addLectureScheme()" data-bs-dismiss="modal">Лекция</button>
+                          </div>
+                        </div>                        
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="d-flex rowScheme" id="rowScheme" style="position:relative;">
+                    <div id="rowModule" class="d-flex flex-wrap">  
+                      <div class="mx-3">                      
+                        <div class="bg-primary rounded p-3 d-flex"> 
+                          <div class="col-11">                       
+                            <p class="text-center text-white fs16 pb-0 mb-0">Модуль 1</p>
+                          </div>
+                          <div class="col-1">
+                            <button type="button" class="btn btn-sm rounded"><i class="fas fa-plus text-white" onclick="addLecInModule(this)"></i></button>
+                          </div>
+                        </div>
+                        <div class="d-flex justify-content-between my-2 rowLecInModule">
+                          <div class="bg-success m-3 p-3 rounded lectureBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 1</p></div>
+                          <div class="bg-success m-3 p-3 rounded lectureBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 2</p></div>
+                          <div class="bg-success m-3 p-3 rounded lectureBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 3</p></div>
+                        </div>
+                      </div>
+
+                      <!--div class="mx-3" id="col2">
+                        <div class="bg-primary rounded d-flex">
+                          <div class="col-11 p-3">                       
+                            <p class="text-center text-white fs16 pb-0 mb-0">Модуль 2</p>
+                          </div>
+                          <div class="col-1 py-3" style="border-radius: 50% 5px 5px 50%; border-left: 1px solid #fff;">
+                            <button type="button" class="btn btn-sm rounded"><i class="fas fa-plus text-white"></i></button>
+                          </div>
+                        </div>
+                        <div class="d-flex justify-content-between my-2">
+                          <div class="bg-success m-3 p-3 rounded"><p class="text-center text-white m-0 p-0 text-truncate">Лекция 1</p></div>
+                          <div class="bg-success m-3 p-3 rounded"><p class="text-center text-white m-0 p-0 text-truncate">Лекция 2</p></div>
+                          <div class="bg-success m-3 p-3 rounded"><p class="text-center text-white m-0 p-0 text-truncate">Лекция 3</p></div>
+                        </div>
+                      </div-->
+                    </div>
+
+                    <div class="d-flex mx-2 flex-wrap" id="colLec">                  
+                      
+                        <div class="bg-success mx-2 p-3 mb-1 rounded lectureBlockScheme lecBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 1 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p></div>
+                        <div class="bg-success mx-2 p-3 mb-1 rounded lectureBlockScheme lecBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 2thgyluiuhgfghj sdafhkl;dsfatryiltrfdcvbnjkiuytf</p></div>
+                        <div class="bg-success mx-2 p-3 mb-1 rounded lectureBlockScheme lecBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 3 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</p></div>
+                        
+                                                                 
+                    </div>
+                  </div>
+                </div>
+              </div>              
+            </div>
+          </div>
+        </div>  
+      </div>
+
+                  
+      <div class="d-flex justify-content-end">
+        <button class="btn btn-primary mr-10" onclick="location.href='editTrack.html';">Редактировать</button>
+        <button class="btn btn-outline-primary" onclick="location.href='scheme.html';">Закрыть</button>
+      </div>
+      
+    </div>
+    <script src="js/jquery-3.2.1.slim.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script> 
+    <script src="js/bootstrap.bundle.min.js"></script> 
+    
+    <script src="index.js"></script>   
+    <script>
+      function authorSamGMU() {
+        let authorSamGMU = document.getElementById('authorSamGMU');
+        authorSamGMU.classList.toggle("hidden");
+        let authorWorld = document.getElementById('authorWorld');
+        authorWorld.classList.toggle("hidden");
+      }    
+      function subshooting() {
+        let subsurvey = document.getElementById('subsurvey');
+        subsurvey.classList.toggle("hidden");
+      }  
+
+      var newModuleSchemeNumber = 0;
+      // Добавление модуля
+      function addModuleScheme() {               
+        let newModuleScheme = document.createElement('div');
+        newModuleScheme.classList.add('mx-3');        
+        newModuleSchemeNumber++; // Присваиваем id        
+        newModuleScheme.id = "module_" + newModuleSchemeNumber;        
+        let rowModule = document.getElementById('rowModule');        
+        rowModule.append(newModuleScheme); 
+
+        let bgPrimary = document.createElement('div');
+        bgPrimary.classList.add('bg-primary','rounded','d-flex', 'p-3');
+        newModuleScheme.append(bgPrimary);
+
+        let col11 = document.createElement('div');
+        col11.classList.add('col-11');
+        bgPrimary.append(col11);
+
+        let p = document.createElement('p');
+        p.classList.add('text-center', 'text-white', 'fs16', 'pb-0', 'mb-0');
+        p.textContent = 'новый модуль' + ' ' + 'id=' + newModuleScheme.id;
+        col11.append(p);
+
+        let col1 = document.createElement('div');
+        col1.classList.add('col-1');
+        bgPrimary.append(col1);
+
+        let button = document.createElement('button');
+        button.classList.add('btn', 'btn-sm', 'rounded');
+        button.setAttribute('type', 'button')
+        button.setAttribute('onclick', 'addLecInModule(this)')
+        button.textContent = '+';
+        col1.append(button);
+
+        var rowLecInModule = document.createElement('div');
+        rowLecInModule.classList.add('d-flex', 'justify-content-between', 'my-2', 'rowLecInModule'); 
+        rowLecInModule.textContent = 'контент' + ' ' + newModuleScheme.id;
+        newModuleScheme.append(rowLecInModule);
+        
+      }  
+
+      //
+
+      // Добавление лекции в модуль
+        function addLecInModule(el) {
+          let newLecInScheme = document.createElement('div');          
+          newLecInScheme.setAttribute("onmouseover","HintShowbyTamara(this)");
+          newLecInScheme.setAttribute("onmouseout","HintHidebyTamara(this)");
+          newLecInScheme.classList.add('bg-success','mx-2', 'p-3', 'mb-1', 'rounded','lectureBlockScheme');
+          newLecInScheme.textContent = '7777';          
+          let rowLecInModule = document.querySelectorAll('.rowLecInModule');
+          for (let rowLecInMod of rowLecInModule) {
+            rowLecInMod.append(newLecInScheme);
+          }
+        }
+
+      //Добавление лекции вне модуля
+      function addLectureScheme() {
+        let newLecScheme = document.createElement('div');
+        newLecScheme.setAttribute("onmouseover","HintShowbyTamara(this)");
+        newLecScheme.setAttribute("onmouseout","HintHidebyTamara(this)");
+        newLecScheme.classList.add('bg-success','mx-2', 'p-3', 'mb-1', 'rounded','lectureBlockScheme', 'lecBlockScheme');
+        const colLec = document.getElementById('colLec');
+        colLec.append(newLecScheme);
+        let p = document.createElement('p');
+        p.classList.add('text-center', 'text-white', 'm-0', 'p-0', 'text-truncate', 'lectureBlockSchemeText');
+        newLecScheme.append(p);
+        p.textContent = 'Новая лекция';
+        
+      }
+
+      //Всплывающие подсказки для лекций            
+      function HintShowbyTamara(el) {    // для каждого из зеленых прямоугольников
+        lectureBlockSchemeTextHint = document.createElement("div"); 
+        lectureBlockSchemeTextHint.classList.add("lectureBlockSchemeTextHint", "shadow", "text-wrap"); // созданному диву добавили классы (что бы он стал подсказкой)
+        lectureBlockSchemeTextHint.setAttribute('id','lectureBlockSchemeTextHint'); //добавили идентификатор блоку с подсказкой
+        el.append(lectureBlockSchemeTextHint); // пытаюсь вставить подсказку в массив зеленых блоков, обращаясь к элементу по индексу
+        lectureBlockSchemeTextHint.textContent = (el.textContent);   // содержимое подсказки     
+      }
+
+      function HintHidebyTamara(el){
+        $(el).find('#lectureBlockSchemeTextHint').remove();
+      }
+
+    </script>  
+  </body>  
+</html>

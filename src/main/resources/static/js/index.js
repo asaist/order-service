@@ -31,14 +31,14 @@ function btnClose() {
 		for (var vlec of viewLectureModal) {
 			vlec.classList.add('hidden');
 		} 
-    let viewOverlay = document.getElementById('overlayViewLectureModal'); 
-    viewOverlay.classList.add('hidden'); 
+    // let viewOverlay = document.getElementById('overlayViewLectureModal');
+    // viewOverlay.classList.add('hidden');
 }
 
 function addLecture() {
  	let addLectureModal = document.getElementById('addLectureModal');
 	addLectureModal.classList.remove('hidden');
-	showOverlay(); 
+	// showOverlay();
 }
 
 function addSeries() {
@@ -46,7 +46,8 @@ function addSeries() {
 		for (let series of addSeries) {
 			series.classList.remove('hidden'); 
 		}
-	showOverlay();
+
+	// showOverlay();
 }
 
 function beginModal() {
