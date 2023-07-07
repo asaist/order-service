@@ -44,7 +44,10 @@ function addLecture() {
 function addLectureInModule(el) {
 	let addLectureModal = document.getElementById('addLectureInModule');
 	addLectureModal.classList.remove('hidden');
-	addLecInModule(el);
+	let moduleModalId = el.getAttribute('moduleModalId');
+	let moduleNameModal = el.getAttribute('moduleNameModal');
+	addLectureModal.setAttribute("moduleModalId", moduleModalId);
+	addLectureModal.setAttribute("moduleNameModal", moduleNameModal);
 }
 
 function addSeries() {

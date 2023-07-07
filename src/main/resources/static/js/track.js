@@ -114,10 +114,15 @@ function addModuleScheme() {
 //
 
 // Добавление лекции в модуль
-function addLecInModule(el) {
-    let moduleModalId = el.getAttribute('moduleModalId');
-    let moduleNameModal = el.getAttribute('moduleNameModal');
+function addLecInModule() {
+
     // начиняем лекции в датасет
+    var divElement = document.getElementById("addLectureInModule");
+    var moduleModalId = divElement.getAttribute("moduleModalId");
+    var moduleNameModal = divElement.getAttribute("moduleNameModal");
+
+// Выводим значение в консоль для проверки
+    console.log(moduleNameModal);
     let lectureModuleName = document.getElementById('lectureModuleName').value;
     let lectureModuleAnnotation = document.getElementById('lectureModuleAnnotation').value;
     let lectureModuleKeyWords = document.getElementById('lectureModuleKeyWords').value;
@@ -129,7 +134,7 @@ function addLecInModule(el) {
     newLecInScheme.setAttribute("onmouseout","HintHidebyTamara(this)");
     newLecInScheme.classList.add('bg-success','m-3', 'p-3', 'rounded','lectureBlockScheme');
     // el.parentElement.parentElement.parentElement.parentElement.lastElementChild.lastElementChild.append(newLecInScheme);
-    el.parentElement.parentElement.nextElementSibling.append(newLecInScheme);
+    // el.parentElement.parentElement.nextElementSibling.append(newLecInScheme);
 
 
     let lecName = document.createElement('p');
