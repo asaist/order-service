@@ -9,6 +9,17 @@ function updateTrackHeading() {
     trackHeading.innerText = 'Образовательный трек «' + trackInput.value + '» электронной образовательной среды СамГМУ»';
     trackHeadingInModule.innerText = 'Образовательный трек «' + trackInput.value + '» электронной образовательной среды СамГМУ»';
 }
+
+function updateModuleHeading() {
+    var moduleInput = document.getElementById("trackInput");
+    var trackHeading = document.getElementById("trackHeading");
+    var trackHeadingInModule = document.getElementById("trackHeadingInModule");
+
+    // Обновление содержимого заголовка с использованием значения из textarea
+    trackHeading.innerText = 'Образовательный трек «' + trackInput.value + '» электронной образовательной среды СамГМУ»';
+    trackHeadingInModule.innerText = 'Образовательный трек «' + trackInput.value + '» электронной образовательной среды СамГМУ»';
+}
+
 function authorSamGMU() {
     let authorSamGMU = document.getElementById('authorSamGMU');
     authorSamGMU.classList.toggle("hidden");
@@ -21,8 +32,43 @@ function subshooting() {
 }
 
 var newModuleSchemeNumber = 0;
+class Module {
+    constructor(id, moduleNameModal, moduleModalAnnotation, moduleModalKeyWords) {
+        this.id = id;
+        this.moduleNameModal = moduleNameModal;
+        this.moduleModalAnnotation = moduleModalAnnotation;
+        this.moduleModalKeyWords = moduleModalKeyWords;
+    }
+}
+class Lecture {
+    constructor(id, moduleId, moduleNameModal, moduleModalAnnotation, moduleModalKeyWords) {
+        this.id = id;
+        this.moduleId = moduleId;
+        this.moduleNameModal = moduleNameModal;
+        this.moduleModalAnnotation = moduleModalAnnotation;
+        this.moduleModalKeyWords = moduleModalKeyWords;
+    }
+}
+var modules = [];
+var lectures = [];
+const dataModal = {
+
+};
+dataModal.modules = modules;
+dataModal.lectures = lectures;
+let moduleModalId = 1;
+let lectureModalId = 1;
 // Добавление модуля
 function addModuleScheme() {
+
+    // начиняем модули в датасет
+    let moduleNameModal = document.getElementById('headSeries').value;
+    let moduleModalAnnotation = document.getElementById('moduleModalAnnotation').value;
+    let moduleModalKeyWords = document.getElementById('moduleModalKeyWords').value;
+    let module = new Module(moduleModalId, moduleNameModal, moduleModalAnnotation, moduleModalKeyWords);
+    modules.push(module);
+    moduleModalId = moduleModalId + 1;
+
     let newModuleScheme = document.createElement('div');
     newModuleScheme.classList.add('mx-3');
     newModuleSchemeNumber++; // Присваиваем id
@@ -50,7 +96,10 @@ function addModuleScheme() {
     let button = document.createElement('button');
     button.classList.add('btn', 'btn-sm', 'rounded');
     button.setAttribute('type', 'button')
-    button.setAttribute('onclick', 'addLecInModule(this)');
+    button.setAttribute('onclick', 'addLectureInModuleBegin(this)');
+    button.setAttribute('moduleNameModal', moduleNameModal);
+    button.setAttribute('moduleModalId', moduleModalId);
+    button.setAttribute('id', 'moduleModalId_' + moduleModalId);
     col1.append(button);
     let icon = document.createElement('i');
     icon.classList.add('fas', 'fa-plus', 'text-white');
@@ -66,11 +115,23 @@ function addModuleScheme() {
 
 // Добавление лекции в модуль
 function addLecInModule(el) {
+    let moduleModalId = el.getAttribute('moduleModalId');
+    let moduleNameModal = el.getAttribute('moduleNameModal');
+    // начиняем лекции в датасет
+    let lectureModuleName = document.getElementById('lectureModuleName').value;
+    let lectureModuleAnnotation = document.getElementById('lectureModuleAnnotation').value;
+    let lectureModuleKeyWords = document.getElementById('lectureModuleKeyWords').value;
+    let lecture = new Lecture(lectureModalId, moduleModalId, lectureModuleName, lectureModuleAnnotation, lectureModuleKeyWords);
+    lectures.push(lecture);
+    lectureModalId = lectureModalId + 1;
     let newLecInScheme = document.createElement('div');
     newLecInScheme.setAttribute("onmouseover","HintShowbyTamara(this)");
     newLecInScheme.setAttribute("onmouseout","HintHidebyTamara(this)");
     newLecInScheme.classList.add('bg-success','m-3', 'p-3', 'rounded','lectureBlockScheme');
-    el.parentElement.parentElement.parentElement.parentElement.lastElementChild.lastElementChild.append(newLecInScheme);
+    // el.parentElement.parentElement.parentElement.parentElement.lastElementChild.lastElementChild.append(newLecInScheme);
+    el.parentElement.parentElement.nextElementSibling.append(newLecInScheme);
+
+
     let lecName = document.createElement('p');
     lecName.classList.add('text-white', 'text-center', 'm-0', 'p-0', 'text-truncate', 'lectureBlockSchemeText');
     lecName.textContent = '1111';

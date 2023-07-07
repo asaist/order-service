@@ -41,6 +41,12 @@ function addLecture() {
 	// showOverlay();
 }
 
+function addLectureInModule(el) {
+	let addLectureModal = document.getElementById('addLectureInModule');
+	addLectureModal.classList.remove('hidden');
+	addLecInModule(el);
+}
+
 function addSeries() {
 	let addSeries = document.getElementsByName('modalSeries');
 		for (let series of addSeries) {
@@ -65,7 +71,13 @@ function addLectureModalBegin() {
 	addLecture();
 }
 
+function addLectureInModuleBegin(el) {
+	btnClose();
+	addLectureInModule(el);
+}
+
 var lectureBlockNumber = 0;
+
 
 function saveLecture() {
 	btnClose();
@@ -100,7 +112,7 @@ function saveLecture() {
 function saveSeries() {
 	btnClose();
 
-	let trackLinSeries = document.getElementById('trackLinSeries');	
+	let trackLinSeries = document.getElementById('addSeriesModal');
 		if (trackLinSeries.innerHTML.trim().length == 0) {
 			const seriesElem = document.createTextNode('Серии');
 			series.append(seriesElem);
@@ -111,6 +123,7 @@ function saveSeries() {
 	trackLinSeries.append(seriesBlock);
 
 	seriesBlock.setAttribute('onclick', 'seriesClick()');
+
 
 	let arrowLectureBlock = document.createElement('div');
 	arrowLectureBlock.classList.add('arrowLectureBlock');

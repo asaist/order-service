@@ -240,12 +240,12 @@
 
                         <div class="my-4">
                           <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Аннотация/содержание образовательного модуля</b><br>
-                          <textarea class="form-control" name="track-annotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#"></textarea>
+                          <textarea class="form-control" id="moduleModalAnnotation" name="track-annotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#"></textarea>
                         </div>
 
                         <div class="mt-10 mb-10">
                           <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Дополнительные ключеные слова</b><br>
-                          <textarea class="form-control" name="module-annotation" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;"></textarea>
+                          <textarea class="form-control" id="moduleModalKeyWords" name="module-annotation" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;"></textarea>
                         </div>
 
                       </div>
@@ -254,7 +254,56 @@
                   </div>
                   <div class="modal-footer">
                     <!-- Кнопка сохранить-->
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="saveLecture" onclick="addModuleScheme(); saveLecture()">Добавить серию</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="saveLecture" onclick="addModuleScheme(); saveSeries()">Добавить серию</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Заявка на Лекцию в Модуле всплывающая для дерева -->
+            <div class="modal-wrapper">
+              <div class="lectureModal shadow hidden" id="addLectureInModule">
+                <div class="modal-header">
+                  <h5>Добавить лекцию</h5>
+                  <button type="button" class="btn-close" onclick="btnClose()"></button>
+                </div>
+                <div class="modal-content">
+                  <div class="modal-body">
+
+                    <div>
+                      <div class="d-flex justify-content-center">
+                        <h5>Заявка на создание лекции</h5>
+                      </div>
+                      <div class="modal-body">
+
+                        <div class="mb-10">
+                          <p id="trackHeadingInModule" class="m-0 p-0 flex-nowrap w-75">Образовательный трек</p>
+                        </div>
+
+                        <div class="mb-10">
+                          <p id="moduleHeadingInLecture" class="m-0 p-0 flex-nowrap w-75">Образовательный модуль</p>
+                        </div>
+
+                        <div class="mb-10">
+                          <input type="text" class="form-control mb-2" id="lectureModuleName" placeholder="Название образовательной лекции">
+                        </div>
+
+                        <div class="my-4">
+                          <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Аннотация/содержание образовательной лекции</b><br>
+                          <textarea class="form-control" id="lectureModuleAnnotation" name="track-annotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#"></textarea>
+                        </div>
+
+                        <div class="mt-10 mb-10">
+                          <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Дополнительные ключеные слова</b><br>
+                          <textarea class="form-control" id="lectureModuleKeyWords" name="module-annotation" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;"></textarea>
+                        </div>
+
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="modal-footer">
+                    <!-- Кнопка сохранить-->
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="saveLectureiInModule" onclick="addLecInModule(); saveLecture()">Добавить лекцию</button>
                   </div>
                 </div>
               </div>
@@ -274,24 +323,9 @@
                         <h5>Заявка на создание лекции</h5>
                       </div>
                       <div class="modal-body">
-                        <div class="mb-10">
-                          <select class="form-control" class="form-control" name="track" size="1">
-                            <option select class="form-control">Выберите образовательный трек</option>
-                            <option value="Трек 1">Трек 1</option>
-                            <option value="Трек 2">Трек 2</option>
-                            <option value="Трек 3">Трек 3</option>
-                            <option value="Трек 4">Трек 4</option>
-                          </select class="form-control">
-                        </div>
 
                         <div class="mb-10">
-                          <select class="form-control" class="form-control" name="" size="1">
-                            <option select class="form-control">Выберите образовательный модуль</option>
-                            <option value="Трек 1">Модуль 1</option>
-                            <option value="Трек 2">Модуль 2</option>
-                            <option value="Трек 3">Модуль 3</option>
-                            <option value="Трек 4">Модуль 4</option>
-                          </select class="form-control">
+                          <p id="trackHeadingInModule" class="m-0 p-0 flex-nowrap w-75">Образовательный трек</p>
                         </div>
 
                         <div class="mb-10">
