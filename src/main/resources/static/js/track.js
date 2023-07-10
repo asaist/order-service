@@ -128,11 +128,15 @@ function addLecInModule(el) {
     var moduleModalId = divElement.getAttribute("moduleModalId");
     var moduleNameModal = divElement.getAttribute("moduleNameModal");
 
+
 // Выводим значение в консоль для проверки
     console.log(moduleNameModal);
     let lectureModuleName = document.getElementById('lectureModuleName').value;
     let lectureModuleAnnotation = document.getElementById('lectureModuleAnnotation').value;
     let lectureModuleKeyWords = document.getElementById('lectureModuleKeyWords').value;
+    let lecture = new Lecture(lectureModalId, moduleModalId, lectureModuleName, lectureModuleAnnotation, lectureModuleKeyWords);
+    lectures.push(lecture);
+    lectureModalId = lectureModalId + 1;
 
     let newLecInScheme = document.createElement('div');
     newLecInScheme.setAttribute("onmouseover","HintShowbyTamara(this)");
@@ -150,9 +154,8 @@ function addLecInModule(el) {
     button.setAttribute('type', 'button')
     button.setAttribute('onclick', 'removeLecInModule(this)');
     button.setAttribute('lectureModalId', lectureModalId);
-    let lecture = new Lecture(lectureModalId, moduleModalId, lectureModuleName, lectureModuleAnnotation, lectureModuleKeyWords);
-    lectures.push(lecture);
-    lectureModalId = lectureModalId + 1;
+    button.setAttribute('index', (lectures.length - 1).toString());
+
     newLecInScheme.append(button);
     let icon = document.createElement('i');
     icon.classList.add('fas', 'fa-times', 'text-white');
@@ -163,11 +166,13 @@ function addLecInModule(el) {
 $(document).on('click', '.lectureBlockScheme', function() {
     // let text = this.innerHTML;
     let button = this.querySelector('button');
-    let lecturemodalid = button.getAttribute('lecturemodalid');
-    var index = lectures.findIndex(function(lecture) {
-        return lecture.id === lecturemodalid;
-    });
-    lectures.splice(index, 1);
+    let index = button.getAttribute('index');
+    // let lecturemodalid = button.getAttribute('lecturemodalid');
+    // lectures.filter(lecture => lecture.id !== lecturemodalid);
+    // let index = lectures.findIndex(lecture => lecture.id === lecturemodalid);
+    if (index !== -1) {
+        delete lectures[index];
+    }
     $(this).remove();
 });
 
