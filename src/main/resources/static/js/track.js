@@ -100,8 +100,7 @@ function addModuleScheme() {
     button.setAttribute('id', 'moduleModalId_' + moduleModalId);
     col1.append(button);
 
-    let saveLectureiInModule= document.getElementById('saveLectureiInModule');
-    saveLectureiInModule.setAttribute('onclick', 'addLecInModule()');
+
 
     let module = new Module(moduleModalId, moduleNameModal, moduleModalAnnotation, moduleModalKeyWords);
     modules.push(module);

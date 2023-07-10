@@ -73,12 +73,15 @@ function addLectureModalBegin() {
 	btnClose();
 	addLecture();
 }
-
+var saveElForLecInMod;
 function addLectureInModuleBegin(el) {
 	btnClose();
 	addLectureInModule(el);
-
+	saveElForLecInMod = el;
 }
+
+let saveLectureiInModule= document.getElementById('saveLectureiInModule');
+saveLectureiInModule.setAttribute('onclick', 'addLecInModule(saveElForLecInMod)');
 
 var lectureBlockNumber = 0;
 
