@@ -84,7 +84,9 @@ function addModuleScheme() {
 
     let p = document.createElement('p');
     p.classList.add('text-center', 'text-white', 'fs16', 'pb-0', 'mb-0');
-    p.textContent = 'новый модуль' + ' ' + 'id=' + newModuleScheme.id;
+    // p.textContent = 'новый модуль' + ' ' + 'id=' + newModuleScheme.id;
+    p.textContent = moduleNameModal;
+
     col11.append(p);
 
     let col1 = document.createElement('div');
@@ -131,9 +133,7 @@ function addLecInModule(el) {
     let lectureModuleName = document.getElementById('lectureModuleName').value;
     let lectureModuleAnnotation = document.getElementById('lectureModuleAnnotation').value;
     let lectureModuleKeyWords = document.getElementById('lectureModuleKeyWords').value;
-    let lecture = new Lecture(lectureModalId, moduleModalId, lectureModuleName, lectureModuleAnnotation, lectureModuleKeyWords);
-    lectures.push(lecture);
-    lectureModalId = lectureModalId + 1;
+
     let newLecInScheme = document.createElement('div');
     newLecInScheme.setAttribute("onmouseover","HintShowbyTamara(this)");
     newLecInScheme.setAttribute("onmouseout","HintHidebyTamara(this)");
@@ -141,7 +141,7 @@ function addLecInModule(el) {
     el.parentElement.parentElement.nextElementSibling.append(newLecInScheme);
     let lecName = document.createElement('p');
     lecName.classList.add('text-white', 'text-center', 'm-0', 'p-0', 'text-truncate', 'lectureBlockSchemeText');
-    lecName.textContent = '1111';
+    lecName.textContent = lectureModuleName;
     newLecInScheme.append(lecName);
 
     //кнопка удаления лекции
@@ -149,11 +149,27 @@ function addLecInModule(el) {
     button.classList.add('btn', 'btn-sm', 'rounded');
     button.setAttribute('type', 'button')
     button.setAttribute('onclick', 'removeLecInModule(this)');
+    button.setAttribute('lectureModalId', lectureModalId);
+    let lecture = new Lecture(lectureModalId, moduleModalId, lectureModuleName, lectureModuleAnnotation, lectureModuleKeyWords);
+    lectures.push(lecture);
+    lectureModalId = lectureModalId + 1;
     newLecInScheme.append(button);
     let icon = document.createElement('i');
     icon.classList.add('fas', 'fa-times', 'text-white');
     button.append(icon);
 }
+
+//удаление лекции из модуля
+$(document).on('click', '.lectureBlockScheme', function() {
+    // let text = this.innerHTML;
+    let button = this.querySelector('button');
+    let lecturemodalid = button.getAttribute('lecturemodalid');
+    var index = lectures.findIndex(function(lecture) {
+        return lecture.id === lecturemodalid;
+    });
+    lectures.splice(index, 1);
+    $(this).remove();
+});
 
 //Добавление лекции вне модуля
 function addLectureScheme() {
