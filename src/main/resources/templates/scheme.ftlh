@@ -303,7 +303,7 @@
                   </div>
                   <div class="modal-footer">
                     <!-- Кнопка сохранить-->
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="saveLectureiInModule" onclick="addLecInModule(); saveLecture()">Добавить лекцию</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="saveLectureiInModule">Добавить лекцию</button> <!--onclick="addLecInModule()-->
                   </div>
                 </div>
               </div>

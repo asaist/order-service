@@ -41,12 +41,12 @@ class Module {
     }
 }
 class Lecture {
-    constructor(id, moduleId, moduleNameModal, moduleModalAnnotation, moduleModalKeyWords) {
+    constructor(id, moduleId, lectureModuleName, lectureModuleAnnotation, lectureModuleKeyWords) {
         this.id = id;
         this.moduleId = moduleId;
-        this.moduleNameModal = moduleNameModal;
-        this.moduleModalAnnotation = moduleModalAnnotation;
-        this.moduleModalKeyWords = moduleModalKeyWords;
+        this.lectureModuleName = lectureModuleName;
+        this.lectureModuleAnnotation = lectureModuleAnnotation;
+        this.lectureModuleKeyWords = lectureModuleKeyWords;
     }
 }
 var modules = [];
@@ -65,9 +65,7 @@ function addModuleScheme() {
     let moduleNameModal = document.getElementById('headSeries').value;
     let moduleModalAnnotation = document.getElementById('moduleModalAnnotation').value;
     let moduleModalKeyWords = document.getElementById('moduleModalKeyWords').value;
-    let module = new Module(moduleModalId, moduleNameModal, moduleModalAnnotation, moduleModalKeyWords);
-    modules.push(module);
-    moduleModalId = moduleModalId + 1;
+
 
     let newModuleScheme = document.createElement('div');
     newModuleScheme.classList.add('mx-3');
@@ -101,6 +99,14 @@ function addModuleScheme() {
     button.setAttribute('moduleModalId', moduleModalId);
     button.setAttribute('id', 'moduleModalId_' + moduleModalId);
     col1.append(button);
+
+    let saveLectureiInModule= document.getElementById('saveLectureiInModule');
+    saveLectureiInModule.setAttribute('onclick', 'addLecInModule()');
+
+    let module = new Module(moduleModalId, moduleNameModal, moduleModalAnnotation, moduleModalKeyWords);
+    modules.push(module);
+    moduleModalId = moduleModalId + 1;
+
     let icon = document.createElement('i');
     icon.classList.add('fas', 'fa-plus', 'text-white');
     button.append(icon);
@@ -114,7 +120,7 @@ function addModuleScheme() {
 //
 
 // Добавление лекции в модуль
-function addLecInModule() {
+function addLecInModule(el) {
 
     // начиняем лекции в датасет
     var divElement = document.getElementById("addLectureInModule");
@@ -132,15 +138,22 @@ function addLecInModule() {
     let newLecInScheme = document.createElement('div');
     newLecInScheme.setAttribute("onmouseover","HintShowbyTamara(this)");
     newLecInScheme.setAttribute("onmouseout","HintHidebyTamara(this)");
-    newLecInScheme.classList.add('bg-success','m-3', 'p-3', 'rounded','lectureBlockScheme');
-    // el.parentElement.parentElement.parentElement.parentElement.lastElementChild.lastElementChild.append(newLecInScheme);
-    // el.parentElement.parentElement.nextElementSibling.append(newLecInScheme);
-
-
+    newLecInScheme.classList.add('bg-success','m-3', 'p-3', 'rounded','lectureBlockScheme', 'd-flex');
+    el.parentElement.parentElement.nextElementSibling.append(newLecInScheme);
     let lecName = document.createElement('p');
     lecName.classList.add('text-white', 'text-center', 'm-0', 'p-0', 'text-truncate', 'lectureBlockSchemeText');
     lecName.textContent = '1111';
     newLecInScheme.append(lecName);
+
+    //кнопка удаления лекции
+    let button = document.createElement('button');
+    button.classList.add('btn', 'btn-sm', 'rounded');
+    button.setAttribute('type', 'button')
+    button.setAttribute('onclick', 'removeLecInModule(this)');
+    newLecInScheme.append(button);
+    let icon = document.createElement('i');
+    icon.classList.add('fas', 'fa-times', 'text-white');
+    button.append(icon);
 }
 
 //Добавление лекции вне модуля

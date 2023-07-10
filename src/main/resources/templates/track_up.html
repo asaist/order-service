@@ -257,7 +257,7 @@
 
                   <div class="d-flex rowScheme" id="rowScheme" style="position:relative;">
                     <div id="rowModule" class="d-flex flex-wrap">  
-                      <div class="mx-3">                      
+                      <!--div class="mx-3">                      
                         <div class="bg-primary rounded p-3 d-flex"> 
                           <div class="col-11">                       
                             <p class="text-center text-white fs16 pb-0 mb-0">Модуль 1</p>
@@ -271,30 +271,14 @@
                           <div class="bg-success m-3 p-3 rounded lectureBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 2</p></div>
                           <div class="bg-success m-3 p-3 rounded lectureBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 3</p></div>
                         </div>
-                      </div>
-
-                      <!--div class="mx-3" id="col2">
-                        <div class="bg-primary rounded d-flex">
-                          <div class="col-11 p-3">                       
-                            <p class="text-center text-white fs16 pb-0 mb-0">Модуль 2</p>
-                          </div>
-                          <div class="col-1 py-3" style="border-radius: 50% 5px 5px 50%; border-left: 1px solid #fff;">
-                            <button type="button" class="btn btn-sm rounded"><i class="fas fa-plus text-white"></i></button>
-                          </div>
-                        </div>
-                        <div class="d-flex justify-content-between my-2">
-                          <div class="bg-success m-3 p-3 rounded"><p class="text-center text-white m-0 p-0 text-truncate">Лекция 1</p></div>
-                          <div class="bg-success m-3 p-3 rounded"><p class="text-center text-white m-0 p-0 text-truncate">Лекция 2</p></div>
-                          <div class="bg-success m-3 p-3 rounded"><p class="text-center text-white m-0 p-0 text-truncate">Лекция 3</p></div>
-                        </div>
                       </div-->
                     </div>
 
-                    <div class="d-flex mx-2 flex-wrap" id="colLec">                  
+                    <div class="d-flex mx-2 flex-wrap" id="colLec">                 
                       
-                        <div class="bg-success mx-2 p-3 mb-1 rounded lectureBlockScheme lecBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 1 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p></div>
+                        <!--div class="bg-success mx-2 p-3 mb-1 rounded lectureBlockScheme lecBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 1 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p></div>
                         <div class="bg-success mx-2 p-3 mb-1 rounded lectureBlockScheme lecBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 2thgyluiuhgfghj sdafhkl;dsfatryiltrfdcvbnjkiuytf</p></div>
-                        <div class="bg-success mx-2 p-3 mb-1 rounded lectureBlockScheme lecBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 3 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</p></div>
+                        <div class="bg-success mx-2 p-3 mb-1 rounded lectureBlockScheme lecBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 3 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</p></div-->
                         
                                                                  
                     </div>
@@ -328,11 +312,11 @@
       }    
       function subshooting() {
         let subsurvey = document.getElementById('subsurvey');
-        subsurvey.classList.toggle("hidden");
-      }  
+        subsurvey.classList.toggle("hidden");      }  
 
-      var newModuleSchemeNumber = 0;
+      
       // Добавление модуля
+      var newModuleSchemeNumber = 0;
       function addModuleScheme() {               
         let newModuleScheme = document.createElement('div');
         newModuleScheme.classList.add('mx-3');        
@@ -346,61 +330,91 @@
         newModuleScheme.append(bgPrimary);
 
         let col11 = document.createElement('div');
-        col11.classList.add('col-11');
+        col11.classList.add('col-10');
         bgPrimary.append(col11);
 
         let p = document.createElement('p');
         p.classList.add('text-center', 'text-white', 'fs16', 'pb-0', 'mb-0');
-        p.textContent = 'новый модуль' + ' ' + 'id=' + newModuleScheme.id;
+        p.textContent = newModuleScheme.id;
         col11.append(p);
 
         let col1 = document.createElement('div');
-        col1.classList.add('col-1');
+        col1.classList.add('col-2');
         bgPrimary.append(col1);
 
         let button = document.createElement('button');
         button.classList.add('btn', 'btn-sm', 'rounded');
         button.setAttribute('type', 'button')
-        button.setAttribute('onclick', 'addLecInModule(this)')
-        button.textContent = '+';
+        button.setAttribute('onclick', 'addLecInModule(this)');      
         col1.append(button);
+        let icon = document.createElement('i');
+        icon.classList.add('fas', 'fa-plus', 'text-white');
+        button.append(icon);        
 
-        var rowLecInModule = document.createElement('div');
+        let rowLecInModule = document.createElement('div');
         rowLecInModule.classList.add('d-flex', 'justify-content-between', 'my-2', 'rowLecInModule'); 
-        rowLecInModule.textContent = 'контент' + ' ' + newModuleScheme.id;
-        newModuleScheme.append(rowLecInModule);
-        
-      }  
-
-      //
+        newModuleScheme.append(rowLecInModule);        
+      }        
 
       // Добавление лекции в модуль
         function addLecInModule(el) {
           let newLecInScheme = document.createElement('div');          
           newLecInScheme.setAttribute("onmouseover","HintShowbyTamara(this)");
           newLecInScheme.setAttribute("onmouseout","HintHidebyTamara(this)");
-          newLecInScheme.classList.add('bg-success','mx-2', 'p-3', 'mb-1', 'rounded','lectureBlockScheme');
-          newLecInScheme.textContent = '7777';          
-          let rowLecInModule = document.querySelectorAll('.rowLecInModule');
-          for (let rowLecInMod of rowLecInModule) {
-            rowLecInMod.append(newLecInScheme);
-          }
+          newLecInScheme.classList.add('bg-success','m-3', 'p-3', 'rounded','lectureBlockScheme', 'd-flex');          
+          el.parentElement.parentElement.nextElementSibling.append(newLecInScheme); 
+          let lecName = document.createElement('p');
+          lecName.classList.add('text-white', 'text-center', 'm-0', 'p-0', 'text-truncate', 'lectureBlockSchemeText');
+          lecName.textContent = '1111';
+          newLecInScheme.append(lecName); 
+
+          //кнопка удаления лекции
+          let button = document.createElement('button');
+          button.classList.add('btn', 'btn-sm', 'rounded');
+          button.setAttribute('type', 'button')
+          button.setAttribute('onclick', 'removeLecInModule(this)');      
+          newLecInScheme.append(button);
+          let icon = document.createElement('i');
+          icon.classList.add('fas', 'fa-times', 'text-white');
+          button.append(icon);                  
         }
 
+      //удаление лекции из модуля      
+      $(document).on('click', '.lectureBlockScheme', function() {    
+        $(this).remove();
+      });
+
       //Добавление лекции вне модуля
+      var newLectureSchemeNumber = 0;
       function addLectureScheme() {
         let newLecScheme = document.createElement('div');
         newLecScheme.setAttribute("onmouseover","HintShowbyTamara(this)");
         newLecScheme.setAttribute("onmouseout","HintHidebyTamara(this)");
-        newLecScheme.classList.add('bg-success','mx-2', 'p-3', 'mb-1', 'rounded','lectureBlockScheme', 'lecBlockScheme');
+        newLecScheme.classList.add('bg-success','mx-2', 'p-3', 'mb-1', 'rounded','lectureBlockScheme', 'lecBlockScheme', 'd-flex');
+        newLectureSchemeNumber++; // Присваиваем id        
+        newLecScheme.id = "Lecture_" + newLectureSchemeNumber; 
         const colLec = document.getElementById('colLec');
         colLec.append(newLecScheme);
         let p = document.createElement('p');
-        p.classList.add('text-center', 'text-white', 'm-0', 'p-0', 'text-truncate', 'lectureBlockSchemeText');
+        p.classList.add('text-center', 'text-white', 'm-0', 'p-1', 'text-truncate', 'lectureBlockSchemeText');
         newLecScheme.append(p);
-        p.textContent = 'Новая лекция';
-        
+        p.textContent = newLecScheme.id;
+
+        //кнопка удаления лекции
+        let button = document.createElement('button');
+        button.classList.add('btn', 'btn-sm', 'rounded');
+        button.setAttribute('type', 'button')
+        button.setAttribute('onclick', 'removeLecInModule(this)');      
+        newLecScheme.append(button);
+        let icon = document.createElement('i');
+        icon.classList.add('fas', 'fa-times', 'text-white');
+        button.append(icon);
       }
+
+      //удаление лекции вне модуля      
+      $(document).on('click', '.lectureBlockScheme', function() {    
+        $(this).remove();
+      });
 
       //Всплывающие подсказки для лекций            
       function HintShowbyTamara(el) {    // для каждого из зеленых прямоугольников

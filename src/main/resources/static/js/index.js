@@ -77,15 +77,15 @@ function addLectureModalBegin() {
 function addLectureInModuleBegin(el) {
 	btnClose();
 	addLectureInModule(el);
+
 }
 
 var lectureBlockNumber = 0;
 
 
 function saveLecture() {
-	btnClose();
 
-	let trackLineLecture = document.getElementById('trackLineLecture');	
+	let trackLineLecture = document.getElementById('addLectureInModule');
 	if (trackLineLecture.innerHTML.trim().length == 0) {
 		let faListLec = document.getElementById('faListLec');
 		faListLec.classList.remove('hidden');
@@ -109,7 +109,8 @@ function saveLecture() {
 	lectureBlockIn.classList.add('numberBlockCenter')
 	lectureBlockIn.append(lectureBlockNumber);
 
-	document.getElementById('headLecture').value = "";	
+	document.getElementById('headLecture').value = "";
+	btnClose();
 }
 
 function saveSeries() {
