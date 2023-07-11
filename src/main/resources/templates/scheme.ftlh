@@ -276,7 +276,7 @@
                       <div class="modal-body">
 
                         <div class="mb-10">
-                          <p id="trackHeadingInModule" class="m-0 p-0 flex-nowrap w-75">Образовательный трек</p>
+                          <p id="trackHeadingInLecture" class="m-0 p-0 flex-nowrap w-75">Образовательный трек</p>
                         </div>
 
                         <div class="mb-10">

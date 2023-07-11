@@ -4,14 +4,17 @@ function updateTrackHeading() {
     var trackInput = document.getElementById("trackInput");
     var trackHeading = document.getElementById("trackHeading");
     var trackHeadingInModule = document.getElementById("trackHeadingInModule");
+    let trackHeadingInLecture = document.getElementById("trackHeadingInLecture");
+
 
     // Обновление содержимого заголовка с использованием значения из textarea
     trackHeading.innerText = 'Образовательный трек «' + trackInput.value + '» электронной образовательной среды СамГМУ»';
     trackHeadingInModule.innerText = 'Образовательный трек «' + trackInput.value + '» электронной образовательной среды СамГМУ»';
+    trackHeadingInLecture.innerText = 'Образовательный трек «' + trackInput.value + '» электронной образовательной среды СамГМУ»';
 }
 
 function updateModuleHeading() {
-    var moduleInput = document.getElementById("trackInput");
+    var trackInput = document.getElementById("trackInput");
     var trackHeading = document.getElementById("trackHeading");
     var trackHeadingInModule = document.getElementById("trackHeadingInModule");
 
@@ -160,6 +163,10 @@ function addLecInModule(el) {
     let icon = document.createElement('i');
     icon.classList.add('fas', 'fa-times', 'text-white');
     button.append(icon);
+    document.getElementById('lectureModuleName').value = "";
+    document.getElementById('lectureModuleAnnotation').value = "";
+    document.getElementById('lectureModuleKeyWords').value = "";
+    btnClose();
 }
 
 //удаление лекции из модуля

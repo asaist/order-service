@@ -48,6 +48,9 @@ function addLectureInModule(el) {
 	let moduleNameModal = el.getAttribute('moduleNameModal');
 	addLectureModal.setAttribute("moduleModalId", moduleModalId);
 	addLectureModal.setAttribute("moduleNameModal", moduleNameModal);
+	let moduleHeadingInLectureElement = document.getElementById('moduleHeadingInLecture');
+	moduleHeadingInLectureElement.textContent = 'Образовательный модуль «' + moduleNameModal + '» электронной образовательной среды СамГМУ»';
+	// document.getElementById('moduleHeadingInLecture').value = el.getAttribute("moduleNameModal");
 }
 
 function addSeries() {
@@ -77,6 +80,7 @@ var saveElForLecInMod;
 function addLectureInModuleBegin(el) {
 	btnClose();
 	addLectureInModule(el);
+
 	saveElForLecInMod = el;
 }
 
