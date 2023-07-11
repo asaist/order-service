@@ -325,21 +325,21 @@
                       <div class="modal-body">
 
                         <div class="mb-10">
-                          <p id="trackHeadingInModule" class="m-0 p-0 flex-nowrap w-75">Образовательный трек</p>
+                          <p id="trackHeadingInLectureOutOfModule" class="m-0 p-0 flex-nowrap w-75">Образовательный трек</p>
                         </div>
 
                         <div class="mb-10">
-                          <input type="text" class="form-control mb-2" id="headSeries" placeholder="Название образовательной лекции">
+                          <input type="text" class="form-control mb-2" id="lectureModalName" placeholder="Название образовательной лекции">
                         </div>
 
                         <div class="my-4">
                           <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Аннотация/содержание образовательной лекции</b><br>
-                          <textarea class="form-control" name="track-annotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#"></textarea>
+                          <textarea class="form-control" id="lectureModalAnnotation" name="track-annotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#"></textarea>
                         </div>
 
                         <div class="mt-10 mb-10">
                           <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Дополнительные ключеные слова</b><br>
-                          <textarea class="form-control" name="module-annotation" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;"></textarea>
+                          <textarea class="form-control" id="lectureModalKeyWords" name="module-annotation" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;"></textarea>
                         </div>
 
                       </div>

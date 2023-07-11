@@ -5,12 +5,14 @@ function updateTrackHeading() {
     var trackHeading = document.getElementById("trackHeading");
     var trackHeadingInModule = document.getElementById("trackHeadingInModule");
     let trackHeadingInLecture = document.getElementById("trackHeadingInLecture");
+    let trackHeadingInLectureOutOfModule = document.getElementById("trackHeadingInLectureOutOfModule");
 
 
     // Обновление содержимого заголовка с использованием значения из textarea
     trackHeading.innerText = 'Образовательный трек «' + trackInput.value + '» электронной образовательной среды СамГМУ»';
     trackHeadingInModule.innerText = 'Образовательный трек «' + trackInput.value + '» электронной образовательной среды СамГМУ»';
     trackHeadingInLecture.innerText = 'Образовательный трек «' + trackInput.value + '» электронной образовательной среды СамГМУ»';
+    trackHeadingInLectureOutOfModule.innerText = 'Образовательный трек «' + trackInput.value + '» электронной образовательной среды СамГМУ»';
 }
 
 function updateModuleHeading() {
@@ -184,19 +186,50 @@ $(document).on('click', '.lectureBlockScheme', function() {
 });
 
 //Добавление лекции вне модуля
+var newLectureSchemeNumber = 0;
 function addLectureScheme() {
+
+    let lectureModalName = document.getElementById('lectureModalName').value;
+    let lectureModalAnnotation = document.getElementById('lectureModalAnnotation').value;
+    let lectureModalKeyWords = document.getElementById('lectureModalKeyWords').value;
+    let lecture = new Lecture(lectureModalId, null, lectureModalName, lectureModalAnnotation, lectureModalKeyWords);
+    lectures.push(lecture);
+    lectureModalId = lectureModalId + 1;
+
     let newLecScheme = document.createElement('div');
     newLecScheme.setAttribute("onmouseover","HintShowbyTamara(this)");
     newLecScheme.setAttribute("onmouseout","HintHidebyTamara(this)");
-    newLecScheme.classList.add('bg-success','mx-2', 'p-3', 'mb-1', 'rounded','lectureBlockScheme', 'lecBlockScheme');
+    newLecScheme.classList.add('bg-success','mx-2', 'p-3', 'mb-1', 'rounded','lectureBlockScheme', 'lecBlockScheme', 'd-flex');
+    newLectureSchemeNumber++; // Присваиваем id
+    newLecScheme.id = "Lecture_" + newLectureSchemeNumber;
     const colLec = document.getElementById('colLec');
     colLec.append(newLecScheme);
     let p = document.createElement('p');
-    p.classList.add('text-center', 'text-white', 'm-0', 'p-0', 'text-truncate', 'lectureBlockSchemeText');
+    p.classList.add('text-center', 'text-white', 'm-0', 'p-1', 'text-truncate', 'lectureBlockSchemeText');
     newLecScheme.append(p);
-    p.textContent = 'Новая лекция';
+    p.textContent = lectureModalName;
 
+    //кнопка удаления лекции
+    let button = document.createElement('button');
+    button.classList.add('btn', 'btn-sm', 'rounded');
+    button.setAttribute('type', 'button')
+    button.setAttribute('onclick', 'removeLecInModule(this)');
+    button.setAttribute('lectureModalId', lectureModalId);
+    button.setAttribute('index', (lectures.length - 1).toString());
+    newLecScheme.append(button);
+    let icon = document.createElement('i');
+    icon.classList.add('fas', 'fa-times', 'text-white');
+    button.append(icon);
+    document.getElementById('lectureModalName').value = "";
+    document.getElementById('lectureModalAnnotation').value = "";
+    document.getElementById('lectureModalKeyWords').value = "";
+    btnClose();
 }
+
+//удаление лекции вне модуля
+// $(document).on('click', '.lectureBlockScheme', function() {
+//     $(this).remove();
+// });
 //Всплывающие подсказки для лекций
 function HintShowbyTamara(el) {    // для каждого из зеленых прямоугольников
     lectureBlockSchemeTextHint = document.createElement("div");
