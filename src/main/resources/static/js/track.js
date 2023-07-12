@@ -84,18 +84,19 @@ function addModuleScheme() {
     newModuleScheme.append(bgPrimary);
 
     let col11 = document.createElement('div');
-    col11.classList.add('col-11');
+    col11.classList.add('col-10');
     bgPrimary.append(col11);
 
     let p = document.createElement('p');
     p.classList.add('text-center', 'text-white', 'fs16', 'pb-0', 'mb-0');
     // p.textContent = 'новый модуль' + ' ' + 'id=' + newModuleScheme.id;
     p.textContent = moduleNameModal;
+    // buttonModule.setAttribute('onclick', 'editModule(this)');
 
     col11.append(p);
 
     let col1 = document.createElement('div');
-    col1.classList.add('col-1');
+    col1.classList.add('col-2');
     bgPrimary.append(col1);
 
     let button = document.createElement('button');
@@ -119,7 +120,7 @@ function addModuleScheme() {
 
     let rowLecInModule = document.createElement('div');
     rowLecInModule.classList.add('d-flex', 'justify-content-between', 'my-2', 'rowLecInModule');
-    rowLecInModule.textContent = newModuleScheme.id;
+    rowLecInModule.textContent = '';
     newModuleScheme.append(rowLecInModule);
 }
 
@@ -148,8 +149,11 @@ function addLecInModule(el) {
     newLecInScheme.setAttribute("onmouseout","HintHidebyTamara(this)");
     newLecInScheme.classList.add('bg-success','m-3', 'p-3', 'rounded','lectureBlockScheme', 'd-flex');
     el.parentElement.parentElement.nextElementSibling.append(newLecInScheme);
-    let lecName = document.createElement('p');
-    lecName.classList.add('text-white', 'text-center', 'm-0', 'p-0', 'text-truncate', 'lectureBlockSchemeText');
+    let lecName = document.createElement('button');
+    lecName.classList.add('btn', 'btn-sm', 'rounded', 'text-white', 'text-center', 'm-0', 'p-0', 'text-truncate', 'lectureBlockSchemeText');
+    lecName.setAttribute('type', 'button');
+    lecName.setAttribute('onclick', 'editLec(this)');
+    lecName.setAttribute('index', (lectures.length - 1).toString());
     lecName.textContent = lectureModuleName;
     newLecInScheme.append(lecName);
 
@@ -169,6 +173,10 @@ function addLecInModule(el) {
     document.getElementById('lectureModuleAnnotation').value = "";
     document.getElementById('lectureModuleKeyWords').value = "";
     btnClose();
+}
+function editLec(el){
+    let addLectureModal = document.getElementById('addLectureInModule');
+    addLectureModal.classList.remove('hidden');
 }
 
 //удаление лекции из модуля
