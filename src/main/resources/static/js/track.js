@@ -154,6 +154,12 @@ function addLecInModule(el) {
     lecName.setAttribute('type', 'button');
     lecName.setAttribute('onclick', 'editLec(this)');
     lecName.setAttribute('index', (lectures.length - 1).toString());
+    lecName.setAttribute('lectureModuleName', lectureModuleName);
+    lecName.setAttribute('lectureModuleAnnotation', lectureModuleAnnotation);
+    lecName.setAttribute('lectureModuleKeyWords', lectureModuleKeyWords);
+    lecName.setAttribute('lectureModalId', (lectureModalId -1).toString());
+    lecName.setAttribute('moduleModalId', moduleModalId);
+    lecName.setAttribute('moduleNameModal', moduleNameModal);
     lecName.textContent = lectureModuleName;
     newLecInScheme.append(lecName);
 
@@ -174,24 +180,68 @@ function addLecInModule(el) {
     document.getElementById('lectureModuleKeyWords').value = "";
     btnClose();
 }
+var editElForLecInMod;
 function editLec(el){
-    let addLectureModal = document.getElementById('addLectureInModule');
-    addLectureModal.classList.remove('hidden');
+    addLectureInModule(el);
+    let saveButton = document.getElementById('saveLectureInModule');
+    saveButton.classList.add('hidden');
+    let editButton = document.getElementById('editLectureInModule');
+    editButton.classList.remove('hidden');
+    //выводим в диалог сохраненную лекцию
+    let lectureModuleNameElement = document.getElementById('lectureModuleName');
+    lectureModuleNameElement.value = el.getAttribute('lectureModuleName');
+    let lectureModuleAnnotationElement = document.getElementById('lectureModuleAnnotation');
+    lectureModuleAnnotationElement.value = el.getAttribute('lectureModuleAnnotation');
+    let lectureModuleKeyWordsElement = document.getElementById('lectureModuleKeyWords');
+    lectureModuleKeyWordsElement.value = el.getAttribute('lectureModuleKeyWords');
+    editElForLecInMod = el;
 }
+function editLecInModule(el){
+    let moduleModalId = el.getAttribute('moduleModalId');
+    let lectureModalId = el.getAttribute('lectureModalId');
+    let index = el.getAttribute('index');
 
+    let lectureModuleName = document.getElementById('lectureModuleName').value;
+    let lectureModuleAnnotation = document.getElementById('lectureModuleAnnotation').value;
+    let lectureModuleKeyWords = document.getElementById('lectureModuleKeyWords').value;
+    let lecture = new Lecture(lectureModalId, moduleModalId, lectureModuleName, lectureModuleAnnotation, lectureModuleKeyWords);
+    lectures [index] = lecture;
+    // let div = el.parentNode;
+    el.setAttribute('lectureModuleName', lectureModuleName);
+    el.setAttribute('lectureModuleAnnotation', lectureModuleAnnotation);
+    el.setAttribute('lectureModuleKeyWords', lectureModuleKeyWords);
+    el.textContent = lectureModuleName;
+    document.getElementById('lectureModuleName').value = "";
+    document.getElementById('lectureModuleAnnotation').value = "";
+    document.getElementById('lectureModuleKeyWords').value = "";
+    let saveButton = document.getElementById('saveLectureInModule');
+    saveButton.classList.remove('hidden');
+    let editButton = document.getElementById('editLectureInModule');
+    editButton.classList.add('hidden');
+    btnClose();
+}
 //удаление лекции из модуля
-$(document).on('click', '.lectureBlockScheme', function() {
-    // let text = this.innerHTML;
-    let button = this.querySelector('button');
-    let index = button.getAttribute('index');
-    // let lecturemodalid = button.getAttribute('lecturemodalid');
-    // lectures.filter(lecture => lecture.id !== lecturemodalid);
-    // let index = lectures.findIndex(lecture => lecture.id === lecturemodalid);
+function removeLecInModule(el){
+    let index = el.getAttribute('index');
     if (index !== -1) {
         delete lectures[index];
     }
-    $(this).remove();
-});
+    let div = el.parentNode;
+    div.remove();
+}
+// $(document).on('click', '.lectureBlockScheme button', function(event) {
+//     event.stopPropagation();
+//     // let text = this.innerHTML;
+//     let button = this;
+//     let index = button.getAttribute('index');
+//     // let lecturemodalid = button.getAttribute('lecturemodalid');
+//     // lectures.filter(lecture => lecture.id !== lecturemodalid);
+//     // let index = lectures.findIndex(lecture => lecture.id === lecturemodalid);
+//     if (index !== -1) {
+//         delete lectures[index];
+//     }
+//     $(this).remove();
+// });
 
 //Добавление лекции вне модуля
 var newLectureSchemeNumber = 0;
