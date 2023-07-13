@@ -90,12 +90,15 @@ saveLectureInModule.setAttribute('onclick', 'addLecInModule(saveElForLecInMod)')
 let editLectureInModule= document.getElementById('editLectureInModule');
 editLectureInModule.setAttribute('onclick', 'editLecInModule(editElForLecInMod)');
 
+let editLectureOut= document.getElementById('editLecture');
+editLectureOut.setAttribute('onclick', 'editLecOutOf(editElForLecOut)');
+
 var lectureBlockNumber = 0;
 
 
 function saveLecture() {
 
-	let trackLineLecture = document.getElementById('addLectureInModule');
+	// let trackLineLecture = document.getElementById('addLectureInModule');
 	if (trackLineLecture.innerHTML.trim().length == 0) {
 		let faListLec = document.getElementById('faListLec');
 		faListLec.classList.remove('hidden');
@@ -109,15 +112,15 @@ function saveLecture() {
 
     lectureBlock.setAttribute('onclick', 'viewLectureModal()');
 
-    let lectureBlockIn = document.createElement('div'); // добавляем внутренний светло-синий блок
-	lectureBlockIn.classList.add('lectureBlockIn');
-	lectureBlock.append(lectureBlockIn);
+    // let lectureBlockIn = document.createElement('div'); // добавляем внутренний светло-синий блок
+	// lectureBlockIn.classList.add('lectureBlockIn');
+	// lectureBlock.append(lectureBlockIn);
 
-	lectureBlockNumber++; // Присваиваем id
-    lectureBlock.id = "lecture_" + lectureBlockNumber;
-
-	lectureBlockIn.classList.add('numberBlockCenter')
-	lectureBlockIn.append(lectureBlockNumber);
+	// lectureBlockNumber++; // Присваиваем id
+    // lectureBlock.id = "lecture_" + lectureBlockNumber;
+	//
+	// lectureBlockIn.classList.add('numberBlockCenter')
+	// lectureBlockIn.append(lectureBlockNumber);
 
 	document.getElementById('headLecture').value = "";
 	btnClose();
@@ -132,20 +135,20 @@ function saveSeries() {
 			series.append(seriesElem);
 		}
 
-	let seriesBlock = document.createElement('div');
-	seriesBlock.classList.add('seriesBlock');
-	trackLinSeries.append(seriesBlock);
+	// let seriesBlock = document.createElement('div');
+	// seriesBlock.classList.add('seriesBlock');
+	// trackLinSeries.append(seriesBlock);
+	//
+	// seriesBlock.setAttribute('onclick', 'seriesClick()');
 
-	seriesBlock.setAttribute('onclick', 'seriesClick()');
 
-
-	let arrowLectureBlock = document.createElement('div');
-	arrowLectureBlock.classList.add('arrowLectureBlock');
-	seriesBlock.append(arrowLectureBlock);
-
-	let caret = document.createElement('i');
-	caret.classList.add('fas', 'fa-caret-down', 'fasIcon');
-	arrowLectureBlock.append(caret);
+	// let arrowLectureBlock = document.createElement('div');
+	// arrowLectureBlock.classList.add('arrowLectureBlock');
+	// seriesBlock.append(arrowLectureBlock);
+	//
+	// let caret = document.createElement('i');
+	// caret.classList.add('fas', 'fa-caret-down', 'fasIcon');
+	// arrowLectureBlock.append(caret);
 
 	document.getElementById('headSeries').value = "";
 	document.getElementById('headSeries').value = "";

@@ -349,7 +349,8 @@
                   </div>
                   <div class="modal-footer">
                     <!-- Кнопка сохранить-->
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="saveLecture" onclick="addLectureScheme(); saveLecture()">Добавить лекцию</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="saveLectureOut" onclick="addLectureScheme()">Добавить лекцию</button>
+                    <button type="button" class="btn btn-primary hidden" data-bs-dismiss="modal" id="editLecture">Сохранить лекцию</button>
                   </div>
                 </div>
               </div>

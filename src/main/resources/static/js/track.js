@@ -87,13 +87,17 @@ function addModuleScheme() {
     col11.classList.add('col-10');
     bgPrimary.append(col11);
 
-    let p = document.createElement('p');
-    p.classList.add('text-center', 'text-white', 'fs16', 'pb-0', 'mb-0');
-    // p.textContent = 'новый модуль' + ' ' + 'id=' + newModuleScheme.id;
-    p.textContent = moduleNameModal;
-    // buttonModule.setAttribute('onclick', 'editModule(this)');
-
-    col11.append(p);
+    let modName = document.createElement('button');
+    modName.classList.add('btn', 'btn-sm', 'rounded', 'text-white', 'text-center', 'fs16', 'pb-0', 'mb-0');
+    modName.setAttribute('type', 'button');
+    // modName.setAttribute('onclick', 'editLec(this)');
+    modName.setAttribute('index', (modules.length + 1).toString());
+    modName.setAttribute('moduleModalId', moduleModalId);
+    modName.setAttribute('moduleNameModal', moduleNameModal);
+    modName.setAttribute('moduleModalAnnotation', moduleModalAnnotation);
+    modName.setAttribute('moduleModalKeyWords', moduleModalKeyWords);
+    modName.textContent = moduleNameModal;
+    col11.append(modName);
 
     let col1 = document.createElement('div');
     col1.classList.add('col-2');
@@ -122,6 +126,9 @@ function addModuleScheme() {
     rowLecInModule.classList.add('d-flex', 'justify-content-between', 'my-2', 'rowLecInModule');
     rowLecInModule.textContent = '';
     newModuleScheme.append(rowLecInModule);
+    document.getElementById('headSeries').value = "";
+    document.getElementById('moduleModalAnnotation').value = "";
+    document.getElementById('moduleModalKeyWords').value = "";
 }
 
 //
@@ -262,10 +269,18 @@ function addLectureScheme() {
     newLecScheme.id = "Lecture_" + newLectureSchemeNumber;
     const colLec = document.getElementById('colLec');
     colLec.append(newLecScheme);
-    let p = document.createElement('p');
-    p.classList.add('text-center', 'text-white', 'm-0', 'p-1', 'text-truncate', 'lectureBlockSchemeText');
-    newLecScheme.append(p);
-    p.textContent = lectureModalName;
+
+    let lecName = document.createElement('button');
+    lecName.classList.add('btn', 'btn-sm', 'rounded', 'text-white', 'text-center', 'm-0', 'p-0', 'text-truncate', 'lectureBlockSchemeText');
+    lecName.setAttribute('type', 'button');
+    lecName.setAttribute('onclick', 'editLecOut(this)');
+    lecName.setAttribute('index', (lectures.length - 1).toString());
+    lecName.setAttribute('lectureModuleName', lectureModalName);
+    lecName.setAttribute('lectureModuleAnnotation', lectureModalAnnotation);
+    lecName.setAttribute('lectureModuleKeyWords', lectureModalKeyWords);
+    lecName.setAttribute('lectureModalId', (lectureModalId -1).toString());
+    lecName.textContent = lectureModalName;
+    newLecScheme.append(lecName);
 
     //кнопка удаления лекции
     let button = document.createElement('button');
@@ -284,11 +299,44 @@ function addLectureScheme() {
     btnClose();
 }
 
-//удаление лекции вне модуля
-// $(document).on('click', '.lectureBlockScheme', function() {
-//     $(this).remove();
-// });
-//Всплывающие подсказки для лекций
+//редактирование лекции вне модуля
+let editElForLecOut;
+function editLecOut(el){
+    addLecture(el);
+    let saveButton = document.getElementById('saveLectureOut');
+    saveButton.classList.add('hidden');
+    let editButton = document.getElementById('editLecture');
+    editButton.classList.remove('hidden');
+    //выводим в диалог сохраненную лекцию
+    let lectureModuleNameElement = document.getElementById('lectureModalName');
+    lectureModuleNameElement.value = el.getAttribute('lectureModuleName');
+    let lectureModuleAnnotationElement = document.getElementById('lectureModalAnnotation');
+    lectureModuleAnnotationElement.value = el.getAttribute('lectureModuleAnnotation');
+    let lectureModuleKeyWordsElement = document.getElementById('lectureModalKeyWords');
+    lectureModuleKeyWordsElement.value = el.getAttribute('lectureModuleKeyWords');
+    editElForLecOut = el;
+}
+function editLecOutOf(el){
+    let index = el.getAttribute('index');
+    let lectureModuleName = document.getElementById('lectureModalName').value;
+    let lectureModuleAnnotation = document.getElementById('lectureModalAnnotation').value;
+    let lectureModuleKeyWords = document.getElementById('lectureModalKeyWords').value;
+    let lecture = new Lecture(lectureModalId, null, lectureModuleName, lectureModuleAnnotation, lectureModuleKeyWords);
+    lectures [index] = lecture;
+    // let div = el.parentNode;
+    el.setAttribute('lectureModuleName', lectureModuleName);
+    el.setAttribute('lectureModuleAnnotation', lectureModuleAnnotation);
+    el.setAttribute('lectureModuleKeyWords', lectureModuleKeyWords);
+    el.textContent = lectureModuleName;
+    document.getElementById('lectureModalName').value = "";
+    document.getElementById('lectureModalAnnotation').value = "";
+    document.getElementById('lectureModalKeyWords').value = "";
+    let saveButton = document.getElementById('saveLectureOut');
+    saveButton.classList.remove('hidden');
+    let editButton = document.getElementById('editLecture');
+    editButton.classList.add('hidden');
+    btnClose();
+}
 function HintShowbyTamara(el) {    // для каждого из зеленых прямоугольников
     lectureBlockSchemeTextHint = document.createElement("div");
     lectureBlockSchemeTextHint.classList.add("lectureBlockSchemeTextHint", "shadow", "text-wrap"); // созданному диву добавили классы (что бы он стал подсказкой)
