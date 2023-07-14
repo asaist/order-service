@@ -298,7 +298,7 @@ function addLectureScheme() {
     let lectureModalKeyWords = document.getElementById('lectureModalKeyWords').value;
     let lecture = new Lecture(lectureModalId, null, lectureModalName, lectureModalAnnotation, lectureModalKeyWords);
     lectures.push(lecture);
-    lectureModalId = lectureModalId + 1;
+
 
     let newLecScheme = document.createElement('div');
     newLecScheme.setAttribute("onmouseover","HintShowbyTamara(this)");
@@ -317,7 +317,7 @@ function addLectureScheme() {
     lecName.setAttribute('lectureModuleName', lectureModalName);
     lecName.setAttribute('lectureModuleAnnotation', lectureModalAnnotation);
     lecName.setAttribute('lectureModuleKeyWords', lectureModalKeyWords);
-    lecName.setAttribute('lectureModalId', (lectureModalId -1).toString());
+    lecName.setAttribute('lectureModalId', lectureModalId);
     lecName.textContent = lectureModalName;
     newLecScheme.append(lecName);
 
@@ -329,6 +329,7 @@ function addLectureScheme() {
     button.setAttribute('lectureModalId', lectureModalId);
     button.setAttribute('index', (lectures.length - 1).toString());
     newLecScheme.append(button);
+    lectureModalId = lectureModalId + 1;
     let icon = document.createElement('i');
     icon.classList.add('fas', 'fa-times', 'text-white');
     button.append(icon);
@@ -357,6 +358,7 @@ function editLecOut(el){
 }
 function editLecOutOf(el){
     let index = el.getAttribute('index');
+    let lectureModalId = el.getAttribute('lectureModalId');
     let lectureModuleName = document.getElementById('lectureModalName').value;
     let lectureModuleAnnotation = document.getElementById('lectureModalAnnotation').value;
     let lectureModuleKeyWords = document.getElementById('lectureModalKeyWords').value;
