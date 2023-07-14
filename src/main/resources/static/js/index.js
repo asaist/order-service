@@ -97,8 +97,8 @@ editLectureInModule.setAttribute('onclick', 'editLecInModule(editElForLecInMod)'
 let editLectureOut= document.getElementById('editLecture');
 editLectureOut.setAttribute('onclick', 'editLecOutOf(editElForLecOut)');
 
-let editModule= document.getElementById('editModule');
-editModule.setAttribute('onclick', 'editModule(editElForMod)');
+let editModuleEl= document.getElementById('editModule');
+editModuleEl.setAttribute('onclick', 'saveEditModule(editElForMod)');
 
 var lectureBlockNumber = 0;
 

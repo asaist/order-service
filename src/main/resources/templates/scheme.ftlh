@@ -255,7 +255,7 @@
                   <div class="modal-footer">
                     <!-- Кнопка сохранить-->
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="saveModule" onclick="addModuleScheme(); saveSeries()">Добавить серию</button>
-                    <button type="button" class="btn btn-primary hidden" data-bs-dismiss="modal" id="editModule">Добавить серию</button>
+                    <button type="button" class="btn btn-primary hidden" data-bs-dismiss="modal" id="editModule">Сохранить серию</button>
                   </div>
                 </div>
               </div>
@@ -983,8 +983,8 @@
       $(document).ready(function() {
         $(".js-data-example-ajax").select2({
           ajax: {
-            // url: "https://track.samsmu.ru/api/author/authors",
-            url: "http://localhost:8081/api/author/authors",
+            url: "https://track.samsmu.ru/api/author/authors",
+            // url: "http://localhost:8081/api/author/authors",
             type: 'GET',
             dataType: 'json',
             delay: 250,

@@ -90,8 +90,8 @@ function addModuleScheme() {
     let modName = document.createElement('button');
     modName.classList.add('btn', 'btn-sm', 'rounded', 'text-white', 'text-center', 'fs16', 'pb-0', 'mb-0');
     modName.setAttribute('type', 'button');
-    // modName.setAttribute('onclick', 'editLec(this)');
-    modName.setAttribute('index', (modules.length + 1).toString());
+    modName.setAttribute('onclick', 'editMod(this)');
+    modName.setAttribute('index', (modules.length).toString());
     modName.setAttribute('moduleModalId', moduleModalId);
     modName.setAttribute('moduleNameModal', moduleNameModal);
     modName.setAttribute('moduleModalAnnotation', moduleModalAnnotation);
@@ -127,6 +127,48 @@ function addModuleScheme() {
     rowLecInModule.textContent = '';
     newModuleScheme.append(rowLecInModule);
 }
+
+let editElForMod;
+function editMod(el){
+    addSeries(el);
+    let saveButton = document.getElementById('saveModule');
+    saveButton.classList.add('hidden');
+    let editButton = document.getElementById('editModule');
+    editButton.classList.remove('hidden');
+
+    let lectureModuleNameElement = document.getElementById('headSeries');
+    lectureModuleNameElement.value = el.getAttribute('moduleNameModal');
+    let lectureModuleAnnotationElement = document.getElementById('moduleModalAnnotation');
+    lectureModuleAnnotationElement.value = el.getAttribute('moduleModalAnnotation');
+    let lectureModuleKeyWordsElement = document.getElementById('moduleModalKeyWords');
+    lectureModuleKeyWordsElement.value = el.getAttribute('moduleModalKeyWords');
+    editElForMod = el;
+}
+
+function saveEditModule(el){
+    let moduleModalId = el.getAttribute('moduleModalId');
+    let index = el.getAttribute('index');
+
+    let moduleNameModal = document.getElementById('headSeries').value;
+    let moduleModalAnnotation = document.getElementById('moduleModalAnnotation').value;
+    let moduleModalKeyWords = document.getElementById('moduleModalKeyWords').value;
+    let module = new Module(moduleModalId, moduleNameModal, moduleModalAnnotation, moduleModalKeyWords);
+    modules [index] = module;
+    el.setAttribute('moduleNameModal', moduleNameModal);
+    el.setAttribute('moduleModalAnnotation', moduleModalAnnotation);
+    el.setAttribute('moduleModalKeyWords', moduleModalKeyWords);
+    el.textContent = moduleNameModal;
+    document.getElementById('headSeries').value = "";
+    document.getElementById('moduleModalAnnotation').value = "";
+    document.getElementById('moduleModalKeyWords').value = "";
+    let saveButton = document.getElementById('saveModule');
+    saveButton.classList.remove('hidden');
+    let editButton = document.getElementById('editModule');
+    editButton.classList.add('hidden');
+    btnClose();
+}
+
+
 
 //
 
