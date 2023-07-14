@@ -254,7 +254,8 @@
                   </div>
                   <div class="modal-footer">
                     <!-- Кнопка сохранить-->
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="saveLecture" onclick="addModuleScheme(); saveSeries()">Добавить серию</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="saveModule" onclick="addModuleScheme(); saveSeries()">Добавить серию</button>
+                    <button type="button" class="btn btn-primary hidden" data-bs-dismiss="modal" id="editModule">Добавить серию</button>
                   </div>
                 </div>
               </div>

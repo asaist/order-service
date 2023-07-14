@@ -53,11 +53,15 @@ function addLectureInModule(el) {
 	// document.getElementById('moduleHeadingInLecture').value = el.getAttribute("moduleNameModal");
 }
 
-function addSeries() {
+function addSeries(el) {
 	let addSeries = document.getElementsByName('modalSeries');
 		for (let series of addSeries) {
 			series.classList.remove('hidden'); 
 		}
+	// let moduleModalId = el.getAttribute('moduleModalId');
+	// let moduleNameModal = el.getAttribute('moduleNameModal');
+	// addSeries.setAttribute("moduleModalId", moduleModalId);
+	// addSeries.setAttribute("moduleNameModal", moduleNameModal);
 
 	// showOverlay();
 }
@@ -92,6 +96,9 @@ editLectureInModule.setAttribute('onclick', 'editLecInModule(editElForLecInMod)'
 
 let editLectureOut= document.getElementById('editLecture');
 editLectureOut.setAttribute('onclick', 'editLecOutOf(editElForLecOut)');
+
+let editModule= document.getElementById('editModule');
+editModule.setAttribute('onclick', 'editModule(editElForMod)');
 
 var lectureBlockNumber = 0;
 

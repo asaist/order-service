@@ -126,9 +126,6 @@ function addModuleScheme() {
     rowLecInModule.classList.add('d-flex', 'justify-content-between', 'my-2', 'rowLecInModule');
     rowLecInModule.textContent = '';
     newModuleScheme.append(rowLecInModule);
-    document.getElementById('headSeries').value = "";
-    document.getElementById('moduleModalAnnotation').value = "";
-    document.getElementById('moduleModalKeyWords').value = "";
 }
 
 //
