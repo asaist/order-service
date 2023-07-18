@@ -6,8 +6,11 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import ru.mcclinics.orderservice.dto.AuthorDto;
+import ru.mcclinics.orderservice.dto.ModuleDto;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Setter
@@ -37,6 +40,8 @@ public class Series {
     private Track track;
     @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "series")
     private List<KeyWord> keyWords;
+    @Transient
+    private Long frontEndId;
 
     public Series() {
     }
@@ -46,5 +51,18 @@ public class Series {
         this.author = author;
         this.annotation = annotation;
         this.track = track;
+    }
+    public Series(ModuleDto moduleDto) {
+        this.seriesName= moduleDto.getModuleNameModal();
+        this.annotation = moduleDto.getModuleModalAnnotation();
+        String[] strMain = moduleDto.getModuleModalKeyWords().split(";");
+        List<KeyWord> keyWords = new ArrayList<>(strMain.length);
+        for (int i = 0; i < strMain.length; i++){
+            KeyWord keyWord = new KeyWord();
+            keyWord.setValue(strMain[i]);
+            keyWords.add(keyWord);
+        }
+        this.keyWords = keyWords;
+        this.frontEndId = Long.valueOf(moduleDto.getId());
     }
 }

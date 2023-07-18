@@ -25,4 +25,6 @@ public class LectureService {
     public List<Lecture> findLectureByName(String lectureName){
         return lectureRepository.findByLectureNameContainsIgnoreCase(lectureName);
     }
+
+    public List<Lecture> saveAll(List<Lecture> lectures) {return lectureRepository.saveAll(lectures);}
 }

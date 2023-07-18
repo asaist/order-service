@@ -80,7 +80,7 @@
                   </div>
                   <div class="modal-body">
 
-                    <select class="form-control" name="university">
+                    <select class="form-control editable" name="university">
                       <option selected="" disabled="">Выберите институт</option>
                       <#list universities as university>
                         <option value="${university.universityId}">${university.universityName}</option>
@@ -97,7 +97,7 @@
                         </div>
                         <div class="hidden" id="authorSamGMU">
                           <select class="js-data-example-ajax form-control mb-10" name="author" onchange="selectAuthor(this.value)" id="select"></select>
-                          <button type="button" class="btn btn-primary" onclick="addManTrack()"><i class="fas fa-plus"></i></button>
+<#--                          <button type="button" class="btn btn-primary" onclick="addManTrack()"><i class="fas fa-plus"></i></button>-->
                         </div>
 
                         <div id="authorWorld">
@@ -121,7 +121,7 @@
                         </div>
 
                         <div>
-                          <table class="table table-hover" id="tableAuthor" name="authors">
+                          <table class="table table-hover editable" id="tableAuthor" name="authors">
                             <tr>
                               <th class="nameTd">ФИО автора</th>
                               <th class="text-center regTd">Должность, степень, звание</th>
@@ -136,16 +136,16 @@
 
                     <div class="my-4">
                       <b>Название образовательного трека</b><br>
-                      <textarea class="form-control" id="trackInput" name="trackName" cols="80" rows="1" oninput="updateTrackHeading()" placeholder="Введите название образовательного трека"></textarea>
+                      <textarea class="form-control editable" id="trackInput" name="trackName" cols="80" rows="1" oninput="updateTrackHeading()" placeholder="Введите название образовательного трека"></textarea>
                     </div>
 
                     <div class="my-4">
                       <b>Аннотация образовательного трека</b><br>
-                      <textarea class="form-control" name="trackAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#" onclick="trackCheck()"></textarea>
+                      <textarea class="form-control editable" name="trackAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#" onclick="trackCheck()"></textarea>
                     </div>
                     <div class="my-4">
                       <b>Дополнительные ключевые слова</b> <br>
-                      <textarea class="form-control" name="trackKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив их ;"></textarea>
+                      <textarea class="form-control editable" name="trackKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив их ;"></textarea>
                     </div>
                   </div>
 
@@ -644,11 +644,46 @@
     <script src="js/track.js"></script>
 
     <script>
+
+      // const button11 = document.getElementById('editTrack');
+      // const editableElements = document.getElementsByClassName('editable');
+      //
+      // // Функция для обновления названия кнопки
+      // function updateButtonName() {
+      //   if (editableElements.length > 0) {
+      //     button11.textContent = 'Сохранить трек';
+      //   } else {
+      //     button11.textContent = 'Редактировать трек';
+      //   }
+      // }
+      //
+      // // Прослушивание событий изменения элементов с классом "editable"
+      // for (let i = 0; i < editableElements.length; i++) {
+      //   const element = editableElements[i];
+      //   const observer = new MutationObserver(updateButtonName);
+      //   observer.observe(element, { attributes: true });
+      // }
+
+      document.addEventListener("keyup", function(event) {
+        let editTrack = document.getElementById('editTrack');
+        if (!editTrack.classList.contains('hidden')){
+        let inputValue = event.target.value; // Получаем значение поля ввода
+        console.log(inputValue);
+        // Проверяем, является ли целевой элемент полем ввода
+        if (event.target.classList.contains("editable")) {
+          // Меняем название кнопки в зависимости от значения поля ввода
+          console.log('является');
+          editTrack.textContent = "Сохранить трек"
+          }
+        }
+      });
       function authorSamGMU() {
         let authorSamGMU = document.getElementById('authorSamGMU');
         authorSamGMU.classList.toggle("hidden");
         let authorWorld = document.getElementById('authorWorld');
         authorWorld.classList.toggle("hidden");
+        let createAuthorButton = document.getElementById('createAuthorButton');
+        createAuthorButton.classList.toggle("hidden");
       }
       function authorSamGMUModule() {
         let authorSamGMUModule = document.getElementById('authorSamGMUModule');
@@ -983,8 +1018,8 @@
       $(document).ready(function() {
         $(".js-data-example-ajax").select2({
           ajax: {
-            url: "https://track.samsmu.ru/api/author/authors",
-            // url: "http://localhost:8081/api/author/authors",
+            // url: "https://track.samsmu.ru/api/author/authors",
+            url: "http://localhost:8081/api/author/authors",
             type: 'GET',
             dataType: 'json',
             delay: 250,
@@ -1046,7 +1081,9 @@
           university,
           trackName,
           trackAnnotation,
-          trackKeyWords
+          trackKeyWords,
+          modules,
+          lectures
         };
         if (savedTrack) {
           data.trackId = savedTrack;

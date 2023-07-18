@@ -156,9 +156,9 @@ function saveSeries() {
 	// let caret = document.createElement('i');
 	// caret.classList.add('fas', 'fa-caret-down', 'fasIcon');
 	// arrowLectureBlock.append(caret);
-
 	document.getElementById('headSeries').value = "";
-	document.getElementById('headSeries').value = "";
+	document.getElementById('moduleModalAnnotation').value = "";
+	document.getElementById('moduleModalKeyWords').value = "";
 }
 
 function allLecture() {

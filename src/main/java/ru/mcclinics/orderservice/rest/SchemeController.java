@@ -82,6 +82,8 @@ public class SchemeController {
             trackId = Long.parseLong(requestData.getTrackId());
         }
         List<AuthorDto> authorsDtoList = requestData.getAuthors();
+        List<ModuleDto> modules = requestData.getModules();
+        List<LectureDto> lecturesFromFront = requestData.getLectures();
         String university = requestData.getUniversity();
         String trackName = requestData.getTrackName();
         String trackAnnotation = requestData.getTrackAnnotation();
@@ -90,6 +92,9 @@ public class SchemeController {
 
         Track track = new Track(trackName, trackAnnotation);
         track.setCreateDate(LocalDateTime.now());
+
+
+
 
         String[] strMain = trackKeyWords.split(";");
         List<KeyWord> keyWordList = new ArrayList<>();
@@ -148,7 +153,23 @@ public class SchemeController {
 
         track.setKeyWords(keyWordList);
         track.setId(trackId);
-        trackService.save(track);
+        Track savedTrack = trackService.save(track);
+        List<Series> series = modules.stream().map(Series::new).collect(toList());
+        List<Lecture> lectures = lecturesFromFront.stream().map(Lecture::new).collect(toList());
+        series.stream().forEach(ser -> ser.setTrack(savedTrack));
+        series.stream().forEach(ser -> ser.setCreateDate(LocalDateTime.now()));
+        lectures.stream().forEach(lecture -> lecture.setTrack(savedTrack));
+        lectures.stream().forEach(lecture -> lecture.setCreateDate(LocalDateTime.now()));
+        List<Series> seriesFromBack = seriesService.saveAll(series);
+        for (Lecture lecture1 : lectures){
+            if (lecture1.getFrontEndModule() != null) {
+                List<Series> filteredSeries = seriesFromBack.stream()
+                        .filter(ser -> ser.getFrontEndId() == lecture1.getFrontEndModule())
+                        .collect(Collectors.toList());
+                lecture1.setSeries(filteredSeries.get(0));
+            }
+        }
+        lectureService.saveAll(lectures);
         keyWordRepository.saveAll(keyWordList);
         Iterable<Track> tracks = trackService.findTracks();
         return ResponseEntity.ok(new TrackDto(track));

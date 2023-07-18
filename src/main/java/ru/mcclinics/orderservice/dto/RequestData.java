@@ -17,4 +17,6 @@ public class RequestData extends EntityDto implements Serializable {
     private String trackName;
     private String trackAnnotation;
     private String trackKeyWords;
+    private List<ModuleDto> modules;
+    private List<LectureDto> lectures;
 }

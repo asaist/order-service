@@ -112,8 +112,6 @@ function addModuleScheme() {
     button.setAttribute('id', 'moduleModalId_' + moduleModalId);
     col1.append(button);
 
-
-
     let module = new Module(moduleModalId, moduleNameModal, moduleModalAnnotation, moduleModalKeyWords);
     modules.push(module);
     moduleModalId = moduleModalId + 1;
