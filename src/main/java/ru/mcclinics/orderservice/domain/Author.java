@@ -35,7 +35,8 @@ public class Author{
     @JsonIgnore
     @ManyToMany(mappedBy = "authors")
     private Set<Track> tracks = new HashSet<>();
-
+    @Column(name = "passport_pdf")
+    private String passportPdf;
     public Author(String lastName) {
         this.lastName = lastName;
     }

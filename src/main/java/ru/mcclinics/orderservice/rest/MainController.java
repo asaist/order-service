@@ -31,7 +31,7 @@ public class MainController {
 
     @Value("${files.upload.baseDir}")
     private String uploadPath;
-//    @GetMapping("/")
+//    @GetMapping("/")z
 //    public String greeting(Map<String, Object> model){
 //        return "scheme";
 //    }

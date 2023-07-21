@@ -30,4 +30,8 @@ spring:
           keycloak:
 #            issuer-uri: http://localhost:8180/auth/realms/SAMGMU
             issuer-uri: https://sso.samsmu.ru/auth/realms/SAMGMU
+files:
+  upload:
+    baseDir: /C:/Users/Artist/IdeaProjects/order-service/files
+#    baseDir: /home/kvn/uploads
 
