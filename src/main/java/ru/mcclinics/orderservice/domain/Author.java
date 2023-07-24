@@ -37,6 +37,19 @@ public class Author{
     private Set<Track> tracks = new HashSet<>();
     @Column(name = "passport_pdf")
     private String passportPdf;
+    @Column(name = "diploma_pdf")
+    private String diplomaPdf;
+    @Column(name = "diplomaScienceRank_pdf")
+    private String diplomaScienceRankPdf;
+    @Column(name = "diplomaScienceDegree_pdf")
+    private String diplomaScienceDegreePdf;
+    @Column(name = "noCriminalRecord_pdf")
+    private String noCriminalRecordPdf;
+    @Column(name = "healthStatus_pdf")
+    private String healthStatusPdf;
+    @Column(name = "employmentBook_pdf")
+    private String employmentBookPdf;
+
     public Author(String lastName) {
         this.lastName = lastName;
     }

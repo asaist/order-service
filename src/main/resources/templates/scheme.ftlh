@@ -628,6 +628,7 @@
         </div>
       </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.8.162/build/pdf.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://track.samsmu.ru/js/select2.min.js"></script>
     <script src="https://track.samsmu.ru/js/popper.min.js"></script>
@@ -637,8 +638,8 @@
     <script src="https://track.samsmu.ru/js/track.js"></script>
     <script src="https://track.samsmu.ru/js/users.js"></script>
     <script src="https://track.samsmu.ru/js/pdfobject.min.js"></script>
-    <script src="https://track.samsmu.ru/js/pdf.js"></script>
-    <script src="https://track.samsmu.ru/js/pdf.worker.js"></script>
+<#--    <script src="https://track.samsmu.ru/js/pdf.js"></script>-->
+<#--    <script src="https://track.samsmu.ru/js/pdf.worker.js"></script>-->
 <#--    <script src="https://track.samsmu.ru/js/app.js" type="module"></script>-->
     <script src="js/jquery-3.7.0.min.js"></script>
     <script src="js/select2.min.js"></script>
@@ -649,8 +650,8 @@
     <script src="js/track.js"></script>
     <script src="js/users.js"></script>
     <script src="js/pdfobject.min.js"></script>
-    <script src="js/pdf.js"></script>
-    <script src="js/pdf.worker.js"></script>
+<#--    <script src="js/pdf.js"></script>-->
+<#--    <script src="js/pdf.worker.js"></script>-->
 <#--    <script src="js/app.js" type="module"></script>-->
 
     <script>
@@ -742,8 +743,8 @@
       $(document).ready(function() {
         $(".js-data-example-ajax").select2({
           ajax: {
-            // url: "https://track.samsmu.ru/api/author/authors",
-            url: "http://localhost:8081/api/author/authors",
+            url: "https://track.samsmu.ru/api/author/authors",
+            // url: "http://localhost:8081/api/author/authors",
             type: 'GET',
             dataType: 'json',
             delay: 250,

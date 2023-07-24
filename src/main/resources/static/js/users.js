@@ -1,10 +1,16 @@
 class Author {
-    constructor(id, fullName, degree, isSupervisor, passport) {
+    constructor(id, fullName, degree, isSupervisor, passport, diploma, diplomaScienceDegree, diplomaScienceRank, noCriminalRecord, healthStatus, employmentBook) {
         this.id = id;
         this.fullName = fullName;
         this.degree = degree;
         this.isSupervisor = isSupervisor;
         this.passport = passport;
+        this.diploma = diploma;
+        this.diplomaScienceRank = diplomaScienceRank;
+        this.diplomaScienceDegree = diplomaScienceDegree;
+        this.noCriminalRecord = noCriminalRecord;
+        this.healthStatus = healthStatus;
+        this.employmentBook = employmentBook;
     }
 }
 var authors = [];
@@ -120,6 +126,7 @@ function selectAuthor(el) {
     const preview = document.createElement('div');
     preview.classList.add('preview');
     preview.setAttribute('id', 'pdfContainer');
+    passportInput.appendChild(preview);
 
     const open = document.createElement('button');
     open.classList.add('btn');
@@ -127,6 +134,7 @@ function selectAuthor(el) {
 
     passportInput.classList.add('form-control', 'mr-10', 'w-75');
     passportInput.setAttribute('type', 'file');
+    passportInput.setAttribute('id', 'file-input');
 
     passportInput.insertAdjacentElement('afterend', preview);
     passportInput.insertAdjacentElement('afterend', open);
@@ -143,7 +151,7 @@ function selectAuthor(el) {
         console.log(files, 'файлы');
         files.forEach(file => {
             const reader = new FileReader();
-
+            let image = displayPdfAsImage(file);
             reader.onload = ev => {
                 console.log(ev.target.result);
                 passportInput.insertAdjacentHTML('afterend', `<img src="${ev.target.result}" />`)
@@ -155,7 +163,7 @@ function selectAuthor(el) {
                 // document.body.appendChild(iframe);
                 const pdfContainer = document.getElementById('pdfContainer');
 
-                PDFObject.embed(pdfData, "#pdfContainer");
+                PDFObject.embed(pdfData, pdfContainer);
             }
 
             reader.readAsDataURL(file);
@@ -201,10 +209,32 @@ function selectAuthor(el) {
     let diplomInput = document.createElement('input');
     diplomInput.classList.add('form-control', 'mr-10', 'w-75');
     diplomInput.setAttribute('type', 'file');
+    diplomInput.addEventListener('change', function(event) {
+        const fileList = event.target.files; // Получаем список выбранных файлов
+
+        if(!fileList.length){
+            return;
+        }
+        const files = Array.from(event.target.files);
+        console.log(files, 'файлы');
+        files.forEach(file => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+        })
+        if (fileList.length > 0) {
+            // Если выбран хотя бы один файл
+            const file = fileList[0]; // Берем первый файл из списка
+            author.diploma = file; // Присваиваем файл свойству passport объекта author
+        }
+    });
     trDocDiplom.append(diplomInput);
+
     let btnUploadDip = document.createElement('button');
     btnUploadDip.classList.add('btn', 'btn-primary', 'ml-10');
     btnUploadDip.setAttribute('type', 'button');
+    btnUploadDip.addEventListener('click', function() {
+        sendAuthorDocs(author);
+    });
     trDocDiplom.append(btnUploadDip);
     let uploadIconDip = document.createElement('i');
     uploadIconDip.classList.add('fas', 'fa-file-upload');
@@ -224,10 +254,31 @@ function selectAuthor(el) {
     let rankInput = document.createElement('input');
     rankInput.classList.add('form-control', 'mr-10', 'w-75');
     rankInput.setAttribute('type', 'file');
+    rankInput.addEventListener('change', function(event) {
+        const fileList = event.target.files; // Получаем список выбранных файлов
+
+        if(!fileList.length){
+            return;
+        }
+        const files = Array.from(event.target.files);
+        console.log(files, 'файлы');
+        files.forEach(file => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+        })
+        if (fileList.length > 0) {
+            // Если выбран хотя бы один файл
+            const file = fileList[0]; // Берем первый файл из списка
+            author.diplomaScienceRank = file; // Присваиваем файл свойству passport объекта author
+        }
+    });
     trDocRank.append(rankInput);
     let btnUploadRank = document.createElement('button');
     btnUploadRank.classList.add('btn', 'btn-primary', 'ml-10');
     btnUploadRank.setAttribute('type', 'button');
+    btnUploadRank.addEventListener('click', function() {
+        sendAuthorDocs(author);
+    });
     trDocRank.append(btnUploadRank);
     let uploadIconRank = document.createElement('i');
     uploadIconRank.classList.add('fas', 'fa-file-upload');
@@ -247,10 +298,31 @@ function selectAuthor(el) {
     let degreeInput = document.createElement('input');
     degreeInput.classList.add('form-control', 'mr-10', 'w-75');
     degreeInput.setAttribute('type', 'file');
+    degreeInput.addEventListener('change', function(event) {
+        const fileList = event.target.files; // Получаем список выбранных файлов
+
+        if(!fileList.length){
+            return;
+        }
+        const files = Array.from(event.target.files);
+        console.log(files, 'файлы');
+        files.forEach(file => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+        })
+        if (fileList.length > 0) {
+            // Если выбран хотя бы один файл
+            const file = fileList[0]; // Берем первый файл из списка
+            author.diplomaScienceDegree = file; // Присваиваем файл свойству passport объекта author
+        }
+    });
     trDocDegree.append(degreeInput);
     let btnUploadDegree = document.createElement('button');
     btnUploadDegree.classList.add('btn', 'btn-primary', 'ml-10');
     btnUploadDegree.setAttribute('type', 'button');
+    btnUploadDegree.addEventListener('click', function() {
+        sendAuthorDocs(author);
+    });
     trDocDegree.append(btnUploadDegree);
     let uploadIconDegree = document.createElement('i');
     uploadIconDegree.classList.add('fas', 'fa-file-upload');
@@ -270,10 +342,31 @@ function selectAuthor(el) {
     let criminalInput = document.createElement('input');
     criminalInput.classList.add('form-control', 'mr-10', 'w-75');
     criminalInput.setAttribute('type', 'file');
+    criminalInput.addEventListener('change', function(event) {
+        const fileList = event.target.files; // Получаем список выбранных файлов
+
+        if(!fileList.length){
+            return;
+        }
+        const files = Array.from(event.target.files);
+        console.log(files, 'файлы');
+        files.forEach(file => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+        })
+        if (fileList.length > 0) {
+            // Если выбран хотя бы один файл
+            const file = fileList[0]; // Берем первый файл из списка
+            author.noCriminalRecord = file; // Присваиваем файл свойству passport объекта author
+        }
+    });
     trDocCriminal.append(criminalInput);
     let btnUploadCriminal = document.createElement('button');
     btnUploadCriminal.classList.add('btn', 'btn-primary', 'ml-10');
     btnUploadCriminal.setAttribute('type', 'button');
+    btnUploadCriminal.addEventListener('click', function() {
+        sendAuthorDocs(author);
+    });
     trDocCriminal.append(btnUploadCriminal);
     let uploadIconCriminal = document.createElement('i');
     uploadIconCriminal.classList.add('fas', 'fa-file-upload');
@@ -293,10 +386,31 @@ function selectAuthor(el) {
     let healthInput = document.createElement('input');
     healthInput.classList.add('form-control', 'mr-10', 'w-75');
     healthInput.setAttribute('type', 'file');
+    healthInput.addEventListener('change', function(event) {
+        const fileList = event.target.files; // Получаем список выбранных файлов
+
+        if(!fileList.length){
+            return;
+        }
+        const files = Array.from(event.target.files);
+        console.log(files, 'файлы');
+        files.forEach(file => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+        })
+        if (fileList.length > 0) {
+            // Если выбран хотя бы один файл
+            const file = fileList[0]; // Берем первый файл из списка
+            author.healthStatus = file; // Присваиваем файл свойству passport объекта author
+        }
+    });
     trDocHealth.append(healthInput);
     let btnUploadHealth = document.createElement('button');
     btnUploadHealth.classList.add('btn', 'btn-primary', 'ml-10');
     btnUploadHealth.setAttribute('type', 'button');
+    btnUploadHealth.addEventListener('click', function() {
+        sendAuthorDocs(author);
+    });
     trDocHealth.append(btnUploadHealth);
     let uploadIconHealth = document.createElement('i');
     uploadIconHealth.classList.add('fas', 'fa-file-upload');
@@ -316,10 +430,31 @@ function selectAuthor(el) {
     let experienceInput = document.createElement('input');
     experienceInput.classList.add('form-control', 'mr-10', 'w-75');
     experienceInput.setAttribute('type', 'file');
+    experienceInput.addEventListener('change', function(event) {
+        const fileList = event.target.files; // Получаем список выбранных файлов
+
+        if(!fileList.length){
+            return;
+        }
+        const files = Array.from(event.target.files);
+        console.log(files, 'файлы');
+        files.forEach(file => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+        })
+        if (fileList.length > 0) {
+            // Если выбран хотя бы один файл
+            const file = fileList[0]; // Берем первый файл из списка
+            author.employmentBook = file; // Присваиваем файл свойству passport объекта author
+        }
+    });
     trDocExperience.append(experienceInput);
     let btnUploadExperience = document.createElement('button');
     btnUploadExperience.classList.add('btn', 'btn-primary', 'ml-10');
     btnUploadExperience.setAttribute('type', 'button');
+    btnUploadExperience.addEventListener('click', function() {
+        sendAuthorDocs(author);
+    });
     trDocExperience.append(btnUploadExperience);
     let uploadIconExperience = document.createElement('i');
     uploadIconExperience.classList.add('fas', 'fa-file-upload');
@@ -344,6 +479,12 @@ async function sendAuthorDocs(author) {
     formData.append('id', author.id);
     formData.append('fullName', author.fullName);
     formData.append('passport', author.passport);
+    formData.append('diploma', author.diploma);
+    formData.append('diplomaScienceRank', author.diplomaScienceRank);
+    formData.append('diplomaScienceDegree', author.diplomaScienceDegree);
+    formData.append('noCriminalRecord', author.noCriminalRecord);
+    formData.append('healthStatus', author.healthStatus);
+    formData.append('employmentBook', author.employmentBook);
     console.log(formData.get('passport'));
     let response = await fetch('/api/author/docs', {
         method: 'POST',
@@ -351,4 +492,41 @@ async function sendAuthorDocs(author) {
     });
     let result = await response.json();
     alert(result.message);
+}
+
+function displayPdfAsImage(pdfFile) {
+    const fileReader = new FileReader();
+
+    fileReader.onload = function() {
+        const typedArray = new Uint8Array(this.result);
+
+        // Загрузка PDF-файла
+        pdfjsLib.getDocument(typedArray).promise.then((pdf) => {
+            // Получение первой страницы PDF-файла
+            pdf.getPage(1).then((page) => {
+                const scale = 1.5;
+                const viewport = page.getViewport({ scale });
+
+                // Создание элемента canvas для отрисовки страницы
+                const canvas = document.createElement('canvas');
+                const context = canvas.getContext('2d');
+                canvas.width = viewport.width;
+                canvas.height = viewport.height;
+
+                // Отрисовка страницы на canvas
+                page.render({
+                    canvasContext: context,
+                    viewport: viewport
+                })
+                    .promise.then(() => {
+                    // Создание элемента img и отображение картинки
+                    const img = document.createElement('img');
+                    img.src = canvas.toDataURL();
+                    document.body.appendChild(img);
+                });
+            });
+        });
+    };
+
+    fileReader.readAsArrayBuffer(pdfFile);
 }
