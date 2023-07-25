@@ -24,14 +24,14 @@ spring:
               - openid
               - profile
               - roles
-#            redirect-uri: http://localhost:8081/login/oauth2/code/course
-            redirect-uri: https://track.samsmu.ru/login/oauth2/code/course
+            redirect-uri: http://localhost:8081/login/oauth2/code/course
+#            redirect-uri: https://track.samsmu.ru/login/oauth2/code/course
         provider:
           keycloak:
 #            issuer-uri: http://localhost:8180/auth/realms/SAMGMU
             issuer-uri: https://sso.samsmu.ru/auth/realms/SAMGMU
 files:
   upload:
-#    baseDir: /C:/Users/Artist/IdeaProjects/order-service/files
-    baseDir: /home/kvn/uploads
+    baseDir: /C:/Users/Artist/IdeaProjects/order-service/files
+#    baseDir: /home/kvn/uploads
 

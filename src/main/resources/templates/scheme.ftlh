@@ -743,8 +743,8 @@
       $(document).ready(function() {
         $(".js-data-example-ajax").select2({
           ajax: {
-            url: "https://track.samsmu.ru/api/author/authors",
-            // url: "http://localhost:8081/api/author/authors",
+            // url: "https://track.samsmu.ru/api/author/authors",
+            url: "http://localhost:8081/api/author/authors",
             type: 'GET',
             dataType: 'json',
             delay: 250,
@@ -756,7 +756,7 @@
             },
             processResults: function (data) {
               var authors = data.map(function (author) {
-                return {id: author.id, text: author.lastName + ' ' + author.firstName + ' ' + author.middleName, academicDegreeName: author.academicDegreeName};
+                return {id: author.id, text: author.lastName + ' ' + author.firstName + ' ' + author.middleName, academicDegreeName: author.academicDegreeName, passportDB: author.passportPdf};
               });
               return {
                 results: authors

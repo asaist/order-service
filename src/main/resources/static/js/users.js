@@ -26,10 +26,11 @@ function selectAuthor(el) {
     var academicDegreeName = selectData[0].academicDegreeName;
     console.log(academicDegreeName, "уч.степень");
 
-    var value = e.value;
-    var text = e.options[e.selectedIndex].text;
-    var id = e.options[e.selectedIndex].id;
-    var index = e.options[e.selectedIndex];
+    let value = e.value;
+    let text = e.options[e.selectedIndex].text;
+    let passportDB = selectData[0].passportDB;
+    let id = e.options[e.selectedIndex].id;
+    let index = e.options[e.selectedIndex];
     console.log(index, "индекс HTML");
     // let select = document.getElementById("select");
     // let value = select.value;
@@ -108,7 +109,13 @@ function selectAuthor(el) {
     let tdDoc = document.createElement('td');
     tdDoc.setAttribute('colspan','5');
     trDoc.append(tdDoc);
-
+    if (passportDB != null){
+        let btnPassDB = document.createElement('button');
+        btnPassDB.classList.add('btn', 'btn-primary', 'ml-10');
+        btnPassDB.setAttribute('type', 'button');
+        btnPassDB.textContent = 'Открыть паспорт';
+        tdDoc.append(btnPassDB);
+    }
     let passport = document.createElement('div');
     passport.classList.add('mb-10');
     tdDoc.append(passport);
@@ -123,6 +130,7 @@ function selectAuthor(el) {
 
     let passportInput = document.createElement('input');
 
+
     const preview = document.createElement('div');
     preview.classList.add('preview');
     preview.setAttribute('id', 'pdfContainer');
@@ -135,6 +143,16 @@ function selectAuthor(el) {
     passportInput.classList.add('form-control', 'mr-10', 'w-75');
     passportInput.setAttribute('type', 'file');
     passportInput.setAttribute('id', 'file-input');
+    // passportInput.setAttribute('placeholder', passportDB);
+    // passportInput.setAttribute('value', passportDB);
+//     // Convert the PDF data to a blob object
+//     let blob = new Blob([passportDB], { type: 'application/pdf' });
+//
+// // Create a file object from the blob
+//     let file = new File([blob], 'passport.pdf', { type: 'application/pdf' });
+
+// Create a file input to hold the PDF file
+    passportInput.placeholder = passportDB;
 
     passportInput.insertAdjacentElement('afterend', preview);
     passportInput.insertAdjacentElement('afterend', open);
@@ -154,7 +172,7 @@ function selectAuthor(el) {
             let image = displayPdfAsImage(file);
             reader.onload = ev => {
                 console.log(ev.target.result);
-                passportInput.insertAdjacentHTML('afterend', `<img src="${ev.target.result}" />`)
+                passportInput.insertAdjacentHTML('afterend', `<iframe src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`)
                 const pdfData = ev.target.result;
                 // const iframe = document.createElement('iframe');
                 // iframe.src = pdfData;
