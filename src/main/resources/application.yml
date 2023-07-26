@@ -5,6 +5,11 @@ spring:
     name: order-service
   freemarker:
     expose-request-attributes: true
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
 
 springdoc:
     show-actuator: false

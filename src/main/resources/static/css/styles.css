@@ -409,6 +409,14 @@ tbody, td, tfoot, th, thead, tr {
     margin-right: .1rem;
     box-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
 }
+.iframePdf{
+    width: 100%;
+    height: calc(65vh);
+    border: black 1px;
+    overflow-y: hidden;
+    padding: 0px;
+    margin: 0px;
+}
 /*input[type=file] {*/
 /*    display: none;*/
 /*}*/

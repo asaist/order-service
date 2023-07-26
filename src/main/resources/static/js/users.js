@@ -113,6 +113,11 @@ function selectAuthor(el) {
         let btnPassDB = document.createElement('button');
         btnPassDB.classList.add('btn', 'btn-primary', 'ml-10');
         btnPassDB.setAttribute('type', 'button');
+        btnPassDB.addEventListener('click', function() {
+            btnPassDB.insertAdjacentHTML('afterend', `<iframe src="/pdf/${passportDB}" frameborder="0" height="500px" width="100%" />`);
+
+            // showAuthorsDoc(passportInput, passportDB);
+        });
         btnPassDB.textContent = 'Открыть паспорт';
         tdDoc.append(btnPassDB);
     }
@@ -545,6 +550,7 @@ function displayPdfAsImage(pdfFile) {
             });
         });
     };
+    function showAuthorsDoc(el){
 
-    fileReader.readAsArrayBuffer(pdfFile);
+    }
 }
