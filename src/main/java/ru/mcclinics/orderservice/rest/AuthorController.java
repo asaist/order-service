@@ -72,13 +72,13 @@ public class AuthorController {
                        @RequestParam(value = "healthStatus", required = false) MultipartFile healthStatus,
                        @RequestParam(value = "employmentBook", required = false) MultipartFile employmentBook
     ) throws IOException {
-        Author author = new Author();
-        author.setAuthorId(Long.valueOf(id));
-        String[] strMain = fullName.split(" ");
-        author.setLastName(strMain[0]);
-        author.setFirstName(strMain[1]);
-        author.setMiddleName(strMain[2]);
-        Author authorFromDB = service.findAuthorById(author.getAuthorId());
+//        Author author = new Author();
+//        author.setAuthorId(Long.valueOf(id));
+//        String[] strMain = fullName.split(" ");
+//        author.setLastName(strMain[0]);
+//        author.setFirstName(strMain[1]);
+//        author.setMiddleName(strMain[2]);
+        Author authorFromDB = service.findAuthorById(Long.valueOf(id));
 
 
         // Delete existing passport file, if it exists
@@ -99,7 +99,7 @@ public class AuthorController {
             String uuidFile = UUID.randomUUID().toString();
             String resultFileName = uuidFile + "." + passport.getOriginalFilename();
             passport.transferTo(new File(uploadPath + "/" + resultFileName));
-            author.setPassportPdf(resultFileName);
+            authorFromDB.setPassportPdf(resultFileName);
         }
 
         // Delete existing diploma file, if it exists
@@ -120,7 +120,7 @@ public class AuthorController {
             String uuidFile = UUID.randomUUID().toString();
             String resultFileName = uuidFile + "." + diploma.getOriginalFilename();
             diploma.transferTo(new File(uploadPath + "/" + resultFileName));
-            author.setDiplomaPdf(resultFileName);
+            authorFromDB.setDiplomaPdf(resultFileName);
         }
 
         // Delete existing diplomaScienceRank file, if it exists
@@ -141,7 +141,7 @@ public class AuthorController {
             String uuidFile = UUID.randomUUID().toString();
             String resultFileName = uuidFile + "." + diplomaScienceRank.getOriginalFilename();
             diplomaScienceRank.transferTo(new File(uploadPath + "/" + resultFileName));
-            author.setDiplomaScienceRankPdf(resultFileName);
+            authorFromDB.setDiplomaScienceRankPdf(resultFileName);
         }
 
         // Delete existing diplomaScienceDegree file, if it exists
@@ -162,7 +162,7 @@ public class AuthorController {
             String uuidFile = UUID.randomUUID().toString();
             String resultFileName = uuidFile + "." + diplomaScienceDegree.getOriginalFilename();
             diplomaScienceDegree.transferTo(new File(uploadPath + "/" + resultFileName));
-            author.setDiplomaScienceDegreePdf(resultFileName);
+            authorFromDB.setDiplomaScienceDegreePdf(resultFileName);
         }
 
         // Delete existing noCriminalRecord file, if it exists
@@ -183,7 +183,7 @@ public class AuthorController {
             String uuidFile = UUID.randomUUID().toString();
             String resultFileName = uuidFile + "." + noCriminalRecord.getOriginalFilename();
             noCriminalRecord.transferTo(new File(uploadPath + "/" + resultFileName));
-            author.setNoCriminalRecordPdf(resultFileName);
+            authorFromDB.setNoCriminalRecordPdf(resultFileName);
         }
 
 
@@ -206,7 +206,7 @@ public class AuthorController {
             String uuidFile = UUID.randomUUID().toString();
             String resultFileName = uuidFile + "." + healthStatus.getOriginalFilename();
             healthStatus.transferTo(new File(uploadPath + "/" + resultFileName));
-            author.setHealthStatusPdf(resultFileName);
+            authorFromDB.setHealthStatusPdf(resultFileName);
         }
 
 
@@ -229,10 +229,10 @@ public class AuthorController {
             String uuidFile = UUID.randomUUID().toString();
             String resultFileName = uuidFile + "." + employmentBook.getOriginalFilename();
             employmentBook.transferTo(new File(uploadPath + "/" + resultFileName));
-            author.setEmploymentBookPdf(resultFileName);
+            authorFromDB.setEmploymentBookPdf(resultFileName);
         }
 
-        log.info("/create [author {}]", author);
-        return service.create(author);
+        log.info("/create [author {}]", authorFromDB);
+        return service.create(authorFromDB);
     }
 }

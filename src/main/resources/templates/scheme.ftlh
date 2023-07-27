@@ -743,8 +743,8 @@
       $(document).ready(function() {
         $(".js-data-example-ajax").select2({
           ajax: {
-            // url: "https://track.samsmu.ru/api/author/authors",
-            url: "http://localhost:8081/api/author/authors",
+            url: "https://track.samsmu.ru/api/author/authors",
+            // url: "http://localhost:8081/api/author/authors",
             type: 'GET',
             dataType: 'json',
             delay: 250,
@@ -755,15 +755,20 @@
               };
             },
             processResults: function (data) {
-              var authors = data.map(function (author) {
-                return {id: author.id, text: author.lastName + ' ' + author.firstName + ' ' + author.middleName, academicDegreeName: author.academicDegreeName, passportDB: author.passportPdf};
+              let authors = data.map(function (author) {
+                return {id: author.id, text: author.lastName + ' ' + author.firstName + ' ' + author.middleName,
+                  academicDegreeName: author.academicDegreeName, passportDB: author.passportPdf, diplomaDB: author.diplomaPdf,
+                  diplomaScienceRankDB: author.diplomaScienceRankPdf, diplomaScienceDegreeDB: author.diplomaScienceDegreePdf,
+                  noCriminalRecordDB: author.noCriminalRecordPdf, healthStatusDB: author.healthStatusPdf,
+                  employmentBookDB: author.employmentBookPdf
+                };
               });
               return {
                 results: authors
               };
             },
             transport: function (params, success, failure) {
-              var $request = $.ajax(params);
+              let $request = $.ajax(params);
               $request.then(success);
               $request.fail(failure);
               return $request;

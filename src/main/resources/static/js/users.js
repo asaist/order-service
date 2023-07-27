@@ -29,6 +29,12 @@ function selectAuthor(el) {
     let value = e.value;
     let text = e.options[e.selectedIndex].text;
     let passportDB = selectData[0].passportDB;
+    let diplomaDB = selectData[0].diplomaDB;
+    let diplomaScienceRankDB = selectData[0].diplomaScienceRankDB;
+    let diplomaScienceDegreeDB = selectData[0].diplomaScienceDegreeDB;
+    let noCriminalRecordDB = selectData[0].noCriminalRecordDB;
+    let healthStatusDB = selectData[0].healthStatusDB;
+    let employmentBookDB = selectData[0].employmentBookDB;
     let id = e.options[e.selectedIndex].id;
     let index = e.options[e.selectedIndex];
     console.log(index, "индекс HTML");
@@ -131,20 +137,6 @@ function selectAuthor(el) {
                     const url = URL.createObjectURL(blob);
                     btnPassDB.insertAdjacentHTML('afterend', `<iframe src="${url}" frameborder="0" height="500px" width="100%" />`);
                     passport.classList.remove('hidden');
-
-                    // Создаем ссылку на файл
-                    // const url = URL.createObjectURL(blob);
-                    //
-                    // // Создаем анкор ссылку для скачивания файла
-                    // const link = document.createElement('a');
-                    // link.href = url;
-                    // link.download = 'file.pdf';
-                    //
-                    // // Программно кликаем по ссылке для скачивания файла
-                    // link.click();
-                    //
-                    // // Освобождаем ресурсы
-                    // URL.revokeObjectURL(url);
                 })
                 .catch(error => console.error('Ошибка:', error));
         });
@@ -152,7 +144,12 @@ function selectAuthor(el) {
         tdDoc.append(btnPassDB);
     }
     let passport = document.createElement('div');
-    passport.classList.add('mb-10', 'hidden');
+    if (passportDB === null){
+        passport.classList.add('mb-10');
+    } else {
+        passport.classList.add('mb-10', 'hidden');
+    }
+
     tdDoc.append(passport);
     let passportLabel = document.createElement('b');
     passportLabel.textContent = 'Загрузите паспорт';
@@ -194,19 +191,13 @@ function selectAuthor(el) {
         console.log(files, 'файлы');
         files.forEach(file => {
             const reader = new FileReader();
-            let image = displayPdfAsImage(file);
             reader.onload = ev => {
                 console.log(ev.target.result);
                 passportInput.insertAdjacentHTML('afterend', `<iframe src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`)
-                const pdfData = ev.target.result;
-                // const iframe = document.createElement('iframe');
-                // iframe.src = pdfData;
-                // iframe.width = '100%';
-                // iframe.height = '500px';
-                // document.body.appendChild(iframe);
-                const pdfContainer = document.getElementById('pdfContainer');
+                // const pdfData = ev.target.result;
+                // const pdfContainer = document.getElementById('pdfContainer');
 
-                PDFObject.embed(pdfData, pdfContainer);
+                // PDFObject.embed(pdfData, pdfContainer);
             }
 
             reader.readAsDataURL(file);
@@ -219,8 +210,6 @@ function selectAuthor(el) {
     });
     open.addEventListener('click', triggerInput);
     trDocPassport.append(passportInput);
-
-    // author.passport = passportInput;
 
     let btnUpload = document.createElement('button');
     btnUpload.classList.add('btn', 'btn-primary', 'ml-10');
@@ -237,9 +226,34 @@ function selectAuthor(el) {
     uploadIcon.classList.add('fas', 'fa-file-upload');
     btnUpload.append(uploadIcon);
 
-
+    if (diplomaDB != null){
+        let btnDipDB = document.createElement('button');
+        btnDipDB.classList.add('btn', 'btn-primary', 'ml-10');
+        btnDipDB.setAttribute('type', 'button');
+        btnDipDB.addEventListener('click', function() {
+            fetch(`/pdf/${diplomaDB}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/pdf'
+                }
+            })
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = URL.createObjectURL(blob);
+                    btnDipDB.insertAdjacentHTML('afterend', `<iframe src="${url}" frameborder="0" height="500px" width="100%" />`);
+                    diplom.classList.remove('hidden');
+                })
+                .catch(error => console.error('Ошибка:', error));
+        });
+        btnDipDB.textContent = 'Открыть диплом';
+        tdDoc.append(btnDipDB);
+    }
     let diplom = document.createElement('div');
-    diplom.classList.add('mb-10');
+    if (diplomaDB === null){
+        diplom.classList.add('mb-10');
+    } else {
+        diplom.classList.add('mb-10', 'hidden');
+    }
     tdDoc.append(diplom);
     let diplomLabel = document.createElement('b');
     diplomLabel.textContent = 'Загрузите диплом о в/о';
@@ -262,6 +276,10 @@ function selectAuthor(el) {
         console.log(files, 'файлы');
         files.forEach(file => {
             const reader = new FileReader();
+            reader.onload = ev => {
+                console.log(ev.target.result);
+                diplomInput.insertAdjacentHTML('afterend', `<iframe src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`)
+            }
             reader.readAsDataURL(file);
         })
         if (fileList.length > 0) {
@@ -283,8 +301,34 @@ function selectAuthor(el) {
     uploadIconDip.classList.add('fas', 'fa-file-upload');
     btnUploadDip.append(uploadIconDip);
 
+    if (diplomaScienceRankDB != null){
+        let btnRnkDB = document.createElement('button');
+        btnRnkDB.classList.add('btn', 'btn-primary', 'ml-10');
+        btnRnkDB.setAttribute('type', 'button');
+        btnRnkDB.addEventListener('click', function() {
+            fetch(`/pdf/${diplomaScienceRankDB}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/pdf'
+                }
+            })
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = URL.createObjectURL(blob);
+                    btnRnkDB.insertAdjacentHTML('afterend', `<iframe src="${url}" frameborder="0" height="500px" width="100%" />`);
+                    rank.classList.remove('hidden');
+                })
+                .catch(error => console.error('Ошибка:', error));
+        });
+        btnRnkDB.textContent = 'Открыть диплом о научном звании';
+        tdDoc.append(btnRnkDB);
+    }
     let rank = document.createElement('div');
-    rank.classList.add('mb-10');
+    if (diplomaScienceRankDB === null){
+        rank.classList.add('mb-10');
+    } else {
+        rank.classList.add('mb-10', 'hidden');
+    }
     tdDoc.append(rank);
     let rankLabel = document.createElement('b');
     rankLabel.textContent = 'Загрузите диплом о научном звании';
@@ -307,6 +351,10 @@ function selectAuthor(el) {
         console.log(files, 'файлы');
         files.forEach(file => {
             const reader = new FileReader();
+            reader.onload = ev => {
+                console.log(ev.target.result);
+                rankInput.insertAdjacentHTML('afterend', `<iframe src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`)
+            }
             reader.readAsDataURL(file);
         })
         if (fileList.length > 0) {
@@ -327,8 +375,34 @@ function selectAuthor(el) {
     uploadIconRank.classList.add('fas', 'fa-file-upload');
     btnUploadRank.append(uploadIconRank);
 
+    if (diplomaScienceDegreeDB != null){
+        let btnDegreeDB = document.createElement('button');
+        btnDegreeDB.classList.add('btn', 'btn-primary', 'ml-10');
+        btnDegreeDB.setAttribute('type', 'button');
+        btnDegreeDB.addEventListener('click', function() {
+            fetch(`/pdf/${diplomaScienceDegreeDB}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/pdf'
+                }
+            })
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = URL.createObjectURL(blob);
+                    btnDegreeDB.insertAdjacentHTML('afterend', `<iframe src="${url}" frameborder="0" height="500px" width="100%" />`);
+                    degree.classList.remove('hidden');
+                })
+                .catch(error => console.error('Ошибка:', error));
+        });
+        btnDegreeDB.textContent = 'Открыть диплом о научной степени';
+        tdDoc.append(btnDegreeDB);
+    }
     let degree = document.createElement('div');
-    degree.classList.add('mb-10');
+    if (diplomaScienceDegreeDB === null){
+        degree.classList.add('mb-10');
+    } else {
+        degree.classList.add('mb-10', 'hidden');
+    }
     tdDoc.append(degree);
     let degreeLabel = document.createElement('b');
     degreeLabel.textContent = 'Загрузите диплом о научной степени';
@@ -351,6 +425,10 @@ function selectAuthor(el) {
         console.log(files, 'файлы');
         files.forEach(file => {
             const reader = new FileReader();
+            reader.onload = ev => {
+                console.log(ev.target.result);
+                degreeInput.insertAdjacentHTML('afterend', `<iframe src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`)
+            }
             reader.readAsDataURL(file);
         })
         if (fileList.length > 0) {
@@ -371,8 +449,34 @@ function selectAuthor(el) {
     uploadIconDegree.classList.add('fas', 'fa-file-upload');
     btnUploadDegree.append(uploadIconDegree);
 
+    if (noCriminalRecordDB != null){
+        let btnCriminalDB = document.createElement('button');
+        btnCriminalDB.classList.add('btn', 'btn-primary', 'ml-10');
+        btnCriminalDB.setAttribute('type', 'button');
+        btnCriminalDB.addEventListener('click', function() {
+            fetch(`/pdf/${noCriminalRecordDB}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/pdf'
+                }
+            })
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = URL.createObjectURL(blob);
+                    btnCriminalDB.insertAdjacentHTML('afterend', `<iframe src="${url}" frameborder="0" height="500px" width="100%" />`);
+                    criminal.classList.remove('hidden');
+                })
+                .catch(error => console.error('Ошибка:', error));
+        });
+        btnCriminalDB.textContent = 'Открыть справку об отсутствии судимости';
+        tdDoc.append(btnCriminalDB);
+    }
     let criminal = document.createElement('div');
-    criminal.classList.add('mb-10');
+    if (noCriminalRecordDB === null){
+        criminal.classList.add('mb-10');
+    } else {
+        criminal.classList.add('mb-10', 'hidden');
+    }
     tdDoc.append(criminal);
     let criminalLabel = document.createElement('b');
     criminalLabel.textContent = 'Загрузите справку об отсутствии судимости';
@@ -395,6 +499,10 @@ function selectAuthor(el) {
         console.log(files, 'файлы');
         files.forEach(file => {
             const reader = new FileReader();
+            reader.onload = ev => {
+                console.log(ev.target.result);
+                criminalInput.insertAdjacentHTML('afterend', `<iframe src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`)
+            }
             reader.readAsDataURL(file);
         })
         if (fileList.length > 0) {
@@ -415,8 +523,34 @@ function selectAuthor(el) {
     uploadIconCriminal.classList.add('fas', 'fa-file-upload');
     btnUploadCriminal.append(uploadIconCriminal);
 
+    if (healthStatusDB != null){
+        let btnHealthDB = document.createElement('button');
+        btnHealthDB.classList.add('btn', 'btn-primary', 'ml-10');
+        btnHealthDB.setAttribute('type', 'button');
+        btnHealthDB.addEventListener('click', function() {
+            fetch(`/pdf/${healthStatusDB}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/pdf'
+                }
+            })
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = URL.createObjectURL(blob);
+                    btnHealthDB.insertAdjacentHTML('afterend', `<iframe src="${url}" frameborder="0" height="500px" width="100%" />`);
+                    health.classList.remove('hidden');
+                })
+                .catch(error => console.error('Ошибка:', error));
+        });
+        btnHealthDB.textContent = 'Открыть справку о состоянии здоровья';
+        tdDoc.append(btnHealthDB);
+    }
     let health = document.createElement('div');
-    health.classList.add('mb-10');
+    if (healthStatusDB === null){
+        health.classList.add('mb-10');
+    } else {
+        health.classList.add('mb-10', 'hidden');
+    }
     tdDoc.append(health);
     let healthLabel = document.createElement('b');
     healthLabel.textContent = 'Загрузите справку о состоянии здоровья';
@@ -439,6 +573,10 @@ function selectAuthor(el) {
         console.log(files, 'файлы');
         files.forEach(file => {
             const reader = new FileReader();
+            reader.onload = ev => {
+                console.log(ev.target.result);
+                healthInput.insertAdjacentHTML('afterend', `<iframe src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`)
+            }
             reader.readAsDataURL(file);
         })
         if (fileList.length > 0) {
@@ -459,8 +597,34 @@ function selectAuthor(el) {
     uploadIconHealth.classList.add('fas', 'fa-file-upload');
     btnUploadHealth.append(uploadIconHealth);
 
+    if (employmentBookDB != null){
+        let btnExpDB = document.createElement('button');
+        btnExpDB.classList.add('btn', 'btn-primary', 'ml-10');
+        btnExpDB.setAttribute('type', 'button');
+        btnExpDB.addEventListener('click', function() {
+            fetch(`/pdf/${employmentBookDB}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/pdf'
+                }
+            })
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = URL.createObjectURL(blob);
+                    btnExpDB.insertAdjacentHTML('afterend', `<iframe src="${url}" frameborder="0" height="500px" width="100%" />`);
+                    experience.classList.remove('hidden');
+                })
+                .catch(error => console.error('Ошибка:', error));
+        });
+        btnExpDB.textContent = 'Открыть последнюю страницу трудовой книжки';
+        tdDoc.append(btnExpDB);
+    }
     let experience = document.createElement('div');
-    experience.classList.add('mb-10');
+    if (employmentBookDB === null){
+        experience.classList.add('mb-10');
+    } else {
+        experience.classList.add('mb-10', 'hidden');
+    }
     tdDoc.append(experience);
     let experienceLabel = document.createElement('b');
     experienceLabel.textContent = 'Загрузите последнюю страницу трудовой книжки';
@@ -483,6 +647,10 @@ function selectAuthor(el) {
         console.log(files, 'файлы');
         files.forEach(file => {
             const reader = new FileReader();
+            reader.onload = ev => {
+                console.log(ev.target.result);
+                experienceInput.insertAdjacentHTML('afterend', `<iframe src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`)
+            }
             reader.readAsDataURL(file);
         })
         if (fileList.length > 0) {
