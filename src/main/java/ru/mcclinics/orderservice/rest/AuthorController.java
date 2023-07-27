@@ -64,13 +64,13 @@ public class AuthorController {
     @PostMapping("/docs")
     public Author docs(@RequestParam("id") String id,
                        @RequestParam("fullName") String fullName,
-                       @RequestParam("passport") MultipartFile passport,
-                       @RequestParam("diploma") MultipartFile diploma,
-                       @RequestParam("diplomaScienceRank") MultipartFile diplomaScienceRank,
-                       @RequestParam("diplomaScienceDegree") MultipartFile diplomaScienceDegree,
-                       @RequestParam("noCriminalRecord") MultipartFile noCriminalRecord,
-                       @RequestParam("healthStatus") MultipartFile healthStatus,
-                       @RequestParam("employmentBook") MultipartFile employmentBook
+                       @RequestParam(value = "passport", required = false) MultipartFile passport,
+                       @RequestParam(value = "diploma", required = false) MultipartFile diploma,
+                       @RequestParam(value = "diplomaScienceRank", required = false) MultipartFile diplomaScienceRank,
+                       @RequestParam(value = "diplomaScienceDegree", required = false) MultipartFile diplomaScienceDegree,
+                       @RequestParam(value = "noCriminalRecord", required = false) MultipartFile noCriminalRecord,
+                       @RequestParam(value = "healthStatus", required = false) MultipartFile healthStatus,
+                       @RequestParam(value = "employmentBook", required = false) MultipartFile employmentBook
     ) throws IOException {
         Author author = new Author();
         author.setAuthorId(Long.valueOf(id));

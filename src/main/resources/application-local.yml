@@ -33,5 +33,5 @@ spring:
 files:
   upload:
     baseDir: C:\\Users\\Artist\\IdeaProjects\\order-service\\files\\
-#    baseDir: /home/kvn/uploads
+#    baseDir: /home/kvn/uploads/
 

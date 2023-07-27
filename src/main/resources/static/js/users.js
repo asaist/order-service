@@ -63,7 +63,13 @@ function selectAuthor(el) {
     console.log(e.value.replace(/\s/g, ""));
     authors.push(author);
     console.log(authors);
-
+    author.passport = null;
+    author.diploma = null;
+    author.diplomaScienceRank = null;
+    author.diplomaScienceDegree = null;
+    author.noCriminalRecord = null;
+    author.healthStatus = null;
+    author.employmentBook = null;
     let prof = document.createElement('td');
     prof.classList.add('text-center','regTd');
     prof.innerHTML = academicDegreeName;
@@ -114,15 +120,39 @@ function selectAuthor(el) {
         btnPassDB.classList.add('btn', 'btn-primary', 'ml-10');
         btnPassDB.setAttribute('type', 'button');
         btnPassDB.addEventListener('click', function() {
-            btnPassDB.insertAdjacentHTML('afterend', `<iframe src="/pdf/${passportDB}" frameborder="0" height="500px" width="100%" />`);
+            fetch(`/pdf/${passportDB}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/pdf'
+                }
+            })
+                .then(response => response.blob())
+                .then(blob => {
+                    const url = URL.createObjectURL(blob);
+                    btnPassDB.insertAdjacentHTML('afterend', `<iframe src="${url}" frameborder="0" height="500px" width="100%" />`);
+                    passport.classList.remove('hidden');
 
-            // showAuthorsDoc(passportInput, passportDB);
+                    // Создаем ссылку на файл
+                    // const url = URL.createObjectURL(blob);
+                    //
+                    // // Создаем анкор ссылку для скачивания файла
+                    // const link = document.createElement('a');
+                    // link.href = url;
+                    // link.download = 'file.pdf';
+                    //
+                    // // Программно кликаем по ссылке для скачивания файла
+                    // link.click();
+                    //
+                    // // Освобождаем ресурсы
+                    // URL.revokeObjectURL(url);
+                })
+                .catch(error => console.error('Ошибка:', error));
         });
         btnPassDB.textContent = 'Открыть паспорт';
         tdDoc.append(btnPassDB);
     }
     let passport = document.createElement('div');
-    passport.classList.add('mb-10');
+    passport.classList.add('mb-10', 'hidden');
     tdDoc.append(passport);
     let passportLabel = document.createElement('b');
     passportLabel.textContent = 'Загрузите паспорт';
@@ -135,7 +165,6 @@ function selectAuthor(el) {
 
     let passportInput = document.createElement('input');
 
-
     const preview = document.createElement('div');
     preview.classList.add('preview');
     preview.setAttribute('id', 'pdfContainer');
@@ -143,21 +172,12 @@ function selectAuthor(el) {
 
     const open = document.createElement('button');
     open.classList.add('btn');
-    open.textContent = 'Открыть'
+    open.textContent = 'Открыть';
 
     passportInput.classList.add('form-control', 'mr-10', 'w-75');
     passportInput.setAttribute('type', 'file');
     passportInput.setAttribute('id', 'file-input');
-    // passportInput.setAttribute('placeholder', passportDB);
-    // passportInput.setAttribute('value', passportDB);
-//     // Convert the PDF data to a blob object
-//     let blob = new Blob([passportDB], { type: 'application/pdf' });
-//
-// // Create a file object from the blob
-//     let file = new File([blob], 'passport.pdf', { type: 'application/pdf' });
 
-// Create a file input to hold the PDF file
-    passportInput.placeholder = passportDB;
 
     passportInput.insertAdjacentElement('afterend', preview);
     passportInput.insertAdjacentElement('afterend', open);
