@@ -123,7 +123,8 @@ function selectAuthor(el) {
     trDoc.append(tdDoc);
     if (passportDB != null){
         let btnPassDB = document.createElement('button');
-        btnPassDB.classList.add('btn', 'btn-primary', 'ml-10');
+        // btnPassDB.classList.add('btn', 'btn-primary', 'ml-10');
+        btnPassDB.classList.add('fas', 'fa-download', 'text-primary', 'mr-10');
         btnPassDB.setAttribute('type', 'button');
         btnPassDB.addEventListener('click', function() {
             fetch(`/pdf/${passportDB}`, {
@@ -135,14 +136,28 @@ function selectAuthor(el) {
                 .then(response => response.blob())
                 .then(blob => {
                     const url = URL.createObjectURL(blob);
-                    btnPassDB.insertAdjacentHTML('afterend', `<iframe src="${url}" frameborder="0" height="500px" width="100%" />`);
+                    btnPassDB.insertAdjacentHTML('afterend', `<iframe id="passportFrame" src="${url}" frameborder="0" height="500px" width="100%" />`);
                     passport.classList.remove('hidden');
+                    closePasFrame.classList.remove('hidden');
                 })
                 .catch(error => console.error('Ошибка:', error));
         });
         btnPassDB.textContent = 'Открыть паспорт';
         tdDoc.append(btnPassDB);
     }
+    // closePasFrame.classList.add('fas', 'fa-times', 'text-danger', 'hidden');
+    let closePasFrame = document.createElement('button');
+    closePasFrame.setAttribute('type', 'button');
+    closePasFrame.classList.add('ml-10', 'hidden');
+    closePasFrame.textContent = 'Закрыть';
+
+    closePasFrame.addEventListener('click', (event) => {
+        let iframe = document.getElementById("passportFrame");
+        iframe.style.display = 'none';
+        closePasFrame.classList.add('hidden');
+        passport.classList.add('hidden');
+    });
+    tdDoc.append(closePasFrame);
     let passport = document.createElement('div');
     if (passportDB === null){
         passport.classList.add('mb-10');
@@ -161,25 +176,9 @@ function selectAuthor(el) {
     passport.append(trDocPassport);
 
     let passportInput = document.createElement('input');
-
-    const preview = document.createElement('div');
-    preview.classList.add('preview');
-    preview.setAttribute('id', 'pdfContainer');
-    passportInput.appendChild(preview);
-
-    const open = document.createElement('button');
-    open.classList.add('btn');
-    open.textContent = 'Открыть';
-
     passportInput.classList.add('form-control', 'mr-10', 'w-75');
     passportInput.setAttribute('type', 'file');
     passportInput.setAttribute('id', 'file-input');
-
-
-    passportInput.insertAdjacentElement('afterend', preview);
-    passportInput.insertAdjacentElement('afterend', open);
-
-    const triggerInput = () => passportInput.click();
 
     passportInput.addEventListener('change', function(event) {
         const fileList = event.target.files; // Получаем список выбранных файлов
@@ -193,11 +192,7 @@ function selectAuthor(el) {
             const reader = new FileReader();
             reader.onload = ev => {
                 console.log(ev.target.result);
-                passportInput.insertAdjacentHTML('afterend', `<iframe src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`)
-                // const pdfData = ev.target.result;
-                // const pdfContainer = document.getElementById('pdfContainer');
-
-                // PDFObject.embed(pdfData, pdfContainer);
+                passportInput.insertAdjacentHTML('afterend', `<iframe src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`);
             }
 
             reader.readAsDataURL(file);
@@ -208,7 +203,7 @@ function selectAuthor(el) {
             author.passport = file; // Присваиваем файл свойству passport объекта author
         }
     });
-    open.addEventListener('click', triggerInput);
+
     trDocPassport.append(passportInput);
 
     let btnUpload = document.createElement('button');

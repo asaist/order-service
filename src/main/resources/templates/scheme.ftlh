@@ -743,8 +743,8 @@
       $(document).ready(function() {
         $(".js-data-example-ajax").select2({
           ajax: {
-            url: "https://track.samsmu.ru/api/author/authors",
-            // url: "http://localhost:8081/api/author/authors",
+            // url: "https://track.samsmu.ru/api/author/authors",
+            url: "http://localhost:8081/api/author/authors",
             type: 'GET',
             dataType: 'json',
             delay: 250,
@@ -783,6 +783,7 @@
             return author.text;
           }
         });
+
       });
 
 
@@ -818,10 +819,6 @@
         if (savedTrack) {
           data.trackId = savedTrack;
         }
-        // let formData = new FormData();
-        // formData.append('passportFile', authors[0].passport);
-
-        // data.passportFile = formData;
         console.log(data);
 
         fetch("/addTrack2", {
