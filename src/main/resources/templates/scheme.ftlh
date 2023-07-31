@@ -783,7 +783,8 @@
             return author.text;
           }
         });
-
+        $(".select").value = ' ';
+        $('#select')[0].reset();
       });
 
 
