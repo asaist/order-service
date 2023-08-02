@@ -84,7 +84,7 @@ public class SchemeController {
         }
         List<AuthorDto> authorsDtoList = requestData.getAuthors();
         List<ModuleDto> modules = requestData.getModules();
-        List<LectureDto> lecturesFromFront = requestData.getLectures();
+        List<LectureDto> lecturesFromFront = requestData .getLectures();
         String university = requestData.getUniversity();
         String trackName = requestData.getTrackName();
         String trackAnnotation = requestData.getTrackAnnotation();
@@ -176,21 +176,21 @@ public class SchemeController {
     public ResponseEntity<String> update(@RequestBody RequestData requestData
     ){
         TrackDto messageFromDb = new TrackDto();
-
-
-
         return ResponseEntity.ok("1");
     }
     @PostMapping("/addSeries")
-    public String addSeries(
-            @RequestParam Author seriesAuthor,
-            @RequestParam String seriesName,
-            @RequestParam String seriesAnnotation,
-            @RequestParam String seriesKeyWords,
-            @RequestParam Track seriesTrack,
-            Model model
-    ) {
-        Series series = new Series(seriesName, seriesAuthor, seriesAnnotation, seriesTrack);
+    public ResponseEntity<String> addSeries(@RequestBody ModuleRequestData moduleRequestData
+    ){
+        Long seriesId = null;
+        if(moduleRequestData.getSeriesId() != null){
+            seriesId = Long.parseLong(moduleRequestData.getSeriesId());
+        }
+        List<AuthorDto> authorsDtoList = moduleRequestData.getModuleAuthors();
+        List<LectureDto> lecturesFromFront = moduleRequestData .getLectures();
+        String seriesName = moduleRequestData.getSeriesName();
+        String seriesAnnotation = moduleRequestData.getSeriesAnnotation();
+        String seriesKeyWords = moduleRequestData.getSeriesKeyWords();
+        Series series = new Series();
         String[] strMain = seriesKeyWords.split(";");
         List<KeyWord> keyWordList = new ArrayList<>();
         for (String line : strMain) {
@@ -199,13 +199,42 @@ public class SchemeController {
             keyWord.setSeries(series);
             keyWordList.add(keyWord);
         }
+
+        List<Author> authorsFromDB = new ArrayList<>();
+        List<Author> authorsFront = new ArrayList<>();
+        List<Author> authorsFrontSavedDB = new ArrayList<>();
+        List<Author> authors = authorsDtoList.stream().map(Author::new).collect(toList());
+        for (Author author : authors) {
+            if (author.getAuthorId() == null) {
+                authorsFront.add(author);
+            } else {
+                authorsFromDB.add(author);
+            }
+        }
+        List<Long> ids = authorsFromDB.stream()
+                .filter(author -> author.getAuthorId() != null)
+                .map(Author::getAuthorId)
+                .toList();
+        List<Author> authorList = authorService.findAuthorsByListId(ids);
+
+        for(Author author : authorsFront){
+            authorService.create(author);
+            authorsFrontSavedDB.add(author);
+        }
+        authorList.addAll(authorsFrontSavedDB);
+        Set<Author> authorSet = new HashSet<>(authorList);
+        series.setAuthors(authorSet);
+        Track track = trackService.findTrackById(Long.parseLong(moduleRequestData.getTrack()));
+        series.setTrack(track);
         series.setKeyWords(keyWordList);
         series.setCreateDate(LocalDateTime.now());
+        series.setSeriesName(seriesName);
+        series.setAnnotation(seriesAnnotation);
         seriesService.save(series);
         keyWordRepository.saveAll(keyWordList);
         Iterable<Series> series1 = seriesService.findSeries();
-        model.addAttribute("series", series1);
-        return "redirect:/";
+
+        return ResponseEntity.ok("1");
     }
 
     @PostMapping("/addLecture")

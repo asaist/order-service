@@ -1,29 +1,67 @@
-class Author {
-    constructor(id, fullName, degree, isSupervisor, passport, diploma, diplomaScienceDegree, diplomaScienceRank, noCriminalRecord, healthStatus, employmentBook) {
-        this.id = id;
-        this.fullName = fullName;
-        this.degree = degree;
-        this.isSupervisor = isSupervisor;
-        this.passport = passport;
-        this.diploma = diploma;
-        this.diplomaScienceRank = diplomaScienceRank;
-        this.diplomaScienceDegree = diplomaScienceDegree;
-        this.noCriminalRecord = noCriminalRecord;
-        this.healthStatus = healthStatus;
-        this.employmentBook = employmentBook;
-    }
-}
-let authors = [];
-// var authorsFromDB = [];
-function selectAuthor(el) {
-    var e = document.getElementById("select");
 
-    var selectData = $('#select').select2('data');
-    var selectedIndex = $('#select').prop('selectedIndex');
+const moduleForm = document.querySelector('#createSeries');
+let moduleAuthors = [];
+let savedSeries = null;
+moduleForm.addEventListener('submit', (event) => {
+    event.preventDefault(); // остановить стандартное поведение формы
+    const track = moduleForm.seriesTrack.value;
+    const seriesName = moduleForm.seriesName.value;
+    const seriesAnnotation = moduleForm.seriesAnnotation.value;
+    const seriesKeyWords = moduleForm.seriesKeyWords.value;
+
+    const data = {
+        moduleAuthors,
+        track,
+        seriesName,
+        seriesAnnotation,
+        seriesKeyWords
+    };
+    if (savedSeries) {
+        data.seriesId = savedSeries;
+    }
+    console.log(data);
+
+    fetch("/addSeries", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => response.json())
+        .then(data => {
+            savedSeries = data.id;
+            // Используйте полученный ID нового трека для нужных действий на фронтенде
+            console.log('ID нового трека:', newTrackId);
+        })
+        .catch(error => {
+            console.error('Ошибка при отправке запроса:', error);
+        });
+    let addModule = document.getElementById('saveModule');
+    addModule.classList.add("hidden");
+    let editModule = document.getElementById('editModule');
+    editModule.classList.remove("hidden");
+});
+
+function handleSubmit(event) {
+    // Отменяем стандартное поведение формы
+    event.preventDefault();
+
+    // Очищаем поля формы
+    document.getElementById("createTrack").reset();
+
+    // Другие действия по обработке отправки формы...
+}
+
+function selectAuthorModule(el) {
+    let e = document.getElementById("selectAuthorToModule");
+
+    let selectData = $('#selectAuthorToModule').select2('data');
+    let selectedIndex = $('#selectAuthorToModule').prop('selectedIndex');
     console.log(selectData, "selectData");
     console.log(selectedIndex, "индекс selectData");
     // var academicDegreeName = selectData[selectedIndex].academicDegreeName; // дает nextInt вместо того, в котором лежит data
-    var academicDegreeName = selectData[0].academicDegreeName;
+    let academicDegreeName = selectData[0].academicDegreeName;
     console.log(academicDegreeName, "уч.степень");
 
     let value = e.value;
@@ -40,7 +78,7 @@ function selectAuthor(el) {
     console.log(index, "индекс HTML");
     // let select = document.getElementById("select");
     // let value = select.value;
-    let tableAuthor = document.getElementById('tableAuthor');
+    let tableAuthor = document.getElementById('tableAuthorMod');
 
     let divDoc = document.createElement('tr');
     divDoc.classList.add('divDoc');
@@ -67,8 +105,8 @@ function selectAuthor(el) {
     console.log(value);
     let author = new Author(value, text, academicDegreeName, false);
     console.log(e.value.replace(/\s/g, ""));
-    authors.push(author);
-    console.log(authors);
+    moduleAuthors.push(author);
+    console.log(moduleAuthors);
     author.passport = null;
     author.diploma = null;
     author.diplomaScienceRank = null;
@@ -89,7 +127,7 @@ function selectAuthor(el) {
     radioBtn.setAttribute('name','flexRadioDefault');
     radioBtn.setAttribute('onclick','AuthorIsSupervisor(this)');
     radioBtn.setAttribute('id','isSupervisor');
-    radioBtn.setAttribute('authorIndex', (authors.length - 1).toString());
+    radioBtn.setAttribute('authorIndex', (moduleAuthors.length - 1).toString());
     radioBtn.classList.add('form-check-input');
     checkTd.append(radioBtn);
 
@@ -109,7 +147,7 @@ function selectAuthor(el) {
     close.classList.add('fas', 'fa-times', 'text-danger');
     close.setAttribute('id', 'removeAuthorFromTable');
     close.setAttribute('onclick','removeAuthorFromArray(this)');
-    close.setAttribute('authorIndex', (authors.length - 1).toString());
+    close.setAttribute('authorIndex', (moduleAuthors.length - 1).toString());
     removeTd.append(close);
 
     //Строка для добавления документов (скрытая)
@@ -772,72 +810,251 @@ function selectAuthor(el) {
     //
 }
 
-// Добавляем файлы в FormData
-//     var files = document.getElementById('fileInput').files;
-//     for ( i = 0; i < files.length; i++) {
-//         formData.append('files', files[i]);
-//     }
 
+function inputNameAuthorModule() {
+    let tableAuthor = document.getElementById('tableAuthorMod');
 
+    let divDoc = document.createElement('tr');
+    divDoc.classList.add('divDoc');
+    tableAuthor.append(divDoc);
 
-async function sendAuthorDocs(author) {
-    let formData = new FormData();
-    // formData.append('id', el.getAttribute('id'));
-    // formData.append('fullName', el.getAttribute('fullName'));
-    // formData.append('passport', authors[0].passport);
+    let divDocTd = document.createElement('td');
+    divDocTd.setAttribute('colspan', '5');
+    divDoc.append(divDocTd);
 
-    formData.append('id', author.id);
-    formData.append('fullName', author.fullName);
-    formData.append('passport', author.passport);
-    formData.append('diploma', author.diploma);
-    formData.append('diplomaScienceRank', author.diplomaScienceRank);
-    formData.append('diplomaScienceDegree', author.diplomaScienceDegree);
-    formData.append('noCriminalRecord', author.noCriminalRecord);
-    formData.append('healthStatus', author.healthStatus);
-    formData.append('employmentBook', author.employmentBook);
-    console.log(formData.get('passport'));
-    let response = await fetch('/api/author/docs', {
-        method: 'POST',
-        body: formData
-    });
-    let result = await response.json();
-    alert(result.message);
-}
+    let tr1 = document.createElement('table');
+    tr1.classList.add('w-100', 'tr1');
+    divDocTd.append(tr1);
 
-function displayPdfAsImage(pdfFile) {
-    const fileReader = new FileReader();
+    let inputNameAuthor = document.createElement('tr');
+    tr1.append(inputNameAuthor);
+    let inputNameAuthorTd = document.createElement('td');
 
-    fileReader.onload = function() {
-        const typedArray = new Uint8Array(this.result);
+    let x = document.getElementById('inputNameAuthor').value;
+    inputNameAuthorTd.innerHTML = x;
+    inputNameAuthorTd.classList.add('text-primary', 'nameTd');
+    inputNameAuthor.append(inputNameAuthorTd);
+    document.getElementById('inputNameAuthor').value = ' ';
+    console.log(inputNameAuthorTd.textContent);
 
-        // Загрузка PDF-файла
-        pdfjsLib.getDocument(typedArray).promise.then((pdf) => {
-            // Получение первой страницы PDF-файла
-            pdf.getPage(1).then((page) => {
-                const scale = 1.5;
-                const viewport = page.getViewport({ scale });
+    let prof = document.createElement('td');
+    let regalia = document.getElementById('regalia').value;
+    prof.innerHTML = regalia;
+    prof.classList.add('regTd', 'text-center');
+    inputNameAuthor.append(prof);
+    console.log(regalia);
+    let author = new Author(null, inputNameAuthorTd.textContent, regalia, false);
+    moduleAuthors.push(author);
+    console.log(moduleAuthors);
 
-                // Создание элемента canvas для отрисовки страницы
-                const canvas = document.createElement('canvas');
-                const context = canvas.getContext('2d');
-                canvas.width = viewport.width;
-                canvas.height = viewport.height;
+    let checkTd = document.createElement('td');
+    checkTd.classList.add('checkTd');
+    inputNameAuthor.append(checkTd);
+    let radioBtn = document.createElement('input');
+    radioBtn.setAttribute('type','radio');
+    radioBtn.setAttribute('name','flexRadioDefault');
+    radioBtn.setAttribute('onclick','AuthorIsSupervisor(this)');
+    radioBtn.setAttribute('id','isSupervisor');
+    radioBtn.setAttribute('authorIndex', (moduleAuthors.length - 1).toString());
+    radioBtn.classList.add('form-check-input');
+    checkTd.append(radioBtn);
 
-                // Отрисовка страницы на canvas
-                page.render({
-                    canvasContext: context,
-                    viewport: viewport
-                })
-                    .promise.then(() => {
-                    // Создание элемента img и отображение картинки
-                    const img = document.createElement('img');
-                    img.src = canvas.toDataURL();
-                    document.body.appendChild(img);
-                });
-            });
-        });
-    };
-    function showAuthorsDoc(el){
+    let docTd = document.createElement('td');
+    docTd.setAttribute('onclick','showDoc(this)');
+    docTd.classList.add('text-center', 'docTd');
+    inputNameAuthor.append(docTd);
+    let docTdIcon = document.createElement('i');
+    docTdIcon.classList.add('fas', 'fa-file-upload', 'text-primary');
+    docTd.append(docTdIcon);
 
+    let removeTd = document.createElement('td');
+    removeTd.classList.add('removeTd', 'text-center');
+    inputNameAuthor.append(removeTd);
+    let close = document.createElement('i');
+    close.classList.add('fas', 'fa-times', 'text-danger');
+    close.setAttribute('id', 'removeAuthorFromTable');
+    close.setAttribute('onclick','removeAuthorFromArray(this)');
+    close.setAttribute('authorIndex', (moduleAuthors.length - 1).toString());
+    removeTd.append(close);
+
+    //Строка для добавления документов (скрытая)
+    let trDoc = document.createElement('tr');
+    trDoc.classList.add('hidden', 'trDoc','mt-10');
+    trDoc.setAttribute('id', 'trDoc');
+    tr1.append(trDoc);
+
+    let tdDoc = document.createElement('td');
+    tdDoc.setAttribute('colspan','5');
+    trDoc.append(tdDoc);
+
+    let passport = document.createElement('div');
+    passport.classList.add('mb-10');
+    tdDoc.append(passport);
+    let passportLabel = document.createElement('b');
+    passportLabel.textContent = 'Загрузите паспорт';
+    passport.append(passportLabel);
+    let br = document.createElement('br');
+    passportLabel.append(br);
+    let trDocPassport = document.createElement('div');
+    trDocPassport.classList.add('d-flex');
+    passport.append(trDocPassport);
+
+    let passportInput = document.createElement('input');
+    passportInput.classList.add('form-control', 'mr-10', 'w-75');
+    passportInput.setAttribute('type', 'file');
+    trDocPassport.append(passportInput);
+
+    let btnUpload = document.createElement('button');
+    btnUpload.classList.add('btn', 'btn-primary', 'ml-10');
+    btnUpload.setAttribute('type', 'button');
+    trDocPassport.append(btnUpload);
+    let uploadIcon = document.createElement('i');
+    uploadIcon.classList.add('fas', 'fa-file-upload');
+    btnUpload.append(uploadIcon);
+
+    let diplom = document.createElement('div');
+    diplom.classList.add('mb-10');
+    tdDoc.append(diplom);
+    let diplomLabel = document.createElement('b');
+    diplomLabel.textContent = 'Загрузите диплом о в/о';
+    diplom.append(diplomLabel);
+    let brDip = document.createElement('br');
+    diplomLabel.append(brDip);
+    let trDocDiplom = document.createElement('div');
+    trDocDiplom.classList.add('d-flex');
+    diplom.append(trDocDiplom);
+    let diplomInput = document.createElement('input');
+    diplomInput.classList.add('form-control', 'mr-10', 'w-75');
+    diplomInput.setAttribute('type', 'file');
+    trDocDiplom.append(diplomInput);
+    let btnUploadDip = document.createElement('button');
+    btnUploadDip.classList.add('btn', 'btn-primary', 'ml-10');
+    btnUploadDip.setAttribute('type', 'button');
+    trDocDiplom.append(btnUploadDip);
+    let uploadIconDip = document.createElement('i');
+    uploadIconDip.classList.add('fas', 'fa-file-upload');
+    btnUploadDip.append(uploadIconDip);
+
+    let rank = document.createElement('div');
+    rank.classList.add('mb-10');
+    tdDoc.append(rank);
+    let rankLabel = document.createElement('b');
+    rankLabel.textContent = 'Загрузите диплом о научном звании';
+    rank.append(rankLabel);
+    let brRank = document.createElement('br');
+    rankLabel.append(brRank);
+    let trDocRank = document.createElement('div');
+    trDocRank.classList.add('d-flex');
+    rank.append(trDocRank);
+    let rankInput = document.createElement('input');
+    rankInput.classList.add('form-control', 'mr-10', 'w-75');
+    rankInput.setAttribute('type', 'file');
+    trDocRank.append(rankInput);
+    let btnUploadRank = document.createElement('button');
+    btnUploadRank.classList.add('btn', 'btn-primary', 'ml-10');
+    btnUploadRank.setAttribute('type', 'button');
+    trDocRank.append(btnUploadRank);
+    let uploadIconRank = document.createElement('i');
+    uploadIconRank.classList.add('fas', 'fa-file-upload');
+    btnUploadRank.append(uploadIconRank);
+
+    let degree = document.createElement('div');
+    degree.classList.add('mb-10');
+    tdDoc.append(degree);
+    let degreeLabel = document.createElement('b');
+    degreeLabel.textContent = 'Загрузите диплом о научной степени';
+    degree.append(degreeLabel);
+    let brDegree = document.createElement('br');
+    degreeLabel.append(brDegree);
+    let trDocDegree = document.createElement('div');
+    trDocDegree.classList.add('d-flex');
+    degree.append(trDocDegree);
+    let degreeInput = document.createElement('input');
+    degreeInput.classList.add('form-control', 'mr-10', 'w-75');
+    degreeInput.setAttribute('type', 'file');
+    trDocDegree.append(degreeInput);
+    let btnUploadDegree = document.createElement('button');
+    btnUploadDegree.classList.add('btn', 'btn-primary', 'ml-10');
+    btnUploadDegree.setAttribute('type', 'button');
+    trDocDegree.append(btnUploadDegree);
+    let uploadIconDegree = document.createElement('i');
+    uploadIconDegree.classList.add('fas', 'fa-file-upload');
+    btnUploadDegree.append(uploadIconDegree);
+
+    let criminal = document.createElement('div');
+    criminal.classList.add('mb-10');
+    tdDoc.append(criminal);
+    let criminalLabel = document.createElement('b');
+    criminalLabel.textContent = 'Загрузите справку об отсутствии судимости';
+    criminal.append(criminalLabel);
+    let brCriminal = document.createElement('br');
+    criminalLabel.append(brCriminal);
+    let trDocCriminal = document.createElement('div');
+    trDocCriminal.classList.add('d-flex');
+    criminal.append(trDocCriminal);
+    let criminalInput = document.createElement('input');
+    criminalInput.classList.add('form-control', 'mr-10', 'w-75');
+    criminalInput.setAttribute('type', 'file');
+    trDocCriminal.append(criminalInput);
+    let btnUploadCriminal = document.createElement('button');
+    btnUploadCriminal.classList.add('btn', 'btn-primary', 'ml-10');
+    btnUploadCriminal.setAttribute('type', 'button');
+    trDocCriminal.append(btnUploadCriminal);
+    let uploadIconCriminal = document.createElement('i');
+    uploadIconCriminal.classList.add('fas', 'fa-file-upload');
+    btnUploadCriminal.append(uploadIconCriminal);
+
+    let health = document.createElement('div');
+    health.classList.add('mb-10');
+    tdDoc.append(health);
+    let healthLabel = document.createElement('b');
+    healthLabel.textContent = 'Загрузите справку о состоянии здоровья';
+    health.append(healthLabel);
+    let brHealth = document.createElement('br');
+    healthLabel.append(brHealth);
+    let trDocHealth = document.createElement('div');
+    trDocHealth.classList.add('d-flex');
+    health.append(trDocHealth);
+    let healthInput = document.createElement('input');
+    healthInput.classList.add('form-control', 'mr-10', 'w-75');
+    healthInput.setAttribute('type', 'file');
+    trDocHealth.append(healthInput);
+    let btnUploadHealth = document.createElement('button');
+    btnUploadHealth.classList.add('btn', 'btn-primary', 'ml-10');
+    btnUploadHealth.setAttribute('type', 'button');
+    trDocHealth.append(btnUploadHealth);
+    let uploadIconHealth = document.createElement('i');
+    uploadIconHealth.classList.add('fas', 'fa-file-upload');
+    btnUploadHealth.append(uploadIconHealth);
+
+    let experience = document.createElement('div');
+    experience.classList.add('mb-10');
+    tdDoc.append(experience);
+    let experienceLabel = document.createElement('b');
+    experienceLabel.textContent = 'Загрузите последнюю страницу трудовой книжки';
+    experience.append(experienceLabel);
+    let brExperience = document.createElement('br');
+    experienceLabel.append(brExperience);
+    let trDocExperience = document.createElement('div');
+    trDocExperience.classList.add('d-flex');
+    experience.append(trDocExperience);
+    let experienceInput = document.createElement('input');
+    experienceInput.classList.add('form-control', 'mr-10', 'w-75');
+    experienceInput.setAttribute('type', 'file');
+    trDocExperience.append(experienceInput);
+    let btnUploadExperience = document.createElement('button');
+    btnUploadExperience.classList.add('btn', 'btn-primary', 'ml-10');
+    btnUploadExperience.setAttribute('type', 'button');
+    trDocExperience.append(btnUploadExperience);
+    let uploadIconExperience = document.createElement('i');
+    uploadIconExperience.classList.add('fas', 'fa-file-upload');
+    btnUploadExperience.append(uploadIconExperience);
+    //
+
+    document.getElementById('regalia').options[0].selected = true; //очищаем селект
+    let badge = document.querySelectorAll('.badgeProf');
+    for( let i = 0; i < badge.length; i++ ){
+        badge[i].outerHTML = "";
     }
+
 }

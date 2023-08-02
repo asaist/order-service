@@ -10,4 +10,5 @@ import java.util.List;
 public interface TrackRepository extends JpaRepository<Track, Long> {
     List<Track> findByTrackNameStartsWithIgnoreCase(String trackName);
     Track findTrackByTrackName(String trackName);
+    Track findTrackById(Long id);
 }

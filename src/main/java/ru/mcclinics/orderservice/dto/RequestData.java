@@ -21,5 +21,4 @@ public class RequestData extends EntityDto implements Serializable {
     private String trackKeyWords;
     private List<ModuleDto> modules;
     private List<LectureDto> lectures;
-//    private MultipartFile passportFile;
 }

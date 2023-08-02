@@ -11,7 +11,9 @@ import ru.mcclinics.orderservice.dto.ModuleDto;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -24,9 +26,11 @@ public class Series {
     private Long id;
     @Column(name = "seria_name")
     private String seriesName;
-    @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id")
-    private Author author;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "series_author",
+            joinColumns = {@JoinColumn(name = "series_id", referencedColumnName = "series_id")},
+            inverseJoinColumns = {@JoinColumn(name = "author_id", referencedColumnName = "author_id")})
+    private Set<Author> authors = new HashSet<>();
     private String annotation;
     @Column(name = "create_date", updatable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
@@ -46,9 +50,8 @@ public class Series {
     public Series() {
     }
 
-    public Series(String seriesName, Author author, String annotation, Track track) {
+    public Series(String seriesName, String annotation, Track track) {
         this.seriesName = seriesName;
-        this.author = author;
         this.annotation = annotation;
         this.track = track;
     }

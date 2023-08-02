@@ -96,8 +96,7 @@
                           <label class="form-check-label">Автор является сотрудником СамГМУ</label>
                         </div>
                         <div class="hidden" id="authorSamGMU">
-                          <select class="js-data-example-ajax form-control mb-10" name="author" onchange="selectAuthor(this.value)" id="select"></select>
-<#--                          <button type="button" class="btn btn-primary" onclick="addManTrack()"><i class="fas fa-plus"></i></button>-->
+                          <select class="js-data-example-ajax form-control mb-10" name="author" onclick="addManTrack()" onchange="selectAuthor(this.value)" id="select"></select>
                         </div>
 
                         <div id="authorWorld">
@@ -359,7 +358,7 @@
 
             <!-- Заявка на Модуль -->
             <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-              <form method="post" action="/addSeries" enctype="multipart/form-data">
+              <form method="post" action="/addSeries" id="createSeries" enctype="multipart/form-data">
               <div>
                 <div class="d-flex justify-content-center">
                   <h5>Заявка на создание модуля</h5>                
@@ -380,98 +379,46 @@
                     <p><b>Автор образовательного модуля</b></p>
                     <div>
                       <div class="form-check mb-10">
-                        <input class="form-check-input" type="checkbox" name="is-emsloyee" onclick="authorSamGMUModule()">
+                        <input class="form-check-input" type="checkbox" name="is-emsloyeeModule"  onclick="authorSamGMUModule()">
                         <label class="form-check-label">Автор является сотрудником СамГМУ</label>
                       </div>
                       <div class="hidden" id="authorSamGMUModule">
-                        <select class="form-control mb-20" name="seriesAuthor">
-                          <option>Выберите автора</option>
-<#--                          <#list authors as author>-->
-<#--                            <option value="${author.authorId}">${author.lastName} ${author.firstName} ${author.middleName}</option>-->
-<#--                          </#list>-->
-                        </select>
-                        <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Добавить автора</button>  
+                        <select class="js-data-example-ajax form-control mb-10" name="author" onchange="selectAuthorModule(this.value)" id="selectAuthorToModule"></select>
                       </div>
+
                       <div id="authorWorldModule">
-                        <textarea class="form-control mb-10" name="module-name" cols="80" rows="1" placeholder="Введите ФИО автора"></textarea>
+                        <input class="form-control mb-10" type="text" id="inputNameAuthorModule"  placeholder="Введите ФИО автора"></input>
                         <div class="d-flex mb-10">
-                          <select class="form-control w-50 mr-10" name="regalia" size="1">
-                            <option select class="form-control"ed="" disabled="">Выберите регалии</option>
-                            <option value="Профессор">Профессор</option>
-                            <option value="К.М.Н.">К.М.Н.</option>
-                            <option value="Доцент">Доцент</option>
-                            <option value="Зав. кафедрой">Зав. кафедрой</option>
-                          </select class="form-control">
-                          <button type="button" class="btn btn-primary">
-                            <i class="fas fa-plus"></i>
-                          </button>
+                          <select class="form-control w-75 mr-10" id="regalia" size="1" onclick="selectReg(this.value)">
+                            <option  disabled>Выберите регалии</option>
+                            <option>Профессор</option>
+                            <option>К.М.Н.</option>
+                            <option>Доцент</option>
+                            <option>Зав. кафедрой</option>
+                          </select>
                         </div>
-                        <div class="accordion mb-10" id="accordionDocsPerson">
-                          <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingOne">
-                              <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                <b>Добавление документов автора</b>
-                              </button>
-                            </h2>
-                            <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionDocsPerson">
-                              <div class="accordion-body"> 
-                                <div class="mb-10">                             
-                                  <b>Загрузите паспорт</b><br>
-                                  <div class="d-flex">
-                                    <input class="form-control mr-10" type="file" id="pasport" name="pasport">
-                                    <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
-                                  </div>
-                                </div>
-                                <div class="mb-10"> 
-                                  <b>Загрузите диплом о в/о"</b><br>
-                                  <div class="d-flex">
-                                    <input class="form-control mr-10" type="file" id="diploma1" name="diploma1">
-                                    <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
-                                  </div>
-                                </div>
-                                <div class="mb-10"> 
-                                  <b>Загрузите диплом о научном звании</b><br>
-                                  <div class="d-flex">
-                                    <input class="form-control mr-10" type="file" id="diploma2" name="diploma2">
-                                    <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
-                                  </div>
-                                </div>
-                                <div class="mb-10"> 
-                                  <b>Загрузите диплом о научной степени</b><br>
-                                  <div class="d-flex">
-                                    <input class="form-control mr-10" type="file" id="diploma3" name="diploma3">
-                                    <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
-                                  </div>
-                                </div>
-                                <div class="mb-10"> 
-                                  <b>Загрузите справку об отсутствии судимости</b><br>
-                                  <div class="d-flex">
-                                    <input class="form-control mr-10" type="file" id="criminal" name="criminal">
-                                    <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
-                                  </div>
-                                </div>
-                                <div class="mb-10"> 
-                                  <b>Загрузите справку о состоянии здоровья</b><br>
-                                  <div class="d-flex">
-                                    <input class="form-control mr-10" type="file" id="health" name="health">
-                                    <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
-                                  </div>
-                                </div>
-                                <div class="mb-20">      
-                                  <b>Загрузите последнюю страницу трудовой книжки</b><br>
-                                  <div class="d-flex">
-                                    <input class="form-control mr-10" type="file" id="workbook" name="workbook">
-                                    <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
-                                  </div>
-                                </div>                            
-                              </div>
-                            </div>                          
-                          </div>                           
-                        </div> 
-                        <button type="button" class="btn btn-outline-primary">Добавить автора</button>                     
+
+                        <div class="d-flex" id="addRegalii">
+                        </div>
+
+                        <button type="button" class="btn btn-primary mt-3" id="createAuthorButtonModule">
+                          <i class="fas fa-plus"></i>
+                        </button>
+                      </div>
+
+                      <div>
+                        <table class="table table-hover editable" id="tableAuthorMod" name="authorsMod">
+                          <tr>
+                            <th class="nameTd">ФИО автора</th>
+                            <th class="text-center regTd">Должность, степень, звание</th>
+                            <th class="text-center checkTd">Руководитель трека</th>
+                            <th class="text-center docTd">Документы</th>
+                            <th class="text-center removeTd"><i class="fas fa-trash-alt"></i></th>
+                          </tr>
+                        </table>
                       </div>
                     </div>
-                  </div>
+                    </div>
 
                     <div class="my-4">
                       <b>Аннотация/содержание образовательного Модуля</b><br>
@@ -603,8 +550,9 @@
                     </div>
 
                 </div>
-                <div class="modal-footer">                
-                  <button type="submit" class="btn btn-primary">Добавить модуль</button>
+                <div class="modal-footer">
+                  <button type="submit" id="saveModule" class="btn btn-primary">Добавить модуль</button>
+                  <button type="submit" id="editModule" class="btn btn-primary hidden">Редактировать модуль</button>
                 </div>
               </div>
               </form>
@@ -637,6 +585,7 @@
     <script src="https://track.samsmu.ru/js/index.js"></script>
     <script src="https://track.samsmu.ru/js/track.js"></script>
     <script src="https://track.samsmu.ru/js/users.js"></script>
+    <script src="https://track.samsmu.ru/js/module.js"></script>
     <script src="https://track.samsmu.ru/js/pdfobject.min.js"></script>
 <#--    <script src="https://track.samsmu.ru/js/pdf.js"></script>-->
 <#--    <script src="https://track.samsmu.ru/js/pdf.worker.js"></script>-->
@@ -649,6 +598,7 @@
     <script src="js/index.js"></script>
     <script src="js/track.js"></script>
     <script src="js/users.js"></script>
+    <script src="js/module.js"></script>
     <script src="js/pdfobject.min.js"></script>
 <#--    <script src="js/pdf.js"></script>-->
 <#--    <script src="js/pdf.worker.js"></script>-->
@@ -685,6 +635,8 @@
         authorSamGMUModule.classList.toggle("hidden");
         let authorWorldModule = document.getElementById('authorWorldModule');
         authorWorldModule.classList.toggle("hidden");
+        let createAuthorButtonModule = document.getElementById('createAuthorButtonModule');
+        createAuthorButtonModule.classList.toggle("hidden");
       }
       function authorSamGMULecture() {
         let authorSamGMULecture = document.getElementById('authorSamGMULecture');
@@ -732,6 +684,7 @@
 
       function addManTrack() {
         document.getElementById('select').options[0].selected = true; //очищаем селект
+        $('#selectAuthorToModule').val(null).trigger('change');
       }
 
       $(document).on('click', '.fa-times', function() {
@@ -783,21 +736,14 @@
             return author.text;
           }
         });
-        $(".select").value = ' ';
-        $('#select')[0].reset();
       });
 
 
       const createAuthorButton = document.querySelector('#createAuthorButton');
       createAuthorButton.addEventListener('click', inputNameAuthor);
+      const createAuthorButtonModule = document.querySelector('#createAuthorButtonModule');
+      createAuthorButtonModule.addEventListener('click', inputNameAuthorModule);
 
-      const pageSize = 10;
-      const options = document.querySelectorAll('#select');
-      const pages = [];
-      for (let i = 0; i < options.length; i += pageSize) {
-        pages.push(Array.from(options).slice(i, i + pageSize));
-      }
-      console.log(options.length);
       let savedTrack = null;
       const form = document.querySelector('#createTrack');
       form.addEventListener('submit', (event) => {
