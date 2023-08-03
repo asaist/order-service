@@ -38,19 +38,19 @@ public class WebSecurityConfig {
 ////                securityContextRepository(new HttpSessionSecurityContextRepository())
 ////        );
         //рабочий спек
-//        http.authorizeRequests()
-//                .requestMatchers("/**").permitAll() // Разрешаем доступ к открытым ресурсам всем пользователям
-//                .anyRequest().authenticated(); // Все остальные запросы требуют аутентификации
-//        http.csrf().disable();
+        http.authorizeRequests()
+                .requestMatchers("/**").permitAll() // Разрешаем доступ к открытым ресурсам всем пользователям
+                .anyRequest().authenticated(); // Все остальные запросы требуют аутентификации
+        http.csrf().disable();
         //
-        http
-                .csrf()
-                .disable()
-                .authorizeHttpRequests()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .oauth2Login();
+//        http
+//                .csrf()
+//                .disable()
+//                .authorizeHttpRequests()
+//                .anyRequest()
+//                .authenticated()
+//                .and()
+//                .oauth2Login();
         return http.build();
     }
     @Autowired

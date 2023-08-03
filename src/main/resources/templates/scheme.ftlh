@@ -87,8 +87,8 @@
                         <div class="hidden" id="authorSamGMU">
                           <select class="form-control mb-20" name="trackUser">
                             <option>Выберите автора</option>
-                            <#list employees as employee>
-                              <option value="${employee.employeeGuid}">${employee.firstName}</option>
+                            <#list users as user>
+                              <option value="${user.id}">${user.username}</option>
                             </#list>
                           </select>
                           <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Добавить руководителя трека</button>
@@ -448,9 +448,8 @@
             </div>
             <!-- Заявка на Лекцию -->
             <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
-              <form method="post" action="/addLecture" enctype="multipart/form-data">
               <div>
-
+                <form method="post" action="/addLecture" enctype="multipart/form-data">
                   <div class="d-flex justify-content-center">
                     <h5>Заявка на создание лекции</h5>
                   </div>

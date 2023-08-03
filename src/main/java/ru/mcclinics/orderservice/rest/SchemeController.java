@@ -36,7 +36,7 @@ public class SchemeController {
         model.addAttribute("lectures", lectureService.findLectures());
         model.addAttribute("users", userService.findUsers());
         model.addAttribute("series", seriesService.findSeries());
-        model.addAttribute("employees", employeeDtoClientService.getEmployeeDtoList());
+        model.addAttribute("employees", seriesService.findSeries());
         return "scheme";
     }
 
