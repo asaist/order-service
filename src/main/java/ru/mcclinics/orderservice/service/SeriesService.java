@@ -20,4 +20,5 @@ public class SeriesService {
     public List<Series> findSeries(){return seriesRepository.findAll();}
     public List<Series> findSeriesByTrackId(Long id){return seriesRepository.findSeriesByTrackId(id);}
     public List<Series> findSeriesByTrack(Track track){return seriesRepository.findSeriesByTrack(track);}
+    public List<Series> saveAll(List<Series> series) {return seriesRepository.saveAll(series);}
 }

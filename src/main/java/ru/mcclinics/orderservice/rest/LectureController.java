@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import ru.mcclinics.orderservice.domain.Author;
 import ru.mcclinics.orderservice.domain.Lecture;
 import ru.mcclinics.orderservice.domain.Track;
 import ru.mcclinics.orderservice.domain.User;
@@ -43,15 +44,15 @@ public class LectureController {
 
     @PostMapping
     public String addLecture(
-            @AuthenticationPrincipal User user,
+//            @AuthenticationPrincipal User user,
             @RequestParam String lectureName,
             @RequestParam String annotation,
             @RequestParam String videoReference,
             @RequestParam Track track,
             Model model
     ){
-
-        Lecture lecture = new Lecture(lectureName, user, annotation,  videoReference, track);
+        Author author = new Author();
+        Lecture lecture = new Lecture(lectureName, author, annotation,  videoReference, track);
         lecture.setCreateDate(LocalDateTime.now());
         lectureService.save(lecture);
         Iterable<Lecture> lectures = lectureService.findLectures();

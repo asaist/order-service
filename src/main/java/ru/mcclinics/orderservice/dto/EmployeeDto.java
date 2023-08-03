@@ -1,22 +1,17 @@
 package ru.mcclinics.orderservice.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.io.Serializable;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@JsonIgnoreProperties(ignoreUnknown = true)
+@Setter
+@Getter
+@ToString
 public class EmployeeDto extends EntityDto implements Serializable {
     private String employeeGuid;
-
     private String firstName;
     private String lastName;
     private String patronymicName;
-
-
 }

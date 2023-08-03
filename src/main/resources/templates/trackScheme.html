@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>3D timeline</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">    
+  </head>
+  <body>
+    <div class="container-fluid p-3">      
+        
+      <div class="d-flex mt-4">
+        <div class="seriesLine">
+          <h6 id="series"></h6>
+          <div class="d-flex" id="trackLinSeries">                       
+          </div>          
+        </div>
+
+        <div class="mx-2">
+          <h6 id="lecture"><i class="fas fa-eye hidden text-primary" id="faListLec" onclick="allLecture()"></i></h6>
+          <div class="d-flex" id="trackLineLecture">                       
+          </div>
+        </div>
+
+        <div class="wrapperPlusBlock wrapperPlusBlockBegin" onclick="beginModal()">
+          <div class="plusBlock">
+            <i class="fas fa-plus"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-5 hidden" id="listlecture"> 
+        <h6>Список лекций</h6>
+        <div class="d-flex">          
+          <div class="empty-block" title="Добавьте недостающую лекцию" onclick="addLectures()">
+            <i class="fas fa-question"></i>
+          </div>
+          <div class="wrapperPlusBlock" title="Добавьте новую лекцию" onclick="addLecture()">
+            <div class="plusBlock">
+              <i class="fas fa-plus"></i>
+            </div>
+          </div>           
+        </div>
+      </div>
+     
+      <div class="overlay hidden" id="overlayViewLectureModal"></div>  
+      <div class="modal-wrapper">  
+        <div class="hidden shadow lectureModal" id="viewLectureModal">
+          <div class="modal-dialog">
+            <div class="modal-content">
+               <div class="d-flex justify-content-between">
+                  <h5>Образовательная лекция "Название (тема) лекции"</h5>                    
+                </div>
+                <div class="d-flex"><i class="fas fa-map-marker-alt text-primary mr-10 mt-1"></i>
+                  <p class="mr-10">Трек "Название трека"</p> <p class="mr-10">Модуль "Название модуля"</p>
+                </div>
+                <div>
+                  <div class="my-2">
+                    <p class="fs16"><b>Авторы:</b></p>
+                    <div><span class="text-primary mr-10"><i class="fas fa-user mr-10"></i>Иван Иванович Иванов</span> <span class="text-primary mr-10"><i class="fas fa-user mr-10"></i>Петр Петрович Петров</span> </div>
+                  </div>
+                  <p class="my-2 fs16"><b>Аннотация</b></p>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                  tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                  consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                  cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                  proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                  <p class="fs16"><b>Ключевые слова</b></p>
+                  <p class="text-primary">#Lorem #ipsum</p>
+                </div>
+              <div class="modal-footer">
+                <!-- Кнопка сохранить-->
+                <button type="button" class="btn btn-primary" id="saveViewLecture" onclick="btnClose()">ОК</button>                  
+              </div>
+            </div>
+          </div>
+        </div>  
+      </div> 
+
+      <div class="modal-wrapper"> 
+        <div class="lectureModal shadow hidden" id="addLectureModal">
+          <div class="modal-header">
+            <h5>Добавить лекцию</h5>
+            <button type="button" class="btn-close" onclick="btnClose()"></button>
+          </div>
+          <div class="modal-content">
+            <div class="modal-body"> 
+              
+                <div>
+                  <div class="d-flex justify-content-center">
+                    <h5>Заявка на создание лекции</h5>                
+                  </div>                  
+                  <div class="modal-body"> 
+                      <div class="mb-10">                    
+                        <select class="form-control" class="form-control" name="track" size="1">
+                          <option select class="form-control">Выберите образовательный трек</option>
+                          <option value="Трек 1">Трек 1</option>
+                          <option value="Трек 2">Трек 2</option>
+                          <option value="Трек 3">Трек 3</option>
+                          <option value="Трек 4">Трек 4</option>
+                        </select class="form-control">
+                      </div>
+
+                      <div class="mb-10">                    
+                        <select class="form-control" class="form-control" name="" size="1">
+                          <option select class="form-control">Выберите образовательный модуль</option>
+                          <option value="Трек 1">Модуль 1</option>
+                          <option value="Трек 2">Модуль 2</option>
+                          <option value="Трек 3">Модуль 3</option>
+                          <option value="Трек 4">Модуль 4</option>
+                        </select class="form-control">
+                      </div>
+
+                      <div class="mb-10">
+                        <input type="text" class="form-control mb-2" id="headSeries" placeholder="Название образовательной лекции">                    
+                      </div>
+                      <div class="my-4">
+                      <p><i class="fas fa-angle-double-right text-primary mr-10"></i><b>Автор образовательной лекции</b></p>
+                      <div>
+                        <div class="form-check mb-10">
+                          <input class="form-check-input" type="checkbox" name="is-emsloyee" onclick="authorSamGMULecture()">
+                          <label class="form-check-label">Автор является сотрудником СамГМУ</label>
+                        </div>
+                        <div class="hidden" id="authorSamGMULecture">
+                          <select class="form-control mb-20" name="author">
+                            <option>Выберите автора</option>
+                            <option value="Иванов">Иванов</option>
+                            <option value="Петров">Петров</option>
+                            <option value="Сидоров">Сидоров</option>
+                            <option value="Толстой">Толстой</option>
+                          </select class="form-control">
+                          <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Добавить автора</button>  
+                        </div>
+                        <div id="authorWorldLecture">
+                          <textarea class="form-control mb-10" name="module-name" cols="80" rows="1" placeholder="Введите ФИО автора"></textarea>
+                          <div class="d-flex mb-10">
+                            <select class="form-control w-50 mr-10" name="regalia" size="1">
+                              <option select class="form-control"ed="" disabled="">Выберите регалии</option>
+                              <option value="Профессор">Профессор</option>
+                              <option value="К.М.Н.">К.М.Н.</option>
+                              <option value="Доцент">Доцент</option>
+                              <option value="Зав. кафедрой">Зав. кафедрой</option>
+                            </select class="form-control">
+                            <button type="button" class="btn btn-primary">
+                              <i class="fas fa-plus"></i>
+                            </button>
+                          </div>
+                          <div class="accordion accordion-flush mb-10" id="accordionDocsPerson">
+                            <div class="accordion-item">
+                              <h2 class="accordion-header" id="headingOne">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                  <b>Добавление документов автора</b>
+                                </button>
+                              </h2>
+                              <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionDocsPerson">
+                                <div class="accordion-body"> 
+                                  <div class="mb-10">                             
+                                    <b>Загрузите паспорт</b><br>
+                                    <div class="d-flex">
+                                      <input class="form-control mr-10" type="file" id="pasport" name="pasport">
+                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
+                                    </div>
+                                  </div>
+                                  <div class="mb-10"> 
+                                    <b>Загрузите диплом о в/о"</b><br>
+                                    <div class="d-flex">
+                                      <input class="form-control mr-10" type="file" id="diploma1" name="diploma1">
+                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
+                                    </div>
+                                  </div>
+                                  <div class="mb-10"> 
+                                    <b>Загрузите диплом о научном звании</b><br>
+                                    <div class="d-flex">
+                                      <input class="form-control mr-10" type="file" id="diploma2" name="diploma2">
+                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
+                                    </div>
+                                  </div>
+                                  <div class="mb-10"> 
+                                    <b>Загрузите диплом о научной степени</b><br>
+                                    <div class="d-flex">
+                                      <input class="form-control mr-10" type="file" id="diploma3" name="diploma3">
+                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
+                                    </div>
+                                  </div>
+                                  <div class="mb-10"> 
+                                    <b>Загрузите справку об отсутствии судимости</b><br>
+                                    <div class="d-flex">
+                                      <input class="form-control mr-10" type="file" id="criminal" name="criminal">
+                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
+                                    </div>
+                                  </div>
+                                  <div class="mb-10"> 
+                                    <b>Загрузите справку о состоянии здоровья</b><br>
+                                    <div class="d-flex">
+                                      <input class="form-control mr-10" type="file" id="health" name="health">
+                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
+                                    </div>
+                                  </div>
+                                  <div class="mb-20">      
+                                    <b>Загрузите последнюю страницу трудовой книжки</b><br>
+                                    <div class="d-flex">
+                                      <input class="form-control mr-10" type="file" id="workbook" name="workbook">
+                                      <button type="button" class="btn btn-primary ml-10"><i class="fas fa-file-upload"></i></button>
+                                    </div>
+                                  </div>                            
+                                </div>
+                              </div>                          
+                            </div>                           
+                          </div> 
+                          <button type="button" class="btn btn-outline-primary">Добавить автора</button>                     
+                        </div>
+                      </div>
+                    </div>
+
+                      <div class="my-4">
+                        <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Аннотация/содержание образовательной лекции</b><br>
+                        <textarea class="form-control" name="track-annotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#"></textarea>
+                      </div>
+
+                      <div class="mt-10 mb-10">
+                        <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Дополнительные ключеные слова</b><br>
+                        <textarea class="form-control" name="module-annotation" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;"></textarea>
+                      </div>
+
+                      <div class="accordion accordion-flush my-4" id="acLectureAdditionalGuide">
+                        <div class="accordion-item">
+                          <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseLecture" aria-expanded="false" aria-controls="flush-collapseLecture">
+                              <b>Расширяемый перечень справочников для описания лекций</b>
+                            </button>
+                          </h2>
+                          <div id="flush-collapseLecture" class="accordion-collapse collapse" data-bs-parent="#acLectureAdditionalGuide">
+                            <div class="accordion-body">
+                              <div class="mt-10 mb-10">
+                                <b>Добавить справочник для описания</b><br>
+                                <div class="d-flex">
+                                  <select class="form-control w-75 mr-10" name="">
+                                    <option select class="form-control"ed="" disabled="">Выберите справочник</option>
+                                    <option value="Шить">МКБ</option>
+                                    <option value="Брать кровь">Дисциплина/Учебный план</option>
+                                  </select>
+                                  <button type="button" class="btn btn-primary ml-10">Добавить</button>
+                                </div>
+                              </div>
+
+                              <div class="mt-10 mb-10">
+                                <b>Целевая аудитория</b><br>
+                                <select class="form-control" class="form-control" name="listners" size="1">
+                                  <option select class="form-control"ed="" disabled="">Выберите целевую аудиторию</option>
+                                  <option value="Студент 1-3 курса">Студент 1-3 курса</option>
+                                  <option value="Студент 4- курса">Студент 4- курса</option>
+                                  <option value="Студент 1-6 курса">Студент 1-6 курса</option>
+                                  <option value="Ординатор">Ординатор</option>
+                                  <option value="Аспирант">Аспирант</option>
+                                  <option value="Врач-кардиолог">Врач-кардиолог</option>
+                                  <option value="Врач-терапевт">Врач-терапевт</option>
+                                  <option value="Врач-и т.п.">Врач-и т.п.</option>
+                                </select class="form-control">
+                              </div>
+
+                              <div class="mt-10 mb-10">
+                                <b>Ось МКБ</b><br>
+                                <select class="form-control" name="mkb" size="1">
+                                  <option select class="form-control"ed="" disabled="">Выберите значение</option>
+                                  <option value="Вентряная оспа">Вентряная оспа</option>
+                                  <option value="Воспаление">Воспаление</option>
+                                  <option value="Ожирение">Ожирение</option>
+                                  <option value="ИБС">ИБС</option>
+                                </select class="form-control">
+                              </div>
+
+                              <div class="mt-10 mb-10">
+                                <b>Ось Дисциплин/учебный план</b><br>
+                                <select class="form-control" name="discipline" size="1">
+                                  <option select class="form-control"ed="" disabled="">Выберите дисциплину</option>
+                                  <option value="Общая анатомия">Общая анатомия</option>
+                                  <option value="Биохимия">Биохимия</option>
+                                  <option value="Диетолония">Диетолония</option>
+                                  <option value="Фармакология">Фармакология</option>
+                                </select class="form-control">
+                              </div>
+                              <div class="mt-10 mb-10">
+                                <b>Ось Локализации</b><br>
+                                <select class="form-control" name="atlas" size="1">
+                                  <option select class="form-control"ed="" disabled="">Выберите локализацию</option>
+                                  <option value="Мозг">Мозг</option>
+                                  <option value="Пищеватительная система">Пищеватительная система</option>
+                                  <option value="Сердце">Сердце</option>
+                                  <option value="Опорнодвигательная система">Опорнодвигательная система</option>
+                                </select class="form-control">
+                              </div>    
+                              <div class="mt-10 mb-10">
+                                <b>Ось Внешних факторов</b><br>
+                                <select class="form-control" name="exfacts" size="1">
+                                  <option select class="form-control"ed="" disabled="">Выберите фактор</option>
+                                  <option value="Солнце">Солнце</option>
+                                  <option value="Атмосферное давление">Атмосферное давление</option>
+                                  <option value="Автомобиль">Автомобиль</option>
+                                  <option value="Воздействие радиации">Воздействие радиации</option>
+                                </select class="form-control">
+                              </div>
+                              <div class="mt-10 mb-10">
+                                <b>Ведение и состояния</b><br>
+                                <div class="d-flex">
+                                  <select class="form-control w-75 mr-10" name="exfacts" size="1">
+                                    <option select class="form-control"ed="" disabled="">Выберите этап</option>
+                                    <option value="Солнце">Норма</option>
+                                    <option value="Атмосферное давление">Этиология</option>
+                                    <option value="Автомобиль">Пат.анатомия</option>
+                                    <option value="Воздействие радиации">Диагностика</option>
+                                    <option value="Атмосферное давление">Лечение</option>
+                                    <option value="Автомобиль">Реабилитация</option>
+                                  </select class="form-control">
+                                  <button type="button" class="btn btn-primary ml-10"><i class="fas fa-plus"></i></button>
+                                </div>
+                              </div>
+                              <div class="mt-10 mb-10">
+                                <b>Компетенции</b><br>
+                                <div class="d-flex">
+                                  <select class="form-control w-75 mr-10" name="kompetetion" size="1">
+                                    <option select class="form-control"ed="" disabled="">Выберите компетению</option>
+                                    <option value="Шить">Шить</option>
+                                    <option value="Брать кровь">Брать кровь</option>
+                                    <option value="Писать">Писать</option>
+                                    <option value="Проводить аускультацию">Проводить аускультацию</option>
+                                  </select class="form-control">
+                                  <button type="button" class="btn btn-primary ml-10"><i class="fas fa-plus"></i></button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>                    
+
+                      <div class="form-check mt-10 mb-10">
+                          <input class="form-check-input" type="checkbox" name="is-subsurvey" onclick="subshootingLecture()">
+                          <label class="form-check-label">Подсъёмки (при наличии)</label>
+                        </div>
+
+                      <div class="mt-10">                    
+                        <textarea id="subsurveyLecture" class="hidden form-control" cols="50" rows="2" placeholder="Краткое описание подсъёмки"></textarea>
+                      </div>
+
+                  </div>                  
+                </div>
+               
+            </div>
+            <div class="modal-footer">
+              <!-- Кнопка сохранить-->
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="saveLecture" onclick="saveLecture()">Добавить лекцию</button>
+            </div>
+          </div>          
+        </div>
+      </div>
+
+      <div class="modal-wrapper"> 
+        <div class="lectureModal shadow hidden" name="modalSeries">
+          <div class="modal-header">
+            <h5>Добавить модуль</h5>
+            <button type="button" class="btn-close" onclick="btnClose()"></button>
+          </div>
+          <div class="modal-content">
+            <div class="modal-body"> 
+              <input type="text" class="form-control mb-2" id="headSeries" placeholder="Название серии">
+              <textarea class="form-control mb-2" id="annotationSeries" placeholder="Аннотация к серии"></textarea>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-primary" id="saveLecture" onclick="saveSeries()">Добавать модуль</button>
+            </div>
+          </div>
+        </div>
+      </div>       
+
+      <div class="modal-wrapper">      
+        <div class="lectureModal shadow hidden" id="beginModal">
+          <div class="modal-header">
+            <h6>&nbsp;</h6>
+            <button type="button" class="btn-close" onclick="btnClose()"></button>
+          </div>          
+          <div class="modal-content">                         
+            <h3 class="text-center"><i class="fas fa-exclamation-circle text-primary"></i></h3>              
+            <h5 class="text-center">Для наполнения трека выберите тип добавляемого контента</h5>
+            <div class="d-flex justify-content-center">             
+              <button type="button" class="btn btn-primary m-2" onclick="addSeriesBegin()">Серия</button>                
+              <button type="button" class="btn btn-primary m-2" onclick="addLectureModalBegin()">Лекция</button>
+            </div>           
+          </div>          
+        </div>
+      </div>
+
+      <div class="modal-wrapper"> 
+        <div class="lectureModal shadow hidden" id="allLecture">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5>Доступные лекции</h5>
+                <button type="button" class="btn-close" onclick="btnClose()"></button>
+              </div>                  
+              <div class="modal-body"> 
+                  <div>dsfhtjykljhgfd</div>
+                  <div>dsfhtjykljhgfd</div>
+                  <div>dsfhtjykljhgfd</div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="btnClose()">Ок</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> 
+    </div>
+  <script src="js/jquery-3.2.1.slim.min.js"></script>
+  <script src="js/popper.min.js"></script>
+  <script src="js/bootstrap.min.js"></script> 
+  <script src="js/bootstrap.bundle.min.js"></script> 
+  <script src="js/index.js"></script>     
+  </body>
+</html>

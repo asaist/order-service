@@ -6,9 +6,14 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import ru.mcclinics.orderservice.dto.AuthorDto;
+import ru.mcclinics.orderservice.dto.ModuleDto;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -21,9 +26,11 @@ public class Series {
     private Long id;
     @Column(name = "seria_name")
     private String seriesName;
-    @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id")
-    private User author;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "series_author",
+            joinColumns = {@JoinColumn(name = "series_id", referencedColumnName = "series_id")},
+            inverseJoinColumns = {@JoinColumn(name = "author_id", referencedColumnName = "author_id")})
+    private Set<Author> authors = new HashSet<>();
     private String annotation;
     @Column(name = "create_date", updatable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
@@ -37,14 +44,28 @@ public class Series {
     private Track track;
     @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "series")
     private List<KeyWord> keyWords;
+    @Transient
+    private Long frontEndId;
 
     public Series() {
     }
 
-    public Series(String seriesName, User author, String annotation, Track track) {
+    public Series(String seriesName, String annotation, Track track) {
         this.seriesName = seriesName;
-        this.author = author;
         this.annotation = annotation;
         this.track = track;
+    }
+    public Series(ModuleDto moduleDto) {
+        this.seriesName= moduleDto.getModuleNameModal();
+        this.annotation = moduleDto.getModuleModalAnnotation();
+        String[] strMain = moduleDto.getModuleModalKeyWords().split(";");
+        List<KeyWord> keyWords = new ArrayList<>(strMain.length);
+        for (int i = 0; i < strMain.length; i++){
+            KeyWord keyWord = new KeyWord();
+            keyWord.setValue(strMain[i]);
+            keyWords.add(keyWord);
+        }
+        this.keyWords = keyWords;
+        this.frontEndId = Long.valueOf(moduleDto.getId());
     }
 }

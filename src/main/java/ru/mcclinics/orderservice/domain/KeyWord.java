@@ -30,4 +30,6 @@ public class KeyWord {
     @JoinColumn(name = "lecture_id")
     private Lecture lecture;
 
+    public KeyWord() {
+    }
 }

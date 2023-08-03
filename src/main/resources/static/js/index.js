@@ -31,22 +31,39 @@ function btnClose() {
 		for (var vlec of viewLectureModal) {
 			vlec.classList.add('hidden');
 		} 
-    let viewOverlay = document.getElementById('overlayViewLectureModal'); 
-    viewOverlay.classList.add('hidden'); 
+    // let viewOverlay = document.getElementById('overlayViewLectureModal');
+    // viewOverlay.classList.add('hidden');
 }
 
 function addLecture() {
  	let addLectureModal = document.getElementById('addLectureModal');
 	addLectureModal.classList.remove('hidden');
-	showOverlay(); 
+	// showOverlay();
 }
 
-function addSeries() {
+function addLectureInModule(el) {
+	let addLectureModal = document.getElementById('addLectureInModule');
+	addLectureModal.classList.remove('hidden');
+	let moduleModalId = el.getAttribute('moduleModalId');
+	let moduleNameModal = el.getAttribute('moduleNameModal');
+	addLectureModal.setAttribute("moduleModalId", moduleModalId);
+	addLectureModal.setAttribute("moduleNameModal", moduleNameModal);
+	let moduleHeadingInLectureElement = document.getElementById('moduleHeadingInLecture');
+	moduleHeadingInLectureElement.textContent = 'Образовательный модуль «' + moduleNameModal + '» электронной образовательной среды СамГМУ»';
+	// document.getElementById('moduleHeadingInLecture').value = el.getAttribute("moduleNameModal");
+}
+
+function addSeries(el) {
 	let addSeries = document.getElementsByName('modalSeries');
 		for (let series of addSeries) {
 			series.classList.remove('hidden'); 
 		}
-	showOverlay();
+	// let moduleModalId = el.getAttribute('moduleModalId');
+	// let moduleNameModal = el.getAttribute('moduleNameModal');
+	// addSeries.setAttribute("moduleModalId", moduleModalId);
+	// addSeries.setAttribute("moduleNameModal", moduleNameModal);
+
+	// showOverlay();
 }
 
 function beginModal() {
@@ -63,13 +80,32 @@ function addLectureModalBegin() {
 	btnClose();
 	addLecture();
 }
+var saveElForLecInMod;
+function addLectureInModuleBegin(el) {
+	btnClose();
+	addLectureInModule(el);
+
+	saveElForLecInMod = el;
+}
+
+let saveLectureInModule= document.getElementById('saveLectureInModule');
+saveLectureInModule.setAttribute('onclick', 'addLecInModule(saveElForLecInMod)');
+
+let editLectureInModule= document.getElementById('editLectureInModule');
+editLectureInModule.setAttribute('onclick', 'editLecInModule(editElForLecInMod)');
+
+let editLectureOut= document.getElementById('editLecture');
+editLectureOut.setAttribute('onclick', 'editLecOutOf(editElForLecOut)');
+
+let editModuleEl= document.getElementById('editModule');
+editModuleEl.setAttribute('onclick', 'saveEditModule(editElForMod)');
 
 var lectureBlockNumber = 0;
 
-function saveLecture() {
-	btnClose();
 
-	let trackLineLecture = document.getElementById('trackLineLecture');	
+function saveLecture() {
+
+	// let trackLineLecture = document.getElementById('addLectureInModule');
 	if (trackLineLecture.innerHTML.trim().length == 0) {
 		let faListLec = document.getElementById('faListLec');
 		faListLec.classList.remove('hidden');
@@ -83,44 +119,46 @@ function saveLecture() {
 
     lectureBlock.setAttribute('onclick', 'viewLectureModal()');
 
-    let lectureBlockIn = document.createElement('div'); // добавляем внутренний светло-синий блок
-	lectureBlockIn.classList.add('lectureBlockIn');
-	lectureBlock.append(lectureBlockIn);
+    // let lectureBlockIn = document.createElement('div'); // добавляем внутренний светло-синий блок
+	// lectureBlockIn.classList.add('lectureBlockIn');
+	// lectureBlock.append(lectureBlockIn);
 
-	lectureBlockNumber++; // Присваиваем id
-    lectureBlock.id = "lecture_" + lectureBlockNumber;
+	// lectureBlockNumber++; // Присваиваем id
+    // lectureBlock.id = "lecture_" + lectureBlockNumber;
+	//
+	// lectureBlockIn.classList.add('numberBlockCenter')
+	// lectureBlockIn.append(lectureBlockNumber);
 
-	lectureBlockIn.classList.add('numberBlockCenter')
-	lectureBlockIn.append(lectureBlockNumber);
-
-	document.getElementById('headLecture').value = "";	
+	document.getElementById('headLecture').value = "";
+	btnClose();
 }
 
 function saveSeries() {
 	btnClose();
 
-	let trackLinSeries = document.getElementById('trackLinSeries');	
+	let trackLinSeries = document.getElementById('addSeriesModal');
 		if (trackLinSeries.innerHTML.trim().length == 0) {
 			const seriesElem = document.createTextNode('Серии');
 			series.append(seriesElem);
 		}
 
-	let seriesBlock = document.createElement('div');
-	seriesBlock.classList.add('seriesBlock');
-	trackLinSeries.append(seriesBlock);
+	// let seriesBlock = document.createElement('div');
+	// seriesBlock.classList.add('seriesBlock');
+	// trackLinSeries.append(seriesBlock);
+	//
+	// seriesBlock.setAttribute('onclick', 'seriesClick()');
 
-	seriesBlock.setAttribute('onclick', 'seriesClick()');
 
-	let arrowLectureBlock = document.createElement('div');
-	arrowLectureBlock.classList.add('arrowLectureBlock');
-	seriesBlock.append(arrowLectureBlock);
-
-	let caret = document.createElement('i');
-	caret.classList.add('fas', 'fa-caret-down', 'fasIcon');
-	arrowLectureBlock.append(caret);
-
+	// let arrowLectureBlock = document.createElement('div');
+	// arrowLectureBlock.classList.add('arrowLectureBlock');
+	// seriesBlock.append(arrowLectureBlock);
+	//
+	// let caret = document.createElement('i');
+	// caret.classList.add('fas', 'fa-caret-down', 'fasIcon');
+	// arrowLectureBlock.append(caret);
 	document.getElementById('headSeries').value = "";
-	document.getElementById('headSeries').value = "";
+	document.getElementById('moduleModalAnnotation').value = "";
+	document.getElementById('moduleModalKeyWords').value = "";
 }
 
 function allLecture() {

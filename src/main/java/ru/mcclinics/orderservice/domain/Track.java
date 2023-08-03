@@ -2,6 +2,7 @@ package ru.mcclinics.orderservice.domain;
 
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Getter;
 import lombok.Setter;
@@ -10,7 +11,9 @@ import ru.mcclinics.orderservice.dto.TrackDto;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -25,12 +28,17 @@ public class Track {
     private String trackName;
     @Column(name = "track_annotation")
     private String annotation;
-    @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
-    @JoinColumn(name = "author_id")
-    private User author;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "track_author",
+            joinColumns = {@JoinColumn(name = "track_id", referencedColumnName = "track_id")},
+            inverseJoinColumns = {@JoinColumn(name = "author_id", referencedColumnName = "author_id")})
+    private Set<Author> authors = new HashSet<>();
     @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "university_id")
     private University university;
+    @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "supervisor")
+    private Author supervisor;
     private String fileName;
     @Column(name = "create_date", updatable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
@@ -61,19 +69,24 @@ public class Track {
     public Track() {
 
     }
-    public Track(String trackName, String annotation, User user) {
+    public Track(String trackName, String annotation) {
         this.trackName = trackName;
         this.annotation = annotation;
-        this.author = user;
     }
-    public Track(String trackName, String annotation, User user, University university) {
+    public Track(String trackName, String annotation, Set<Author> authors, University university) {
         this.trackName = trackName;
         this.annotation = annotation;
-        this.author = user;
+        this.authors = authors;
+        this.university = university;
+    }
+    public Track(String trackName, String annotation, University university) {
+        this.trackName = trackName;
+        this.annotation = annotation;
+        this.authors = authors;
         this.university = university;
     }
     public String getAuthorName(){
-        return author!=null ? author.getUsername() : "<none>";
+        return authors !=null ? "authors" : "<none>";
     }
     public String getAnnotation(){
         return annotation!=null ? annotation : "<none>";

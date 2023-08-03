@@ -5,22 +5,11 @@ spring:
     name: order-service
   freemarker:
     expose-request-attributes: true
-#  security:
-#    oauth2:
-#      client:
-#        registration:
-#          keycloak:
-#            client-id: course
-#            client-secret: a4a572f3-0037-4569-8c54-468d6abaec4e
-#            authorization-grant-type: authorization_code
-#            scope:
-#              - openid
-#              - profile
-#              - roles
-#            redirect-uri: http://localhost:8081/login/oauth2/code/course
-#        provider:
-#          keycloak:
-#            issuer-uri: http://localhost:8180/auth/realms/SAMGMU
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
 
 springdoc:
     show-actuator: false
@@ -41,7 +30,4 @@ server:
     encoding:
       force: true
       charset: UTF-8
-files:
-  upload:
-    baseDir: /C:/Users/Artist/IdeaProjects/order-service/files
 

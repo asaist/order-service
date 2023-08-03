@@ -1,5 +1,9 @@
 body {
   font-family: 'Open Sans';
+  font-size: 14px;
+}
+.fs16 {
+  font-size: 16px;
 }
 h3 {
   margin-bottom: 20px;
@@ -19,6 +23,9 @@ h3 {
 .mt-10 {
   margin-top: 10px;
 }
+.mt-m5 {
+  margin-top: -5px;
+}
 .header-text {
   display: flex;
   align-items: center;
@@ -35,6 +42,8 @@ h3 {
   margin-right: auto;
   padding: 15px;
   border-radius: 10px;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 .overlay {
     opacity: 0.3;
@@ -189,13 +198,13 @@ tr.cursor-pointer:hover {
 }
 /* Schema.html */
 .left-schema {
-  width: 10%;
+  width: 8%;
   height: 100vh;
   background: #d5d5d5;
   padding: 15px;
 }
 .right-body {
-  width: 90%;
+  width: 92%;
   height: 100vh;
 }
 .nav {
@@ -243,13 +252,13 @@ tr.cursor-pointer:hover {
 }
 [data-tooltip] {
     position: relative; /* Относительное позиционирование */
-    width: 100%;
+    /*width: 100%;*/
 }
 [data-tooltip]::after {
     content: attr(data-tooltip); /* Выводим текст */
-    position: absolute; /* Абсолютное позиционирование */
-    top: -1em;
-    left: 60px;
+    position: absolute; /* Абсолютное позиционирование */ 
+    top: 3px;   
+    left: 40px;
     width: 150px;
     background: #fff; /* Синий цвет фона */
     color: #000; /* Цвет текста */
@@ -263,6 +272,151 @@ tr.cursor-pointer:hover {
     z-index: 1001;
 }
 [data-tooltip]:hover::after {
-    opacity: 1; /* Показываем подсказку */
-    top: 1em; /* Положение подсказки */
+    opacity: 1; 
+    left: 60px;
+    top: 3px;   
 }
+[data-tooltip-right] {
+    position: relative; /* Относительное позиционирование */
+    /*width: 100%;*/
+}
+[data-tooltip-right]::after {
+    content: attr(data-tooltip-right); /* Выводим текст */
+    position: absolute; /* Абсолютное позиционирование */
+    top: 2em;
+    right: 0px;
+    width: 150px;
+    background: #fff; /* Синий цвет фона */
+    color: #000; /* Цвет текста */
+    font-size: 14px;
+    border-radius: 2px;
+    padding: 0.5em; /* Поля вокруг текста */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Параметры тени */
+    pointer-events: none; /* Подсказка */
+    opacity: 0; /* Подсказка невидима */
+    transition: 1s; /* Время появления подсказки */
+    z-index: 1001;
+}
+[data-tooltip-right]:hover::after {
+    opacity: 1; /* Показываем подсказку */
+    top: 3em; /* Положение подсказки */
+}
+.modal-header {
+  border-bottom: none;
+}
+.modal-content, .modal-footer {
+  border: none;
+}
+.lectureBlockScheme {   
+  position: relative;
+}
+.lecBlockScheme {  
+  height: 70px;
+  width: 180px;
+  position: relative;
+}
+.lectureBlockSchemeText {
+  max-width: 150px;
+}
+.lectureBlockSchemeTextHint {
+  position: absolute;
+  top:50px;  
+  max-width: 200px;
+  background: #fff; 
+  color: #000; 
+  font-size: 14px;
+  border-radius: 2px;
+  padding: 0.5em; 
+  pointer-events: none;
+  z-index: 1001;
+
+}
+@media (max-width: 1000px) {
+  .rowScheme {
+    flex-wrap: wrap;
+    } 
+}
+
+#tableAuthor {
+  margin-top: 25px;
+  border: 1px solid #e7f1ff;
+  border-radius: 10px;
+}
+#tableAuthor td{
+  padding: 0px;
+  border: 1px solid #e7f1ff;
+}
+#tableAuthor th{
+  padding: 5px;
+  border: 1px solid #e7f1ff;
+}
+#tableAuthor tr:hover {
+  background: #e7f1ff;
+}
+.nameTd {
+  width: 50%;
+}
+.regTd {
+  width: 20%;
+}
+.docTd {
+  width: 10%;
+}
+.checkTd {
+  width: 10%;
+}
+.removeTd {
+  width: 10%;
+}
+
+.form-check-input[type=radio] {
+  margin: auto;
+  display: grid;
+}
+tbody, td, tfoot, th, thead, tr {
+    border-color: inherit;
+    border-style: none; 
+    border-width: 0;
+}
+.select2  {min-height: calc(1.5em + (0.75rem + 2px));
+    display: block;
+    width: 100%;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;}
+.preview {
+    display: flex;
+    flex-wrap: wrap;
+    padding: .5rem;
+}
+.preview-image {
+    margin-bottom: .5rem;
+    margin-right: .5rem;
+}
+.preview-image img {
+    width: 180px;
+    height: auto;
+}
+.container {
+    padding-top: .5rem;
+    width: 800px;
+}
+.card {
+    border-radius: 6px;
+    background: #fff;
+    padding: 1rem;
+    margin-right: .1rem;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+}
+.iframePdf{
+    width: 100%;
+    height: calc(65vh);
+    border: black 1px;
+    overflow-y: hidden;
+    padding: 0px;
+    margin: 0px;
+}
+/*input[type=file] {*/
+/*    display: none;*/
+/*}*/

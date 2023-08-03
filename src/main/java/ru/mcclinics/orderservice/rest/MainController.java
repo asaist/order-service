@@ -10,10 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.mcclinics.orderservice.dao.KeyWordRepository;
-import ru.mcclinics.orderservice.domain.KeyWord;
-import ru.mcclinics.orderservice.domain.Track;
-import ru.mcclinics.orderservice.domain.University;
-import ru.mcclinics.orderservice.domain.User;
+import ru.mcclinics.orderservice.domain.*;
 import ru.mcclinics.orderservice.service.TrackService;
 import ru.mcclinics.orderservice.service.UniversityService;
 
@@ -34,7 +31,7 @@ public class MainController {
 
     @Value("${files.upload.baseDir}")
     private String uploadPath;
-//    @GetMapping("/")
+//    @GetMapping("/")z
 //    public String greeting(Map<String, Object> model){
 //        return "scheme";
 //    }
@@ -81,7 +78,7 @@ public class MainController {
                 @RequestParam String annotation,
 //                @RequestParam("file") MultipartFile file,
                Map<String, Object> model) throws IOException {
-        Track track = new Track(trackName, annotation, user);
+        Track track = new Track(trackName, annotation);
 //        if (file != null && !file.getOriginalFilename().isEmpty()) {
 //            File uploadDir = new File(uploadPath);
 //            if(!uploadDir.exists()) {
@@ -99,40 +96,41 @@ public class MainController {
         return "main";
     }
 
-    @PostMapping("/table_track")
-    public String addTrack(
-            @AuthenticationPrincipal User user,
-            @RequestParam University university,
-            @RequestParam String trackName,
-            @RequestParam String annotation,
-            @RequestParam String keyWordsFrontEnd,
-//                @RequestParam("file") MultipartFile file,
-            Map<String, Object> model) throws IOException {
-        String[] strMain = keyWordsFrontEnd.split(";");
-        List<KeyWord> keyWordList = new ArrayList<>();
-        Track track = new Track(trackName, annotation, user, university);
-        track.setCreateDate(LocalDateTime.now());
-        for (String line : strMain) {
-            KeyWord keyWord = new KeyWord();
-            keyWord.setValue(line);
-            keyWord.setTrack(track);
-            keyWordList.add(keyWord);
-        }
-        track.setKeyWords(keyWordList);
-//        if (file != null && !file.getOriginalFilename().isEmpty()) {
-//            File uploadDir = new File(uploadPath);
-//            if(!uploadDir.exists()) {
-//                uploadDir.mkdirs();
-//            }
-//            String uuidFile = UUID.randomUUID().toString();
-//            String resultFileName = uuidFile + "." + file.getOriginalFilename();
-//            file.transferTo(new File(uploadPath + "/" + resultFileName));
-//            track.setFileName(resultFileName);
+//    @PostMapping("/table_track")
+//    public String addTrack(
+//            @AuthenticationPrincipal User user,
+//            @RequestParam University university,
+//            @RequestParam String trackName,
+//            @RequestParam String annotation,
+//            @RequestParam String keyWordsFrontEnd,
+////                @RequestParam("file") MultipartFile file,
+//            Map<String, Object> model) throws IOException {
+//        String[] strMain = keyWordsFrontEnd.split(";");
+//        List<KeyWord> keyWordList = new ArrayList<>();
+//        Author user1 = new Author();
+//        Track track = new Track(trackName, annotation, user1, university);
+//        track.setCreateDate(LocalDateTime.now());
+//        for (String line : strMain) {
+//            KeyWord keyWord = new KeyWord();
+//            keyWord.setValue(line);
+//            keyWord.setTrack(track);
+//            keyWordList.add(keyWord);
 //        }
-        trackService.save(track);
-        keyWordRepository.saveAll(keyWordList);
-        Iterable<Track> tracks = trackService.findTracks();
-        model.put("tracks", tracks);
-        return "redirect:/table_track";
-    }
+//        track.setKeyWords(keyWordList);
+////        if (file != null && !file.getOriginalFilename().isEmpty()) {
+////            File uploadDir = new File(uploadPath);
+////            if(!uploadDir.exists()) {
+////                uploadDir.mkdirs();
+////            }
+////            String uuidFile = UUID.randomUUID().toString();
+////            String resultFileName = uuidFile + "." + file.getOriginalFilename();
+////            file.transferTo(new File(uploadPath + "/" + resultFileName));
+////            track.setFileName(resultFileName);
+////        }
+//        trackService.save(track);
+//        keyWordRepository.saveAll(keyWordList);
+//        Iterable<Track> tracks = trackService.findTracks();
+//        model.put("tracks", tracks);
+//        return "redirect:/table_track";
+//    }
 }
