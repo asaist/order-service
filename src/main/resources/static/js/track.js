@@ -6,6 +6,9 @@ function updateTrackHeading() {
     var trackHeadingInModule = document.getElementById("trackHeadingInModule");
     let trackHeadingInLecture = document.getElementById("trackHeadingInLecture");
     let trackHeadingInLectureOutOfModule = document.getElementById("trackHeadingInLectureOutOfModule");
+    let trackHeadingOfModule = document.getElementById("trackModuleSeries");
+    let trackHeadingOfModuleInLectureModal = document.getElementById("trackModuleSeries");
+
 
 
     // Обновление содержимого заголовка с использованием значения из textarea
@@ -13,8 +16,8 @@ function updateTrackHeading() {
     trackHeadingInModule.innerText = 'Образовательный трек «' + trackInput.value + '» электронной образовательной среды СамГМУ»';
     trackHeadingInLecture.innerText = 'Образовательный трек «' + trackInput.value + '» электронной образовательной среды СамГМУ»';
     trackHeadingInLectureOutOfModule.innerText = 'Образовательный трек «' + trackInput.value + '» электронной образовательной среды СамГМУ»';
+    trackHeadingOfModuleInLectureModal.innerText = 'Образовательный модуль «' + trackHeadingOfModule.value + '» электронной образовательной среды СамГМУ»';
 }
-
 function updateModuleHeading() {
     var trackInput = document.getElementById("trackInput");
     var trackHeading = document.getElementById("trackHeading");

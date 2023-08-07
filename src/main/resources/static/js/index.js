@@ -41,6 +41,12 @@ function addLecture() {
 	// showOverlay();
 }
 
+function addLectureInModuleSeries() {
+	let addLectureModal = document.getElementById('addLectureModalModule');
+	addLectureModal.classList.remove('hidden');
+	// showOverlay();
+}
+
 function addLectureInModule(el) {
 	let addLectureModal = document.getElementById('addLectureInModule');
 	addLectureModal.classList.remove('hidden');
@@ -80,6 +86,13 @@ function addLectureModalBegin() {
 	btnClose();
 	addLecture();
 }
+
+function addLectureModalModuleBegin() {
+	btnClose();
+	addLectureInModuleSeries();
+}
+
+
 var saveElForLecInMod;
 function addLectureInModuleBegin(el) {
 	btnClose();

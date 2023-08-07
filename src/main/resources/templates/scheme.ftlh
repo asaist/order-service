@@ -365,7 +365,7 @@
                 </div>                  
                 <div class="modal-body"> 
                     <div class="mb-10">                    
-                      <select class="form-control" class="form-control" name="seriesTrack" size="1">
+                      <select class="form-control" class="form-control" id="trackModuleSeries" onchange="updateTrackHeadingModuleSeries()" name="seriesTrack" size="1">
                         <option select class="form-control">Выберите образовательный трек</option>
                         <#list tracks as track>
                           <option value="${track.id}">${track.trackName}</option>
@@ -373,7 +373,7 @@
                       </select class="form-control">
                     </div>
                     <div class="mb-10">
-                      <input type="text" class="form-control mb-2" name="seriesName" placeholder="Название образовательного модуля">
+                      <input type="text" class="form-control mb-2" id="moduleSeriesName" oninput="updateTrackHeadingModuleSeries()" name="seriesName" placeholder="Название образовательного модуля">
                     </div>
                     <div class="my-4">
                     <p><b>Автор образовательного модуля</b></p>
@@ -550,13 +550,86 @@
                     </div>
 
                 </div>
-                <div class="modal-footer">
-                  <button type="submit" id="saveModuleM" class="btn btn-primary">Добавить модуль</button>
-                  <button type="submit" id="editModuleM" class="btn btn-primary hidden">Редактировать модуль</button>
+                <div class="tab-pane fade show active h-100" id="pills-network-wired" role="tabpanel" aria-labelledby="pills-network-wired-tab" tabindex="0">
+                  <div class="my-3 rounded p-3" style="border: 1px solid #e9e9e9; background: #e9e9e9;">
+                    <div class="d-flex justify-content-end">
+                      <button type="button" class="btn btn-sm rounded px-3" onclick="addLectureModalModuleBegin()" style="border: 1px solid #e9e9e9" data-bs-toggle="modal" data-bs-target="#addLectureModalBegin"><i class="fas fa-plus"></i></button>
+<#--                      <button type="button" class="btn btn-primary m-2" onclick="addLectureModalBegin()" data-bs-dismiss="modal">Лекция</button>-->
+                    </div>
+                    <div class="d-flex justify-content-center">
+                      <h5 id="moduleHeading" class="text-center m-0 p-0 flex-nowrap w-75">Образовательный модуль</h5>
+                    </div>
+                  </div>
+
+                  <div class="d-flex rowScheme" id="rowSchemeModuleSeries" style="position:relative;">
+                    <div id="rowModuleSeries" class="d-flex flex-wrap">
+
+                    </div>
+
+                    <div class="d-flex mx-2 flex-wrap" id="colLecModule">
+
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" id="saveModuleM" class="btn btn-primary">Добавить модуль</button>
+                    <button type="submit" id="editModuleM" class="btn btn-primary hidden">Редактировать модуль</button>
+                  </div>
                 </div>
               </div>
               </form>
             </div>
+
+            <!-- Заявка на Лекцию всплывающая для дерева модуля -->
+            <div class="modal-wrapper">
+              <div class="lectureModal shadow hidden" id="addLectureModalModule">
+                <div class="modal-header">
+                  <h5>Добавить лекцию</h5>
+                  <button type="button" class="btn-close" onclick="btnClose()"></button>
+                </div>
+                <div class="modal-content">
+                  <div class="modal-body">
+
+                    <div>
+                      <div class="d-flex justify-content-center">
+                        <h5>Заявка на создание лекции</h5>
+                      </div>
+                      <div class="modal-body">
+
+                        <div class="mb-10">
+                          <p id="trackHeadingInLectureModuleSeries" class="m-0 p-0 flex-nowrap w-75">Образовательный трек</p>
+                        </div>
+
+                        <div class="mb-10">
+                          <p id="moduleHeadingInLectureModuleSeries" class="m-0 p-0 flex-nowrap w-75">Образовательный модуль</p>
+                        </div>
+
+                        <div class="mb-10">
+                          <input type="text" class="form-control mb-2" id="lectureModalNameModule" placeholder="Название образовательной лекции">
+                        </div>
+
+                        <div class="my-4">
+                          <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Аннотация/содержание образовательной лекции</b><br>
+                          <textarea class="form-control" id="lectureModalAnnotationModule" name="track-annotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#"></textarea>
+                        </div>
+
+                        <div class="mt-10 mb-10">
+                          <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Дополнительные ключеные слова</b><br>
+                          <textarea class="form-control" id="lectureModalKeyWordsModule" name="module-annotation" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;"></textarea>
+                        </div>
+
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="modal-footer">
+                    <!-- Кнопка сохранить-->
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="saveLectureInModuleSeries" onclick="addLectureSchemeModule()">Добавить лекцию</button>
+                    <button type="button" class="btn btn-primary hidden" data-bs-dismiss="modal" id="editLectureInModuleSeries">Сохранить лекцию</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <!-- Заявка на Лекцию -->
             <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
               <form method="post" action="/addLecture" id="createLecture" enctype="multipart/form-data">
@@ -901,8 +974,8 @@
       $(document).ready(function() {
         $(".js-data-example-ajax").select2({
           ajax: {
-            url: "https://track.samsmu.ru/api/author/authors",
-            // url: "http://localhost:8081/api/author/authors",
+            // url: "https://track.samsmu.ru/api/author/authors",
+            url: "http://localhost:8081/api/author/authors",
             type: 'GET',
             dataType: 'json',
             delay: 250,
