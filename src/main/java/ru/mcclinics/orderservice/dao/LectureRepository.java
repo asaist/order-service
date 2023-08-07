@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface LectureRepository extends JpaRepository<Lecture, Long> {
     List<Lecture> findByLectureNameContainsIgnoreCase(String lectureName);
+    Lecture findLectureById(Long id);
 }

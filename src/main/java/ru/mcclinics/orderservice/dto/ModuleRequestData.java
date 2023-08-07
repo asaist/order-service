@@ -18,5 +18,4 @@ public class ModuleRequestData extends EntityDto implements Serializable {
     private String seriesAnnotation;
     private String seriesKeyWords;
     private List<LectureDto> lectures;
-
 }

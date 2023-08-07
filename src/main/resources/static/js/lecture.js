@@ -1,29 +1,59 @@
-class Author {
-    constructor(id, fullName, degree, isSupervisor, passport, diploma, diplomaScienceDegree, diplomaScienceRank, noCriminalRecord, healthStatus, employmentBook) {
-        this.id = id;
-        this.fullName = fullName;
-        this.degree = degree;
-        this.isSupervisor = isSupervisor;
-        this.passport = passport;
-        this.diploma = diploma;
-        this.diplomaScienceRank = diplomaScienceRank;
-        this.diplomaScienceDegree = diplomaScienceDegree;
-        this.noCriminalRecord = noCriminalRecord;
-        this.healthStatus = healthStatus;
-        this.employmentBook = employmentBook;
-    }
-}
-let authors = [];
-// var authorsFromDB = [];
-function selectAuthor(el) {
-    var e = document.getElementById("select");
 
-    var selectData = $('#select').select2('data');
-    var selectedIndex = $('#select').prop('selectedIndex');
+const lectureForm = document.querySelector('#createLecture');
+let lectureAuthors = [];
+let savedLecture = null;
+lectureForm.addEventListener('submit', (event) => {
+    event.preventDefault(); // остановить стандартное поведение формы
+    const track = lectureForm.lectureTrack.value;
+    const series = lectureForm.lectureSeries.value;
+    const lectureName = lectureForm.lectureName.value;
+    const lectureAnnotation = lectureForm.lectureAnnotation.value;
+    const lectureKeyWords = lectureForm.lectureKeyWords.value;
+
+    const data = {
+        lectureAuthors,
+        track,
+        series,
+        lectureName,
+        lectureAnnotation,
+        lectureKeyWords
+    };
+    if (savedLecture) {
+        data.lectureId = savedLecture;
+    }
+    console.log(data);
+
+    fetch("/addLecture", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(data)
+    })
+        .then(response => response.json())
+        .then(data => {
+            savedLecture = data.id;
+            // Используйте полученный ID нового трека для нужных действий на фронтенде
+            console.log('ID новой лекции:', savedLecture);
+        })
+        .catch(error => {
+            console.error('Ошибка при отправке запроса:', error);
+        });
+    let addLecture = document.getElementById('saveLectureL');
+    addLecture.classList.add("hidden");
+    let editLecture = document.getElementById('editLectureL');
+    editLecture.classList.remove("hidden");
+});
+
+function selectAuthorLecture(el) {
+    let e = document.getElementById("selectAuthorToLecture");
+
+    let selectData = $('#selectAuthorToLecture').select2('data');
+    let selectedIndex = $('#selectAuthorToLecture').prop('selectedIndex');
     console.log(selectData, "selectData");
     console.log(selectedIndex, "индекс selectData");
     // var academicDegreeName = selectData[selectedIndex].academicDegreeName; // дает nextInt вместо того, в котором лежит data
-    var academicDegreeName = selectData[0].academicDegreeName;
+    let academicDegreeName = selectData[0].academicDegreeName;
     console.log(academicDegreeName, "уч.степень");
 
     let value = e.value;
@@ -40,7 +70,7 @@ function selectAuthor(el) {
     console.log(index, "индекс HTML");
     // let select = document.getElementById("select");
     // let value = select.value;
-    let tableAuthor = document.getElementById('tableAuthor');
+    let tableAuthor = document.getElementById('tableAuthorLec');
 
     let divDoc = document.createElement('tr');
     divDoc.classList.add('divDoc');
@@ -67,8 +97,8 @@ function selectAuthor(el) {
     console.log(value);
     let author = new Author(value, text, academicDegreeName, false);
     console.log(e.value.replace(/\s/g, ""));
-    authors.push(author);
-    console.log(authors);
+    lectureAuthors.push(author);
+    console.log(lectureAuthors);
     author.passport = null;
     author.diploma = null;
     author.diplomaScienceRank = null;
@@ -89,7 +119,7 @@ function selectAuthor(el) {
     radioBtn.setAttribute('name','flexRadioDefault');
     radioBtn.setAttribute('onclick','AuthorIsSupervisor(this)');
     radioBtn.setAttribute('id','isSupervisor');
-    radioBtn.setAttribute('authorIndex', (authors.length - 1).toString());
+    radioBtn.setAttribute('authorIndex', (lectureAuthors.length - 1).toString());
     radioBtn.classList.add('form-check-input');
     checkTd.append(radioBtn);
 
@@ -109,7 +139,7 @@ function selectAuthor(el) {
     close.classList.add('fas', 'fa-times', 'text-danger');
     close.setAttribute('id', 'removeAuthorFromTable');
     close.setAttribute('onclick','removeAuthorFromArray(this)');
-    close.setAttribute('authorIndex', (authors.length - 1).toString());
+    close.setAttribute('authorIndex', (lectureAuthors.length - 1).toString());
     removeTd.append(close);
 
     //Строка для добавления документов (скрытая)
@@ -771,8 +801,9 @@ function selectAuthor(el) {
     btnUploadExperience.append(uploadIconExperience);
     //
 }
-function inputNameAuthor() {
-    let tableAuthor = document.getElementById('tableAuthor');
+
+function inputNameAuthorLecture() {
+    let tableAuthor = document.getElementById('tableAuthorLec');
 
     let divDoc = document.createElement('tr');
     divDoc.classList.add('divDoc');
@@ -790,7 +821,7 @@ function inputNameAuthor() {
     tr1.append(inputNameAuthor);
     let inputNameAuthorTd = document.createElement('td');
 
-    let x = document.getElementById('inputNameAuthor').value;
+    let x = document.getElementById('inputNameAuthorLecture').value;
     inputNameAuthorTd.innerHTML = x;
     inputNameAuthorTd.classList.add('text-primary', 'nameTd');
     inputNameAuthor.append(inputNameAuthorTd);
@@ -804,8 +835,8 @@ function inputNameAuthor() {
     inputNameAuthor.append(prof);
     console.log(regalia);
     let author = new Author(null, inputNameAuthorTd.textContent, regalia, false);
-    authors.push(author);
-    console.log(authors);
+    lectureAuthors.push(author);
+    console.log(lectureAuthors);
 
     let checkTd = document.createElement('td');
     checkTd.classList.add('checkTd');
@@ -815,7 +846,7 @@ function inputNameAuthor() {
     radioBtn.setAttribute('name','flexRadioDefault');
     radioBtn.setAttribute('onclick','AuthorIsSupervisor(this)');
     radioBtn.setAttribute('id','isSupervisor');
-    radioBtn.setAttribute('authorIndex', (authors.length - 1).toString());
+    radioBtn.setAttribute('authorIndex', (lectureAuthors.length - 1).toString());
     radioBtn.classList.add('form-check-input');
     checkTd.append(radioBtn);
 
@@ -834,7 +865,7 @@ function inputNameAuthor() {
     close.classList.add('fas', 'fa-times', 'text-danger');
     close.setAttribute('id', 'removeAuthorFromTable');
     close.setAttribute('onclick','removeAuthorFromArray(this)');
-    close.setAttribute('authorIndex', (authors.length - 1).toString());
+    close.setAttribute('authorIndex', (lectureAuthors.length - 1).toString());
     removeTd.append(close);
 
     //Строка для добавления документов (скрытая)
@@ -1192,82 +1223,4 @@ function inputNameAuthor() {
         badge[i].outerHTML = "";
     }
 
-}
-
-// Добавляем файлы в FormData
-//     var files = document.getElementById('fileInput').files;
-//     for ( i = 0; i < files.length; i++) {
-//         formData.append('files', files[i]);
-//     }
-
-
-
-async function sendAuthorDocs(author) {
-    let formData = new FormData();
-    // formData.append('id', el.getAttribute('id'));
-    // formData.append('fullName', el.getAttribute('fullName'));
-    // formData.append('passport', authors[0].passport);
-
-    formData.append('id', author.id);
-    formData.append('fullName', author.fullName);
-    formData.append('passport', author.passport);
-    formData.append('diploma', author.diploma);
-    formData.append('diplomaScienceRank', author.diplomaScienceRank);
-    formData.append('diplomaScienceDegree', author.diplomaScienceDegree);
-    formData.append('noCriminalRecord', author.noCriminalRecord);
-    formData.append('healthStatus', author.healthStatus);
-    formData.append('employmentBook', author.employmentBook);
-    console.log(formData.get('passport'));
-    let response = await fetch('/api/author/docs', {
-        method: 'POST',
-        body: formData
-    }) .then(response => response.json())
-        .then(data => {
-            const newAuthorId = data;
-            author.id = newAuthorId;
-            // savedTrack = data;
-            // Используйте полученный ID нового трека для нужных действий на фронтенде
-            console.log('ID нового автора:', newAuthorId);
-        })
-        .catch(error => {
-            console.error('Ошибка при отправке запроса:', error);
-        });
-}
-
-function displayPdfAsImage(pdfFile) {
-    const fileReader = new FileReader();
-
-    fileReader.onload = function() {
-        const typedArray = new Uint8Array(this.result);
-
-        // Загрузка PDF-файла
-        pdfjsLib.getDocument(typedArray).promise.then((pdf) => {
-            // Получение первой страницы PDF-файла
-            pdf.getPage(1).then((page) => {
-                const scale = 1.5;
-                const viewport = page.getViewport({ scale });
-
-                // Создание элемента canvas для отрисовки страницы
-                const canvas = document.createElement('canvas');
-                const context = canvas.getContext('2d');
-                canvas.width = viewport.width;
-                canvas.height = viewport.height;
-
-                // Отрисовка страницы на canvas
-                page.render({
-                    canvasContext: context,
-                    viewport: viewport
-                })
-                    .promise.then(() => {
-                    // Создание элемента img и отображение картинки
-                    const img = document.createElement('img');
-                    img.src = canvas.toDataURL();
-                    document.body.appendChild(img);
-                });
-            });
-        });
-    };
-    function showAuthorsDoc(el){
-
-    }
 }

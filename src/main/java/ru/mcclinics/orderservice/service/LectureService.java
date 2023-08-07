@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.mcclinics.orderservice.dao.LectureRepository;
 import ru.mcclinics.orderservice.domain.Lecture;
-import ru.mcclinics.orderservice.domain.Track;
 
 
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j(topic = "order-service")
 @Service
@@ -27,4 +27,5 @@ public class LectureService {
     }
 
     public List<Lecture> saveAll(List<Lecture> lectures) {return lectureRepository.saveAll(lectures);}
+    public Lecture findLectureById(Long id){return lectureRepository.findLectureById(id);}
 }

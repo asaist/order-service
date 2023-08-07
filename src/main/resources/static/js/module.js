@@ -32,26 +32,26 @@ moduleForm.addEventListener('submit', (event) => {
         .then(data => {
             savedSeries = data.id;
             // Используйте полученный ID нового трека для нужных действий на фронтенде
-            console.log('ID нового трека:', newTrackId);
+            console.log('ID нового модуля:', savedSeries);
         })
         .catch(error => {
             console.error('Ошибка при отправке запроса:', error);
         });
-    let addModule = document.getElementById('saveModule');
+    let addModule = document.getElementById('saveModuleM');
     addModule.classList.add("hidden");
-    let editModule = document.getElementById('editModule');
+    let editModule = document.getElementById('editModuleM');
     editModule.classList.remove("hidden");
 });
 
-function handleSubmit(event) {
-    // Отменяем стандартное поведение формы
-    event.preventDefault();
-
-    // Очищаем поля формы
-    document.getElementById("createTrack").reset();
-
-    // Другие действия по обработке отправки формы...
-}
+// function handleSubmit(event) {
+//     // Отменяем стандартное поведение формы
+//     event.preventDefault();
+//
+//     // Очищаем поля формы
+//     document.getElementById("createTrack").reset();
+//
+//     // Другие действия по обработке отправки формы...
+// }
 
 function selectAuthorModule(el) {
     let e = document.getElementById("selectAuthorToModule");
@@ -809,8 +809,6 @@ function selectAuthorModule(el) {
     btnUploadExperience.append(uploadIconExperience);
     //
 }
-
-
 function inputNameAuthorModule() {
     let tableAuthor = document.getElementById('tableAuthorMod');
 
@@ -830,7 +828,7 @@ function inputNameAuthorModule() {
     tr1.append(inputNameAuthor);
     let inputNameAuthorTd = document.createElement('td');
 
-    let x = document.getElementById('inputNameAuthor').value;
+    let x = document.getElementById('inputNameAuthorModule').value;
     inputNameAuthorTd.innerHTML = x;
     inputNameAuthorTd.classList.add('text-primary', 'nameTd');
     inputNameAuthor.append(inputNameAuthorTd);
@@ -902,11 +900,36 @@ function inputNameAuthorModule() {
     let passportInput = document.createElement('input');
     passportInput.classList.add('form-control', 'mr-10', 'w-75');
     passportInput.setAttribute('type', 'file');
+    passportInput.addEventListener('change', function(event) {
+        const fileList = event.target.files; // Получаем список выбранных файлов
+
+        if(!fileList.length){
+            return;
+        }
+        const files = Array.from(event.target.files);
+        console.log(files, 'файлы');
+        files.forEach(file => {
+            const reader = new FileReader();
+            reader.onload = ev => {
+                console.log(ev.target.result);
+                passportInput.insertAdjacentHTML('afterend', `<iframe src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`)
+            }
+            reader.readAsDataURL(file);
+        })
+        if (fileList.length > 0) {
+            // Если выбран хотя бы один файл
+            const file = fileList[0]; // Берем первый файл из списка
+            author.passport = file; // Присваиваем файл свойству passport объекта author
+        }
+    });
     trDocPassport.append(passportInput);
 
     let btnUpload = document.createElement('button');
     btnUpload.classList.add('btn', 'btn-primary', 'ml-10');
     btnUpload.setAttribute('type', 'button');
+    btnUpload.addEventListener('click', function() {
+        sendAuthorDocs(author);
+    });
     trDocPassport.append(btnUpload);
     let uploadIcon = document.createElement('i');
     uploadIcon.classList.add('fas', 'fa-file-upload');
@@ -926,10 +949,35 @@ function inputNameAuthorModule() {
     let diplomInput = document.createElement('input');
     diplomInput.classList.add('form-control', 'mr-10', 'w-75');
     diplomInput.setAttribute('type', 'file');
+    diplomInput.addEventListener('change', function(event) {
+        const fileList = event.target.files; // Получаем список выбранных файлов
+
+        if(!fileList.length){
+            return;
+        }
+        const files = Array.from(event.target.files);
+        console.log(files, 'файлы');
+        files.forEach(file => {
+            const reader = new FileReader();
+            reader.onload = ev => {
+                console.log(ev.target.result);
+                diplomInput.insertAdjacentHTML('afterend', `<iframe src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`)
+            }
+            reader.readAsDataURL(file);
+        })
+        if (fileList.length > 0) {
+            // Если выбран хотя бы один файл
+            const file = fileList[0]; // Берем первый файл из списка
+            author.diploma = file; // Присваиваем файл свойству passport объекта author
+        }
+    });
     trDocDiplom.append(diplomInput);
     let btnUploadDip = document.createElement('button');
     btnUploadDip.classList.add('btn', 'btn-primary', 'ml-10');
     btnUploadDip.setAttribute('type', 'button');
+    btnUploadDip.addEventListener('click', function() {
+        sendAuthorDocs(author);
+    });
     trDocDiplom.append(btnUploadDip);
     let uploadIconDip = document.createElement('i');
     uploadIconDip.classList.add('fas', 'fa-file-upload');
@@ -949,10 +997,35 @@ function inputNameAuthorModule() {
     let rankInput = document.createElement('input');
     rankInput.classList.add('form-control', 'mr-10', 'w-75');
     rankInput.setAttribute('type', 'file');
+    rankInput.addEventListener('change', function(event) {
+        const fileList = event.target.files; // Получаем список выбранных файлов
+
+        if(!fileList.length){
+            return;
+        }
+        const files = Array.from(event.target.files);
+        console.log(files, 'файлы');
+        files.forEach(file => {
+            const reader = new FileReader();
+            reader.onload = ev => {
+                console.log(ev.target.result);
+                rankInput.insertAdjacentHTML('afterend', `<iframe src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`)
+            }
+            reader.readAsDataURL(file);
+        })
+        if (fileList.length > 0) {
+            // Если выбран хотя бы один файл
+            const file = fileList[0]; // Берем первый файл из списка
+            author.diplomaScienceRank = file; // Присваиваем файл свойству passport объекта author
+        }
+    });
     trDocRank.append(rankInput);
     let btnUploadRank = document.createElement('button');
     btnUploadRank.classList.add('btn', 'btn-primary', 'ml-10');
     btnUploadRank.setAttribute('type', 'button');
+    btnUploadRank.addEventListener('click', function() {
+        sendAuthorDocs(author);
+    });
     trDocRank.append(btnUploadRank);
     let uploadIconRank = document.createElement('i');
     uploadIconRank.classList.add('fas', 'fa-file-upload');
@@ -972,10 +1045,35 @@ function inputNameAuthorModule() {
     let degreeInput = document.createElement('input');
     degreeInput.classList.add('form-control', 'mr-10', 'w-75');
     degreeInput.setAttribute('type', 'file');
+    degreeInput.addEventListener('change', function(event) {
+        const fileList = event.target.files; // Получаем список выбранных файлов
+
+        if(!fileList.length){
+            return;
+        }
+        const files = Array.from(event.target.files);
+        console.log(files, 'файлы');
+        files.forEach(file => {
+            const reader = new FileReader();
+            reader.onload = ev => {
+                console.log(ev.target.result);
+                degreeInput.insertAdjacentHTML('afterend', `<iframe src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`)
+            }
+            reader.readAsDataURL(file);
+        })
+        if (fileList.length > 0) {
+            // Если выбран хотя бы один файл
+            const file = fileList[0]; // Берем первый файл из списка
+            author.diplomaScienceDegree = file; // Присваиваем файл свойству passport объекта author
+        }
+    });
     trDocDegree.append(degreeInput);
     let btnUploadDegree = document.createElement('button');
     btnUploadDegree.classList.add('btn', 'btn-primary', 'ml-10');
     btnUploadDegree.setAttribute('type', 'button');
+    btnUploadDegree.addEventListener('click', function() {
+        sendAuthorDocs(author);
+    });
     trDocDegree.append(btnUploadDegree);
     let uploadIconDegree = document.createElement('i');
     uploadIconDegree.classList.add('fas', 'fa-file-upload');
@@ -995,10 +1093,35 @@ function inputNameAuthorModule() {
     let criminalInput = document.createElement('input');
     criminalInput.classList.add('form-control', 'mr-10', 'w-75');
     criminalInput.setAttribute('type', 'file');
+    criminalInput.addEventListener('change', function(event) {
+        const fileList = event.target.files; // Получаем список выбранных файлов
+
+        if(!fileList.length){
+            return;
+        }
+        const files = Array.from(event.target.files);
+        console.log(files, 'файлы');
+        files.forEach(file => {
+            const reader = new FileReader();
+            reader.onload = ev => {
+                console.log(ev.target.result);
+                criminalInput.insertAdjacentHTML('afterend', `<iframe src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`)
+            }
+            reader.readAsDataURL(file);
+        })
+        if (fileList.length > 0) {
+            // Если выбран хотя бы один файл
+            const file = fileList[0]; // Берем первый файл из списка
+            author.noCriminalRecord = file; // Присваиваем файл свойству passport объекта author
+        }
+    });
     trDocCriminal.append(criminalInput);
     let btnUploadCriminal = document.createElement('button');
     btnUploadCriminal.classList.add('btn', 'btn-primary', 'ml-10');
     btnUploadCriminal.setAttribute('type', 'button');
+    btnUploadCriminal.addEventListener('click', function() {
+        sendAuthorDocs(author);
+    });
     trDocCriminal.append(btnUploadCriminal);
     let uploadIconCriminal = document.createElement('i');
     uploadIconCriminal.classList.add('fas', 'fa-file-upload');
@@ -1018,10 +1141,35 @@ function inputNameAuthorModule() {
     let healthInput = document.createElement('input');
     healthInput.classList.add('form-control', 'mr-10', 'w-75');
     healthInput.setAttribute('type', 'file');
+    healthInput.addEventListener('change', function(event) {
+        const fileList = event.target.files; // Получаем список выбранных файлов
+
+        if(!fileList.length){
+            return;
+        }
+        const files = Array.from(event.target.files);
+        console.log(files, 'файлы');
+        files.forEach(file => {
+            const reader = new FileReader();
+            reader.onload = ev => {
+                console.log(ev.target.result);
+                healthInput.insertAdjacentHTML('afterend', `<iframe src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`)
+            }
+            reader.readAsDataURL(file);
+        })
+        if (fileList.length > 0) {
+            // Если выбран хотя бы один файл
+            const file = fileList[0]; // Берем первый файл из списка
+            author.healthStatus = file; // Присваиваем файл свойству passport объекта author
+        }
+    });
     trDocHealth.append(healthInput);
     let btnUploadHealth = document.createElement('button');
     btnUploadHealth.classList.add('btn', 'btn-primary', 'ml-10');
     btnUploadHealth.setAttribute('type', 'button');
+    btnUploadHealth.addEventListener('click', function() {
+        sendAuthorDocs(author);
+    });
     trDocHealth.append(btnUploadHealth);
     let uploadIconHealth = document.createElement('i');
     uploadIconHealth.classList.add('fas', 'fa-file-upload');
@@ -1041,10 +1189,35 @@ function inputNameAuthorModule() {
     let experienceInput = document.createElement('input');
     experienceInput.classList.add('form-control', 'mr-10', 'w-75');
     experienceInput.setAttribute('type', 'file');
+    experienceInput.addEventListener('change', function(event) {
+        const fileList = event.target.files; // Получаем список выбранных файлов
+
+        if(!fileList.length){
+            return;
+        }
+        const files = Array.from(event.target.files);
+        console.log(files, 'файлы');
+        files.forEach(file => {
+            const reader = new FileReader();
+            reader.onload = ev => {
+                console.log(ev.target.result);
+                experienceInput.insertAdjacentHTML('afterend', `<iframe src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`)
+            }
+            reader.readAsDataURL(file);
+        })
+        if (fileList.length > 0) {
+            // Если выбран хотя бы один файл
+            const file = fileList[0]; // Берем первый файл из списка
+            author.employmentBook = file; // Присваиваем файл свойству passport объекта author
+        }
+    });
     trDocExperience.append(experienceInput);
     let btnUploadExperience = document.createElement('button');
     btnUploadExperience.classList.add('btn', 'btn-primary', 'ml-10');
     btnUploadExperience.setAttribute('type', 'button');
+    btnUploadExperience.addEventListener('click', function() {
+        sendAuthorDocs(author);
+    });
     trDocExperience.append(btnUploadExperience);
     let uploadIconExperience = document.createElement('i');
     uploadIconExperience.classList.add('fas', 'fa-file-upload');

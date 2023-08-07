@@ -2,12 +2,11 @@ package ru.mcclinics.orderservice.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 import ru.mcclinics.orderservice.dao.KeyWordRepository;
 import ru.mcclinics.orderservice.domain.*;
 import ru.mcclinics.orderservice.dto.*;
@@ -18,7 +17,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
-
+@Slf4j(topic = "order-service")
 @Controller
 @RequiredArgsConstructor
 public class SchemeController {
@@ -79,8 +78,10 @@ public class SchemeController {
     public ResponseEntity<TrackDto> addTrack(@RequestBody RequestData requestData
     ){
         Long trackId = null;
+        Track track = new Track();
         if(requestData.getTrackId() != null){
             trackId = Long.parseLong(requestData.getTrackId());
+            track = trackService.findTrackById(trackId);
         }
         List<AuthorDto> authorsDtoList = requestData.getAuthors();
         List<ModuleDto> modules = requestData.getModules();
@@ -91,7 +92,8 @@ public class SchemeController {
         String trackKeyWords = requestData.getTrackKeyWords();
 //        List<Integer> authorsFromDB = requestData.getAuthorsFromDataBase();
 
-        Track track = new Track(trackName, trackAnnotation);
+        track.setTrackName(trackName);
+        track.setAnnotation(trackAnnotation);
         track.setCreateDate(LocalDateTime.now());
         String[] strMain = trackKeyWords.split(";");
         List<KeyWord> keyWordList = new ArrayList<>();
@@ -146,10 +148,7 @@ public class SchemeController {
 
         University university1 = universityService.getUniversityById(Long.parseLong(university));
         track.setUniversity(university1);
-
-
         track.setKeyWords(keyWordList);
-        track.setId(trackId);
         Track savedTrack = trackService.save(track);
         List<Series> series = modules.stream().map(Series::new).collect(toList());
         List<Lecture> lectures = lecturesFromFront.stream().map(Lecture::new).collect(toList());
@@ -179,18 +178,19 @@ public class SchemeController {
         return ResponseEntity.ok("1");
     }
     @PostMapping("/addSeries")
-    public ResponseEntity<String> addSeries(@RequestBody ModuleRequestData moduleRequestData
+    public ResponseEntity<ModuleDto> addSeries(@RequestBody ModuleRequestData moduleRequestData
     ){
         Long seriesId = null;
+        Series series = new Series();
         if(moduleRequestData.getSeriesId() != null){
             seriesId = Long.parseLong(moduleRequestData.getSeriesId());
+            series = seriesService.findSeriesById(seriesId);
         }
         List<AuthorDto> authorsDtoList = moduleRequestData.getModuleAuthors();
         List<LectureDto> lecturesFromFront = moduleRequestData .getLectures();
         String seriesName = moduleRequestData.getSeriesName();
         String seriesAnnotation = moduleRequestData.getSeriesAnnotation();
         String seriesKeyWords = moduleRequestData.getSeriesKeyWords();
-        Series series = new Series();
         String[] strMain = seriesKeyWords.split(";");
         List<KeyWord> keyWordList = new ArrayList<>();
         for (String line : strMain) {
@@ -233,21 +233,25 @@ public class SchemeController {
         seriesService.save(series);
         keyWordRepository.saveAll(keyWordList);
         Iterable<Series> series1 = seriesService.findSeries();
+        log.info("/create [module {}]", series);
 
-        return ResponseEntity.ok("1");
+        return ResponseEntity.ok(new ModuleDto(series));
     }
 
     @PostMapping("/addLecture")
-    public String addLecture(
-            @RequestParam Author lectureAuthor,
-            @RequestParam String lectureName,
-            @RequestParam String lectureAnnotation,
-            @RequestParam String lectureKeyWords,
-            @RequestParam Track lectureTrack,
-            @RequestParam Series lectureSeries,
-            Model model
+    public ResponseEntity<LectureDto> addLecture(@RequestBody LectureRequestData lectureRequestData
     ) {
-        Lecture lecture = new Lecture(lectureName, lectureAuthor, lectureAnnotation,  lectureTrack, lectureSeries);
+        Long lectureId = null;
+        Lecture lecture = new Lecture();
+        if(lectureRequestData.getLectureId() != null){
+            lectureId = Long.parseLong(lectureRequestData.getLectureId());
+            lecture = lectureService.findLectureById(lectureId);
+        }
+        List<AuthorDto> authorsDtoList = lectureRequestData.getLectureAuthors();
+
+        String lectureName = lectureRequestData.getLectureName();
+        String lectureAnnotation = lectureRequestData.getLectureAnnotation();
+        String lectureKeyWords = lectureRequestData.getLectureKeyWords();
 
         String[] strMain = lectureKeyWords.split(";");
         List<KeyWord> keyWordList = new ArrayList<>();
@@ -257,13 +261,43 @@ public class SchemeController {
             keyWord.setLecture(lecture);
             keyWordList.add(keyWord);
         }
+
+        List<Author> authorsFromDB = new ArrayList<>();
+        List<Author> authorsFront = new ArrayList<>();
+        List<Author> authorsFrontSavedDB = new ArrayList<>();
+        List<Author> authors = authorsDtoList.stream().map(Author::new).collect(toList());
+        for (Author author : authors) {
+            if (author.getAuthorId() == null) {
+                authorsFront.add(author);
+            } else {
+                authorsFromDB.add(author);
+            }
+        }
+        List<Long> ids = authorsFromDB.stream()
+                .filter(author -> author.getAuthorId() != null)
+                .map(Author::getAuthorId)
+                .toList();
+        List<Author> authorList = authorService.findAuthorsByListId(ids);
+
+        for(Author author : authorsFront){
+            authorService.create(author);
+            authorsFrontSavedDB.add(author);
+        }
+        authorList.addAll(authorsFrontSavedDB);
+        Set<Author> authorSet = new HashSet<>(authorList);
+        lecture.setAuthors(authorSet);
+        Track track = trackService.findTrackById(Long.parseLong(lectureRequestData.getTrack()));
+        lecture.setTrack(track);
+        Series series = seriesService.findSeriesById(Long.parseLong(lectureRequestData.getSeries()));
+        lecture.setSeries(series);
         lecture.setKeyWords(keyWordList);
+        lecture.setLectureName(lectureName);
+        lecture.setAnnotation(lectureAnnotation);
         lecture.setCreateDate(LocalDateTime.now());
         lectureService.save(lecture);
         keyWordRepository.saveAll(keyWordList);
-        Iterable<Lecture> lectures = lectureService.findLectures();
-        model.addAttribute("lectures", lectures);
-        return "redirect:/";
+        log.info("/create [lecture {}]", lecture);
+        return ResponseEntity.ok(new LectureDto(lecture));
     }
 
 }

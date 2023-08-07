@@ -9,7 +9,9 @@ import ru.mcclinics.orderservice.dto.LectureDto;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -23,9 +25,11 @@ public class Lecture {
     private Long id;
     @Column(name = "lacture_name")
     private String lectureName;
-    @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id")
-    private Author author;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "lecture_author",
+            joinColumns = {@JoinColumn(name = "lecture_id", referencedColumnName = "lecture_id")},
+            inverseJoinColumns = {@JoinColumn(name = "author_id", referencedColumnName = "author_id")})
+    private Set<Author> authors = new HashSet<>();
     @Column(name = "video_reference")
     private String videoReference;
     @Column(name = "lecture_annotation")
@@ -52,9 +56,9 @@ public class Lecture {
     @Transient
     private Long frontEndModule;
 
-    public String getAuthorName(){
-        return author!=null ? author.getFirstName() : "<none>";
-    }
+//    public String getAuthorName(){
+//        return author!=null ? author.getFirstName() : "<none>";
+//    }
     public String getAnnotation(){
         return annotation!=null ? annotation : "<none>";
     }
@@ -65,16 +69,18 @@ public class Lecture {
     public Lecture() {
     }
 
-    public Lecture(String lectureName, Author author,String annotation, String videoReference, Track track) {
+    public Lecture(String lectureName, String annotation, List<KeyWord> keyWords, String videoReference, Track track) {
         this.lectureName = lectureName;
-        this.author = author;
+//        this.author = author;
         this.track = track;
         this.annotation = annotation;
         this.videoReference = videoReference;
+        this.keyWords = keyWords;
+
     }
     public Lecture(String lectureName, Author author, String annotation, Track track, Series series) {
         this.lectureName = lectureName;
-        this.author = author;
+//        this.author = author;
         this.track = track;
         this.annotation = annotation;
         this.series = series;

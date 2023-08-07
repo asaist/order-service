@@ -52,7 +52,7 @@ public class LectureController {
             Model model
     ){
         Author author = new Author();
-        Lecture lecture = new Lecture(lectureName, author, annotation,  videoReference, track);
+        Lecture lecture = new Lecture();
         lecture.setCreateDate(LocalDateTime.now());
         lectureService.save(lecture);
         Iterable<Lecture> lectures = lectureService.findLectures();

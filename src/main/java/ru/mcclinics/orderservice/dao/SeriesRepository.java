@@ -12,4 +12,5 @@ import java.util.List;
 public interface SeriesRepository extends JpaRepository<Series, Long> {
     List<Series> findSeriesByTrack(Track track);
     List<Series> findSeriesByTrackId(Long id);
+    Series findSeriesById(Long id);
 }
