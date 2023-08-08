@@ -60,6 +60,7 @@ function addLectureSchemeModule() {
     document.getElementById('lectureModalAnnotationModule').value = "";
     document.getElementById('lectureModalKeyWordsModule').value = "";
     btnClose();
+
 }
 
 
