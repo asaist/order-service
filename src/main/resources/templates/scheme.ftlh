@@ -66,7 +66,10 @@
           </li>
           <li class="nav-item" role="presentation">
             <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Лекция</button>
-          </li>          
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link px-4" id="structure-tab" onclick="location.href='table_track';" type="button" aria-selected="false">Структура</button>
+          </li>
         </ul>
 
         <div class="applicationBodySchema">         
@@ -861,10 +864,7 @@
     <script src="https://track.samsmu.ru/js/users.js"></script>
     <script src="https://track.samsmu.ru/js/module.js"></script>
     <script src="https://track.samsmu.ru/js/lecture.js"></script>
-    <script src="https://track.samsmu.ru/js/pdfobject.min.js"></script>
-<#--    <script src="https://track.samsmu.ru/js/pdf.js"></script>-->
-<#--    <script src="https://track.samsmu.ru/js/pdf.worker.js"></script>-->
-<#--    <script src="https://track.samsmu.ru/js/app.js" type="module"></script>-->
+
     <script src="js/jquery-3.7.0.min.js"></script>
     <script src="js/select2.min.js"></script>
     <script src="js/popper.min.js"></script>
@@ -876,9 +876,7 @@
     <script src="js/module.js"></script>
     <script src="js/lecture.js"></script>
     <script src="js/pdfobject.min.js"></script>
-<#--    <script src="js/pdf.js"></script>-->
-<#--    <script src="js/pdf.worker.js"></script>-->
-<#--    <script src="js/app.js" type="module"></script>-->
+
 
     <script>
 
@@ -898,14 +896,7 @@
         }
       });
 
-      function authorSamGMU() {
-        let authorSamGMU = document.getElementById('authorSamGMU');
-        authorSamGMU.classList.toggle("hidden");
-        let authorWorld = document.getElementById('authorWorld');
-        authorWorld.classList.toggle("hidden");
-        let createAuthorButton = document.getElementById('createAuthorButton');
-        createAuthorButton.classList.toggle("hidden");
-      }
+
       function authorSamGMUModule() {
         let authorSamGMUModule = document.getElementById('authorSamGMUModule');
         authorSamGMUModule.classList.toggle("hidden");
@@ -913,14 +904,6 @@
         authorWorldModule.classList.toggle("hidden");
         let createAuthorButtonModule = document.getElementById('createAuthorButtonModule');
         createAuthorButtonModule.classList.toggle("hidden");
-      }
-      function authorSamGMULecture() {
-        let authorSamGMULecture = document.getElementById('authorSamGMULecture');
-        authorSamGMULecture.classList.toggle("hidden");
-        let authorWorldLecture = document.getElementById('authorWorldLecture');
-        authorWorldLecture.classList.toggle("hidden");
-        let createAuthorButtonLecture = document.getElementById('createAuthorButtonLecture');
-        createAuthorButtonLecture.classList.toggle("hidden");
       }
 
       function targetAudience() {
@@ -970,52 +953,6 @@
         // let authorId = $(this).getAttribute("authorindex");
         // console.log(authorId);
       });
-
-      $(document).ready(function() {
-        $(".js-data-example-ajax").select2({
-          ajax: {
-            // url: "https://track.samsmu.ru/api/author/authors",
-            url: "http://localhost:8081/api/author/authors",
-            type: 'GET',
-            dataType: 'json',
-            delay: 250,
-            data: function (params) {
-              return {
-                q: params.term, // search term
-                page: params.page
-              };
-            },
-            processResults: function (data) {
-              let authors = data.map(function (author) {
-                return {id: author.id, text: author.lastName + ' ' + author.firstName + ' ' + author.middleName,
-                  academicDegreeName: author.academicDegreeName, passportDB: author.passportPdf, diplomaDB: author.diplomaPdf,
-                  diplomaScienceRankDB: author.diplomaScienceRankPdf, diplomaScienceDegreeDB: author.diplomaScienceDegreePdf,
-                  noCriminalRecordDB: author.noCriminalRecordPdf, healthStatusDB: author.healthStatusPdf,
-                  employmentBookDB: author.employmentBookPdf
-                };
-              });
-              return {
-                results: authors
-              };
-            },
-            transport: function (params, success, failure) {
-              let $request = $.ajax(params);
-              $request.then(success);
-              $request.fail(failure);
-              return $request;
-            }
-          },
-          placeholder: 'Выберите автора',
-          minimumInputLength: 1,
-          templateResult: function (author) {
-            return author.text;
-          },
-          templateSelection: function (author) {
-            return author.text;
-          }
-        });
-      });
-
 
       const createAuthorButton = document.querySelector('#createAuthorButton');
       createAuthorButton.addEventListener('click', inputNameAuthor);

@@ -1,3 +1,67 @@
+
+function authorSamGMU() {
+	let authorSamGMU = document.getElementById('authorSamGMU');
+	authorSamGMU.classList.toggle("hidden");
+	let authorWorld = document.getElementById('authorWorld');
+	authorWorld.classList.toggle("hidden");
+	let createAuthorButton = document.getElementById('createAuthorButton');
+	createAuthorButton.classList.toggle("hidden");
+}
+
+function authorSamGMULecture() {
+	let authorSamGMULecture = document.getElementById('authorSamGMULecture');
+	authorSamGMULecture.classList.toggle("hidden");
+	let authorWorldLecture = document.getElementById('authorWorldLecture');
+	authorWorldLecture.classList.toggle("hidden");
+	let createAuthorButtonLecture = document.getElementById('createAuthorButtonLecture');
+	createAuthorButtonLecture.classList.toggle("hidden");
+}
+
+$(document).ready(function() {
+	$(".js-data-example-ajax").select2({
+		ajax: {
+			url: "https://track.samsmu.ru/api/author/authors",
+			// url: "http://localhost:8081/api/author/authors",
+			type: 'GET',
+			dataType: 'json',
+			delay: 250,
+			data: function (params) {
+				return {
+					q: params.term, // search term
+					page: params.page
+				};
+			},
+			processResults: function (data) {
+				let authors = data.map(function (author) {
+					return {id: author.id, text: author.lastName + ' ' + author.firstName + ' ' + author.middleName,
+						academicDegreeName: author.academicDegreeName, passportDB: author.passportPdf, diplomaDB: author.diplomaPdf,
+						diplomaScienceRankDB: author.diplomaScienceRankPdf, diplomaScienceDegreeDB: author.diplomaScienceDegreePdf,
+						noCriminalRecordDB: author.noCriminalRecordPdf, healthStatusDB: author.healthStatusPdf,
+						employmentBookDB: author.employmentBookPdf
+					};
+				});
+				return {
+					results: authors
+				};
+			},
+			transport: function (params, success, failure) {
+				let $request = $.ajax(params);
+				$request.then(success);
+				$request.fail(failure);
+				return $request;
+			}
+		},
+		placeholder: 'Выберите автора',
+		minimumInputLength: 1,
+		templateResult: function (author) {
+			return author.text;
+		},
+		templateSelection: function (author) {
+			return author.text;
+		}
+	});
+});
+
 function seriesClick() {
 	let listlecture = document.getElementById('listlecture');
 	listlecture.classList.toggle('hidden');
@@ -112,6 +176,9 @@ editLectureOut.setAttribute('onclick', 'editLecOutOf(editElForLecOut)');
 
 let editModuleEl= document.getElementById('editModule');
 editModuleEl.setAttribute('onclick', 'saveEditModule(editElForMod)');
+
+let editLectureModuleSeries= document.getElementById('editLectureInModuleSeries');
+editLectureModuleSeries.setAttribute('onclick', 'editLecInModuleSeries(editElForLecOut)');
 
 var lectureBlockNumber = 0;
 

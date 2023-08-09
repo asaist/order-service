@@ -14,6 +14,7 @@ import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Setter
 @Getter
@@ -93,6 +94,17 @@ public class Track {
     }
     public String getUniversityName(){
         return university!=null ? university.getUniversityName() : "<none>";
+    }
+    public String getSupervisor(){
+        return supervisor!=null ? supervisor.getLastName() + " " + supervisor.getFirstName() + " " + supervisor.getMiddleName() : "<none>";
+    }
+    public String getKeyWords(){
+        return keyWords!=null ? keyWords.stream()
+                .map(KeyWord::getValue)
+                .collect(Collectors.joining(";")) : "<none>";
+    }
+    public Long getSupervisorId(){
+        return supervisor.getAuthorId();
     }
 
 }

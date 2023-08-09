@@ -390,3 +390,17 @@ function HintShowbyTamara(el) {    // для каждого из зеленых 
 function HintHidebyTamara(el){
     $(el).find('#lectureBlockSchemeTextHint').remove();
 }
+
+function deleteTrack(id){
+    const url = '/track/' + id; // здесь id - идентификатор трека
+
+    fetch(url, {
+        method: 'DELETE',
+    })
+        .then(response => {
+            // обработка успешного ответа
+        })
+        .catch(error => {
+            // обработка ошибки
+        });
+}

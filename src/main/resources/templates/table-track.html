@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>3D timeline</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    
+  </head>
+  <body>
+    <div class="container-fluid p-3">
+      <h5 class="mb-4">Доступные треки</h5>
+
+      <form class="d-flex my-2">        
+        <input type="text" class="form-control ml-2 w-50" id="" placeholder="Введите название трека">
+        <button class="btn btn-outline-primary btn-sm mx-2" type="submit" data-tooltip="Найти"><i class="fas fa-search mx-1 my-0"></i></button>
+        <button class="btn btn-outline-primary btn-sm mx-2" type="button" data-tooltip="Добавить трек" onclick="location.href='scheme.ftlh';"><i class="fas fa-plus mx-1"></i></button></form>
+
+
+
+      <table class="table table-bordered">
+        <tr class="th-table">
+          <th class="th-table" scope="col" style="width:2%;">№</th>
+          <th class="th-table" scope="col" style="width:15%;">Название трека</th>
+          <th class="th-table" scope="col" style="width:10%;">Руководитель трека</th>
+          <th class="th-table" scope="col"style="width:40%;">Аннотация трека</th>
+          <th class="th-table" scope="col" style="width:10%;">Эксперт</th>
+          <th class="th-table" scope="col" style="width:10%;">Дата создания</th>
+          <th class="th-table" scope="col" style="width:13%;"></th>
+        </tr>
+        <tr class="cursor-pointer">
+          <th scope="row"  onclick="window.location='track_up.html'">1</th>
+          <td  onclick="window.location='track_up.html'">Ожирение. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua.</td>
+          <td  onclick="window.location='track_up.html'">Иванов И.И.</td>
+          <td  onclick="window.location='track_up.html'">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+          tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+          quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+          consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+          cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+          proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</td>
+          <td  onclick="window.location='track_up.html'">Сидоров С.С.</td>
+          <td  onclick="window.location='track_up.html'">19.04.2023</td>
+          <td>
+            <button type="button" class="btn btn-icon btn-sm"  data-tooltip-right="Редактировать трек">
+              <i class="fas fa-edit status text-secondary" onclick="location.href='editTrack.html';"></i>
+            </button>
+            <button type="button" class="btn btn-icon btn-sm" id="targetAudienceUsers" onclick="targetAudience()"  data-tooltip-right="Целевая аудитория">
+              <i class="fas fa-users status text-secondary"></i>
+            </button>
+            <button type="button" class="btn btn-icon btn-sm" onclick="location.href='competenceProfile.html';" data-tooltip-right="Матрица компетенций">
+              <i class="fas fa-grip-vertical status text-secondary"></i>
+            </button>
+            <button type="button" class="btn btn-icon btn-sm" onclick="location.href='competenceProfile.html';" data-tooltip-right="Компетентностный профиль слушателя">
+              <i class="fas fa-user-graduate status text-secondary"></i>
+            </button>
+            <button type="button" class="btn btn-icon btn-sm"  data-tooltip-right="Карта согласования трека">
+              <i class="fas fa-check-circle status text-secondary"></i>
+            </button>
+            <button type="button" class="btn btn-icon btn-sm"  data-tooltip-right="Удалить трек" data-bs-toggle="modal" data-bs-target="#deleteTrackModal">
+              <i class="fas fa-trash-alt text-secondary"></i>
+            </button>
+          </td>
+        </tr>  
+        <tr class="cursor-pointer">
+          <th scope="row"  onclick="window.location='track_up.html'">2</th>
+          <td  onclick="window.location='track_up.html'">Психология</td>
+          <td  onclick="window.location='track_up.html'">Петров П.П.</td>
+          <td  onclick="window.location='track_up.html'"></td>
+          <td  onclick="window.location='track_up.html'"></td>
+          <td  onclick="window.location='track_up.html'">19.04.2023</td>
+          <td>
+            <button type="button" class="btn btn-icon btn-sm"  data-tooltip-right="Редактировать трек">
+              <i class="fas fa-edit status text-secondary" onclick="location.href='editTrack.html';"></i>
+            </button>
+            <button type="button" class="btn btn-icon btn-sm" id="targetAudienceUsers" onclick="targetAudience()"  data-tooltip-right="Целевая аудитория">
+              <i class="fas fa-users status text-secondary"></i>
+            </button>
+            <button type="button" class="btn btn-icon btn-sm" onclick="location.href='competenceProfile.html';" data-tooltip-right="Матрица компетенций">
+              <i class="fas fa-grip-vertical status text-secondary"></i>
+            </button>
+            <button type="button" class="btn btn-icon btn-sm" onclick="location.href='competenceProfile.html';" data-tooltip-right="Компетентностный профиль слушателя">
+              <i class="fas fa-user-graduate status text-secondary"></i>
+            </button>
+            <button type="button" class="btn btn-icon btn-sm"  data-tooltip-right="Карта согласования трека">
+              <i class="fas fa-check-circle status text-secondary"></i>
+            </button>
+            <button type="button" class="btn btn-icon btn-sm"  data-tooltip-right="Удалить трек" data-bs-toggle="modal" data-bs-target="#deleteTrackModal">
+              <i class="fas fa-trash-alt text-secondary"></i>
+            </button>
+          </td>
+        </tr>       
+      </table>
+
+      <div class="modal fade" id="deleteTrackModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+
+            <div class="modal-body">              
+              <h5 class="text-center my-4">Вы уверены, что хотите удалить трек?</h5>
+              <div class="d-flex justify-content-center mt-10">              
+                <button type="button" class="btn btn-primary mx-2">Удалить</button>
+                <button type="button" class="btn btn-outline-primary mx-2" data-bs-dismiss="modal" aria-label="Закрыть">Отмена</button>
+              </div>
+            </div>            
+          </div>
+        </div>
+      </div>
+
+      <div class="hidden" id="targetAudienceBlock">
+        <span class="bg-white mx-3 px-2"><b>Целевая аудитория</b></span>
+        <div class="interruptedСircuit p-3">
+          <span class="badge rounded-pill bg-success"><i class="fas fa-plus-circle mx-2"></i></span>
+          <span class="badge rounded-pill bg-primary">Студенты<i class="far fa-times-circle ml-10 closeBadge" id="closeBadge"></i></span>
+          <span class="badge rounded-pill bg-primary">Ординаторы<i class="far fa-times-circle ml-10 closeBadge"></i></span>
+          <span class="badge rounded-pill bg-primary">Аспиранты<i class="far fa-times-circle ml-10 closeBadge"></i></span>
+          <span class="badge rounded-pill bg-primary">Врач терапевт<i class="far fa-times-circle ml-10 closeBadge"></i></span>
+        </div>
+      </div>
+
+      <script src="js/jquery-3.2.1.slim.min.js"></script>
+      <script src="js/popper.min.js"></script>
+      <script src="js/bootstrap.min.js"></script> 
+      <script src="js/bootstrap.bundle.min.js"></script>  
+      <script>
+      function authorSamGMU() {
+        let authorSamGMU = document.getElementById('authorSamGMU');
+        authorSamGMU.classList.toggle("hidden");
+        let authorWorld = document.getElementById('authorWorld');
+        authorWorld.classList.toggle("hidden");
+      }
+
+      function targetAudience() {
+        let targetAudienceBlock = document.getElementById('targetAudienceBlock');
+        targetAudienceBlock.classList.toggle("hidden");
+        let targetAudienceUsers = document.getElementById('targetAudienceUsers');
+        targetAudienceUsers.classList.toggle("text-primary");
+      }
+    </script>     
+  </body>  
+</html>

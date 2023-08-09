@@ -1,16 +1,15 @@
 package ru.mcclinics.orderservice.rest;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.mcclinics.orderservice.dao.KeyWordRepository;
 import ru.mcclinics.orderservice.domain.*;
+import ru.mcclinics.orderservice.dto.AuthorDto;
 import ru.mcclinics.orderservice.service.TrackService;
 import ru.mcclinics.orderservice.service.UniversityService;
 
@@ -20,7 +19,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import static java.util.stream.Collectors.toList;
+import static org.springframework.http.HttpStatus.OK;
+@Slf4j(topic = "order-service")
 @Controller
 @RequiredArgsConstructor
 public class MainController {
@@ -65,10 +68,33 @@ public class MainController {
         return "table_track";
     }
 
+    @GetMapping("/authors_track/{id}")
+    @ResponseStatus(OK)
+    public @ResponseBody List<AuthorDto> getAuthorsByTrackId(@PathVariable Long id) {
+        log.info("/getAuthorsByTrackId");
+        Track track = trackService.findTrackById(id);
+        Set<Author> authors = trackService.findAuthorsById(id);
+        List<AuthorDto> authorDtos = authors.stream().map(AuthorDto::new).collect(toList());
+        if (track.getSupervisor() != "<none>") {
+            Long supervisorId = track.getSupervisorId();
+            authorDtos.stream()
+                    .filter(authorDto -> authorDto.getId() == supervisorId)
+                    .forEach(authorDto -> authorDto.setIsSupervisor(true));
+        }
+        return authorDtos;
+    }
+
     @GetMapping("/table_track/{id}")
     public String getOne(@PathVariable("id") Track track, Model model){
         model.addAttribute("track", track);
         return "track_up";
+    }
+
+    @GetMapping("/track/{id}")
+    public String getTrack(@PathVariable("id") Track track, Model model){
+        model.addAttribute("track", track);
+        model.addAttribute("universities", universityService.getUniversityList());
+        return "edit_track";
     }
 
     @PostMapping("/main")

@@ -19,8 +19,18 @@ public class TrackDto extends EntityDto {
     @JsonProperty("name")
     private String name;
 
+    @Schema(description = "Аннотация трека", example = "Трек о поджелудочной железе", implementation = String.class)
+    @JsonProperty("annotation")
+    private String annotation;
+
+    @Schema(description = "Руководитель трека", example = "Кувалдин Виктор Петрович", implementation = String.class)
+    @JsonProperty("supervisor")
+    private String supervisor;
+
     public TrackDto(Track track) {
         this.id = track.getId();
         this.name = track.getTrackName();
+        this.annotation = track.getAnnotation();
+        this.supervisor = track.getSupervisor();
     }
 }

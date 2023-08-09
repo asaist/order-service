@@ -114,7 +114,7 @@ public class SchemeController {
         Long index = null;
         for (AuthorDto authorDto : authorsDtoList) {
             if (authorDto.getIsSupervisor()) {
-                index = Long.parseLong(authorDto.getId());
+                index = authorDto.getId();
             }
         }
         if (index != null) {
@@ -151,6 +151,9 @@ public class SchemeController {
         track.setKeyWords(keyWordList);
         Track savedTrack = trackService.save(track);
         List<Series> series = modules.stream().map(Series::new).collect(toList());
+        lecturesFromFront = lecturesFromFront.stream()
+                .filter(element -> element != null && !element.toString().isEmpty())
+                .collect(Collectors.toList());
         List<Lecture> lectures = lecturesFromFront.stream().map(Lecture::new).collect(toList());
         series.stream().forEach(ser -> ser.setTrack(savedTrack));
         series.stream().forEach(ser -> ser.setCreateDate(LocalDateTime.now()));
@@ -227,10 +230,20 @@ public class SchemeController {
         Track track = trackService.findTrackById(Long.parseLong(moduleRequestData.getTrack()));
         series.setTrack(track);
         series.setKeyWords(keyWordList);
+
         series.setCreateDate(LocalDateTime.now());
         series.setSeriesName(seriesName);
         series.setAnnotation(seriesAnnotation);
-        seriesService.save(series);
+        Series savedSeries = seriesService.save(series);
+        keyWordList.stream().forEach(keyWord -> keyWord.setSeries(savedSeries));
+        lecturesFromFront = lecturesFromFront.stream()
+                .filter(element -> element != null && !element.toString().isEmpty())
+                .collect(Collectors.toList());
+        List<Lecture> lectures = lecturesFromFront.stream().map(Lecture::new).collect(toList());
+        lectures.stream().forEach(lecture -> lecture.setSeries(savedSeries));
+        lectures.stream().forEach(lecture -> lecture.setCreateDate(LocalDateTime.now()));
+        lectures.stream().forEach(lecture -> lecture.setAuthors(authorSet));
+        lectureService.saveAll(lectures);
         keyWordRepository.saveAll(keyWordList);
         Iterable<Series> series1 = seriesService.findSeries();
         log.info("/create [module {}]", series);

@@ -5,17 +5,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.mcclinics.orderservice.domain.Author;
-import ru.mcclinics.orderservice.domain.Track;
-import ru.mcclinics.orderservice.dto.Mkb10Dto;
 import ru.mcclinics.orderservice.service.AuthorService;
 import ru.mcclinics.orderservice.service.EmployeeDtoClientService;
 import ru.mcclinics.orderservice.service.EntityDtoParamService;
 import ru.mcclinics.orderservice.service.TrackService;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 @SpringBootTest
 class OrderServiceApplicationTests {
@@ -26,6 +21,10 @@ class OrderServiceApplicationTests {
 	private EmployeeDtoClientService employeeDtoClientService;
 	@Autowired
 	private EntityDtoParamService entityDtoParamService;
+	@Autowired
+	private  TrackService trackService;
+
+
 
 	public EmployeeDtoClientService getEmployeeDtoClientService() {
 		return employeeDtoClientService;
@@ -40,7 +39,9 @@ class OrderServiceApplicationTests {
 	public void findTracks() throws JsonProcessingException {
 //		List<Track> list = trackService.findTracks();
 		System.out.println("ОК");
-		employeeDtoClientService.getEmployeeDegree();
+		Long id = 1L;
+		Set<Author> authorsById = trackService.findAuthorsById(id);
+//		employeeDtoClientService.getEmployeeDegree();
 //		Map<String, Mkb10Dto> map = new HashMap<String, Mkb10Dto>();
 //		List<Mkb10Dto> mkb10DtoList = entityDtoParamService.getEntityDtoList();
 //		for(Mkb10Dto mkb10Dto:mkb10DtoList){

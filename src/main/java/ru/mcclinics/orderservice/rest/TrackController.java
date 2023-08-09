@@ -4,15 +4,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
+import ru.mcclinics.orderservice.domain.Author;
 import ru.mcclinics.orderservice.domain.Series;
 import ru.mcclinics.orderservice.domain.Track;
+import ru.mcclinics.orderservice.dto.AuthorDto;
 import ru.mcclinics.orderservice.dto.TrackDto;
 import ru.mcclinics.orderservice.service.SeriesService;
 import ru.mcclinics.orderservice.service.TrackService;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 import static java.util.stream.Collectors.toList;
 import static org.springframework.http.HttpStatus.OK;
@@ -37,10 +39,19 @@ public class TrackController {
     }
 
 
-    @GetMapping("{id}")
-    public TrackDto getOne(@PathVariable("id") TrackDto trackDto){
-        return trackDto;
-    }
+
+
+
+//    public ResponseEntity<?> getTrackById(@PathVariable Long id) {
+//        Optional<Track> trackOptional = trackRepository.findById(id);
+//
+//        if (trackOptional.isPresent()) {
+//            Track track = trackOptional.get();
+//            return ResponseEntity.ok(track);
+//        } else {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Трек не найден");
+//        }
+//    }
 
 
 //    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

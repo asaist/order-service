@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.mcclinics.orderservice.dao.TrackRepository;
+import ru.mcclinics.orderservice.domain.Author;
 import ru.mcclinics.orderservice.domain.Track;
 
 
 import java.util.List;
+import java.util.Set;
 
 @Slf4j(topic = "order-service")
 @Service
@@ -27,4 +29,5 @@ public class TrackService {
         trackRepository.delete(track);
     }
     public Track findTrackById(Long id){return trackRepository.findTrackById(id);}
+    public Set<Author> findAuthorsById(Long id){return trackRepository.findAuthorsById(id);}
 }

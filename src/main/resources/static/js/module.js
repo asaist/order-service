@@ -35,7 +35,7 @@ function addLectureSchemeModule() {
     let lecName = document.createElement('button');
     lecName.classList.add('btn', 'btn-sm', 'rounded', 'text-white', 'text-center', 'm-0', 'p-0', 'text-truncate', 'lectureBlockSchemeText');
     lecName.setAttribute('type', 'button');
-    lecName.setAttribute('onclick', 'editLecOut(this)');
+    lecName.setAttribute('onclick', 'editLecModuleSeries(this)');
     lecName.setAttribute('index', (lectures.length - 1).toString());
     lecName.setAttribute('lectureModuleName', lectureModalName);
     lecName.setAttribute('lectureModuleAnnotation', lectureModalAnnotation);
@@ -62,6 +62,45 @@ function addLectureSchemeModule() {
     btnClose();
 }
 
+function editLecModuleSeries(el){
+    addLectureInModuleSeries(el);
+    let saveButton = document.getElementById('saveLectureInModuleSeries');
+    saveButton.classList.add('hidden');
+    let editButton = document.getElementById('editLectureInModuleSeries');
+    editButton.classList.remove('hidden');
+    //выводим в диалог сохраненную лекцию
+    let lectureModuleNameElement = document.getElementById('lectureModalNameModule');
+    lectureModuleNameElement.value = el.getAttribute('lectureModuleName');
+    let lectureModuleAnnotationElement = document.getElementById('lectureModalAnnotationModule');
+    lectureModuleAnnotationElement.value = el.getAttribute('lectureModuleAnnotation');
+    let lectureModuleKeyWordsElement = document.getElementById('lectureModalKeyWordsModule');
+    lectureModuleKeyWordsElement.value = el.getAttribute('lectureModuleKeyWords');
+    editElForLecOut = el;
+}
+
+function editLecInModuleSeries(el){
+    let index = el.getAttribute('index');
+    let lectureModalId = el.getAttribute('lectureModalId');
+    let lectureModuleName = document.getElementById('lectureModalNameModule').value;
+    let lectureModuleAnnotation = document.getElementById('lectureModalAnnotationModule').value;
+    let lectureModuleKeyWords = document.getElementById('lectureModalKeyWordsModule').value;
+    let lecture = new Lecture(lectureModalId, null, lectureModuleName, lectureModuleAnnotation, lectureModuleKeyWords);
+    lectures [index] = lecture;
+    // let div = el.parentNode;
+    el.setAttribute('lectureModuleName', lectureModuleName);
+    el.setAttribute('lectureModuleAnnotation', lectureModuleAnnotation);
+    el.setAttribute('lectureModuleKeyWords', lectureModuleKeyWords);
+    el.textContent = lectureModuleName;
+    document.getElementById('lectureModalNameModule').value = "";
+    document.getElementById('lectureModalAnnotationModule').value = "";
+    document.getElementById('lectureModalKeyWordsModule').value = "";
+    let saveButton = document.getElementById('saveLectureInModuleSeries');
+    saveButton.classList.remove('hidden');
+    let editButton = document.getElementById('editLectureInModuleSeries');
+    editButton.classList.add('hidden');
+    btnClose();
+}
+
 
 
 const moduleForm = document.querySelector('#createSeries');
@@ -75,6 +114,7 @@ moduleForm.addEventListener('submit', (event) => {
     const seriesKeyWords = moduleForm.seriesKeyWords.value;
 
     const data = {
+        lectures,
         moduleAuthors,
         track,
         seriesName,
