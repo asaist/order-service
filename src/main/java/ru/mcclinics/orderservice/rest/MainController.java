@@ -98,6 +98,7 @@ public class MainController {
 //        model.addAttribute("contactTab", true);
 //        model.addAttribute("tracks", null);
         return "edit_track";
+
     }
 
     @PostMapping("/main")
