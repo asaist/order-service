@@ -897,6 +897,7 @@
     <script src="https://track.samsmu.ru/js/users.js"></script>
     <script src="https://track.samsmu.ru/js/module.js"></script>
     <script src="https://track.samsmu.ru/js/lecture.js"></script>
+    <script src="https://track.samsmu.ru/js/editTrack.js"></script>
 
     <script src="../js/jquery-3.7.0.min.js"></script>
     <script src="../js/select2.min.js"></script>
@@ -908,10 +909,38 @@
     <script src="../js/users.js"></script>
     <script src="../js/module.js"></script>
     <script src="../js/lecture.js"></script>
+    <script src="../js/editTrack.js"></script>
+
 
 
 
     <script>
+
+      <#if !profileTab>
+        var trackId123 = real(${track.id})
+      <#else>
+        var trackId123 = 0;
+      </#if>
+
+      var flag = true;
+      flag = ${profileTab?c}
+
+      <#if !profileTab>
+        document.addEventListener("DOMContentLoaded", function(event) {
+          // ваш код для выполнения после загрузки страницы
+          getAuthorsForEditTrack(trackId123);
+        });
+      </#if>
+
+      function real(string){
+        if (string === undefined){
+          return '';
+        } else if (string === null) {
+          return '';
+        } else {
+          return string;
+        }
+      }
 
       //изменить "редактировать" на "сохранить" у submit button для трека
 

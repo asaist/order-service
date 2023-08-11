@@ -102,16 +102,36 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.8.162/build/pdf.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    <script src="/js/jquery-3.7.0.min.js"></script>
-    <script src="/js/select2.min.js"></script>
-    <script src="/js/popper.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/jquery-3.7.0.min.js"></script>
+    <script src="../js/select2.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
     <script src="https://track.samsmu.ru/js/index.js"></script>
-    <script src="/js/index.js"></script>
-    <script src="/js/editTrack.js"></script>
+    <script src="../js/index.js"></script>
+    <script src="../js/editTrack.js"></script>
     <script>
-      getAuthorsForEditTrack(${track.id});
+      <#--getAuthorsForEditTrack(${track.id});-->
+      <#--var trackId123 = real(${track.id})-->
+      <#--var flag = true;-->
+      <#--flag = ${profileTab?c}-->
+      <#--if(!flag){-->
+
+      <#--  document.addEventListener("DOMContentLoaded", function(event) {-->
+      <#--    // ваш код для выполнения после загрузки страницы-->
+      <#--    getAuthorsForEditTrack(trackId123);-->
+      <#--  });-->
+      <#--}-->
+
+      <#--function real(string){-->
+      <#--  if (string === undefined){-->
+      <#--    return '';-->
+      <#--  } else if (string === null) {-->
+      <#--    return '';-->
+      <#--  } else {-->
+      <#--    return string;-->
+      <#--  }-->
+      <#--}-->
 
     </script>
   </body>

@@ -39,6 +39,7 @@ public class SchemeController {
         model.addAttribute("series", seriesService.findSeries());
         model.addAttribute("profileTab", true);
         model.addAttribute("contactTab", true);
+//        model.addAttribute("track", trackService.findTrackById(1L));
 //        model.addAttribute("users", userService.findUsers());
 //        model.addAttribute("authors", authorService.findAuthors());
         List<Mkb10Dto> entityDtoList = entityDtoParamService.getEntityDtoList();
