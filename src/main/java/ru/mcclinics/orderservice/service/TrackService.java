@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.mcclinics.orderservice.dao.TrackRepository;
 import ru.mcclinics.orderservice.domain.Author;
+import ru.mcclinics.orderservice.domain.Series;
 import ru.mcclinics.orderservice.domain.Track;
 
 

@@ -28,4 +28,5 @@ public class LectureService {
 
     public List<Lecture> saveAll(List<Lecture> lectures) {return lectureRepository.saveAll(lectures);}
     public Lecture findLectureById(Long id){return lectureRepository.findLectureById(id);}
+    public List<Lecture> findLectureByTrackId(Long id) {return lectureRepository.findLectureByTrackId(id);}
 }

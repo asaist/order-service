@@ -11,14 +11,16 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LectureDto extends EntityDto implements Serializable {
-    private String id;
-    private String moduleId;
+    private Long id;
+    private Long moduleId;
     private String lectureModuleName;
     private String lectureModuleAnnotation;
     private String lectureModuleKeyWords;
 
     public LectureDto(Lecture lecture) {
-        this.id = String.valueOf(lecture.getId());
-
+        this.id = lecture.getId();
+        this.moduleId = lecture.getSeries().getId();
+        this.lectureModuleName = lecture.getLectureName();
+        this.lectureModuleAnnotation = lecture.getAnnotation();
     }
 }

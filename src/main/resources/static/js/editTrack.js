@@ -3,7 +3,8 @@ function getAuthorsForEditTrack(id) {
     return fetch(`/authors_track/${id}`)
     .then(response => response.json())
         .then(data => {
-            authors = data.map(author => {
+
+            authors = data.authors.map(author => {
                 return {
                     id: author.id,
                     fullName: author.fullName,
@@ -17,6 +18,21 @@ function getAuthorsForEditTrack(id) {
                     healthStatus: author.healthStatus,
                     employmentBook: author.employmentBook
                     // Здесь можно добавить другие свойства автора, если они есть в объекте AuthorDto
+                };
+            });
+            lectures = data.lectures.map(lecture => {
+                return {
+                    id: lecture.id,
+                    moduleId: lecture.moduleId,
+                    lectureModuleName: lecture.lectureModuleName,
+                    lectureModuleAnnotation: lecture.lectureModuleAnnotation
+                };
+            });
+            modules = data.modules.map(module => {
+                return {
+                    id: module.id,
+                    moduleNameModal: module.moduleNameModal,
+                    moduleModalAnnotation: module.moduleModalAnnotation
                 };
             });
             // Используйте полученный ID нового трека для нужных действий на фронтенде

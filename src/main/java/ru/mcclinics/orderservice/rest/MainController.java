@@ -10,6 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import ru.mcclinics.orderservice.dao.KeyWordRepository;
 import ru.mcclinics.orderservice.domain.*;
 import ru.mcclinics.orderservice.dto.AuthorDto;
+import ru.mcclinics.orderservice.dto.LectureDto;
+import ru.mcclinics.orderservice.dto.ModuleDto;
+import ru.mcclinics.orderservice.dto.RequestData;
+import ru.mcclinics.orderservice.service.LectureService;
+import ru.mcclinics.orderservice.service.SeriesService;
 import ru.mcclinics.orderservice.service.TrackService;
 import ru.mcclinics.orderservice.service.UniversityService;
 
@@ -30,6 +35,8 @@ public class MainController {
 
     private final TrackService trackService;
     private final UniversityService universityService;
+    private final SeriesService seriesService;
+    private final LectureService lectureService;
     private final KeyWordRepository keyWordRepository;
 
     @Value("${files.upload.baseDir}")
@@ -70,7 +77,7 @@ public class MainController {
 
     @GetMapping("/authors_track/{id}")
     @ResponseStatus(OK)
-    public @ResponseBody List<AuthorDto> getAuthorsByTrackId(@PathVariable Long id) {
+    public @ResponseBody RequestData getAuthorsByTrackId(@PathVariable Long id) {
         log.info("/getAuthorsByTrackId");
         Track track = trackService.findTrackById(id);
         Set<Author> authors = trackService.findAuthorsById(id);
@@ -81,7 +88,12 @@ public class MainController {
                     .filter(authorDto -> authorDto.getId() == supervisorId)
                     .forEach(authorDto -> authorDto.setIsSupervisor(true));
         }
-        return authorDtos;
+        List<Series> series = seriesService.findSeriesByTrackId(id);
+        List<ModuleDto> moduleDtos = series.stream().map(ModuleDto::new).collect(toList());
+        List<Lecture> lectures = lectureService.findLectureByTrackId(id);
+        List<LectureDto> lectureDtos = lectures.stream().map(LectureDto::new).collect(toList());
+        RequestData rd = new RequestData(authorDtos, moduleDtos, lectureDtos);
+        return rd;
     }
 
     @GetMapping("/table_track/{id}")

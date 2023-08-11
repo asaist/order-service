@@ -25,4 +25,10 @@ public class RequestData extends EntityDto implements Serializable {
     public RequestData(List<AuthorDto> authors) {
         this.authors = authors;
     }
+
+    public RequestData(List<AuthorDto> authors, List<ModuleDto> modules, List<LectureDto> lectures) {
+        this.authors = authors;
+        this.modules = modules;
+        this.lectures = lectures;
+    }
 }

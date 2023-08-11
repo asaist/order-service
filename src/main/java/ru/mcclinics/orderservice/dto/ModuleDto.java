@@ -20,5 +20,7 @@ public class ModuleDto extends EntityDto implements Serializable {
 
     public ModuleDto(Series series) {
         this.id = series.getId();
+        this.moduleNameModal = series.getSeriesName();
+        this.moduleModalAnnotation = series.getAnnotation();
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import ru.mcclinics.orderservice.domain.Author;
+import ru.mcclinics.orderservice.domain.Series;
 import ru.mcclinics.orderservice.domain.Track;
 
 import java.util.List;
