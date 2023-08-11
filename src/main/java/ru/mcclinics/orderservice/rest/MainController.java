@@ -94,10 +94,10 @@ public class MainController {
     public String getTrack(@PathVariable("id") Track track, Model model){
         model.addAttribute("track", track);
         model.addAttribute("universities", universityService.getUniversityList());
-//        model.addAttribute("profileTab", true);
-//        model.addAttribute("contactTab", true);
+        model.addAttribute("profileTab", false);
+        model.addAttribute("contactTab", false);
 //        model.addAttribute("tracks", null);
-        return "edit_track";
+        return "scheme";
 
     }
 

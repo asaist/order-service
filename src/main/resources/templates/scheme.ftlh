@@ -9,9 +9,9 @@
     <link rel="stylesheet" href="https://track.samsmu.ru/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://track.samsmu.ru/css/styles.css">
     <link rel="stylesheet" href="https://track.samsmu.ru/css/select2.min.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/select2.min.css">
+    <link rel="stylesheet" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/select2.min.css">
 
 <#--    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />-->
 <#--    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>-->
@@ -61,6 +61,7 @@
           <li class="nav-item" role="presentation">
             <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Трек</button>
           </li>
+          <#if profileTab>
           <li class="nav-item" role="presentation" id="moduleHideSeries">
             <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Модуль</button>
           </li>
@@ -70,6 +71,7 @@
           <li class="nav-item" role="presentation">
             <button class="nav-link px-4" id="structure-tab" onclick="location.href='table_track';" type="button" aria-selected="false">Структура</button>
           </li>
+          </#if>
         </ul>
 
         <div class="applicationBodySchema">         
@@ -78,13 +80,23 @@
             <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
               <form method="post" action="/addTrack" id="createTrack" enctype="multipart/form-data">
                 <div>
-                  <div class="d-flex justify-content-center">
-                    <h5 class="modal-title">Заявка на создание трека</h5>
-                  </div>
+                  <#if profileTab>
+                    <div class="d-flex justify-content-center">
+                      <h5 class="modal-title">Заявка на создание трека</h5>
+                    </div>
+                  <#else>
+                    <div class="d-flex justify-content-center">
+                      <h5 class="modal-title">Редактирование трека</h5>
+                    </div>
+                  </#if>
                   <div class="modal-body">
 
                     <select class="form-control editable" name="university">
-                      <option selected="" disabled="">Выберите институт</option>
+                      <#if profileTab>
+                        <option selected="" disabled="">Выберите институт</option>
+                      <#else>
+                        <option selected="" disabled="">${track.universityName}</option>
+                      </#if>
                       <#list universities as university>
                         <option value="${university.universityId}">${university.universityName}</option>
                       </#list>
@@ -138,16 +150,28 @@
 
                     <div class="my-4">
                       <b>Название образовательного трека</b><br>
-                      <textarea class="form-control editable" id="trackInput" name="trackName" cols="80" rows="1" oninput="updateTrackHeading()" placeholder="Введите название образовательного трека"></textarea>
+                      <#if profileTab>
+                        <textarea class="form-control editable" id="trackInput" name="trackName" cols="80" rows="1" oninput="updateTrackHeading()" placeholder="Введите название образовательного трека"></textarea>
+                      <#else>
+                        <textarea class="form-control editable" id="trackInput" name="trackName" cols="80" rows="1" oninput="updateTrackHeading()" placeholder="Введите название образовательного трека">${track.trackName}</textarea>
+                      </#if>
                     </div>
 
                     <div class="my-4">
                       <b>Аннотация образовательного трека</b><br>
-                      <textarea class="form-control editable" name="trackAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#" onclick="trackCheck()"></textarea>
+                      <#if profileTab>
+                        <textarea class="form-control editable" name="trackAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#" onclick="trackCheck()"></textarea>
+                      <#else>
+                        <textarea class="form-control editable" name="trackAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#" onclick="trackCheck()">${track.annotation}</textarea>
+                      </#if>
                     </div>
                     <div class="my-4">
                       <b>Дополнительные ключевые слова</b> <br>
-                      <textarea class="form-control editable" name="trackKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив их ;"></textarea>
+                      <#if profileTab>
+                        <textarea class="form-control editable" name="trackKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив их ;"></textarea>
+                      <#else>
+                        <textarea class="form-control editable" name="trackKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив их ;">${track.keyWords}</textarea>
+                      </#if>
                     </div>
                   </div>
 
@@ -370,9 +394,12 @@
                     <div class="mb-10">                    
                       <select class="form-control" class="form-control" id="trackModuleSeries" onchange="updateTrackHeadingModuleSeries()" name="seriesTrack" size="1">
                         <option select class="form-control">Выберите образовательный трек</option>
-                        <#list tracks as track>
-                          <option value="${track.id}">${track.trackName}</option>
-                        </#list>
+                        <#if profileTab>
+                          <#list tracks as track>
+                            <option value="${track.id}">${track.trackName}</option>
+                          </#list>
+                        </#if>
+
                       </select class="form-control">
                     </div>
                     <div class="mb-10">
@@ -474,9 +501,11 @@
                               <input type="text" id="myInput" class="form-control mt-10 mb-10" onkeyup="filterOptions()" placeholder="Параметры поиска...">
                               <select id="mySelect" class="form-control" name="mkb" size="1">
                                 <option select class="form-control"ed="" disabled="">Выберите значение</option>
+                                <#if profileTab>
                                 <#list mkb10 as mkb>
                                   <option value="${mkb.id}">${mkb.code} ${mkb.name} </option>
                                 </#list>
+                                </#if>
                               </select class="form-control">
                             </div>
 
@@ -646,9 +675,11 @@
                     <form id="trackForm" method="get" enctype="multipart/form-data">
                       <select  id="track" class="form-control" name="lectureTrack" size="1">
                         <option select class="form-control">Выберите образовательный трек</option>
+                        <#if profileTab>
                         <#list tracks as track>
                           <option value="${track.id}">${track.trackName}</option>
                         </#list>
+                        </#if>
                       </select class="form-control">
                     </form>
                   </div>
@@ -656,9 +687,11 @@
                   <div class="mb-10">
                     <select  id="series" class="form-control" name="lectureSeries" size="1">
                       <option select class="form-control">Выберите образовательный модуль</option>
+                      <#if profileTab>
                       <#list series as series>
                         <option value="${series.id}">${series.seriesName}</option>
                       </#list>
+                      </#if>
                     </select class="form-control">
                   </div>
 
@@ -853,7 +886,7 @@
         </div>
       </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@3.8.162/build/pdf.min.js"></script>
+
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://track.samsmu.ru/js/select2.min.js"></script>
     <script src="https://track.samsmu.ru/js/popper.min.js"></script>
@@ -865,17 +898,17 @@
     <script src="https://track.samsmu.ru/js/module.js"></script>
     <script src="https://track.samsmu.ru/js/lecture.js"></script>
 
-    <script src="js/jquery-3.7.0.min.js"></script>
-    <script src="js/select2.min.js"></script>
-    <script src="js/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/bootstrap.bundle.min.js"></script>
-    <script src="js/index.js"></script>
-    <script src="js/track.js"></script>
-    <script src="js/users.js"></script>
-    <script src="js/module.js"></script>
-    <script src="js/lecture.js"></script>
-    <script src="js/pdfobject.min.js"></script>
+    <script src="../js/jquery-3.7.0.min.js"></script>
+    <script src="../js/select2.min.js"></script>
+    <script src="../js/popper.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+    <script src="../js/index.js"></script>
+    <script src="../js/track.js"></script>
+    <script src="../js/users.js"></script>
+    <script src="../js/module.js"></script>
+    <script src="../js/lecture.js"></script>
+
 
 
     <script>
