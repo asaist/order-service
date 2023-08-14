@@ -217,7 +217,8 @@
                   </div>                  
                 </div>
                 <div class="modal-footer">                
-                  <button type="button" class="btn btn-primary">Добавить трек</button>
+                  <button type="button" class="btn btn-primary" id="addTrack" onclick="addTrack()">Добавить трек</button>
+                  <button type="button" class="btn btn-primary hidden" id="editTrack" onclick="editTrack()">Редактировать трек</button>
                 </div>
               </div> 
             </div> 
@@ -746,6 +747,13 @@
     <script src="js/bootstrap.min.js"></script> 
     <script src="js/bootstrap.bundle.min.js"></script> 
     <script>
+      function addTrack() {
+        let addTrack = document.getElementById('addTrack');        
+        addTrack.classList.add("hidden");
+        let editTrack = document.getElementById('editTrack');
+        editTrack.classList.remove("hidden");
+      }
+
       function authorSamGMU() {
         let authorSamGMU = document.getElementById('authorSamGMU');        
         authorSamGMU.classList.toggle("hidden");
@@ -753,7 +761,7 @@
         authorWorld.classList.toggle("hidden");
       }
 
-      function addManTrack() {
+      function addManTrack() {        
         document.getElementById('select').options[0].selected = true; //очищаем селект
       }
 
@@ -808,7 +816,7 @@
         iconSignature.classList.add('text-white');
       }   
 
-      function selectAuthor(el) {
+      function selectAuthor(el) {  
         let e = document.getElementById("select");
         let value = e.value;
         let text = e.options[e.selectedIndex].text;
@@ -1048,7 +1056,6 @@
 
       $(document).on('click', '.fa-times', function() {    
           $(this).closest('.divDoc').remove();
-          co
       });
 
       function inputNameAuthor() {        

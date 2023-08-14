@@ -37,7 +37,9 @@ function getAuthorsForEditTrack(id) {
             });
             // Используйте полученный ID нового трека для нужных действий на фронтенде
             console.log('Авторы трека', authors);
+            savedTrack = id;
             drawAutorTable(authors);
+            drawTrackScheme(modules, lectures);
         })
         .catch(error => {
             console.error('Ошибка при отправке запроса:', error);
@@ -47,6 +49,158 @@ function getAuthorsForEditTrack(id) {
 function showDoc1(el) {
     var tbl = el.parentElement.parentElement;
     tbl.rows[1].classList.toggle('hidden');
+}
+
+function drawTrackScheme(modules, lectures){
+    let indexMod = 0;
+    let indexLec = 0;
+
+
+    for (const module of modules) {
+
+        let newModuleScheme = document.createElement('div');
+        newModuleScheme.classList.add('mx-3');
+        newModuleSchemeNumber++; // Присваиваем id
+        newModuleScheme.id = "module_" + newModuleSchemeNumber;
+        let rowModule = document.getElementById('rowModule');
+        rowModule.append(newModuleScheme);
+
+        let bgPrimary = document.createElement('div');
+        bgPrimary.classList.add('bg-primary','rounded','d-flex', 'p-3');
+        newModuleScheme.append(bgPrimary);
+
+        let col11 = document.createElement('div');
+        col11.classList.add('col-10');
+        bgPrimary.append(col11);
+
+        let modName = document.createElement('button');
+        modName.classList.add('btn', 'btn-sm', 'rounded', 'text-white', 'text-center', 'fs16', 'pb-0', 'mb-0');
+        modName.setAttribute('type', 'button');
+        modName.setAttribute('onclick', 'editMod(this)');
+        modName.setAttribute('index', indexMod.toString());
+        modName.setAttribute('moduleModalId', moduleModalId);
+        modName.setAttribute('moduleNameModal', module.moduleNameModal);
+        modName.setAttribute('moduleModalAnnotation', module.moduleModalAnnotation);
+        modName.setAttribute('moduleModalKeyWords', module.moduleModalKeyWords);
+        modName.textContent = module.moduleNameModal;
+        col11.append(modName);
+
+        let col1 = document.createElement('div');
+        col1.classList.add('col-2');
+        bgPrimary.append(col1);
+
+        let button = document.createElement('button');
+        button.classList.add('btn', 'btn-sm', 'rounded');
+        button.setAttribute('type', 'button')
+        button.setAttribute('onclick', 'addLectureInModuleBegin(this)');
+        button.setAttribute('moduleNameModal', module.moduleNameModal);
+        button.setAttribute('moduleModalId', moduleModalId);
+        button.setAttribute('id', 'moduleModalId_' + moduleModalId);
+        col1.append(button);
+
+        module.moduleModalId = moduleModalId;
+        moduleModalId = moduleModalId + 1;
+
+        let icon = document.createElement('i');
+        icon.classList.add('fas', 'fa-plus', 'text-white');
+        button.append(icon);
+
+        let rowLecInModule = document.createElement('div');
+        rowLecInModule.classList.add('d-flex', 'justify-content-between', 'my-2', 'rowLecInModule');
+        rowLecInModule.textContent = '';
+        newModuleScheme.append(rowLecInModule);
+        indexMod++;
+        for (const lecture of lectures) {
+            if (lecture.moduleId === module.id){
+                let lectureModuleName = lecture.lectureModuleName;
+                let lectureModuleAnnotation = lecture.lectureModuleAnnotation;
+                let lectureModuleKeyWords = lecture.lectureModuleKeyWords;
+                lectureModalId = lectureModalId + 1;
+
+                let newLecInScheme = document.createElement('div');
+                newLecInScheme.setAttribute("onmouseover","HintShowbyTamara(this)");
+                newLecInScheme.setAttribute("onmouseout","HintHidebyTamara(this)");
+                newLecInScheme.classList.add('bg-success','m-3', 'p-3', 'rounded','lectureBlockScheme', 'd-flex');
+                rowLecInModule.append(newLecInScheme);
+                let lecName = document.createElement('button');
+                lecName.classList.add('btn', 'btn-sm', 'rounded', 'text-white', 'text-center', 'm-0', 'p-0', 'text-truncate', 'lectureBlockSchemeText');
+                lecName.setAttribute('type', 'button');
+                lecName.setAttribute('onclick', 'editLec(this)');
+                lecName.setAttribute('index', indexLec.toString());
+                lecName.setAttribute('lectureModuleName', lectureModuleName);
+                lecName.setAttribute('lectureModuleAnnotation', lectureModuleAnnotation);
+                lecName.setAttribute('lectureModuleKeyWords', lectureModuleKeyWords);
+                lecName.setAttribute('lectureModalId', (lectureModalId -1).toString());
+                lecName.setAttribute('moduleModalId', moduleModalId);
+                lecName.setAttribute('moduleNameModal', module.moduleNameModal);
+                lecName.textContent = lectureModuleName;
+                newLecInScheme.append(lecName);
+
+                //кнопка удаления лекции
+                let button = document.createElement('button');
+                button.classList.add('btn', 'btn-sm', 'rounded');
+                button.setAttribute('type', 'button')
+                button.setAttribute('onclick', 'removeLecInModule(this)');
+                button.setAttribute('lectureModalId', lectureModalId);
+                button.setAttribute('index', indexLec.toString());
+
+                newLecInScheme.append(button);
+                let icon = document.createElement('i');
+                icon.classList.add('fas', 'fa-times', 'text-white');
+                button.append(icon);
+                document.getElementById('lectureModuleName').value = "";
+                document.getElementById('lectureModuleAnnotation').value = "";
+                document.getElementById('lectureModuleKeyWords').value = "";
+                btnClose();
+            }
+        }
+    }
+    for (const lecture of lectures ){
+        if (lecture.moduleId === null){
+
+            let lectureModalName = lecture.lectureModuleName;
+            let lectureModalAnnotation = lecture.lectureModuleAnnotation;
+            let lectureModalKeyWords = lecture.lectureModuleKeyWords;
+
+            let newLecScheme = document.createElement('div');
+            newLecScheme.setAttribute("onmouseover","HintShowbyTamara(this)");
+            newLecScheme.setAttribute("onmouseout","HintHidebyTamara(this)");
+            newLecScheme.classList.add('bg-success','mx-2', 'p-3', 'mb-1', 'rounded','lectureBlockScheme', 'lecBlockScheme', 'd-flex');
+            newLectureSchemeNumber++; // Присваиваем id
+            newLecScheme.id = "Lecture_" + newLectureSchemeNumber;
+            const colLec = document.getElementById('colLec');
+            colLec.append(newLecScheme);
+
+            let lecName = document.createElement('button');
+            lecName.classList.add('btn', 'btn-sm', 'rounded', 'text-white', 'text-center', 'm-0', 'p-0', 'text-truncate', 'lectureBlockSchemeText');
+            lecName.setAttribute('type', 'button');
+            lecName.setAttribute('onclick', 'editLecOut(this)');
+            lecName.setAttribute('index', indexLec.toString());
+            lecName.setAttribute('lectureModuleName', lectureModalName);
+            lecName.setAttribute('lectureModuleAnnotation', lectureModalAnnotation);
+            lecName.setAttribute('lectureModuleKeyWords', lectureModalKeyWords);
+            lecName.setAttribute('lectureModalId', lectureModalId);
+            lecName.textContent = lectureModalName;
+            newLecScheme.append(lecName);
+
+            //кнопка удаления лекции
+            let button = document.createElement('button');
+            button.classList.add('btn', 'btn-sm', 'rounded');
+            button.setAttribute('type', 'button')
+            button.setAttribute('onclick', 'removeLecInModule(this)');
+            button.setAttribute('lectureModalId', lectureModalId);
+            button.setAttribute('index', indexLec .toString());
+            newLecScheme.append(button);
+            lectureModalId = lectureModalId + 1;
+            let icon = document.createElement('i');
+            icon.classList.add('fas', 'fa-times', 'text-white');
+            button.append(icon);
+            document.getElementById('lectureModalName').value = "";
+            document.getElementById('lectureModalAnnotation').value = "";
+            document.getElementById('lectureModalKeyWords').value = "";
+            btnClose();
+        }
+    }
 }
 
 function drawAutorTable(authors){

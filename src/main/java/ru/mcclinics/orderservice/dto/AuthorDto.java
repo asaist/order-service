@@ -1,18 +1,16 @@
 package ru.mcclinics.orderservice.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
 import ru.mcclinics.orderservice.domain.Author;
 
 import java.io.Serializable;
 
-@Setter
-@Getter
-@ToString
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AuthorDto extends EntityDto implements Serializable {
     @JsonProperty("id")
     private Long id;
@@ -37,7 +35,7 @@ public class AuthorDto extends EntityDto implements Serializable {
     @JsonProperty("employmentBook")
     private String employmentBook;
 
-    public AuthorDto(Author author) {
+        public AuthorDto(Author author) {
         this.id = author.getAuthorId();
         this.fullName = author.getLastName() + " " + author.getFirstName() + " " + author.getMiddleName();
         this.degree = author.getAcademicDegreeName();

@@ -66,6 +66,8 @@ public class Lecture {
         return videoReference!=null ? videoReference : "<none>";
     }
 
+    public Series getSeries(){return series!=null ? series : null; }
+
     public Lecture() {
     }
 
