@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.mcclinics.orderservice.dao.KeyWordRepository;
+import ru.mcclinics.orderservice.dao.MkbRepository;
 import ru.mcclinics.orderservice.domain.*;
 import ru.mcclinics.orderservice.dto.*;
 import ru.mcclinics.orderservice.service.*;
@@ -26,6 +27,7 @@ public class SchemeController {
     private final LectureService lectureService;
     private final UserService userService;
     private final KeyWordRepository keyWordRepository;
+    private final MkbRepository mkbRepository;
     private final SeriesService seriesService;
     private final AuthorService authorService;
     private final EntityDtoParamService entityDtoParamService;
@@ -39,6 +41,7 @@ public class SchemeController {
         model.addAttribute("series", seriesService.findSeries());
         model.addAttribute("profileTab", true);
         model.addAttribute("contactTab", true);
+        model.addAttribute("moduleFlag", true);
 //        model.addAttribute("track", trackService.findTrackById(1L));
 //        model.addAttribute("users", userService.findUsers());
 //        model.addAttribute("authors", authorService.findAuthors());
@@ -197,6 +200,8 @@ public class SchemeController {
         String seriesName = moduleRequestData.getSeriesName();
         String seriesAnnotation = moduleRequestData.getSeriesAnnotation();
         String seriesKeyWords = moduleRequestData.getSeriesKeyWords();
+        List<Mkb> mkbs = moduleRequestData.getMkbs();
+
         String[] strMain = seriesKeyWords.split(";");
         List<KeyWord> keyWordList = new ArrayList<>();
         for (String line : strMain) {
@@ -246,8 +251,10 @@ public class SchemeController {
         lectures.stream().forEach(lecture -> lecture.setSeries(savedSeries));
         lectures.stream().forEach(lecture -> lecture.setCreateDate(LocalDateTime.now()));
         lectures.stream().forEach(lecture -> lecture.setAuthors(authorSet));
+        mkbs.stream().forEach(mkb -> mkb.setSeries(savedSeries));
         lectureService.saveAll(lectures);
         keyWordRepository.saveAll(keyWordList);
+        mkbRepository.saveAll(mkbs);
         Iterable<Series> series1 = seriesService.findSeries();
         log.info("/create [module {}]", series);
 

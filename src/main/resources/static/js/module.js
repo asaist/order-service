@@ -116,6 +116,7 @@ moduleForm.addEventListener('submit', (event) => {
     const data = {
         lectures,
         moduleAuthors,
+        mkbs,
         track,
         seriesName,
         seriesAnnotation,

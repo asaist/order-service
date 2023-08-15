@@ -56,28 +56,64 @@
       </div>
 
 
-      <div class="right-body">        
+      <div class="right-body">
+        <#if !profileTab>
+        <ul class="nav nav-pills" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Трек</button>
+            </li>
+
+            <li class="nav-item hidden" role="presentation" id="moduleHideSeries">
+              <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Модуль</button>
+            </li>
+            <li class="nav-item hidden" role="presentation">
+              <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Лекция</button>
+            </li>
+
+<#--          <li class="nav-item" role="presentation">-->
+<#--            <button class="nav-link px-4" id="structure-tab" onclick="location.href='table_track';" type="button" aria-selected="false">Структура</button>-->
+<#--          </li>-->
+        </ul>
+        <#elseif !moduleFlag>
+        <ul class="nav nav-pills" id="myTab" role="tablist">
+          <li class="nav-item hidden" role="presentation">
+            <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="false">Трек</button>
+          </li>
+          <li class="nav-item" role="presentation" id="moduleHideSeries">
+            <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="true">Модуль</button>
+          </li>
+          <li class="nav-item hidden" role="presentation">
+            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Лекция</button>
+          </li>
+        </ul>
+        <#else>
         <ul class="nav nav-pills" id="myTab" role="tablist">
           <li class="nav-item" role="presentation">
             <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Трек</button>
           </li>
-          <#if profileTab>
           <li class="nav-item" role="presentation" id="moduleHideSeries">
             <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Модуль</button>
           </li>
           <li class="nav-item" role="presentation">
             <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Лекция</button>
           </li>
-          <li class="nav-item" role="presentation">
-            <button class="nav-link px-4" id="structure-tab" onclick="location.href='table_track';" type="button" aria-selected="false">Структура</button>
-          </li>
-          </#if>
         </ul>
+        </#if>
+
+
+
+
+
+
+
+
 
         <div class="applicationBodySchema">         
           <div class="tab-content" id="myTabContent">
+
            <!-- Заявка на Трек -->
-            <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+
+            <div class="tab-pane fade <#if !moduleFlag> <#else>show active</#if>" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
               <form method="post" action="/addTrack" id="createTrack" enctype="multipart/form-data">
                 <div>
                   <#if profileTab>
@@ -336,7 +372,7 @@
                 </div>
               </div>
             </div>
-          <!-- Заявка на Лекцию всплывающая для дерева -->
+            <!-- Заявка на Лекцию всплывающая для дерева -->
             <div class="modal-wrapper">
               <div class="lectureModal shadow hidden" id="addLectureModal">
                 <div class="modal-header">
@@ -384,16 +420,26 @@
             </div>
 
             <!-- Заявка на Модуль -->
-            <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+            <div class="tab-pane fade <#if !moduleFlag>show active</#if>" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
               <form method="post" action="/addSeries" id="createSeries" enctype="multipart/form-data">
               <div>
+                <#if moduleFlag>
                 <div class="d-flex justify-content-center">
                   <h5>Заявка на создание модуля</h5>                
-                </div>                  
+                </div>
+                <#else>
+                <div class="d-flex justify-content-center">
+                  <h5>Редактированиее модуля</h5>
+                </div>
+                </#if>
                 <div class="modal-body"> 
                     <div class="mb-10">                    
                       <select class="form-control" class="form-control" id="trackModuleSeries" onchange="updateTrackHeadingModuleSeries()" name="seriesTrack" size="1">
-                        <option select class="form-control">Выберите образовательный трек</option>
+                        <#if moduleFlag>
+                          <option select class="form-control">Выберите образовательный трек</option>
+                        <#else>
+                          <option select class="form-control">${seriesOne.track.trackName}</option>
+                        </#if>
                         <#if profileTab>
                           <#list tracks as track>
                             <option value="${track.id}">${track.trackName}</option>
@@ -402,9 +448,15 @@
 
                       </select class="form-control">
                     </div>
-                    <div class="mb-10">
-                      <input type="text" class="form-control mb-2" id="moduleSeriesName" oninput="updateTrackHeadingModuleSeries()" name="seriesName" placeholder="Название образовательного модуля">
-                    </div>
+                    <#if moduleFlag>
+                      <div class="mb-10">
+                        <input type="text" class="form-control mb-2" id="moduleSeriesName" oninput="updateTrackHeadingModuleSeries()" name="seriesName" placeholder="Название образовательного модуля">
+                      </div>
+                    <#else>
+                        <div class="mb-10">
+                          <input type="text" class="form-control mb-2" id="moduleSeriesName" oninput="updateTrackHeadingModuleSeries()" name="seriesName" value="${seriesOne.seriesName}">
+                      </div>
+                    </#if>
                     <div class="my-4">
                     <p><b>Автор образовательного модуля</b></p>
                     <div>
@@ -449,17 +501,28 @@
                       </div>
                     </div>
                     </div>
-
-                    <div class="my-4">
-                      <b>Аннотация/содержание образовательного Модуля</b><br>
-                      <textarea class="form-control" name="seriesAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#"></textarea>
-                    </div>
-
-                    <div class="mt-10 mb-10">
-                      <b>Дополнительные ключеные слова</b><br>
-                      <textarea class="form-control" name="seriesKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;"></textarea>
-                    </div>
-
+                    <#if moduleFlag>
+                      <div class="my-4">
+                        <b>Аннотация/содержание образовательного Модуля</b><br>
+                        <textarea class="form-control" name="seriesAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#"></textarea>
+                      </div>
+                    <#else>
+                        <div class="my-4">
+                          <b>Аннотация/содержание образовательного Модуля</b><br>
+                          <textarea class="form-control" name="seriesAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#">${seriesOne.annotation}</textarea>
+                        </div>
+                    </#if>
+                    <#if moduleFlag>
+                        <div class="mt-10 mb-10">
+                          <b>Дополнительные ключеные слова</b><br>
+                          <textarea class="form-control" name="seriesKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;"></textarea>
+                        </div>
+                    <#else>
+                        <div class="mt-10 mb-10">
+                          <b>Дополнительные ключеные слова</b><br>
+                          <textarea class="form-control" name="seriesKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;">${seriesOne.keyWords}</textarea>
+                         </div>
+                    </#if>
                     <div class="accordion accordion-flush my-4" id="acModuleAdditionalGuide">
                       <div class="accordion-item">
                         <h2 class="accordion-header">
@@ -499,15 +562,27 @@
                             <div class="mt-10 mb-10">
                               <b>Ось МКБ</b><br>
                               <input type="text" id="myInput" class="form-control mt-10 mb-10" onkeyup="filterOptions()" placeholder="Параметры поиска...">
-                              <select id="mySelect" class="form-control" name="mkb" size="1">
+                              <select id="mySelect" class="form-control" name="mkb" onchange="selectMkb()" size="1">
                                 <option select class="form-control"ed="" disabled="">Выберите значение</option>
                                 <#if profileTab>
                                 <#list mkb10 as mkb>
-                                  <option value="${mkb.id}">${mkb.code} ${mkb.name} </option>
+                                  <option value="${mkb.id}">${mkb.code} ${mkb.name}</option>
                                 </#list>
                                 </#if>
                               </select class="form-control">
+
+                              <div>
+                                <table class="table table-hover editable" id="tableMkb" name="tableMkb">
+                                  <tr>
+                                    <th class="text-center regTd">Наименование</th>
+                                    <th class="text-center removeTd"><i class="fas fa-trash-alt"></i></th>
+                                  </tr>
+                                </table>
+                              </div>
+
                             </div>
+
+
 
                             <div class="mt-10 mb-10">
                               <b>Ось Дисциплин/учебный план</b><br>
@@ -675,11 +750,9 @@
                     <form id="trackForm" method="get" enctype="multipart/form-data">
                       <select  id="track" class="form-control" name="lectureTrack" size="1">
                         <option select class="form-control">Выберите образовательный трек</option>
-                        <#if profileTab>
                         <#list tracks as track>
                           <option value="${track.id}">${track.trackName}</option>
                         </#list>
-                        </#if>
                       </select class="form-control">
                     </form>
                   </div>
@@ -687,11 +760,9 @@
                   <div class="mb-10">
                     <select  id="series" class="form-control" name="lectureSeries" size="1">
                       <option select class="form-control">Выберите образовательный модуль</option>
-                      <#if profileTab>
                       <#list series as series>
                         <option value="${series.id}">${series.seriesName}</option>
                       </#list>
-                      </#if>
                     </select class="form-control">
                   </div>
 
@@ -915,6 +986,52 @@
 
 
     <script>
+      class Mkb {
+        constructor(value, track, module, lecture) {
+          this.value = value;
+          this.track = track;
+          this.module = module;
+          this.lecture = lecture;
+        }
+      }
+      let mkbs = [];
+      function selectMkb(el) {
+        let e = document.getElementById("mySelect");
+        let value = e.value;
+        let text = e.options[e.selectedIndex].text;
+        //let select = document.getElementById("select");
+        //let value = select.value;
+        let mkb = new Mkb(text, null, savedSeries, null);
+        mkbs.push(mkb);
+
+        let tableAuthor = document.getElementById('tableMkb');
+
+        let divDoc = document.createElement('tr');
+        divDoc.classList.add('divDoc');
+        tableAuthor.append(divDoc);
+
+        let divDocTd = document.createElement('td');
+        divDocTd.setAttribute('colspan', '5');
+        divDoc.append(divDocTd);
+
+        let tr1 = document.createElement('table');
+        tr1.classList.add('w-100', 'tr1');
+        divDocTd.append(tr1);
+
+        let nameTr = document.createElement('tr');
+        tr1.append(nameTr);
+        let nameTd = document.createElement('td');
+        nameTd.classList.add('text-primary', 'nameTd');
+        nameTd.textContent = text;
+        nameTr.append(nameTd);
+
+        let removeTd = document.createElement('td');
+        removeTd.classList.add('removeTd', 'text-center');
+        nameTr.append(removeTd);
+        let close = document.createElement('i');
+        close.classList.add('fas', 'fa-times', 'text-danger');
+        removeTd.append(close);
+      }
 
       <#if !profileTab>
         var trackId123 = real(${track.id})

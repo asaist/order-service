@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Setter
 @Getter
@@ -44,6 +45,8 @@ public class Series {
     private Track track;
     @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "series")
     private List<KeyWord> keyWords;
+    @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "series")
+    private List<Mkb> mkbs;
     @Transient
     private Long frontEndId;
 
@@ -67,5 +70,11 @@ public class Series {
         }
         this.keyWords = keyWords;
         this.frontEndId = Long.valueOf(moduleDto.getId());
+    }
+
+    public String getKeyWords(){
+        return keyWords!=null ? keyWords.stream()
+                .map(KeyWord::getValue)
+                .collect(Collectors.joining(";")) : "<none>";
     }
 }

@@ -1,5 +1,6 @@
 package ru.mcclinics.orderservice.rest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,14 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.mcclinics.orderservice.dao.KeyWordRepository;
 import ru.mcclinics.orderservice.domain.*;
-import ru.mcclinics.orderservice.dto.AuthorDto;
-import ru.mcclinics.orderservice.dto.LectureDto;
-import ru.mcclinics.orderservice.dto.ModuleDto;
-import ru.mcclinics.orderservice.dto.RequestData;
-import ru.mcclinics.orderservice.service.LectureService;
-import ru.mcclinics.orderservice.service.SeriesService;
-import ru.mcclinics.orderservice.service.TrackService;
-import ru.mcclinics.orderservice.service.UniversityService;
+import ru.mcclinics.orderservice.dto.*;
+import ru.mcclinics.orderservice.service.*;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -37,6 +32,7 @@ public class MainController {
     private final UniversityService universityService;
     private final SeriesService seriesService;
     private final LectureService lectureService;
+    private final EntityDtoParamService entityDtoParamService;
     private final KeyWordRepository keyWordRepository;
 
     @Value("${files.upload.baseDir}")
@@ -105,10 +101,29 @@ public class MainController {
     @GetMapping("/track/{id}")
     public String getTrack(@PathVariable("id") Track track, Model model){
         model.addAttribute("track", track);
+        model.addAttribute("tracks", trackService.findTracks());
+        model.addAttribute("series", seriesService.findSeries());
+        model.addAttribute("lectures", lectureService.findLectures());
         model.addAttribute("universities", universityService.getUniversityList());
         model.addAttribute("profileTab", false);
+        model.addAttribute("moduleFlag", true);
         model.addAttribute("contactTab", false);
 //        model.addAttribute("tracks", null);
+        return "scheme";
+
+    }
+
+    @GetMapping("/module/{id}")
+    public String getModule(@PathVariable("id") Series series, Model model) throws JsonProcessingException {
+        model.addAttribute("seriesOne", series);
+        model.addAttribute("series", seriesService.findSeries());
+        model.addAttribute("universities", universityService.getUniversityList());
+        model.addAttribute("moduleFlag", false);
+        model.addAttribute("profileTab", true);
+        model.addAttribute("tracks", trackService.findTracks());
+        model.addAttribute("lectures", lectureService.findLectures());
+        List<Mkb10Dto> entityDtoList = entityDtoParamService.getEntityDtoList();
+        model.addAttribute("mkb10", entityDtoList);
         return "scheme";
 
     }
