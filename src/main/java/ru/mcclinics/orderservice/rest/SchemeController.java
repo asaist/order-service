@@ -40,7 +40,7 @@ public class SchemeController {
         model.addAttribute("lectures", lectureService.findLectures());
         model.addAttribute("series", seriesService.findSeries());
         model.addAttribute("profileTab", true);
-        model.addAttribute("contactTab", true);
+        model.addAttribute("lectureFlag", true);
         model.addAttribute("moduleFlag", true);
 //        model.addAttribute("track", trackService.findTrackById(1L));
 //        model.addAttribute("users", userService.findUsers());

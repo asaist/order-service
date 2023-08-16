@@ -1,6 +1,6 @@
-function getAuthorsForEditModule(id) {
+function getAuthorsForEditLecture(id) {
     // const url = '/authors_track'; // здесь id - идентификатор трека
-    return fetch(`/authors_module/${id}`)
+    return fetch(`/authors_lecture/${id}`)
         .then(response => response.json())
         .then(data => {
 
@@ -20,79 +20,21 @@ function getAuthorsForEditModule(id) {
                     // Здесь можно добавить другие свойства автора, если они есть в объекте AuthorDto
                 };
             });
-            lectures = data.lectures.map(lecture => {
-                return {
-                    id: lecture.id,
-                    moduleId: lecture.moduleId,
-                    lectureModuleName: lecture.lectureModuleName,
-                    lectureModuleAnnotation: lecture.lectureModuleAnnotation
-                };
-            });
+
             // Используйте полученный ID нового трека для нужных действий на фронтенде
             console.log('Авторы трека', authors);
-            savedSeries = id;
-            drawAuthorTableMod(authors);
-            drawModScheme(lectures);
+            savedLecture = id;
+            drawAuthorTableLec(authors);
         })
         .catch(error => {
             console.error('Ошибка при отправке запроса:', error);
         });
 }
 
-function drawModScheme(lectures){
-    let indexLec = 0;
-
-    for (const lecture of lectures ){
-
-            let lectureModalName = lecture.lectureModuleName;
-            let lectureModalAnnotation = lecture.lectureModuleAnnotation;
-            let lectureModalKeyWords = lecture.lectureModuleKeyWords;
-
-            let newLecScheme = document.createElement('div');
-            newLecScheme.setAttribute("onmouseover","HintShowbyTamara(this)");
-            newLecScheme.setAttribute("onmouseout","HintHidebyTamara(this)");
-            newLecScheme.classList.add('bg-success','mx-2', 'p-3', 'mb-1', 'rounded','lectureBlockScheme', 'lecBlockScheme', 'd-flex');
-            newLectureSchemeNumber++; // Присваиваем id
-            newLecScheme.id = "Lecture_" + newLectureSchemeNumber;
-            const colLec = document.getElementById('colLecModule');
-            colLec.append(newLecScheme);
-
-            let lecName = document.createElement('button');
-            lecName.classList.add('btn', 'btn-sm', 'rounded', 'text-white', 'text-center', 'm-0', 'p-0', 'text-truncate', 'lectureBlockSchemeText');
-            lecName.setAttribute('type', 'button');
-            lecName.setAttribute('onclick', 'editLecOut(this)');
-            lecName.setAttribute('index', indexLec.toString());
-            lecName.setAttribute('lectureModuleName', lectureModalName);
-            lecName.setAttribute('lectureModuleAnnotation', lectureModalAnnotation);
-            lecName.setAttribute('lectureModuleKeyWords', lectureModalKeyWords);
-            lecName.setAttribute('lectureModalId', lectureModalId);
-            lecName.textContent = lectureModalName;
-            newLecScheme.append(lecName);
-
-            //кнопка удаления лекции
-            let button = document.createElement('button');
-            button.classList.add('btn', 'btn-sm', 'rounded');
-            button.setAttribute('type', 'button')
-            button.setAttribute('onclick', 'removeLecInModule(this)');
-            button.setAttribute('lectureModalId', lectureModalId);
-            button.setAttribute('index', indexLec .toString());
-            newLecScheme.append(button);
-            lectureModalId = lectureModalId + 1;
-            let icon = document.createElement('i');
-            icon.classList.add('fas', 'fa-times', 'text-white');
-            button.append(icon);
-            document.getElementById('lectureModalName').value = "";
-            document.getElementById('lectureModalAnnotation').value = "";
-            document.getElementById('lectureModalKeyWords').value = "";
-            btnClose();
-        }
-
-}
-
-function drawAuthorTableMod(authors){
+function drawAuthorTableLec(authors){
     for (const author of authors) {
         const index = authors.indexOf(author);
-        let tableAuthor = document.getElementById('tableAuthorMod');
+        let tableAuthor = document.getElementById('tableAuthorLec');
 
         let divDoc = document.createElement('tr');
         divDoc.classList.add('divDoc');

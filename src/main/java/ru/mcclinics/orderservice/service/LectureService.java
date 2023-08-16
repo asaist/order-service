@@ -5,11 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.mcclinics.orderservice.dao.LectureRepository;
+import ru.mcclinics.orderservice.domain.Author;
 import ru.mcclinics.orderservice.domain.Lecture;
 
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Slf4j(topic = "order-service")
 @Service
@@ -30,4 +32,5 @@ public class LectureService {
     public Lecture findLectureById(Long id){return lectureRepository.findLectureById(id);}
     public List<Lecture> findLectureByTrackId(Long id) {return lectureRepository.findLectureByTrackId(id);}
     public List<Lecture> findLectureBySeriesId(Long id) {return lectureRepository.findLectureBySeriesId(id);}
+    public Set<Author> findAuthorsById(Long id){return lectureRepository.findAuthorsById(id);}
 }

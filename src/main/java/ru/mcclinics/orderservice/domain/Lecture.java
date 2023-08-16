@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Setter
 @Getter
@@ -65,6 +66,18 @@ public class Lecture {
     public String getVideoReference(){
         return videoReference!=null ? videoReference : "<none>";
     }
+    public String getTrackName() {
+        return track!=null ? track.getTrackName() : "<Не относится к треку>";
+    }
+    public String getSeriesName() {
+        return series!=null ? series.getSeriesName() : "<Не относится к серии>";
+    }
+    public String getKeyWords(){
+        return keyWords!=null ? keyWords.stream()
+                .map(KeyWord::getValue)
+                .collect(Collectors.joining(";")) : "<none>";
+    }
+
 
     public Series getSeries(){return series!=null ? series : null; }
 

@@ -95,13 +95,26 @@ public class MainController {
     @GetMapping("/authors_module/{id}")
     @ResponseStatus(OK)
     public @ResponseBody RequestData getAuthorsByModuleId(@PathVariable Long id) {
-        log.info("/getAuthorsByTrackId");
+        log.info("/getAuthorsByModuleId");
         Series series = seriesService.findSeriesById(id);
         Set<Author> authors = seriesService.findAuthorsById(id);
         List<AuthorDto> authorDtos = authors.stream().map(AuthorDto::new).collect(toList());
         List<Lecture> lectures = lectureService.findLectureBySeriesId(id);
         List<LectureDto> lectureDtos = lectures.stream().map(LectureDto::new).collect(toList());
         RequestData rd = new RequestData(authorDtos, lectureDtos);
+        return rd;
+    }
+
+    @GetMapping("/authors_lecture/{id}")
+    @ResponseStatus(OK)
+    public @ResponseBody RequestData getAuthorsByLectureId(@PathVariable Long id) {
+        log.info("/getAuthorsByLectureId");
+        Lecture lecture = lectureService.findLectureById(id);
+        Set<Author> authors = lectureService.findAuthorsById(id);
+        List<AuthorDto> authorDtos = authors.stream().map(AuthorDto::new).collect(toList());
+        List<Lecture> lectures = lectureService.findLectureBySeriesId(id);
+        List<LectureDto> lectureDtos = lectures.stream().map(LectureDto::new).collect(toList());
+        RequestData rd = new RequestData(authorDtos);
         return rd;
     }
 
@@ -120,6 +133,7 @@ public class MainController {
         model.addAttribute("universities", universityService.getUniversityList());
         model.addAttribute("profileTab", false);
         model.addAttribute("moduleFlag", true);
+        model.addAttribute("lectureFlag", true);
         model.addAttribute("contactTab", false);
 //        model.addAttribute("tracks", null);
         return "scheme";
@@ -132,6 +146,23 @@ public class MainController {
         model.addAttribute("series", seriesService.findSeries());
         model.addAttribute("universities", universityService.getUniversityList());
         model.addAttribute("moduleFlag", false);
+        model.addAttribute("lectureFlag", true);
+        model.addAttribute("profileTab", true);
+        model.addAttribute("tracks", trackService.findTracks());
+        model.addAttribute("lectures", lectureService.findLectures());
+        List<Mkb10Dto> entityDtoList = entityDtoParamService.getEntityDtoList();
+        model.addAttribute("mkb10", entityDtoList);
+        return "scheme";
+
+    }
+
+    @GetMapping("/lecture/{id}")
+    public String getLecture(@PathVariable("id") Lecture lecture, Model model) throws JsonProcessingException {
+        model.addAttribute("lecture", lecture);
+        model.addAttribute("series", seriesService.findSeries());
+        model.addAttribute("universities", universityService.getUniversityList());
+        model.addAttribute("lectureFlag", false);
+        model.addAttribute("moduleFlag", true);
         model.addAttribute("profileTab", true);
         model.addAttribute("tracks", trackService.findTracks());
         model.addAttribute("lectures", lectureService.findLectures());

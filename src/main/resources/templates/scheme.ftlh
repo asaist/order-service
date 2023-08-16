@@ -86,6 +86,18 @@
             <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Лекция</button>
           </li>
         </ul>
+        <#elseif !lectureFlag>
+          <ul class="nav nav-pills" id="myTab" role="tablist">
+            <li class="nav-item hidden" role="presentation">
+              <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="false">Трек</button>
+            </li>
+            <li class="nav-item hidden" role="presentation" id="moduleHideSeries">
+              <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Модуль</button>
+            </li>
+            <li class="nav-item" role="presentation">
+              <button class="nav-link active" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="true">Лекция</button>
+            </li>
+          </ul>
         <#else>
         <ul class="nav nav-pills" id="myTab" role="tablist">
           <li class="nav-item" role="presentation">
@@ -113,7 +125,7 @@
 
            <!-- Заявка на Трек -->
 
-            <div class="tab-pane fade <#if !moduleFlag> <#else>show active</#if>" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <div class="tab-pane fade <#if !moduleFlag || !lectureFlag> <#else>show active</#if>" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
               <form method="post" action="/addTrack" id="createTrack" enctype="multipart/form-data">
                 <div>
                   <#if profileTab>
@@ -738,18 +750,27 @@
             </div>
 
             <!-- Заявка на Лекцию -->
-            <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+            <div class="tab-pane fade <#if !lectureFlag>show active</#if>" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
               <form method="post" action="/addLecture" id="createLecture" enctype="multipart/form-data">
               <div>
-
+                <#if lectureFlag>
                 <div class="d-flex justify-content-center">
                   <h5>Заявка на создание лекции</h5>
                 </div>
+                <#else>
+                <div class="d-flex justify-content-center">
+                  <h5>Редактирование лекции</h5>
+                </div>
+                </#if>
                 <div class="modal-body">
                   <div class="mb-10">
                     <form id="trackForm" method="get" enctype="multipart/form-data">
                       <select  id="track" class="form-control" name="lectureTrack" size="1">
+                        <#if lectureFlag>
                         <option select class="form-control">Выберите образовательный трек</option>
+                        <#else>
+                        <option select class="form-control">${lecture.getTrackName()}</option>
+                        </#if>
                         <#list tracks as track>
                           <option value="${track.id}">${track.trackName}</option>
                         </#list>
@@ -759,16 +780,25 @@
 
                   <div class="mb-10">
                     <select  id="series" class="form-control" name="lectureSeries" size="1">
+                      <#if lectureFlag>
                       <option select class="form-control">Выберите образовательный модуль</option>
+                      <#else>
+                      <option select class="form-control">${lecture.getSeriesName()}</option>
+                      </#if>
                       <#list series as series>
                         <option value="${series.id}">${series.seriesName}</option>
                       </#list>
                     </select class="form-control">
                   </div>
-
+                  <#if lectureFlag>
                   <div class="mb-10">
                     <input type="text" class="form-control mb-2" name="lectureName" placeholder="Название образовательной лекции">
                   </div>
+                  <#else>
+                  <div class="mb-10">
+                    <input type="text" class="form-control mb-2" name="lectureName" placeholder="Название образовательной лекции" value="${lecture.lectureName}">
+                  </div>
+                  </#if>
                   <div class="my-4">
                     <p><b>Автор образовательной лекции</b></p>
                     <div>
@@ -813,16 +843,28 @@
                       </div>
                     </div>
                   </div>
+                  <#if lectureFlag>
                         <div class="my-4">
                           <b>Аннотация/содержание образовательного Модуля</b><br>
                           <textarea class="form-control" name="lectureAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#"></textarea>
                         </div>
-
+                  <#else>
+                  <div class="my-4">
+                    <b>Аннотация/содержание образовательного Модуля</b><br>
+                    <textarea class="form-control" name="lectureAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#">${lecture.annotation}</textarea>
+                  </div>
+                  </#if>
+                  <#if lectureFlag>
                         <div class="mt-10 mb-10">
                           <b>Дополнительные ключеные слова</b><br>
                           <textarea class="form-control" name="lectureKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;"></textarea>
                         </div>
-
+                  <#else>
+                  <div class="mt-10 mb-10">
+                    <b>Дополнительные ключеные слова</b><br>
+                    <textarea class="form-control" name="lectureKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;">${lecture.keyWords}</textarea>
+                  </div>
+                  </#if>
                         <div class="accordion accordion-flush my-4" id="acLectureAdditionalGuide">
                           <div class="accordion-item">
                             <h2 class="accordion-header">
@@ -970,6 +1012,7 @@
     <script src="https://track.samsmu.ru/js/lecture.js"></script>
     <script src="https://track.samsmu.ru/js/editTrack.js"></script>
     <script src="https://track.samsmu.ru/js/editModule.js"></script>
+    <script src="https://track.samsmu.ru/js/editLecture.js"></script>
 
     <script src="../js/jquery-3.7.0.min.js"></script>
     <script src="../js/select2.min.js"></script>
@@ -983,6 +1026,7 @@
     <script src="../js/lecture.js"></script>
     <script src="../js/editTrack.js"></script>
     <script src="../js/editModule.js"></script>
+    <script src="../js/editLecture.js"></script>
 
 
 
@@ -1061,6 +1105,19 @@
       document.addEventListener("DOMContentLoaded", function(event) {
         // ваш код для выполнения после загрузки страницы
         getAuthorsForEditModule(seriesOneId123);
+      });
+      </#if>
+
+      <#if !lectureFlag>
+      var lectureId123 = real(${lecture.id})
+      <#else>
+      var lectureId123 = 0;
+      </#if>
+
+      <#if !lectureFlag>
+      document.addEventListener("DOMContentLoaded", function(event) {
+        // ваш код для выполнения после загрузки страницы
+        getAuthorsForEditLecture(lectureId123);
       });
       </#if>
 
