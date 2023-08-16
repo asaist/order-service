@@ -438,7 +438,7 @@
                         <#if moduleFlag>
                           <option select class="form-control">Выберите образовательный трек</option>
                         <#else>
-                          <option select class="form-control">${seriesOne.track.trackName}</option>
+                          <option select class="form-control">${seriesOne.trackName}</option>
                         </#if>
                         <#if profileTab>
                           <#list tracks as track>
@@ -969,6 +969,7 @@
     <script src="https://track.samsmu.ru/js/module.js"></script>
     <script src="https://track.samsmu.ru/js/lecture.js"></script>
     <script src="https://track.samsmu.ru/js/editTrack.js"></script>
+    <script src="https://track.samsmu.ru/js/editModule.js"></script>
 
     <script src="../js/jquery-3.7.0.min.js"></script>
     <script src="../js/select2.min.js"></script>
@@ -981,6 +982,7 @@
     <script src="../js/module.js"></script>
     <script src="../js/lecture.js"></script>
     <script src="../js/editTrack.js"></script>
+    <script src="../js/editModule.js"></script>
 
 
 
@@ -1047,6 +1049,19 @@
           // ваш код для выполнения после загрузки страницы
           getAuthorsForEditTrack(trackId123);
         });
+      </#if>
+
+      <#if !moduleFlag>
+      var seriesOneId123 = real(${seriesOne.id})
+      <#else>
+      var seriesOneId123 = 0;
+      </#if>
+
+      <#if !moduleFlag>
+      document.addEventListener("DOMContentLoaded", function(event) {
+        // ваш код для выполнения после загрузки страницы
+        getAuthorsForEditModule(seriesOneId123);
+      });
       </#if>
 
       function real(string){

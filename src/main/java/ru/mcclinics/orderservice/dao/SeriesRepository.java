@@ -17,6 +17,6 @@ public interface SeriesRepository extends JpaRepository<Series, Long> {
     List<Series> findSeriesByTrack(Track track);
     List<Series> findSeriesByTrackId(Long id);
     Series findSeriesById(Long id);
-    @Query("SELECT t.authors FROM Track t WHERE t.id = :seriesId")
+    @Query("SELECT t.authors FROM Series t WHERE t.id = :seriesId")
     Set<Author> findAuthorsById(@Param("seriesId")Long id);
 }

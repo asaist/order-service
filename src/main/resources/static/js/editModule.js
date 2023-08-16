@@ -39,11 +39,10 @@ function getAuthorsForEditModule(id) {
         });
 }
 
-function drawModScheme(modules, lectures){
+function drawModScheme(lectures){
     let indexLec = 0;
 
     for (const lecture of lectures ){
-        if (lecture.moduleId === null){
 
             let lectureModalName = lecture.lectureModuleName;
             let lectureModalAnnotation = lecture.lectureModuleAnnotation;
@@ -87,7 +86,7 @@ function drawModScheme(modules, lectures){
             document.getElementById('lectureModalKeyWords').value = "";
             btnClose();
         }
-    }
+
 }
 
 function drawAuthorTableMod(authors){
