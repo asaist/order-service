@@ -92,6 +92,19 @@ public class MainController {
         return rd;
     }
 
+    @GetMapping("/authors_module/{id}")
+    @ResponseStatus(OK)
+    public @ResponseBody RequestData getAuthorsByModuleId(@PathVariable Long id) {
+        log.info("/getAuthorsByTrackId");
+        Series series = seriesService.findSeriesById(id);
+        Set<Author> authors = seriesService.findAuthorsById(id);
+        List<AuthorDto> authorDtos = authors.stream().map(AuthorDto::new).collect(toList());
+        List<Lecture> lectures = lectureService.findLectureBySeriesId(id);
+        List<LectureDto> lectureDtos = lectures.stream().map(LectureDto::new).collect(toList());
+        RequestData rd = new RequestData(authorDtos, lectureDtos);
+        return rd;
+    }
+
     @GetMapping("/table_track/{id}")
     public String getOne(@PathVariable("id") Track track, Model model){
         model.addAttribute("track", track);
