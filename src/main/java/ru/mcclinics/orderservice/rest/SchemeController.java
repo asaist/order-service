@@ -235,6 +235,7 @@ public class SchemeController {
         authorList.addAll(authorsFrontSavedDB);
         Set<Author> authorSet = new HashSet<>(authorList);
         series.setAuthors(authorSet);
+
         Track track = trackService.findTrackById(Long.parseLong(moduleRequestData.getTrack()));
         series.setTrack(track);
         series.setKeyWords(keyWordList);
@@ -317,7 +318,11 @@ public class SchemeController {
         lecture.setLectureName(lectureName);
         lecture.setAnnotation(lectureAnnotation);
         lecture.setCreateDate(LocalDateTime.now());
-        lectureService.save(lecture);
+        Lecture savedLecture = lectureService.save(lecture);
+        List<MkbDto> mkbs = lectureRequestData.getMkbs();
+        List<Mkb> mkbs1 = mkbs.stream().map(Mkb::new).collect(toList());
+        mkbs1.stream().forEach(mkb -> mkb.setLecture(savedLecture));
+        mkbRepository.saveAll(mkbs1);
         keyWordRepository.saveAll(keyWordList);
         log.info("/create [lecture {}]", lecture);
         return ResponseEntity.ok(new LectureDto(lecture));

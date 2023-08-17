@@ -20,4 +20,10 @@ public class ModuleRequestData extends EntityDto implements Serializable {
     private String seriesAnnotation;
     private String seriesKeyWords;
     private List<LectureDto> lectures;
+
+    public ModuleRequestData(List<AuthorDto> authors, List<LectureDto> lectures, List<Mkb> mkbs) {
+        this.moduleAuthors = authors;
+        this.lectures = lectures;
+        this.mkbs = mkbs;
+    }
 }

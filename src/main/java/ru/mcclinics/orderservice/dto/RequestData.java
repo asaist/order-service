@@ -3,8 +3,7 @@ package ru.mcclinics.orderservice.dto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
+import ru.mcclinics.orderservice.domain.Mkb;
 
 import java.io.Serializable;
 import java.util.List;
@@ -14,6 +13,7 @@ import java.util.List;
 @ToString
 public class RequestData extends EntityDto implements Serializable {
     private String trackId;
+    private String seriesId;
     private List<AuthorDto> authors;
     private String university;
     private String trackName;
@@ -21,9 +21,11 @@ public class RequestData extends EntityDto implements Serializable {
     private String trackKeyWords;
     private List<ModuleDto> modules;
     private List<LectureDto> lectures;
+    private List<MkbDto> mkbs;
 
-    public RequestData(List<AuthorDto> authors) {
+    public RequestData(List<AuthorDto> authors, List<MkbDto> mkbs) {
         this.authors = authors;
+        this.mkbs = mkbs;
     }
 
     public RequestData(List<AuthorDto> authors, List<ModuleDto> modules, List<LectureDto> lectures) {
@@ -32,8 +34,11 @@ public class RequestData extends EntityDto implements Serializable {
         this.lectures = lectures;
     }
 
-    public RequestData(List<AuthorDto> authors, List<LectureDto> lectures) {
+    public RequestData(List<AuthorDto> authors, List<LectureDto> lectures, List<MkbDto> mkbs, String seriesId) {
         this.authors = authors;
         this.lectures = lectures;
+        this.mkbs = mkbs;
+        this.seriesId = seriesId;
     }
+
 }

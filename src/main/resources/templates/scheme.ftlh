@@ -450,7 +450,7 @@
                         <#if moduleFlag>
                           <option select class="form-control">Выберите образовательный трек</option>
                         <#else>
-                          <option select class="form-control">${seriesOne.trackName}</option>
+                          <option select class="form-control" value="${seriesOne.getTrack().id}">${seriesOne.trackName}</option>
                         </#if>
                         <#if profileTab>
                           <#list tracks as track>
@@ -574,7 +574,7 @@
                             <div class="mt-10 mb-10">
                               <b>Ось МКБ</b><br>
                               <input type="text" id="myInput" class="form-control mt-10 mb-10" onkeyup="filterOptions()" placeholder="Параметры поиска...">
-                              <select id="mySelect" class="form-control" name="mkb" onchange="selectMkb()" size="1">
+                              <select id="mySelect" class="form-control" name="mkb" onchange="selectMkb('tableMkb')" size="1">
                                 <option select class="form-control"ed="" disabled="">Выберите значение</option>
                                 <#if profileTab>
                                 <#list mkb10 as mkb>
@@ -589,6 +589,15 @@
                                     <th class="text-center regTd">Наименование</th>
                                     <th class="text-center removeTd"><i class="fas fa-trash-alt"></i></th>
                                   </tr>
+
+<#--                                  <tbody>-->
+<#--                                  <#list seriesOne.mkbs as mkb>-->
+<#--                                    <tr>-->
+<#--                                      <td>${mkb.value}</td>-->
+<#--                                      <th class="text-center removeTd"><i class="fas fa-trash-alt"></i></th>-->
+<#--                                    </tr>-->
+<#--                                  </#list>-->
+<#--                                  </tbody>-->
                                 </table>
                               </div>
 
@@ -769,7 +778,7 @@
                         <#if lectureFlag>
                         <option select class="form-control">Выберите образовательный трек</option>
                         <#else>
-                        <option select class="form-control">${lecture.getTrackName()}</option>
+                        <option select class="form-control" value="${lecture.getTrack().id}">${lecture.getTrackName()}</option>
                         </#if>
                         <#list tracks as track>
                           <option value="${track.id}">${track.trackName}</option>
@@ -783,7 +792,7 @@
                       <#if lectureFlag>
                       <option select class="form-control">Выберите образовательный модуль</option>
                       <#else>
-                      <option select class="form-control">${lecture.getSeriesName()}</option>
+                      <option select class="form-control" value="${lecture.getSeries().id}">${lecture.getSeriesName()}</option>
                       </#if>
                       <#list series as series>
                         <option value="${series.id}">${series.seriesName}</option>
@@ -903,14 +912,28 @@
 
                                 <div class="mt-10 mb-10">
                                   <b>Ось МКБ</b><br>
-                                  <select class="form-control" name="mkb" size="1">
+                                  <input type="text" id="myInputLec" class="form-control mt-10 mb-10" onkeyup="filterOptionsLec()" placeholder="Параметры поиска...">
+                                  <select id="mySelectLec" class="form-control" name="mkb" onchange="selectMkbLec('tableMkbLec')" size="1">
                                     <option select class="form-control"ed="" disabled="">Выберите значение</option>
-                                    <option value="Вентряная оспа">Вентряная оспа</option>
-                                    <option value="Воспаление">Воспаление</option>
-                                    <option value="Ожирение">Ожирение</option>
-                                    <option value="ИБС">ИБС</option>
+                                    <#if profileTab>
+                                      <#list mkb10 as mkb>
+                                        <option value="${mkb.id}">${mkb.code} ${mkb.name}</option>
+                                      </#list>
+                                    </#if>
                                   </select class="form-control">
+
+                                  <div>
+                                    <table class="table table-hover editable" id="tableMkbLec" name="tableMkbLec">
+                                      <tr>
+                                        <th class="text-center regTd">Наименование</th>
+                                        <th class="text-center removeTd"><i class="fas fa-trash-alt"></i></th>
+                                      </tr>
+
+                                    </table>
+                                  </div>
+
                                 </div>
+
 
                                 <div class="mt-10 mb-10">
                                   <b>Ось Дисциплин/учебный план</b><br>
@@ -1050,7 +1073,7 @@
         let mkb = new Mkb(text, null, savedSeries, null);
         mkbs.push(mkb);
 
-        let tableAuthor = document.getElementById('tableMkb');
+        let tableAuthor = document.getElementById(el);
 
         let divDoc = document.createElement('tr');
         divDoc.classList.add('divDoc');
@@ -1355,12 +1378,12 @@
     </script>
 
     <script>
-      function filterOptions() {
+      function filterOptionsLec() {
         // Получаем элементы
         var input, filter, select, option, i, txtValue;
-        input = document.getElementById("myInput");
+        input = document.getElementById("myInputLec");
         filter = input.value.toUpperCase();
-        select = document.getElementById("mySelect");
+        select = document.getElementById("mySelectLec");
         option = select.getElementsByTagName("option");
 
         // Проходим по всем опциям и скрываем те, которые не соответствуют поиску

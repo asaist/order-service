@@ -16,7 +16,8 @@ lectureForm.addEventListener('submit', (event) => {
         series,
         lectureName,
         lectureAnnotation,
-        lectureKeyWords
+        lectureKeyWords,
+        mkbs
     };
     if (savedLecture) {
         data.lectureId = savedLecture;

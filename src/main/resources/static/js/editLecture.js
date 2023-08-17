@@ -20,15 +20,96 @@ function getAuthorsForEditLecture(id) {
                     // Здесь можно добавить другие свойства автора, если они есть в объекте AuthorDto
                 };
             });
+            mkbs = data.mkbs.map(mkb => {
+                return {
+                    value: mkb.value
+                    // Здесь можно добавить другие свойства автора, если они есть в объекте AuthorDto
+                };
+            });
 
             // Используйте полученный ID нового трека для нужных действий на фронтенде
             console.log('Авторы трека', authors);
             savedLecture = id;
             drawAuthorTableLec(authors);
+            drawMkbTableLec(mkbs);
         })
         .catch(error => {
             console.error('Ошибка при отправке запроса:', error);
         });
+}
+
+function drawMkbTableLec(mkbs){
+
+    for (const mkb of mkbs) {
+        const index = mkbs.indexOf(mkb);
+        let tableMkb = document.getElementById('tableMkbLec');
+        let divDoc = document.createElement('tr');
+        divDoc.classList.add('divDoc');
+        tableMkb.append(divDoc);
+
+        let divDocTd = document.createElement('td');
+        divDocTd.setAttribute('colspan', '5');
+        divDoc.append(divDocTd);
+
+        let tr1 = document.createElement('table');
+        tr1.classList.add('w-100', 'tr1');
+        divDocTd.append(tr1);
+
+        let nameTr = document.createElement('tr');
+        tr1.append(nameTr);
+        let nameTd = document.createElement('td');
+        nameTd.classList.add('text-primary');
+        nameTd.textContent = mkb.value
+        nameTr.append(nameTd);
+
+        let removeTd = document.createElement('td');
+        removeTd.classList.add('removeTd', 'text-center');
+        nameTr.append(removeTd);
+        let close = document.createElement('i');
+        close.classList.add('fas', 'fa-times', 'text-danger');
+        close.setAttribute('id', 'removeAuthorFromTable');
+        // close.setAttribute('onclick', 'removeAuthorFromArray(this)');
+        close.setAttribute('mkbIndex', index.toString());
+        removeTd.append(close);
+    }
+}
+
+function selectMkbLec(el) {
+    let e = document.getElementById("mySelectLec");
+    let value = e.value;
+    let text = e.options[e.selectedIndex].text;
+    //let select = document.getElementById("select");
+    //let value = select.value;
+    let mkb = new Mkb(text, null, null, savedLecture);
+    mkbs.push(mkb);
+
+    let tableAuthor = document.getElementById(el);
+
+    let divDoc = document.createElement('tr');
+    divDoc.classList.add('divDoc');
+    tableAuthor.append(divDoc);
+
+    let divDocTd = document.createElement('td');
+    divDocTd.setAttribute('colspan', '5');
+    divDoc.append(divDocTd);
+
+    let tr1 = document.createElement('table');
+    tr1.classList.add('w-100', 'tr1');
+    divDocTd.append(tr1);
+
+    let nameTr = document.createElement('tr');
+    tr1.append(nameTr);
+    let nameTd = document.createElement('td');
+    nameTd.classList.add('text-primary', 'nameTd');
+    nameTd.textContent = text;
+    nameTr.append(nameTd);
+
+    let removeTd = document.createElement('td');
+    removeTd.classList.add('removeTd', 'text-center');
+    nameTr.append(removeTd);
+    let close = document.createElement('i');
+    close.classList.add('fas', 'fa-times', 'text-danger');
+    removeTd.append(close);
 }
 
 function drawAuthorTableLec(authors){

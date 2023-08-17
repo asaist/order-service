@@ -54,6 +54,8 @@ public class Lecture {
     private Series series;
     @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "lecture")
     private List<KeyWord> keyWords;
+    @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "lecture")
+    private List<Mkb> mkbs;
     @Transient
     private Long frontEndModule;
 

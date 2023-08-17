@@ -28,11 +28,19 @@ function getAuthorsForEditModule(id) {
                     lectureModuleAnnotation: lecture.lectureModuleAnnotation
                 };
             });
+            mkbs = data.mkbs.map(mkb => {
+                return {
+                    id: mkb.id,
+                    value: mkb.value
+                    // Здесь можно добавить другие свойства автора, если они есть в объекте AuthorDto
+                };
+            });
             // Используйте полученный ID нового трека для нужных действий на фронтенде
             console.log('Авторы трека', authors);
             savedSeries = id;
             drawAuthorTableMod(authors);
             drawModScheme(lectures);
+            drawMkbTableMod(mkbs);
         })
         .catch(error => {
             console.error('Ошибка при отправке запроса:', error);
@@ -87,6 +95,43 @@ function drawModScheme(lectures){
             btnClose();
         }
 
+}
+
+function drawMkbTableMod(mkbs){
+
+    for (const mkb of mkbs) {
+        const index = mkbs.indexOf(mkb);
+        let tableMkb = document.getElementById('tableMkb');
+        let divDoc = document.createElement('tr');
+        divDoc.classList.add('divDoc');
+        tableMkb.append(divDoc);
+
+        let divDocTd = document.createElement('td');
+        divDocTd.setAttribute('colspan', '5');
+        divDoc.append(divDocTd);
+
+        let tr1 = document.createElement('table');
+        tr1.classList.add('w-100', 'tr1');
+        divDocTd.append(tr1);
+
+        let nameTr = document.createElement('tr');
+        tr1.append(nameTr);
+        let nameTd = document.createElement('td');
+        nameTd.classList.add('text-primary');
+        nameTd.textContent = mkb.value
+        nameTr.append(nameTd);
+
+        let removeTd = document.createElement('td');
+        removeTd.classList.add('removeTd', 'text-center');
+        nameTr.append(removeTd);
+        let close = document.createElement('i');
+        close.classList.add('fas', 'fa-times', 'text-danger');
+        close.setAttribute('id', 'removeAuthorFromTable');
+        // close.setAttribute('onclick', 'removeAuthorFromArray(this)');
+        close.setAttribute('mkbIndex', index.toString());
+        removeTd.append(close);
+
+    }
 }
 
 function drawAuthorTableMod(authors){

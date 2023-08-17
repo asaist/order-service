@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import ru.mcclinics.orderservice.dto.EntityDto;
+import ru.mcclinics.orderservice.dto.MkbDto;
 
 import java.io.Serializable;
 
@@ -27,4 +28,12 @@ public class Mkb extends EntityDto implements Serializable {
     @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
     @JoinColumn(name = "lecture_id")
     private Lecture lecture;
+
+    public Mkb(MkbDto mkbDto) {
+        this.value = mkbDto.getValue();
+    }
+
+    public Mkb() {
+
+    }
 }
