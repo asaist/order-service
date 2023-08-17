@@ -4,7 +4,7 @@ function getAuthorsForEditModule(id) {
         .then(response => response.json())
         .then(data => {
 
-            authors = data.authors.map(author => {
+            moduleAuthors = data.authors.map(author => {
                 return {
                     id: author.id,
                     fullName: author.fullName,
@@ -36,9 +36,9 @@ function getAuthorsForEditModule(id) {
                 };
             });
             // Используйте полученный ID нового трека для нужных действий на фронтенде
-            console.log('Авторы трека', authors);
+            console.log('Авторы трека', moduleAuthors);
             savedSeries = id;
-            drawAuthorTableMod(authors);
+            drawAuthorTableMod(moduleAuthors);
             drawModScheme(lectures);
             drawMkbTableMod(mkbs);
         })
@@ -134,9 +134,9 @@ function drawMkbTableMod(mkbs){
     }
 }
 
-function drawAuthorTableMod(authors){
-    for (const author of authors) {
-        const index = authors.indexOf(author);
+function drawAuthorTableMod(moduleAuthors){
+    for (const author of moduleAuthors) {
+        const index = moduleAuthors.indexOf(author);
         let tableAuthor = document.getElementById('tableAuthorMod');
 
         let divDoc = document.createElement('tr');

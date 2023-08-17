@@ -4,7 +4,7 @@ function getAuthorsForEditLecture(id) {
         .then(response => response.json())
         .then(data => {
 
-            authors = data.authors.map(author => {
+            lectureAuthors = data.authors.map(author => {
                 return {
                     id: author.id,
                     fullName: author.fullName,
@@ -22,15 +22,16 @@ function getAuthorsForEditLecture(id) {
             });
             mkbs = data.mkbs.map(mkb => {
                 return {
+                    id : mkb.id,
                     value: mkb.value
                     // Здесь можно добавить другие свойства автора, если они есть в объекте AuthorDto
                 };
             });
 
             // Используйте полученный ID нового трека для нужных действий на фронтенде
-            console.log('Авторы трека', authors);
+            console.log('Авторы трека', lectureAuthors);
             savedLecture = id;
-            drawAuthorTableLec(authors);
+            drawAuthorTableLec(lectureAuthors);
             drawMkbTableLec(mkbs);
         })
         .catch(error => {
@@ -112,9 +113,9 @@ function selectMkbLec(el) {
     removeTd.append(close);
 }
 
-function drawAuthorTableLec(authors){
-    for (const author of authors) {
-        const index = authors.indexOf(author);
+function drawAuthorTableLec(lectureAuthors){
+    for (const author of lectureAuthors) {
+        const index = lectureAuthors.indexOf(author);
         let tableAuthor = document.getElementById('tableAuthorLec');
 
         let divDoc = document.createElement('tr');

@@ -30,6 +30,9 @@ public class Mkb extends EntityDto implements Serializable {
     private Lecture lecture;
 
     public Mkb(MkbDto mkbDto) {
+        if (mkbDto.getId() != null){
+            this.id = mkbDto.getId();
+        }
         this.value = mkbDto.getValue();
     }
 

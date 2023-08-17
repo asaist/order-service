@@ -10,13 +10,14 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 public class MkbDto extends EntityDto implements Serializable {
-    private String id;
+    private Long id;
     private String value;
     private String track;
     private String series;
     private String lecture;
 
     public MkbDto(Mkb mkb) {
+        this.id = mkb.getId();
         this.value = mkb.getValue();
     }
 }
