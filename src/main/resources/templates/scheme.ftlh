@@ -177,12 +177,14 @@
 
                 </div>
                 <div class="tab-pane fade show active h-100" id="pills-network-wired" role="tabpanel" aria-labelledby="pills-network-wired-tab" tabindex="0">
-                  <div class="my-3 rounded p-3" style="border: 1px solid #e9e9e9; background: #e9e9e9;">
-                    <div class="d-flex justify-content-end">
-                      <button type="button" class="btn btn-sm rounded px-3" style="border: 1px solid #e9e9e9" data-bs-toggle="modal" data-bs-target="#addContentModal"><i class="fas fa-plus"></i></button>
-                    </div>
-                    <div class="d-flex justify-content-center">
-                      <h5 id="trackHeading" class="text-center m-0 p-0 flex-nowrap w-75">Образовательный трек</h5>
+                  <div class="m-3 rounded p-3" style="border: 1px solid #e9e9e9; background: #e9e9e9;">
+                    <div class="row">
+                      <div class="col-md-11">
+                        <h5 class="text-center" id="trackHeading">Образовательный трек</h5>
+                      </div>
+                      <div class="col-md-1">
+                        <button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#addContentModal"><i class="fas fa-plus text-primary"></i></button>
+                      </div>
                     </div>
                   </div>
 
@@ -885,6 +887,17 @@
           </div>
         </div>
       </div>
+
+
+      <div class="hidden modalShowDocs" id="modalShowDocs">
+        <div class="modal-header">
+          <button type="button" class="btn"><i class="fas fa-times" onclick="closeModal()"></i></button>
+        </div>
+        <div id="modalShowDocsBody">
+
+        </div>
+      </div>
+      <div class="overlay hidden" id="overlay"></div>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
@@ -910,7 +923,14 @@
     <script src="../js/lecture.js"></script>
 
 
-
+    <script>
+      function closeModal() {
+        let modalShowDocs = document.getElementById('modalShowDocs');
+        modalShowDocs.classList.add('hidden');
+        let overlay = document.getElementById('overlay');
+        overlay.classList.add('hidden');
+      }
+    </script>
     <script>
 
       //изменить "редактировать" на "сохранить" у submit button для трека

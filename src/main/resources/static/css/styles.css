@@ -164,6 +164,9 @@ button {
 .fa-eye {
   margin-right: 5px;
 }
+.btn.btn-outline-primary .fa-eye {
+    margin-right: 0;
+}
 .cursor-pointer {
   cursor:pointer;
 }
@@ -417,6 +420,21 @@ tbody, td, tfoot, th, thead, tr {
     padding: 0px;
     margin: 0px;
 }
-/*input[type=file] {*/
-/*    display: none;*/
-/*}*/
+.modalShowDocs {
+    z-index: 5;
+    position: absolute;
+    top:10%;
+    left: 20%;
+    background: #fff;
+    width: 60%;
+    padding: 15px;
+    border-radius: 10px;
+    max-height: 85vh;
+}
+#modalShowDocs .modal-header {
+    justify-content: flex-end;
+    padding: 0px;
+}
+#tableAuthor .mb-10 {
+    padding: 10px;
+}

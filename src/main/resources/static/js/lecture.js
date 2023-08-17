@@ -924,8 +924,9 @@ function inputNameAuthorLecture() {
         sendAuthorDocs(author);
     });
     trDocPassport.append(btnUpload);
+
     let uploadIcon = document.createElement('i');
-    uploadIcon.classList.add('fas', 'fa-file-upload');
+    uploadIcon.classList.add('fas', 'fa-eye');
     btnUpload.append(uploadIcon);
 
     let diplom = document.createElement('div');
