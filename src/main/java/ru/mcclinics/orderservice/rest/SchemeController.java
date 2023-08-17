@@ -238,7 +238,7 @@ public class SchemeController {
 
         Track track = trackService.findTrackById(Long.parseLong(moduleRequestData.getTrack()));
         series.setTrack(track);
-        series.setKeyWords(keyWordList);
+//        series.setKeyWords(keyWordList);
 
         series.setCreateDate(LocalDateTime.now());
         series.setSeriesName(seriesName);

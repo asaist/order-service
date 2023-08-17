@@ -103,17 +103,23 @@ public class Lecture {
         this.series = series;
     }
     public Lecture(LectureDto lectureDto) {
+        if (lectureDto.getModuleId() != null){
+            this.id = lectureDto.getId();
+        }
+
         this.lectureName= lectureDto.getLectureModuleName();
         this.annotation = lectureDto.getLectureModuleAnnotation();
-
-        String[] strMain = lectureDto.getLectureModuleKeyWords().split(";");
-        List<KeyWord> keyWords = new ArrayList<>(strMain.length);
-        for (int i = 0; i < strMain.length; i++){
-            KeyWord keyWord = new KeyWord();
-            keyWord.setValue(strMain[i]);
-            keyWords.add(keyWord);
+        if (lectureDto.getLectureModuleKeyWords() != null){
+            String[] strMain = lectureDto.getLectureModuleKeyWords().split(";");
+            List<KeyWord> keyWords = new ArrayList<>(strMain.length);
+            for (int i = 0; i < strMain.length; i++){
+                KeyWord keyWord = new KeyWord();
+                keyWord.setValue(strMain[i]);
+                keyWords.add(keyWord);
+            }
+            this.keyWords = keyWords;
         }
-        this.keyWords = keyWords;
+
         System.out.println(lectureDto.getModuleId());
         if (lectureDto.getModuleId() != null) {
             this.frontEndModule = Long.valueOf(lectureDto.getModuleId());
