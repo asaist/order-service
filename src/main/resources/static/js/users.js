@@ -262,10 +262,9 @@ function selectAuthor(el) {
     deleteIcon.classList.add('fas', 'fa-times', 'text-danger');
     btnDeleteDoc.append(deleteIcon);
 
-    if (btnViewDoc)
-
     if (passportDB != null){
         btnViewDoc.classList.remove('hidden');
+        btnDeleteDoc.classList.remove('hidden');
         btnViewDoc.addEventListener('click', function() {
             fetch(`/pdf/${passportDB}`, {
                 method: 'GET',

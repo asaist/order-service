@@ -12,11 +12,6 @@
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/select2.min.css">
-
-<#--    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />-->
-<#--    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>-->
-
-
     <link rel="shortcut icon" href="#">
   </head>
   <body>
@@ -54,7 +49,6 @@
           </div>
         </div>
       </div>
-
 
       <div class="right-body">        
         <ul class="nav nav-pills" id="myTab" role="tablist">
@@ -210,30 +204,8 @@
 
                   <div class="d-flex rowScheme" id="rowScheme" style="position:relative;">
                     <div id="rowModule" class="d-flex flex-wrap">
-<#--                      <div class="mx-3">-->
-<#--                        <div class="bg-primary rounded p-3 d-flex">-->
-<#--                          <div class="col-11">-->
-<#--                            <p class="text-center text-white fs16 pb-0 mb-0">Модуль 1</p>-->
-<#--                          </div>-->
-<#--                          <div class="col-1">-->
-<#--                            <button type="button" class="btn btn-sm rounded"><i class="fas fa-plus text-white" onclick="addLecInModule(this)"></i></button>-->
-<#--                          </div>-->
-<#--                        </div>-->
-<#--                        <div class="d-flex justify-content-between my-2 rowLecInModule">-->
-<#--                          <div class="bg-success m-3 p-3 rounded lectureBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 1</p></div>-->
-<#--                          <div class="bg-success m-3 p-3 rounded lectureBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 2</p></div>-->
-<#--                          <div class="bg-success m-3 p-3 rounded lectureBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 3</p></div>-->
-<#--                        </div>-->
-<#--                      </div>-->
                     </div>
-
                     <div class="d-flex mx-2 flex-wrap" id="colLec">
-
-<#--                      <div class="bg-success mx-2 p-3 mb-1 rounded lectureBlockScheme lecBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 1 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p></div>-->
-<#--                      <div class="bg-success mx-2 p-3 mb-1 rounded lectureBlockScheme lecBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 2thgyluiuhgfghj sdafhkl;dsfatryiltrfdcvbnjkiuytf</p></div>-->
-<#--                      <div class="bg-success mx-2 p-3 mb-1 rounded lectureBlockScheme lecBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 3 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</p></div>-->
-
-
                     </div>
                   </div>
                   <div class="modal-footer">
@@ -252,7 +224,6 @@
                 </div>
                 <div class="modal-content">
                   <div class="modal-body">
-
                     <div>
                       <div class="d-flex justify-content-center">
                         <h5>Заявка на создание модуля</h5>
@@ -275,10 +246,8 @@
                           <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Дополнительные ключеные слова</b><br>
                           <textarea class="form-control" id="moduleModalKeyWords" name="module-annotation" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;"></textarea>
                         </div>
-
                       </div>
                     </div>
-
                   </div>
                   <div class="modal-footer">
                     <!-- Кнопка сохранить-->
@@ -338,7 +307,7 @@
                 </div>
               </div>
             </div>
-          <!-- Заявка на Лекцию всплывающая для дерева -->
+            <!-- Заявка на Лекцию всплывающая для дерева -->
             <div class="modal-wrapper">
               <div class="lectureModal shadow hidden" id="addLectureModal">
                 <div class="modal-header">
@@ -401,8 +370,7 @@
                             <option value="${track.id}">${track.trackName}</option>
                           </#list>
                         </#if>
-
-                      </select class="form-control">
+                      </select>
                     </div>
                     <div class="mb-10">
                       <input type="text" class="form-control mb-2" id="moduleSeriesName" oninput="updateTrackHeadingModuleSeries()" name="seriesName" placeholder="Название образовательного модуля">
@@ -432,7 +400,6 @@
 
                         <div class="d-flex" id="addRegalii">
                         </div>
-
                         <button type="button" class="btn btn-primary mt-3" id="createAuthorButtonModule">
                           <i class="fas fa-plus"></i>
                         </button>
@@ -565,14 +532,14 @@
                                   <option value="Брать кровь">Брать кровь</option>
                                   <option value="Писать">Писать</option>
                                   <option value="Проводить аускультацию">Проводить аускультацию</option>
-                                </select class="form-control">
+                                </select>
                                 <button type="button" class="btn btn-primary ml-10"><i class="fas fa-plus"></i></button>
                               </div>
                             </div>
                           </div>
                         </div>
                       </div>
-                    </div> 
+                    </div>
 
                     <div class="form-check mt-10 mb-10">
                         <input class="form-check-input" type="checkbox" onclick="subshootingModule()">
@@ -597,11 +564,9 @@
 
                   <div class="d-flex rowScheme" id="rowSchemeModuleSeries" style="position:relative;">
                     <div id="rowModuleSeries" class="d-flex flex-wrap">
-
                     </div>
 
                     <div class="d-flex mx-2 flex-wrap" id="colLecModule">
-
                     </div>
                   </div>
                   <div class="modal-footer">
@@ -809,7 +774,7 @@
                                     <option value="Биохимия">Биохимия</option>
                                     <option value="Диетолония">Диетолония</option>
                                     <option value="Фармакология">Фармакология</option>
-                                  </select class="form-control">
+                                  </select>
                                 </div>
                                 <div class="mt-10 mb-10">
                                   <b>Ось Локализации</b><br>
@@ -819,7 +784,7 @@
                                     <option value="Пищеватительная система">Пищеватительная система</option>
                                     <option value="Сердце">Сердце</option>
                                     <option value="Опорнодвигательная система">Опорнодвигательная система</option>
-                                  </select class="form-control">
+                                  </select>
                                 </div>
                                 <div class="mt-10 mb-10">
                                   <b>Ось Внешних факторов</b><br>
@@ -829,7 +794,7 @@
                                     <option value="Атмосферное давление">Атмосферное давление</option>
                                     <option value="Автомобиль">Автомобиль</option>
                                     <option value="Воздействие радиации">Воздействие радиации</option>
-                                  </select class="form-control">
+                                  </select>
                                 </div>
                                 <div class="mt-10 mb-10">
                                   <b>Ведение и состояния</b><br>
@@ -842,7 +807,7 @@
                                       <option value="Воздействие радиации">Диагностика</option>
                                       <option value="Атмосферное давление">Лечение</option>
                                       <option value="Автомобиль">Реабилитация</option>
-                                    </select class="form-control">
+                                    </select>
                                     <button type="button" class="btn btn-primary ml-10"><i class="fas fa-plus"></i></button>
                                   </div>
                                 </div>
@@ -855,7 +820,7 @@
                                       <option value="Брать кровь">Брать кровь</option>
                                       <option value="Писать">Писать</option>
                                       <option value="Проводить аускультацию">Проводить аускультацию</option>
-                                    </select class="form-control">
+                                    </select>
                                     <button type="button" class="btn btn-primary ml-10"><i class="fas fa-plus"></i></button>
                                   </div>
                                 </div>
@@ -878,23 +843,19 @@
                   <button type="submit" id="saveLectureL" class="btn btn-primary">Добавить лекцию</button>
                   <button type="submit" id="editLectureL" class="btn btn-primary hidden">Редактировать лекцию</button>
                 </div>
-
-
-
-                    </div>
+              </div>
               </form>
             </div>
           </div>
         </div>
       </div>
 
-
+      <!-- Модальное окно для просмотра паспорта автора-->
       <div class="hidden modalShowDocs" id="modalShowDocs">
         <div class="modal-header">
           <button type="button" class="btn"><i class="fas fa-times" onclick="closeModal()"></i></button>
         </div>
         <div id="modalShowDocsBody">
-
         </div>
       </div>
       <div class="overlay hidden" id="overlay"></div>
@@ -922,7 +883,6 @@
     <script src="../js/module.js"></script>
     <script src="../js/lecture.js"></script>
 
-
     <script>
       function closeModal() {
         let modalShowDocs = document.getElementById('modalShowDocs');
@@ -932,9 +892,7 @@
       }
     </script>
     <script>
-
       //изменить "редактировать" на "сохранить" у submit button для трека
-
       document.addEventListener("keyup", function(event) {
         let editTrack = document.getElementById('editTrack');
         if (!editTrack.classList.contains('hidden')){
@@ -948,7 +906,6 @@
           }
         }
       });
-
 
       function authorSamGMUModule() {
         let authorSamGMUModule = document.getElementById('authorSamGMUModule');
@@ -1071,10 +1028,6 @@
         // Другие действия по обработке отправки формы...
       }
 
-
-
-
-
       function selectReg(el) {
         let addRegalii = document.getElementById('addRegalii');
         let value = regalia.value;
@@ -1092,8 +1045,6 @@
         var tbl = el.parentElement.parentElement;
         tbl.rows[1].classList.toggle('hidden');
       }
-
-
 
       function removeAuthorFromArray(el) {
         var index = el.getAttribute("authorIndex");
@@ -1113,7 +1064,6 @@
         // redrawTable();
       };
 
-
       function setAuthorSupervisor(authorId) {
         console.log(authorId, 'authorId');
         for (let i = 0; i < authors.length; i++) {
@@ -1125,8 +1075,6 @@
           }
         }
       }
-
-
 
       //удаление текущего элемента
       $(document).on('click', '.badgeProf', function() {
@@ -1176,6 +1124,5 @@
         }
       }
     </script>
-
   </body>
 </html>
