@@ -324,6 +324,7 @@ tr.cursor-pointer:hover {
   height: 70px;
   width: 180px;
   position: relative;
+    justify-content: space-between;
 }
 .lectureBlockSchemeText {
   max-width: 150px;

@@ -123,54 +123,8 @@ function selectAuthor(el) {
     trDoc.append(tdDoc);
     let divViewDocPassport = document.createElement('div');
     tdDoc.append(divViewDocPassport);
-    /////
-    //загрузка из БД
-    ////
 
-  /*  if (passportDB != null){
-        let btnPassDB = document.createElement('button');
-        // btnPassDB.classList.add('btn', 'btn-primary', 'ml-10');
-        btnPassDB.classList.add('fas', 'fa-download', 'text-primary', 'mr-10');
-        btnPassDB.setAttribute('type', 'button');
-        btnPassDB.addEventListener('click', function() {
-            fetch(`/pdf/${passportDB}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/pdf'
-                }
-            })
-                .then(response => response.blob())
-                .then(blob => {
-                    const url = URL.createObjectURL(blob);
-                    btnPassDB.insertAdjacentHTML('afterend', `<iframe id="passportFrame" src="${url}" frameborder="0" height="500px" width="100%" />`);
-                    passport.classList.remove('hidden');
-                    closePasFrame.classList.remove('hidden');
-                })
-                .catch(error => console.error('Ошибка:', error));
-        });
-        btnPassDB.textContent = 'Открыть паспорт';
-        divViewDocPassport.append(btnPassDB);
-    }*/
-    // closePasFrame.classList.add('fas', 'fa-times', 'text-danger', 'hidden');
-   /* let closePasFrame = document.createElement('button');
-    closePasFrame.setAttribute('type', 'button');
-    closePasFrame.classList.add('ml-10', 'hidden');
-    closePasFrame.textContent = 'Закрыть паспорт';
-
-    closePasFrame.addEventListener('click', (event) => {
-        let iframe = document.getElementById("passportFrame");
-        iframe.style.display = 'none';
-        closePasFrame.classList.add('hidden');
-        passport.classList.add('hidden');
-    });
-    divViewDocPassport.append(closePasFrame);
-*/
     let passport = document.createElement('div');
-   /* if (passportDB === null){
-        passport.classList.add('mb-10');
-    } else {
-        passport.classList.add('mb-10', 'hidden');
-    }*/
     passport.classList.add('mb-10');
 
     divViewDocPassport.append(passport);
@@ -208,9 +162,7 @@ function selectAuthor(el) {
                 else {
                     elem.src=`${ev.target.result}`;
                 }
-
             }
-
             reader.readAsDataURL(file);
         })
         if (fileList.length > 0) {
@@ -245,6 +197,7 @@ function selectAuthor(el) {
     btnViewDoc.classList.add('btn', 'ml-10', 'btn-outline-primary', 'hidden');
     btnViewDoc.setAttribute('type', 'button');
     btnViewDoc.setAttribute('onclick', 'buttonShowPas()');
+    console.log("создали кнопку просмотра");
     trDocPassport.append(btnViewDoc);
 
     let viewIcon = document.createElement('i');
@@ -256,15 +209,16 @@ function selectAuthor(el) {
     btnDeleteDoc.classList.add('btn', 'ml-10', 'hidden');
     btnDeleteDoc.setAttribute('type', 'button');
     btnDeleteDoc.setAttribute('onclick', 'deleteDoc(this)');
-    trDocPassport.append(btnDeleteDoc);
-
+    //trDocPassport.append(btnDeleteDoc);
+    console.log("создали кнопку удаления123");
+    trDocPassport.insertAdjacentElement('beforeEnd', btnDeleteDoc);
     let deleteIcon = document.createElement('i');
     deleteIcon.classList.add('fas', 'fa-times', 'text-danger');
     btnDeleteDoc.append(deleteIcon);
 
     if (passportDB != null){
         btnViewDoc.classList.remove('hidden');
-        btnDeleteDoc.classList.remove('hidden');
+
         btnViewDoc.addEventListener('click', function() {
             fetch(`/pdf/${passportDB}`, {
                 method: 'GET',
@@ -288,7 +242,7 @@ function selectAuthor(el) {
                 })
                 .catch(error => console.error('Ошибка:', error));
         });
-        trDocPassport.append(btnViewDoc);
+        btnDeleteDoc.classList.remove('hidden');
     }
     //
 
