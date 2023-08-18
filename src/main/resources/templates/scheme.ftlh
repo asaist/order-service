@@ -154,17 +154,17 @@
                     <div class="my-4">
                       <b>Аннотация образовательного трека</b><br>
                       <#if profileTab>
-                        <textarea class="form-control editable" name="trackAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#" onclick="trackCheck()"></textarea>
+                        <textarea class="form-control editable" name="trackAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#" onclick="trackSignature()"></textarea>
                       <#else>
-                        <textarea class="form-control editable" name="trackAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#" onclick="trackCheck()">${track.annotation}</textarea>
+                        <textarea class="form-control editable" name="trackAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#" onclick="trackSignature()">${track.annotation}</textarea>
                       </#if>
                     </div>
                     <div class="my-4">
                       <b>Дополнительные ключевые слова</b> <br>
                       <#if profileTab>
-                        <textarea class="form-control editable" name="trackKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив их ;"></textarea>
+                        <textarea class="form-control editable" name="trackKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив их ;" onclick="trackCheck()"></textarea>
                       <#else>
-                        <textarea class="form-control editable" name="trackKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив их ;">${track.keyWords}</textarea>
+                        <textarea class="form-control editable" name="trackKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив их ;" onclick="trackCheck()">${track.keyWords}</textarea>
                       </#if>
                     </div>
                   </div>
@@ -946,11 +946,17 @@
       } 
 
       function trackCheck() {
-         let signature = document.getElementById('signature');
+        let signature = document.getElementById('signature');
         signature.classList.remove("bg-primary");
         signature.classList.add("bg-white");
         let iconSignature = document.getElementById('iconSignature');
-        iconSignature.classList.add('text-white');
+        iconSignature.classList.remove('text-white');
+        let check = document.getElementById('check');
+        check.classList.remove("bg-white");
+        check.classList.add("bg-success");
+        let iconCheck = document.getElementById('iconCheck');
+        iconCheck.classList.add('text-white');
+        iconCheck.style.transform = 'scale(1.3)';
       }
 
       function addManTrack() {
