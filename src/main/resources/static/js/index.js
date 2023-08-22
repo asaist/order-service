@@ -164,6 +164,9 @@ function addLectureInModuleBegin(el) {
 
 	saveElForLecInMod = el;
 }
+function addLectureInModuleN() {
+
+}
 
 let saveLectureInModule= document.getElementById('saveLectureInModule');
 saveLectureInModule.setAttribute('onclick', 'addLecInModule(saveElForLecInMod)');

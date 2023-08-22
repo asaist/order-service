@@ -1,6 +1,13 @@
+@font-face {
+    font-family: 'open sans';
+    src: url("fonts/OpenSans-Regular.ttf");
+}
 body {
-  font-family: 'Open Sans';
+    font-family: 'open sans';
   font-size: 14px;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
 }
 .fs16 {
   font-size: 16px;
@@ -164,6 +171,9 @@ button {
 .fa-eye {
   margin-right: 5px;
 }
+.btn.btn-outline-primary .fa-eye {
+    margin-right: 0;
+}
 .cursor-pointer {
   cursor:pointer;
 }
@@ -314,6 +324,7 @@ tr.cursor-pointer:hover {
   height: 70px;
   width: 180px;
   position: relative;
+    justify-content: space-between;
 }
 .lectureBlockSchemeText {
   max-width: 150px;
@@ -417,6 +428,21 @@ tbody, td, tfoot, th, thead, tr {
     padding: 0px;
     margin: 0px;
 }
-/*input[type=file] {*/
-/*    display: none;*/
-/*}*/
+.modalShowDocs {
+    z-index: 5;
+    position: absolute;
+    top:10%;
+    left: 20%;
+    background: #fff;
+    width: 60%;
+    padding: 15px;
+    border-radius: 10px;
+    max-height: 85vh;
+}
+#modalShowDocs .modal-header {
+    justify-content: flex-end;
+    padding: 0px;
+}
+#tableAuthor .mb-10 {
+    padding: 10px;
+}
