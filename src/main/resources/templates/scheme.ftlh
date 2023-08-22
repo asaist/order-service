@@ -1023,6 +1023,18 @@
       </div>
     </div>
 
+    <!-- Модальное окно для просмотра паспорта автора-->
+    <div class="hidden modalShowDocs" id="modalShowDocs">
+      <div class="modal-header">
+        <button type="button" class="btn"><i class="fas fa-times" onclick="closeModal()"></i></button>
+      </div>
+      <div id="modalShowDocsBody">
+      </div>
+    </div>
+    <div class="overlay hidden" id="overlay"></div>
+    </div>
+
+
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
     <script src="https://track.samsmu.ru/js/select2.min.js"></script>
     <script src="https://track.samsmu.ru/js/popper.min.js"></script>
@@ -1051,6 +1063,14 @@
     <script src="../js/editModule.js"></script>
     <script src="../js/editLecture.js"></script>
 
+    <script>
+      function closeModal() {
+        let modalShowDocs = document.getElementById('modalShowDocs');
+        modalShowDocs.classList.add('hidden');
+        let overlay = document.getElementById('overlay');
+        overlay.classList.add('hidden');
+      }
+    </script>
 
 
 

@@ -238,7 +238,7 @@ function selectAuthor(el) {
                     }
 
                     passport.classList.remove('hidden');
-                    closePasFrame.classList.remove('hidden');
+                    // closePasFrame.classList.remove('hidden');
                 })
                 .catch(error => console.error('Ошибка:', error));
         });
