@@ -1,8 +1,6 @@
 package ru.mcclinics.orderservice.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 import ru.mcclinics.orderservice.domain.Mkb;
 
 import java.io.Serializable;
@@ -11,6 +9,8 @@ import java.util.List;
 @Setter
 @Getter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class RequestData extends EntityDto implements Serializable {
     private String trackId;
     private String seriesId;

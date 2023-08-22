@@ -163,7 +163,7 @@ public class EmployeeDtoClientService {
         }
         return "employeeDtoList";
     }
-    @Scheduled(cron = "0 55 06 * * *")
+    @Scheduled(cron = "0 22 06 * * *")
     public void getEmployeeDto() throws JsonProcessingException {
 
         RestTemplate restTemplate = new RestTemplate();

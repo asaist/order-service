@@ -1,6 +1,7 @@
 package ru.mcclinics.orderservice.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.itextpdf.text.DocumentException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import ru.mcclinics.orderservice.domain.*;
 import ru.mcclinics.orderservice.dto.*;
 import ru.mcclinics.orderservice.service.*;
 
+import java.io.FileNotFoundException;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -31,6 +33,8 @@ public class SchemeController {
     private final SeriesService seriesService;
     private final AuthorService authorService;
     private final EntityDtoParamService entityDtoParamService;
+    private final PdfGenerator pdfGenertor;
+    private final DocumentProcessingService documentProcessingService;
 
 
     @GetMapping("/")
@@ -82,7 +86,7 @@ public class SchemeController {
 
     @PostMapping("/addTrack2")
     public ResponseEntity<TrackDto> addTrack(@RequestBody RequestData requestData
-    ){
+    ) throws DocumentException, FileNotFoundException, JsonProcessingException {
         Long trackId = null;
         Track track = new Track();
         if(requestData.getTrackId() != null){
@@ -177,6 +181,9 @@ public class SchemeController {
         lectureService.saveAll(lectures);
         keyWordRepository.saveAll(keyWordList);
         Iterable<Track> tracks = trackService.findTracks();
+        String greeting = "Вам направляется на согласование : http://localhost:8081/";
+        String base64 = pdfGenertor.generatePdf(greeting + "track/" + track.getId().toString());
+        documentProcessingService.launchProcess(base64);
         return ResponseEntity.ok(new TrackDto(track));
     }
 

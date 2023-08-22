@@ -143,7 +143,7 @@
                       <#if profileTab>
                         <option selected="" disabled="">Выберите институт</option>
                       <#else>
-                        <option selected="" disabled="">${track.universityName}</option>
+                        <option selected="" disabled="" value="${track.getUniversity().universityId}">${track.universityName}</option>
                       </#if>
                       <#list universities as university>
                         <option value="${university.universityId}">${university.universityName}</option>
