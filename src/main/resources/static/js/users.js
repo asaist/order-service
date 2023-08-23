@@ -260,63 +260,30 @@ function selectAuthor(el) {
     }
     //
 
-    let divViewDip = document.createElement('div');
-    tdDoc.append(divViewDip);
 
-    if (diplomaDB != null){
-        let btnDipDB = document.createElement('button');
-        // btnDipDB.classList.add('btn', 'btn-primary', 'ml-10');
-        btnDipDB.classList.add('fas', 'fa-download', 'text-primary', 'mr-10');
-        btnDipDB.setAttribute('type', 'button');
-        btnDipDB.addEventListener('click', function() {
-            fetch(`/pdf/${diplomaDB}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/pdf'
-                }
-            })
-                .then(response => response.blob())
-                .then(blob => {
-                    const url = URL.createObjectURL(blob);
-                    btnDipDB.insertAdjacentHTML('afterend', `<iframe src="${url}" id="diplomaFrame" frameborder="0" height="500px" width="100%" />`);
-                    diplom.classList.remove('hidden');
-                    closeDipFrame.classList.remove('hidden');
-                })
-                .catch(error => console.error('Ошибка:', error));
-        });
-        btnDipDB.textContent = 'Открыть диплом';
-        divViewDip.append(btnDipDB);
-    }
-    let closeDipFrame = document.createElement('button');
-    closeDipFrame.setAttribute('type', 'button');
-    closeDipFrame.classList.add('ml-10', 'hidden');
-    closeDipFrame.textContent = 'Закрыть диплом';
+    let divViewDocDiplom = document.createElement('div');
+    tdDoc.append(divViewDocDiplom);
 
-    closeDipFrame.addEventListener('click', (event) => {
-        let iframe = document.getElementById("diplomaFrame");
-        iframe.style.display = 'none';
-        closeDipFrame.classList.add('hidden');
-        diplom.classList.add('hidden');
-    });
-    divViewDip.append(closeDipFrame);
     let diplom = document.createElement('div');
-    if (diplomaDB === null){
-        diplom.classList.add('mb-10');
-    } else {
-        diplom.classList.add('mb-10', 'hidden');
-    }
-    divViewDip.append(diplom);
+    diplom.classList.add('mb-10');
+
+    divViewDocDiplom.append(diplom);
     let diplomLabel = document.createElement('b');
-    diplomLabel.textContent = 'Загрузите диплом о в/о';
+    diplomLabel.textContent = 'Загрузите диплом';
     diplom.append(diplomLabel);
     let brDip = document.createElement('br');
     diplomLabel.append(brDip);
     let trDocDiplom = document.createElement('div');
     trDocDiplom.classList.add('d-flex');
     diplom.append(trDocDiplom);
+
     let diplomInput = document.createElement('input');
     diplomInput.classList.add('form-control', 'mr-10', 'w-75');
     diplomInput.setAttribute('type', 'file');
+    diplomInput.setAttribute('id', 'file-input');
+    // passportInput.setAttribute('multiple placeholder', '1');
+    // let modalShowDocsBody = document.getElementById('modalShowDocsBody');
+
     diplomInput.addEventListener('change', function(event) {
         const fileList = event.target.files; // Получаем список выбранных файлов
 
@@ -329,7 +296,17 @@ function selectAuthor(el) {
             const reader = new FileReader();
             reader.onload = ev => {
                 console.log(ev.target.result);
-                diplomInput.insertAdjacentHTML('afterend', `<iframe src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`)
+                let elemDB = document.getElementById('passportFrame');
+                if (elemDB != null){
+                    elemDB.classList.add('hidden');
+                }
+                let elem = document.getElementById('xyz');
+                if (elem === null) {
+                    modalShowDocsBody.insertAdjacentHTML('beforeEnd', `<iframe id="xyz" src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`);
+                }
+                else {
+                    elem.src=`${ev.target.result}`;
+                }
             }
             reader.readAsDataURL(file);
         })
@@ -344,13 +321,84 @@ function selectAuthor(el) {
     let btnUploadDip = document.createElement('button');
     btnUploadDip.classList.add('btn', 'btn-primary', 'ml-10');
     btnUploadDip.setAttribute('type', 'button');
+    btnUploadDip.setAttribute('id', author.id);
+    btnUploadDip.setAttribute('fullName', author.fullName);
+    btnUploadDip.setAttribute('passport', author.diploma);
+    // btnUpload.setAttribute('onclick', 'sendAuthorDocs(this)');
     btnUploadDip.addEventListener('click', function() {
         sendAuthorDocs(author);
+        sendAuthorDocsUploadIcon(this);
     });
     trDocDiplom.append(btnUploadDip);
+
     let uploadIconDip = document.createElement('i');
     uploadIconDip.classList.add('fas', 'fa-file-upload');
+    /* uploadIcon.setAttribute('onclick', 'sendAuthorDocsUploadIcon(this)');*/
     btnUploadDip.append(uploadIconDip);
+
+    // Просмотр загруженного документа
+    let btnViewDocDip = document.createElement('button');
+    btnViewDocDip.classList.add('btn', 'ml-10', 'btn-outline-primary', 'hidden');
+    btnViewDocDip.setAttribute('type', 'button');
+    btnViewDocDip.setAttribute('onclick', 'buttonShowPas()');
+    console.log("создали кнопку просмотра");
+    trDocDiplom.append(btnViewDocDip);
+
+    let viewIconDip = document.createElement('i');
+    viewIconDip.classList.add('fas', 'fa-eye');
+    btnViewDocDip.append(viewIconDip);
+
+    // Кнопка удаления загруженного документа
+    let btnDeleteDocDip = document.createElement('button');
+    btnDeleteDocDip.classList.add('btn', 'ml-10', 'hidden');
+    btnDeleteDocDip.setAttribute('type', 'button');
+    btnDeleteDocDip.setAttribute('onclick', 'deleteDoc(this)');
+    btnDeleteDocDip.setAttribute('document', 'diplomaDB');
+    btnDeleteDocDip.setAttribute('author', author.id.toString());
+    if (diplomaDB != null){
+        btnDeleteDocDip.setAttribute('filename', diplomaDB.toString());
+    }
+
+
+    //trDocPassport.append(btnDeleteDoc);
+    console.log("создали кнопку удаления диплома");
+    trDocDiplom.insertAdjacentElement('beforeEnd', btnDeleteDocDip);
+    let deleteIconDip = document.createElement('i');
+    deleteIconDip.classList.add('fas', 'fa-times', 'text-danger');
+    btnDeleteDocDip.append(deleteIconDip);
+
+    if (diplomaDB != null){
+
+        btnViewDocDip.classList.remove('hidden');
+
+        btnViewDocDip.addEventListener('click', function() {
+            fetch(`/pdf/${diplomaDB}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/pdf'
+                }
+            })
+                .then(response => response.blob())
+                .then(blob => {
+                    btnViewDocDip.classList.remove('hidden');
+                    const url = URL.createObjectURL(blob);
+                    // let elemInput = document.getElementById('xyz');
+                    // elemInput.classList.add('hidden');
+                    let elem = document.getElementById('passportFrame');
+                    if (elem === null) {
+                        modalShowDocsBody.insertAdjacentHTML('afterend', `<iframe id="passportFrame" src="${url}" frameborder="0" height="500px" width="100%" />`);
+                    } else {
+                        elem.src = `${url}`;
+                    }
+
+                    diplom.classList.remove('hidden');
+                    // closePasFrame.classList.remove('hidden');
+                })
+                .catch(error => console.error('Ошибка:', error));
+        });
+        btnDeleteDocDip.classList.remove('hidden');
+    }
+    //
 
     let divViewRank = document.createElement('div');
     tdDoc.append(divViewRank);

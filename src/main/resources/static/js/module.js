@@ -455,6 +455,7 @@ function selectAuthorModule(el) {
         sendAuthorDocs(author);
     });
     trDocDiplom.append(btnUploadDip);
+
     let uploadIconDip = document.createElement('i');
     uploadIconDip.classList.add('fas', 'fa-file-upload');
     btnUploadDip.append(uploadIconDip);
