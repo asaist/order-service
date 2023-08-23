@@ -19,6 +19,7 @@ public interface AuthorRepository extends JpaRepository<Author, Long> {
     List<Author> findAuthorByAuthorIdIn(List<Long> authors);
     @Query("SELECT a FROM Author a WHERE LOWER(CONCAT(a.lastName, ' ', a.firstName)) LIKE %:name%")
     Slice<Author> findByFullNameContainingIgnoreCase(@Param("name")String query, Pageable pageable);
+    Author findAuthorByPassportPdf(String document);
 
 //    Slice<Author> findByNameContainingIgnoreCase(String query, Pageable pageable);
 }

@@ -6,10 +6,9 @@ import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import ru.mcclinics.orderservice.domain.Author;
+import ru.mcclinics.orderservice.service.AuthorService;
 import ru.mcclinics.orderservice.service.PdfGenerator;
 
 import java.io.FileNotFoundException;
@@ -24,8 +23,10 @@ public class PdfController {
     @Value("${files.upload.baseDir}")
     private String uploadPath;
     private final PdfGenerator pdfGenerator;
-    public PdfController(PdfGenerator pdfGenerator) {
+    private final AuthorService authorService;
+    public PdfController(PdfGenerator pdfGenerator, AuthorService authorService) {
         this.pdfGenerator = pdfGenerator;
+        this.authorService = authorService;
     }
 
     @GetMapping("/pdf/{filename}")
@@ -40,6 +41,23 @@ public class PdfController {
                 .headers(headers)
                 .body(resource);
     }
+
+    @DeleteMapping("/pdf/{id}/{document}/{filename}")
+    public ResponseEntity<String> deletePdf(@PathVariable String id,
+                                            @PathVariable String document,
+                                            @PathVariable String filename
+    ) throws IOException {
+        Author author = authorService.findAuthorById(Long.parseLong(id));
+        if (document.equals("passportDB")){
+            author.setPassportPdf(null);
+        }
+        Path filePath = Paths.get(uploadPath + filename);
+        Files.delete(filePath);
+        authorService.create(author);
+        return ResponseEntity.ok("файл удален");
+
+    }
+
 
     @GetMapping("/generate-pdf")
     public String generatePdf(@RequestParam String text,

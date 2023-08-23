@@ -141,6 +141,7 @@ function selectAuthor(el) {
     passportInput.classList.add('form-control', 'mr-10', 'w-75');
     passportInput.setAttribute('type', 'file');
     passportInput.setAttribute('id', 'file-input');
+    // passportInput.setAttribute('multiple placeholder', '1');
     let modalShowDocsBody = document.getElementById('modalShowDocsBody');
 
     passportInput.addEventListener('change', function(event) {
@@ -155,6 +156,10 @@ function selectAuthor(el) {
             const reader = new FileReader();
             reader.onload = ev => {
                 console.log(ev.target.result);
+                let elemDB = document.getElementById('passportFrame');
+                if (elemDB != null){
+                    elemDB.classList.add('hidden');
+                }
                 let elem = document.getElementById('xyz');
                 if (elem === null) {
                     modalShowDocsBody.insertAdjacentHTML('beforeEnd', `<iframe id="xyz" src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`);
@@ -171,7 +176,6 @@ function selectAuthor(el) {
             author.passport = file; // Присваиваем файл свойству passport объекта author
         }
     });
-
     trDocPassport.append(passportInput);
 
     let btnUpload = document.createElement('button');
@@ -209,6 +213,13 @@ function selectAuthor(el) {
     btnDeleteDoc.classList.add('btn', 'ml-10', 'hidden');
     btnDeleteDoc.setAttribute('type', 'button');
     btnDeleteDoc.setAttribute('onclick', 'deleteDoc(this)');
+    btnDeleteDoc.setAttribute('document', 'passportDB');
+    btnDeleteDoc.setAttribute('author', author.id.toString());
+    if (passportDB != null){
+        btnDeleteDoc.setAttribute('filename', passportDB.toString());
+    }
+
+
     //trDocPassport.append(btnDeleteDoc);
     console.log("создали кнопку удаления123");
     trDocPassport.insertAdjacentElement('beforeEnd', btnDeleteDoc);
@@ -217,6 +228,7 @@ function selectAuthor(el) {
     btnDeleteDoc.append(deleteIcon);
 
     if (passportDB != null){
+
         btnViewDoc.classList.remove('hidden');
 
         btnViewDoc.addEventListener('click', function() {
@@ -230,6 +242,8 @@ function selectAuthor(el) {
                 .then(blob => {
                     btnViewDoc.classList.remove('hidden');
                     const url = URL.createObjectURL(blob);
+                    // let elemInput = document.getElementById('xyz');
+                    // elemInput.classList.add('hidden');
                     let elem = document.getElementById('passportFrame');
                     if (elem === null) {
                         modalShowDocsBody.insertAdjacentHTML('afterend', `<iframe id="passportFrame" src="${url}" frameborder="0" height="500px" width="100%" />`);
@@ -1300,15 +1314,15 @@ function displayPdfAsImage(pdfFile) {
         modalShowDocs.classList.remove('hidden');
         let overlay = document.getElementById('overlay');
         overlay.classList.remove('hidden');
-        files.forEach(file => {
-            const reader = new FileReader();
-            reader.onload = ev => {
-                console.log(ev.target.result);
-                passportInput.insertAdjacentHTML('afterend', `<iframe src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`);
-            }
-
-            reader.readAsDataURL(file);
-        })
+        // files.forEach(file => {
+        //     const reader = new FileReader();
+        //     reader.onload = ev => {
+        //         console.log(ev.target.result);
+        //         passportInput.insertAdjacentHTML('afterend', `<iframe src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`);
+        //     }
+        //
+        //     reader.readAsDataURL(file);
+        // })
     }
     function sendAuthorDocsUploadIcon(el) {
        let btnViewDoc = el.nextElementSibling;
@@ -1321,4 +1335,25 @@ function displayPdfAsImage(pdfFile) {
         let deleteDoc = el.previousElementSibling;
         deleteDoc.classList.add('hidden');
         el.classList.add('hidden');
+
+        let id = el.getAttribute('author');
+        let document = el.getAttribute('document');
+        let filename = el.getAttribute('filename');
+
+        fetch(`/pdf/${id}/${document}/${filename}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/pdf'
+            }
+        }).then(response => {
+            if (response.ok) {
+                // Документ успешно удален
+            } else {
+                // Возникла ошибка при удалении документа
+            }
+        }).catch(error => {
+            // Возникла ошибка при выполнении запроса
+        });
+
+
     }

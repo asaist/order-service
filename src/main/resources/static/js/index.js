@@ -20,8 +20,8 @@ function authorSamGMULecture() {
 $(document).ready(function() {
 	$(".js-data-example-ajax").select2({
 		ajax: {
-			url: "https://track.samsmu.ru/api/author/authors",
-			// url: "http://localhost:8081/api/author/authors",
+			// url: "https://track.samsmu.ru/api/author/authors",
+			url: "http://localhost:8081/api/author/authors",
 			type: 'GET',
 			dataType: 'json',
 			delay: 250,

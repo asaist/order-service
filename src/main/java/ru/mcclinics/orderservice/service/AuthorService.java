@@ -45,4 +45,5 @@ public class AuthorService {
     public Author create(Author author) {
         return authorRepository.save(author);
     }
+    public Author findAuthorByPassportPdf(String document) {return authorRepository.findAuthorByPassportPdf(document);}
 }
