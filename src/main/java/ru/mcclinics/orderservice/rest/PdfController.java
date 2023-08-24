@@ -55,9 +55,7 @@ public class PdfController {
         Files.delete(filePath);
         authorService.create(author);
         return ResponseEntity.ok("файл удален");
-
     }
-
 
     @GetMapping("/generate-pdf")
     public String generatePdf(@RequestParam String text,

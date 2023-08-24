@@ -400,63 +400,29 @@ function selectAuthor(el) {
     }
     //
 
-    let divViewRank = document.createElement('div');
-    tdDoc.append(divViewRank);
+    let divViewDocRank = document.createElement('div');
+    tdDoc.append(divViewDocRank);
 
-    if (diplomaScienceRankDB != null){
-        let btnRnkDB = document.createElement('button');
-        // btnRnkDB.classList.add('btn', 'btn-primary', 'ml-10');
-        btnRnkDB.classList.add('fas', 'fa-download', 'text-primary', 'mr-10');
-        btnRnkDB.setAttribute('type', 'button');
-        btnRnkDB.addEventListener('click', function() {
-            fetch(`/pdf/${diplomaScienceRankDB}`, {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/pdf'
-                }
-            })
-                .then(response => response.blob())
-                .then(blob => {
-                    const url = URL.createObjectURL(blob);
-                    btnRnkDB.insertAdjacentHTML('afterend', `<iframe src="${url}" id="rankFrame" frameborder="0" height="500px" width="100%" />`);
-                    rank.classList.remove('hidden');
-                    closeRankFrame.classList.remove('hidden');
-                })
-                .catch(error => console.error('Ошибка:', error));
-        });
-        btnRnkDB.textContent = 'Открыть диплом о научном звании';
-        divViewRank.append(btnRnkDB);
-    }
-    let closeRankFrame = document.createElement('button');
-    closeRankFrame.setAttribute('type', 'button');
-    closeRankFrame.classList.add('ml-10', 'hidden');
-    closeRankFrame.textContent = 'Закрыть диплом о научном звании';
-
-    closeRankFrame.addEventListener('click', (event) => {
-        let iframe = document.getElementById("rankFrame");
-        iframe.style.display = 'none';
-        closeRankFrame.classList.add('hidden');
-        rank.classList.add('hidden');
-    });
-    divViewRank.append(closeRankFrame);
     let rank = document.createElement('div');
-    if (diplomaScienceRankDB === null){
-        rank.classList.add('mb-10');
-    } else {
-        rank.classList.add('mb-10', 'hidden');
-    }
-    divViewRank.append(rank);
+    rank.classList.add('mb-10');
+
+    divViewDocRank.append(rank);
     let rankLabel = document.createElement('b');
-    rankLabel.textContent = 'Загрузите диплом о научном звании';
+    rankLabel.textContent = 'Загрузите ранк';
     rank.append(rankLabel);
     let brRank = document.createElement('br');
     rankLabel.append(brRank);
     let trDocRank = document.createElement('div');
     trDocRank.classList.add('d-flex');
     rank.append(trDocRank);
+
     let rankInput = document.createElement('input');
     rankInput.classList.add('form-control', 'mr-10', 'w-75');
     rankInput.setAttribute('type', 'file');
+    rankInput.setAttribute('id', 'file-input');
+    // passportInput.setAttribute('multiple placeholder', '1');
+    // let modalShowDocsBody = document.getElementById('modalShowDocsBody');
+
     rankInput.addEventListener('change', function(event) {
         const fileList = event.target.files; // Получаем список выбранных файлов
 
@@ -469,7 +435,17 @@ function selectAuthor(el) {
             const reader = new FileReader();
             reader.onload = ev => {
                 console.log(ev.target.result);
-                rankInput.insertAdjacentHTML('afterend', `<iframe src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`)
+                let elemDB = document.getElementById('passportFrame');
+                if (elemDB != null){
+                    elemDB.classList.add('hidden');
+                }
+                let elem = document.getElementById('xyz');
+                if (elem === null) {
+                    modalShowDocsBody.insertAdjacentHTML('beforeEnd', `<iframe id="xyz" src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`);
+                }
+                else {
+                    elem.src=`${ev.target.result}`;
+                }
             }
             reader.readAsDataURL(file);
         })
@@ -480,27 +456,62 @@ function selectAuthor(el) {
         }
     });
     trDocRank.append(rankInput);
+
     let btnUploadRank = document.createElement('button');
     btnUploadRank.classList.add('btn', 'btn-primary', 'ml-10');
     btnUploadRank.setAttribute('type', 'button');
+    btnUploadRank.setAttribute('id', author.id);
+    btnUploadRank.setAttribute('fullName', author.fullName);
+    btnUploadRank.setAttribute('passport', author.diplomaScienceRank);
+    // btnUpload.setAttribute('onclick', 'sendAuthorDocs(this)');
     btnUploadRank.addEventListener('click', function() {
         sendAuthorDocs(author);
+        sendAuthorDocsUploadIcon(this);
     });
     trDocRank.append(btnUploadRank);
+
     let uploadIconRank = document.createElement('i');
     uploadIconRank.classList.add('fas', 'fa-file-upload');
+    /* uploadIcon.setAttribute('onclick', 'sendAuthorDocsUploadIcon(this)');*/
     btnUploadRank.append(uploadIconRank);
 
-    let divViewDegree = document.createElement('div');
-    tdDoc.append(divViewDegree);
+    // Просмотр загруженного документа
+    let btnViewDocRank = document.createElement('button');
+    btnViewDocRank.classList.add('btn', 'ml-10', 'btn-outline-primary', 'hidden');
+    btnViewDocRank.setAttribute('type', 'button');
+    btnViewDocRank.setAttribute('onclick', 'buttonShowPas()');
+    console.log("создали кнопку просмотра");
+    trDocRank.append(btnViewDocRank);
 
-    if (diplomaScienceDegreeDB != null){
-        let btnDegreeDB = document.createElement('button');
-        // btnDegreeDB.classList.add('btn', 'btn-primary', 'ml-10');
-        btnDegreeDB.classList.add('fas', 'fa-download', 'text-primary', 'mr-10');
-        btnDegreeDB.setAttribute('type', 'button');
-        btnDegreeDB.addEventListener('click', function() {
-            fetch(`/pdf/${diplomaScienceDegreeDB}`, {
+    let viewIconRank = document.createElement('i');
+    viewIconRank.classList.add('fas', 'fa-eye');
+    btnViewDocRank.append(viewIconRank);
+
+    // Кнопка удаления загруженного документа
+    let btnDeleteDocRank = document.createElement('button');
+    btnDeleteDocRank.classList.add('btn', 'ml-10', 'hidden');
+    btnDeleteDocRank.setAttribute('type', 'button');
+    btnDeleteDocRank.setAttribute('onclick', 'deleteDoc(this)');
+    btnDeleteDocRank.setAttribute('document', 'diplomaScienceRankDB');
+    btnDeleteDocRank.setAttribute('author', author.id.toString());
+    if (diplomaScienceRankDB != null){
+        btnDeleteDocRank.setAttribute('filename', diplomaScienceRankDB.toString());
+    }
+
+
+    //trDocPassport.append(btnDeleteDoc);
+    console.log("создали кнопку удаления диплома");
+    trDocRank.insertAdjacentElement('beforeEnd', btnDeleteDocRank);
+    let deleteIconRank = document.createElement('i');
+    deleteIconRank.classList.add('fas', 'fa-times', 'text-danger');
+    btnDeleteDocRank.append(deleteIconRank);
+
+    if (diplomaScienceRankDB != null){
+
+        btnViewDocRank.classList.remove('hidden');
+
+        btnViewDocRank.addEventListener('click', function() {
+            fetch(`/pdf/${diplomaScienceRankDB}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/pdf'
@@ -508,46 +519,49 @@ function selectAuthor(el) {
             })
                 .then(response => response.blob())
                 .then(blob => {
+                    btnViewDocRank.classList.remove('hidden');
                     const url = URL.createObjectURL(blob);
-                    btnDegreeDB.insertAdjacentHTML('afterend', `<iframe src="${url}" id="degreeFrame" frameborder="0" height="500px" width="100%" />`);
-                    degree.classList.remove('hidden');
-                    closeDegreeFrame.classList.remove('hidden');
+                    // let elemInput = document.getElementById('xyz');
+                    // elemInput.classList.add('hidden');
+                    let elem = document.getElementById('passportFrame');
+                    if (elem === null) {
+                        modalShowDocsBody.insertAdjacentHTML('afterend', `<iframe id="passportFrame" src="${url}" frameborder="0" height="500px" width="100%" />`);
+                    } else {
+                        elem.src = `${url}`;
+                    }
+
+                    rank.classList.remove('hidden');
+                    // closePasFrame.classList.remove('hidden');
                 })
                 .catch(error => console.error('Ошибка:', error));
         });
-        btnDegreeDB.textContent = 'Открыть диплом о научной степени';
-        divViewDegree.append(btnDegreeDB);
+        btnDeleteDocRank.classList.remove('hidden');
     }
-    let closeDegreeFrame = document.createElement('button');
-    closeDegreeFrame.setAttribute('type', 'button');
-    closeDegreeFrame.classList.add('ml-10', 'hidden');
-    closeDegreeFrame.textContent = 'Закрыть диплом о научной степени';
+    //
 
-    closeDegreeFrame.addEventListener('click', (event) => {
-        let iframe = document.getElementById("degreeFrame");
-        iframe.style.display = 'none';
-        closeDegreeFrame.classList.add('hidden');
-        degree.classList.add('hidden');
-    });
-    divViewDegree.append(closeDegreeFrame);
+    let divViewDegree = document.createElement('div');
+    tdDoc.append(divViewDegree);
+
     let degree = document.createElement('div');
-    if (diplomaScienceDegreeDB === null){
-        degree.classList.add('mb-10');
-    } else {
-        degree.classList.add('mb-10', 'hidden');
-    }
+    degree.classList.add('mb-10');
+
     divViewDegree.append(degree);
     let degreeLabel = document.createElement('b');
-    degreeLabel.textContent = 'Загрузите диплом о научной степени';
+    degreeLabel.textContent = 'Загрузите диплом';
     degree.append(degreeLabel);
     let brDegree = document.createElement('br');
     degreeLabel.append(brDegree);
     let trDocDegree = document.createElement('div');
     trDocDegree.classList.add('d-flex');
     degree.append(trDocDegree);
+
     let degreeInput = document.createElement('input');
     degreeInput.classList.add('form-control', 'mr-10', 'w-75');
     degreeInput.setAttribute('type', 'file');
+    degreeInput.setAttribute('id', 'file-input');
+    // passportInput.setAttribute('multiple placeholder', '1');
+    // let modalShowDocsBody = document.getElementById('modalShowDocsBody');
+
     degreeInput.addEventListener('change', function(event) {
         const fileList = event.target.files; // Получаем список выбранных файлов
 
@@ -560,7 +574,17 @@ function selectAuthor(el) {
             const reader = new FileReader();
             reader.onload = ev => {
                 console.log(ev.target.result);
-                degreeInput.insertAdjacentHTML('afterend', `<iframe src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`)
+                let elemDB = document.getElementById('passportFrame');
+                if (elemDB != null){
+                    elemDB.classList.add('hidden');
+                }
+                let elem = document.getElementById('xyz');
+                if (elem === null) {
+                    modalShowDocsBody.insertAdjacentHTML('beforeEnd', `<iframe id="xyz" src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`);
+                }
+                else {
+                    elem.src=`${ev.target.result}`;
+                }
             }
             reader.readAsDataURL(file);
         })
@@ -571,27 +595,62 @@ function selectAuthor(el) {
         }
     });
     trDocDegree.append(degreeInput);
+
     let btnUploadDegree = document.createElement('button');
     btnUploadDegree.classList.add('btn', 'btn-primary', 'ml-10');
     btnUploadDegree.setAttribute('type', 'button');
+    btnUploadDegree.setAttribute('id', author.id);
+    btnUploadDegree.setAttribute('fullName', author.fullName);
+    btnUploadDegree.setAttribute('passport', author.diplomaScienceDegree);
+    // btnUpload.setAttribute('onclick', 'sendAuthorDocs(this)');
     btnUploadDegree.addEventListener('click', function() {
         sendAuthorDocs(author);
+        sendAuthorDocsUploadIcon(this);
     });
     trDocDegree.append(btnUploadDegree);
+
     let uploadIconDegree = document.createElement('i');
     uploadIconDegree.classList.add('fas', 'fa-file-upload');
+    /* uploadIcon.setAttribute('onclick', 'sendAuthorDocsUploadIcon(this)');*/
     btnUploadDegree.append(uploadIconDegree);
 
-    let divViewCriminal = document.createElement('div');
-    tdDoc.append(divViewCriminal);
+    // Просмотр загруженного документа
+    let btnViewDocDegree = document.createElement('button');
+    btnViewDocDegree.classList.add('btn', 'ml-10', 'btn-outline-primary', 'hidden');
+    btnViewDocDegree.setAttribute('type', 'button');
+    btnViewDocDegree.setAttribute('onclick', 'buttonShowPas()');
+    console.log("создали кнопку просмотра");
+    trDocDegree.append(btnViewDocDegree);
 
-    if (noCriminalRecordDB != null){
-        let btnCriminalDB = document.createElement('button');
-        // btnCriminalDB.classList.add('btn', 'btn-primary', 'ml-10');
-        btnCriminalDB.classList.add('fas', 'fa-download', 'text-primary', 'mr-10');
-        btnCriminalDB.setAttribute('type', 'button');
-        btnCriminalDB.addEventListener('click', function() {
-            fetch(`/pdf/${noCriminalRecordDB}`, {
+    let viewIconDegree = document.createElement('i');
+    viewIconDegree.classList.add('fas', 'fa-eye');
+    btnViewDocDegree.append(viewIconDegree);
+
+    // Кнопка удаления загруженного документа
+    let btnDeleteDocDegree = document.createElement('button');
+    btnDeleteDocDegree.classList.add('btn', 'ml-10', 'hidden');
+    btnDeleteDocDegree.setAttribute('type', 'button');
+    btnDeleteDocDegree.setAttribute('onclick', 'deleteDoc(this)');
+    btnDeleteDocDegree.setAttribute('document', 'diplomaScienceDegreeDB');
+    btnDeleteDocDegree.setAttribute('author', author.id.toString());
+    if (diplomaScienceDegreeDB != null){
+        btnDeleteDocDegree.setAttribute('filename', diplomaScienceDegreeDB.toString());
+    }
+
+
+    //trDocPassport.append(btnDeleteDoc);
+    console.log("создали кнопку удаления диплома");
+    trDocDegree.insertAdjacentElement('beforeEnd', btnDeleteDocDegree);
+    let deleteIconDegree = document.createElement('i');
+    deleteIconDegree.classList.add('fas', 'fa-times', 'text-danger');
+    btnDeleteDocDegree.append(deleteIconDegree);
+
+    if (diplomaScienceDegreeDB != null){
+
+        btnViewDocDegree.classList.remove('hidden');
+
+        btnViewDocDegree.addEventListener('click', function() {
+            fetch(`/pdf/${diplomaScienceDegreeDB}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/pdf'
@@ -599,34 +658,32 @@ function selectAuthor(el) {
             })
                 .then(response => response.blob())
                 .then(blob => {
+                    btnViewDocDegree.classList.remove('hidden');
                     const url = URL.createObjectURL(blob);
-                    btnCriminalDB.insertAdjacentHTML('afterend', `<iframe src="${url}" frameborder="0" id="criminalFrame" height="500px" width="100%" />`);
-                    criminal.classList.remove('hidden');
-                    closeCriminalFrame.classList.remove('hidden');
+                    // let elemInput = document.getElementById('xyz');
+                    // elemInput.classList.add('hidden');
+                    let elem = document.getElementById('passportFrame');
+                    if (elem === null) {
+                        modalShowDocsBody.insertAdjacentHTML('afterend', `<iframe id="passportFrame" src="${url}" frameborder="0" height="500px" width="100%" />`);
+                    } else {
+                        elem.src = `${url}`;
+                    }
+
+                    degree.classList.remove('hidden');
+                    // closePasFrame.classList.remove('hidden');
                 })
                 .catch(error => console.error('Ошибка:', error));
         });
-        btnCriminalDB.textContent = 'Открыть справку об отсутствии судимости';
-        divViewCriminal.append(btnCriminalDB);
+        btnDeleteDocDegree.classList.remove('hidden');
     }
-    let closeCriminalFrame = document.createElement('button');
-    closeCriminalFrame.setAttribute('type', 'button');
-    closeCriminalFrame.classList.add('ml-10', 'hidden');
-    closeCriminalFrame.textContent = 'Закрыть справку об отсутствии судимости';
+    //
 
-    closeCriminalFrame.addEventListener('click', (event) => {
-        let iframe = document.getElementById("criminalFrame");
-        iframe.style.display = 'none';
-        closeCriminalFrame.classList.add('hidden');
-        criminal.classList.add('hidden');
-    });
-    divViewCriminal.append(closeCriminalFrame);
+    let divViewCriminal = document.createElement('div');
+    tdDoc.append(divViewCriminal);
+
     let criminal = document.createElement('div');
-    if (noCriminalRecordDB === null){
-        criminal.classList.add('mb-10');
-    } else {
-        criminal.classList.add('mb-10', 'hidden');
-    }
+    criminal.classList.add('mb-10');
+
     divViewCriminal.append(criminal);
     let criminalLabel = document.createElement('b');
     criminalLabel.textContent = 'Загрузите справку об отсутствии судимости';
@@ -636,9 +693,14 @@ function selectAuthor(el) {
     let trDocCriminal = document.createElement('div');
     trDocCriminal.classList.add('d-flex');
     criminal.append(trDocCriminal);
+
     let criminalInput = document.createElement('input');
     criminalInput.classList.add('form-control', 'mr-10', 'w-75');
     criminalInput.setAttribute('type', 'file');
+    criminalInput.setAttribute('id', 'file-input');
+    // passportInput.setAttribute('multiple placeholder', '1');
+    // let modalShowDocsBody = document.getElementById('modalShowDocsBody');
+
     criminalInput.addEventListener('change', function(event) {
         const fileList = event.target.files; // Получаем список выбранных файлов
 
@@ -651,7 +713,17 @@ function selectAuthor(el) {
             const reader = new FileReader();
             reader.onload = ev => {
                 console.log(ev.target.result);
-                criminalInput.insertAdjacentHTML('afterend', `<iframe src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`)
+                let elemDB = document.getElementById('passportFrame');
+                if (elemDB != null){
+                    elemDB.classList.add('hidden');
+                }
+                let elem = document.getElementById('xyz');
+                if (elem === null) {
+                    modalShowDocsBody.insertAdjacentHTML('beforeEnd', `<iframe id="xyz" src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`);
+                }
+                else {
+                    elem.src=`${ev.target.result}`;
+                }
             }
             reader.readAsDataURL(file);
         })
@@ -662,27 +734,62 @@ function selectAuthor(el) {
         }
     });
     trDocCriminal.append(criminalInput);
+
     let btnUploadCriminal = document.createElement('button');
     btnUploadCriminal.classList.add('btn', 'btn-primary', 'ml-10');
     btnUploadCriminal.setAttribute('type', 'button');
+    btnUploadCriminal.setAttribute('id', author.id);
+    btnUploadCriminal.setAttribute('fullName', author.fullName);
+    btnUploadCriminal.setAttribute('passport', author.diploma);
+    // btnUpload.setAttribute('onclick', 'sendAuthorDocs(this)');
     btnUploadCriminal.addEventListener('click', function() {
         sendAuthorDocs(author);
+        sendAuthorDocsUploadIcon(this);
     });
     trDocCriminal.append(btnUploadCriminal);
+
     let uploadIconCriminal = document.createElement('i');
     uploadIconCriminal.classList.add('fas', 'fa-file-upload');
+    /* uploadIcon.setAttribute('onclick', 'sendAuthorDocsUploadIcon(this)');*/
     btnUploadCriminal.append(uploadIconCriminal);
 
-    let divViewHealth = document.createElement('div');
-    tdDoc.append(divViewHealth);
+    // Просмотр загруженного документа
+    let btnViewDocCriminal = document.createElement('button');
+    btnViewDocCriminal.classList.add('btn', 'ml-10', 'btn-outline-primary', 'hidden');
+    btnViewDocCriminal.setAttribute('type', 'button');
+    btnViewDocCriminal.setAttribute('onclick', 'buttonShowPas()');
+    console.log("создали кнопку просмотра");
+    trDocCriminal.append(btnViewDocCriminal);
 
-    if (healthStatusDB != null){
-        let btnHealthDB = document.createElement('button');
-        // btnHealthDB.classList.add('btn', 'btn-primary', 'ml-10');
-        btnHealthDB.classList.add('fas', 'fa-download', 'text-primary', 'mr-10');
-        btnHealthDB.setAttribute('type', 'button');
-        btnHealthDB.addEventListener('click', function() {
-            fetch(`/pdf/${healthStatusDB}`, {
+    let viewIconCriminal = document.createElement('i');
+    viewIconCriminal.classList.add('fas', 'fa-eye');
+    btnViewDocCriminal.append(viewIconCriminal);
+
+    // Кнопка удаления загруженного документа
+    let btnDeleteDocCriminal = document.createElement('button');
+    btnDeleteDocCriminal.classList.add('btn', 'ml-10', 'hidden');
+    btnDeleteDocCriminal.setAttribute('type', 'button');
+    btnDeleteDocCriminal.setAttribute('onclick', 'deleteDoc(this)');
+    btnDeleteDocCriminal.setAttribute('document', 'noCriminalRecordDB');
+    btnDeleteDocCriminal.setAttribute('author', author.id.toString());
+    if (noCriminalRecordDB != null){
+        btnDeleteDocCriminal.setAttribute('filename', noCriminalRecordDB.toString());
+    }
+
+
+    //trDocPassport.append(btnDeleteDoc);
+    console.log("создали кнопку удаления диплома");
+    trDocCriminal.insertAdjacentElement('beforeEnd', btnDeleteDocCriminal);
+    let deleteIconCriminal = document.createElement('i');
+    deleteIconCriminal.classList.add('fas', 'fa-times', 'text-danger');
+    btnDeleteDocCriminal.append(deleteIconCriminal);
+
+    if (noCriminalRecordDB != null){
+
+        btnViewDocCriminal.classList.remove('hidden');
+
+        btnViewDocCriminal.addEventListener('click', function() {
+            fetch(`/pdf/${noCriminalRecordDB}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/pdf'
@@ -690,34 +797,32 @@ function selectAuthor(el) {
             })
                 .then(response => response.blob())
                 .then(blob => {
+                    btnViewDocCriminal.classList.remove('hidden');
                     const url = URL.createObjectURL(blob);
-                    btnHealthDB.insertAdjacentHTML('afterend', `<iframe src="${url}" id="healthFrame" frameborder="0" height="500px" width="100%" />`);
-                    health.classList.remove('hidden');
-                    closeHealthFrame.classList.remove('hidden');
+                    // let elemInput = document.getElementById('xyz');
+                    // elemInput.classList.add('hidden');
+                    let elem = document.getElementById('passportFrame');
+                    if (elem === null) {
+                        modalShowDocsBody.insertAdjacentHTML('afterend', `<iframe id="passportFrame" src="${url}" frameborder="0" height="500px" width="100%" />`);
+                    } else {
+                        elem.src = `${url}`;
+                    }
+
+                    criminal.classList.remove('hidden');
+                    // closePasFrame.classList.remove('hidden');
                 })
                 .catch(error => console.error('Ошибка:', error));
         });
-        btnHealthDB.textContent = 'Открыть справку о состоянии здоровья';
-        divViewHealth.append(btnHealthDB);
+        btnDeleteDocCriminal.classList.remove('hidden');
     }
-    let closeHealthFrame = document.createElement('button');
-    closeHealthFrame.setAttribute('type', 'button');
-    closeHealthFrame.classList.add('ml-10', 'hidden');
-    closeHealthFrame.textContent = 'Закрыть справку о состоянии здоровья';
+    //
 
-    closeHealthFrame.addEventListener('click', (event) => {
-        let iframe = document.getElementById("healthFrame");
-        iframe.style.display = 'none';
-        closeHealthFrame.classList.add('hidden');
-        health.classList.add('hidden');
-    });
-    divViewHealth.append(closeHealthFrame);
+    let divViewHealth = document.createElement('div');
+    tdDoc.append(divViewHealth);
+
     let health = document.createElement('div');
-    if (healthStatusDB === null){
-        health.classList.add('mb-10');
-    } else {
-        health.classList.add('mb-10', 'hidden');
-    }
+    health.classList.add('mb-10');
+
     divViewHealth.append(health);
     let healthLabel = document.createElement('b');
     healthLabel.textContent = 'Загрузите справку о состоянии здоровья';
@@ -727,9 +832,14 @@ function selectAuthor(el) {
     let trDocHealth = document.createElement('div');
     trDocHealth.classList.add('d-flex');
     health.append(trDocHealth);
+
     let healthInput = document.createElement('input');
     healthInput.classList.add('form-control', 'mr-10', 'w-75');
     healthInput.setAttribute('type', 'file');
+    healthInput.setAttribute('id', 'file-input');
+    // passportInput.setAttribute('multiple placeholder', '1');
+    // let modalShowDocsBody = document.getElementById('modalShowDocsBody');
+
     healthInput.addEventListener('change', function(event) {
         const fileList = event.target.files; // Получаем список выбранных файлов
 
@@ -742,7 +852,17 @@ function selectAuthor(el) {
             const reader = new FileReader();
             reader.onload = ev => {
                 console.log(ev.target.result);
-                healthInput.insertAdjacentHTML('afterend', `<iframe src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`)
+                let elemDB = document.getElementById('passportFrame');
+                if (elemDB != null){
+                    elemDB.classList.add('hidden');
+                }
+                let elem = document.getElementById('xyz');
+                if (elem === null) {
+                    modalShowDocsBody.insertAdjacentHTML('beforeEnd', `<iframe id="xyz" src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`);
+                }
+                else {
+                    elem.src=`${ev.target.result}`;
+                }
             }
             reader.readAsDataURL(file);
         })
@@ -753,27 +873,62 @@ function selectAuthor(el) {
         }
     });
     trDocHealth.append(healthInput);
+
     let btnUploadHealth = document.createElement('button');
     btnUploadHealth.classList.add('btn', 'btn-primary', 'ml-10');
     btnUploadHealth.setAttribute('type', 'button');
+    btnUploadHealth.setAttribute('id', author.id);
+    btnUploadHealth.setAttribute('fullName', author.fullName);
+    btnUploadHealth.setAttribute('passport', author.healthStatus);
+    // btnUpload.setAttribute('onclick', 'sendAuthorDocs(this)');
     btnUploadHealth.addEventListener('click', function() {
         sendAuthorDocs(author);
+        sendAuthorDocsUploadIcon(this);
     });
     trDocHealth.append(btnUploadHealth);
+
     let uploadIconHealth = document.createElement('i');
     uploadIconHealth.classList.add('fas', 'fa-file-upload');
+    /* uploadIcon.setAttribute('onclick', 'sendAuthorDocsUploadIcon(this)');*/
     btnUploadHealth.append(uploadIconHealth);
 
-    let divViewEmp = document.createElement('div');
-    tdDoc.append(divViewEmp);
+    // Просмотр загруженного документа
+    let btnViewDocCHealth = document.createElement('button');
+    btnViewDocCHealth.classList.add('btn', 'ml-10', 'btn-outline-primary', 'hidden');
+    btnViewDocCHealth.setAttribute('type', 'button');
+    btnViewDocCHealth.setAttribute('onclick', 'buttonShowPas()');
+    console.log("создали кнопку просмотра");
+    trDocHealth.append(btnViewDocCHealth);
 
-    if (employmentBookDB != null){
-        let btnExpDB = document.createElement('button');
-        // btnExpDB.classList.add('btn', 'btn-primary', 'ml-10');
-        btnExpDB.classList.add('fas', 'fa-download', 'text-primary', 'mr-10');
-        btnExpDB.setAttribute('type', 'button');
-        btnExpDB.addEventListener('click', function() {
-            fetch(`/pdf/${employmentBookDB}`, {
+    let viewIconHealth = document.createElement('i');
+    viewIconHealth.classList.add('fas', 'fa-eye');
+    btnViewDocCHealth.append(viewIconHealth);
+
+    // Кнопка удаления загруженного документа
+    let btnDeleteDocHealth = document.createElement('button');
+    btnDeleteDocHealth.classList.add('btn', 'ml-10', 'hidden');
+    btnDeleteDocHealth.setAttribute('type', 'button');
+    btnDeleteDocHealth.setAttribute('onclick', 'deleteDoc(this)');
+    btnDeleteDocHealth.setAttribute('document', 'healthStatusDB');
+    btnDeleteDocHealth.setAttribute('author', author.id.toString());
+    if (healthStatusDB != null){
+        btnDeleteDocHealth.setAttribute('filename', healthStatusDB.toString());
+    }
+
+
+    //trDocPassport.append(btnDeleteDoc);
+    console.log("создали кнопку удаления статуса здоровья");
+    trDocHealth.insertAdjacentElement('beforeEnd', btnDeleteDocHealth);
+    let deleteIconHealth = document.createElement('i');
+    deleteIconHealth.classList.add('fas', 'fa-times', 'text-danger');
+    btnDeleteDocHealth.append(deleteIconHealth);
+
+    if (healthStatusDB != null){
+
+        btnViewDocCHealth.classList.remove('hidden');
+
+        btnViewDocCHealth.addEventListener('click', function() {
+            fetch(`/pdf/${healthStatusDB}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/pdf'
@@ -781,46 +936,49 @@ function selectAuthor(el) {
             })
                 .then(response => response.blob())
                 .then(blob => {
+                    btnViewDocCHealth.classList.remove('hidden');
                     const url = URL.createObjectURL(blob);
-                    btnExpDB.insertAdjacentHTML('afterend', `<iframe src="${url}" frameborder="0" id="expFrame" height="500px" width="100%" />`);
-                    experience.classList.remove('hidden');
-                    closeEmpFrame.classList.remove('hidden');
+                    // let elemInput = document.getElementById('xyz');
+                    // elemInput.classList.add('hidden');
+                    let elem = document.getElementById('passportFrame');
+                    if (elem === null) {
+                        modalShowDocsBody.insertAdjacentHTML('afterend', `<iframe id="passportFrame" src="${url}" frameborder="0" height="500px" width="100%" />`);
+                    } else {
+                        elem.src = `${url}`;
+                    }
+
+                    health.classList.remove('hidden');
+                    // closePasFrame.classList.remove('hidden');
                 })
                 .catch(error => console.error('Ошибка:', error));
         });
-        btnExpDB.textContent = 'Открыть последнюю страницу трудовой книжки';
-        divViewEmp.append(btnExpDB);
+        btnDeleteDocHealth.classList.remove('hidden');
     }
-    let closeEmpFrame = document.createElement('button');
-    closeEmpFrame.setAttribute('type', 'button');
-    closeEmpFrame.classList.add('ml-10', 'hidden');
-    closeEmpFrame.textContent = 'Закрыть последнюю страницу трудовой книжки';
+    //
 
-    closeEmpFrame.addEventListener('click', (event) => {
-        let iframe = document.getElementById("expFrame");
-        iframe.style.display = 'none';
-        closeEmpFrame.classList.add('hidden');
-        experience.classList.add('hidden');
-    });
-    divViewEmp.append(closeEmpFrame);
+    let divViewEmp = document.createElement('div');
+    tdDoc.append(divViewEmp);
+
     let experience = document.createElement('div');
-    if (employmentBookDB === null){
-        experience.classList.add('mb-10');
-    } else {
-        experience.classList.add('mb-10', 'hidden');
-    }
+    experience.classList.add('mb-10');
+
     divViewEmp.append(experience);
     let experienceLabel = document.createElement('b');
-    experienceLabel.textContent = 'Загрузите последнюю страницу трудовой книжки';
+    experienceLabel.textContent = 'Загрузите справку о состоянии здоровья';
     experience.append(experienceLabel);
     let brExperience = document.createElement('br');
     experienceLabel.append(brExperience);
     let trDocExperience = document.createElement('div');
     trDocExperience.classList.add('d-flex');
     experience.append(trDocExperience);
+
     let experienceInput = document.createElement('input');
     experienceInput.classList.add('form-control', 'mr-10', 'w-75');
     experienceInput.setAttribute('type', 'file');
+    experienceInput.setAttribute('id', 'file-input');
+    // passportInput.setAttribute('multiple placeholder', '1');
+    // let modalShowDocsBody = document.getElementById('modalShowDocsBody');
+
     experienceInput.addEventListener('change', function(event) {
         const fileList = event.target.files; // Получаем список выбранных файлов
 
@@ -833,7 +991,17 @@ function selectAuthor(el) {
             const reader = new FileReader();
             reader.onload = ev => {
                 console.log(ev.target.result);
-                experienceInput.insertAdjacentHTML('afterend', `<iframe src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`)
+                let elemDB = document.getElementById('passportFrame');
+                if (elemDB != null){
+                    elemDB.classList.add('hidden');
+                }
+                let elem = document.getElementById('xyz');
+                if (elem === null) {
+                    modalShowDocsBody.insertAdjacentHTML('beforeEnd', `<iframe id="xyz" src="${ev.target.result}" frameborder="0" height="500px" width="100%" />`);
+                }
+                else {
+                    elem.src=`${ev.target.result}`;
+                }
             }
             reader.readAsDataURL(file);
         })
@@ -844,16 +1012,87 @@ function selectAuthor(el) {
         }
     });
     trDocExperience.append(experienceInput);
+
     let btnUploadExperience = document.createElement('button');
     btnUploadExperience.classList.add('btn', 'btn-primary', 'ml-10');
     btnUploadExperience.setAttribute('type', 'button');
+    btnUploadExperience.setAttribute('id', author.id);
+    btnUploadExperience.setAttribute('fullName', author.fullName);
+    btnUploadExperience.setAttribute('passport', author.employmentBook);
+    // btnUpload.setAttribute('onclick', 'sendAuthorDocs(this)');
     btnUploadExperience.addEventListener('click', function() {
         sendAuthorDocs(author);
+        sendAuthorDocsUploadIcon(this);
     });
     trDocExperience.append(btnUploadExperience);
+
     let uploadIconExperience = document.createElement('i');
     uploadIconExperience.classList.add('fas', 'fa-file-upload');
+    /* uploadIcon.setAttribute('onclick', 'sendAuthorDocsUploadIcon(this)');*/
     btnUploadExperience.append(uploadIconExperience);
+
+    // Просмотр загруженного документа
+    let btnViewDocExperience = document.createElement('button');
+    btnViewDocExperience.classList.add('btn', 'ml-10', 'btn-outline-primary', 'hidden');
+    btnViewDocExperience.setAttribute('type', 'button');
+    btnViewDocExperience.setAttribute('onclick', 'buttonShowPas()');
+    console.log("создали кнопку просмотра");
+    trDocExperience.append(btnViewDocExperience);
+
+    let viewIconExperience = document.createElement('i');
+    viewIconExperience.classList.add('fas', 'fa-eye');
+    btnViewDocExperience.append(viewIconExperience);
+
+    // Кнопка удаления загруженного документа
+    let btnDeleteDocExperience = document.createElement('button');
+    btnDeleteDocExperience.classList.add('btn', 'ml-10', 'hidden');
+    btnDeleteDocExperience.setAttribute('type', 'button');
+    btnDeleteDocExperience.setAttribute('onclick', 'deleteDoc(this)');
+    btnDeleteDocExperience.setAttribute('document', 'employmentBookDB');
+    btnDeleteDocExperience.setAttribute('author', author.id.toString());
+    if (employmentBookDB != null){
+        btnDeleteDocExperience.setAttribute('filename', employmentBookDB.toString());
+    }
+
+
+    //trDocPassport.append(btnDeleteDoc);
+    console.log("создали кнопку удаления статуса здоровья");
+    trDocExperience.insertAdjacentElement('beforeEnd', btnDeleteDocExperience);
+    let deleteIconExperience = document.createElement('i');
+    deleteIconExperience.classList.add('fas', 'fa-times', 'text-danger');
+    btnDeleteDocExperience.append(deleteIconExperience);
+
+    if (employmentBookDB != null){
+
+        btnViewDocExperience.classList.remove('hidden');
+
+        btnViewDocExperience.addEventListener('click', function() {
+            fetch(`/pdf/${employmentBookDB}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/pdf'
+                }
+            })
+                .then(response => response.blob())
+                .then(blob => {
+                    btnViewDocExperience.classList.remove('hidden');
+                    const url = URL.createObjectURL(blob);
+                    // let elemInput = document.getElementById('xyz');
+                    // elemInput.classList.add('hidden');
+                    let elem = document.getElementById('passportFrame');
+                    if (elem === null) {
+                        modalShowDocsBody.insertAdjacentHTML('afterend', `<iframe id="passportFrame" src="${url}" frameborder="0" height="500px" width="100%" />`);
+                    } else {
+                        elem.src = `${url}`;
+                    }
+
+                    experience.classList.remove('hidden');
+                    // closePasFrame.classList.remove('hidden');
+                })
+                .catch(error => console.error('Ошибка:', error));
+        });
+        btnDeleteDocExperience.classList.remove('hidden');
+    }
     //
 }
 function inputNameAuthor() {
