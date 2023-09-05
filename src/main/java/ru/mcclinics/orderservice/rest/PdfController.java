@@ -51,6 +51,24 @@ public class PdfController {
         if (document.equals("passportDB")){
             author.setPassportPdf(null);
         }
+        if (document.equals("diplomaDB")){
+            author.setDiplomaPdf(null);
+        }
+        if (document.equals("diplomaScienceRankDB")){
+            author.setDiplomaScienceRankPdf(null);
+        }
+        if (document.equals("diplomaScienceDegreeDB")){
+            author.setDiplomaScienceDegreePdf(null);
+        }
+        if (document.equals("noCriminalRecordDB")){
+            author.setNoCriminalRecordPdf(null);
+        }
+        if (document.equals("healthStatusDB")){
+            author.setHealthStatusPdf(null);
+        }
+        if (document.equals("employmentBookDB")){
+            author.setEmploymentBookPdf(null);
+        }
         Path filePath = Paths.get(uploadPath + filename);
         Files.delete(filePath);
         authorService.create(author);

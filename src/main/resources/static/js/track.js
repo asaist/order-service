@@ -1,3 +1,20 @@
+//отправить на согласоване процесс
+async function sendForApprovalFunc() {
+    let response = await fetch('/api/author/docs', {
+        method: 'POST',
+        body: formData
+    }).then(response => response.json())
+        .then(data => {
+            const newAuthorId = data;
+            author.id = newAuthorId;
+            // savedTrack = data;
+            // Используйте полученный ID нового трека для нужных действий на фронтенде
+            console.log('ID нового автора:', newAuthorId);
+        })
+        .catch(error => {
+            console.error('Ошибка при отправке запроса:', error);
+        });
+}
 
 //чтобы текст в поле наименование трека переносился в шапку дерева
 function updateTrackHeading() {
