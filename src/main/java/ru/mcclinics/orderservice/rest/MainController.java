@@ -128,6 +128,7 @@ public class MainController {
         return "track_up";
     }
 
+
     @GetMapping("/track/{id}")
     public String getTrack(@PathVariable("id") Track track, Model model){
         model.addAttribute("track", track);

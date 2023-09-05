@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-mvn clean install -U -P prod
+mvn clean install -U -P local
 
 echo 'Copy files...'
 

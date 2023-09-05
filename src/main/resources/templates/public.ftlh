@@ -24,6 +24,18 @@ String JWT ="";
             'Authorization': 'Bearer ',
           }
         }
+    ////////////////////////////////////////////////////////////////////////
+    //НЕ РАБОТАЕТ ОБРАЩЕНИЕ ИЗ IFRAME ВО ВНЕШНЕЕ ПРИЛОЖЕНИЕ К LOCALSTORAGE//
+    ////////////////////////////////////////////////////////////////////////
+    // Получаем доступ к объекту window родительского окна
+    // const parentWindow = window.parent;
+    //
+    // // Получаем значение параметра из localStorage родительского окна
+    // const authorizationTest = parentWindow.localStorage.getItem('Authorization-Test');
+    // console.log("authorizationTest from parent: " + authorizationTest);
+    ////////////////////////////////////////////////////////////////////////
+    //НЕ РАБОТАЕТ ОБРАЩЕНИЕ ИЗ IFRAME ВО ВНЕШНЕЕ ПРИЛОЖЕНИЕ К LOCALSTORAGE//
+    ////////////////////////////////////////////////////////////////////////
 
     window.addEventListener('message', function(event) {
       axiosConfig.headers.Authorization = event.data;

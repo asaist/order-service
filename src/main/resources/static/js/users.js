@@ -270,7 +270,7 @@ function selectAuthor(el) {
 
     divViewDocDiplom.append(diplom);
     let diplomLabel = document.createElement('b');
-    diplomLabel.textContent = 'Загрузите диплом';
+    diplomLabel.textContent = 'Загрузите диплом о в/о';
     diplom.append(diplomLabel);
     let brDip = document.createElement('br');
     diplomLabel.append(brDip);
@@ -412,7 +412,7 @@ function selectAuthor(el) {
 
     divViewDocRank.append(rank);
     let rankLabel = document.createElement('b');
-    rankLabel.textContent = 'Загрузите ранк';
+    rankLabel.textContent = 'Загрузите диплом о научном звании';
     rank.append(rankLabel);
     let brRank = document.createElement('br');
     rankLabel.append(brRank);
@@ -553,7 +553,7 @@ function selectAuthor(el) {
 
     divViewDegree.append(degree);
     let degreeLabel = document.createElement('b');
-    degreeLabel.textContent = 'Загрузите диплом';
+    degreeLabel.textContent = 'Загрузите диплом о научной степени';
     degree.append(degreeLabel);
     let brDegree = document.createElement('br');
     degreeLabel.append(brDegree);
@@ -976,7 +976,7 @@ function selectAuthor(el) {
 
     divViewEmp.append(experience);
     let experienceLabel = document.createElement('b');
-    experienceLabel.textContent = 'Загрузите справку о состоянии здоровья';
+    experienceLabel.textContent = 'Загрузите последнюю страницу трудовой книжки';
     experience.append(experienceLabel);
     let brExperience = document.createElement('br');
     experienceLabel.append(brExperience);

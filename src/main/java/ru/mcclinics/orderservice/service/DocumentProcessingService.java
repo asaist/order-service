@@ -6,13 +6,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
+import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import ru.mcclinics.orderservice.domain.OrderDocument;
 import ru.mcclinics.orderservice.dto.DocumentDto;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Base64;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 import static org.springframework.security.oauth2.core.OAuth2TokenIntrospectionClaimNames.CLIENT_ID;
@@ -88,6 +96,30 @@ public class DocumentProcessingService {
 //        EmployeeDto[] employeeDtos = response4.getBody();
 //        List<EmployeeDto> employeeDtoList = Arrays.asList(employeeDtos);
         return (ResponseEntity<String>) response3;
+    }
+
+
+    public void generatePdfJasper(Collection<?> reportData) throws JRException, IOException {
+
+        // Загрузка шаблона отчета Jasper Reports из файла
+        InputStream reportStream = getClass().getResourceAsStream("/reports/report.jrxml");
+        JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
+
+        // Получение данных для отчета из базы данных
+//        List<ReportData> reportData = reportService.getReportData();
+
+        // Заполнение отчета данными
+        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(reportData);
+        Map<String, Object> parameters = new HashMap<>();
+        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+
+        // Преобразование отчета в PDF и кодирование его в Base64
+        byte[] pdfBytes = JasperExportManager.exportReportToPdf(jasperPrint);
+        String base64 = Base64.getEncoder().encodeToString(pdfBytes);
+        System.out.println(base64);
+        // Отправка PDF в виде Base64 через RestTemplate
+        launchProcess(base64);
+
     }
 
 

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.itextpdf.text.DocumentException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.jasperreports.engine.JRException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import ru.mcclinics.orderservice.dto.*;
 import ru.mcclinics.orderservice.service.*;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -26,6 +28,7 @@ import static java.util.stream.Collectors.toList;
 @Slf4j(topic = "order-service")
 @Controller
 @RequiredArgsConstructor
+@CrossOrigin(origins = "https://dev.service.samsmu.ru")
 public class SchemeController {
     private final TrackService trackService;
     private final UniversityService universityService;
@@ -223,11 +226,25 @@ public class SchemeController {
         lectureService.saveAll(lectures);
         keyWordRepository.saveAll(keyWordList);
         Iterable<Track> tracks = trackService.findTracks();
-        String greeting = "Вам направляется на согласование : http://localhost:8081/";
-        String base64 = pdfGenertor.generatePdf(greeting + "track/" + track.getId().toString());
-        documentProcessingService.launchProcess(base64);
         return ResponseEntity.ok(new TrackDto(track));
     }
+    @PostMapping("/sendTrack")
+    public ResponseEntity<String> sendTrackForApproval(@RequestBody String savedTrack
+    ) throws DocumentException, IOException, JRException {
+
+        String greeting = "Вам направляется на согласование : https://dev.track.samsmu.ru/";
+        String base64 = pdfGenertor.generatePdf(greeting + "track/" + savedTrack);
+        documentProcessingService.launchProcess(base64);
+
+        OrderDocument reportData = new OrderDocument("https://dev.track.samsmu.ru/track/" + savedTrack);
+        List<OrderDocument> orderDocumentList = Arrays.asList(reportData);
+        documentProcessingService.generatePdfJasper((Collection<?>) reportData);
+
+
+        return ResponseEntity.ok(savedTrack);
+    }
+
+
 
     @PostMapping("/editTrack")
     public ResponseEntity<String> update(@RequestBody RequestData requestData

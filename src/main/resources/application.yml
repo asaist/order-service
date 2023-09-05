@@ -5,6 +5,10 @@ spring:
     name: order-service
   freemarker:
     expose-request-attributes: true
+  mvc:
+    dispatch-options-request: true
+  main:
+    allow-bean-definition-overriding: true
   http:
     encoding:
       charset: UTF-8
@@ -30,4 +34,8 @@ server:
     encoding:
       force: true
       charset: UTF-8
+#keycloak:
+#  auth-server-url: "https://sso.samsmu.ru/auth
+#  realm: SAMGMU
+#  resource: course
 

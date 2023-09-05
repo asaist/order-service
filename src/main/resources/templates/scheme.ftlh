@@ -211,17 +211,17 @@
                     <div class="my-4">
                       <b>Аннотация образовательного трека</b><br>
                       <#if profileTab>
-                        <textarea class="form-control editable" name="trackAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#" onclick="trackCheck()"></textarea>
+                        <textarea class="form-control editable" name="trackAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#" onclick="trackSignature()"></textarea>
                       <#else>
-                        <textarea class="form-control editable" name="trackAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#" onclick="trackCheck()">${track.annotation}</textarea>
+                        <textarea class="form-control editable" name="trackAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#" onclick="trackSignature()">${track.annotation}</textarea>
                       </#if>
                     </div>
                     <div class="my-4">
                       <b>Дополнительные ключевые слова</b> <br>
                       <#if profileTab>
-                        <textarea class="form-control editable" name="trackKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив их ;"></textarea>
+                        <textarea class="form-control editable" name="trackKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив их ;" onclick="trackCheck()"></textarea>
                       <#else>
-                        <textarea class="form-control editable" name="trackKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив их ;">${track.keyWords}</textarea>
+                        <textarea class="form-control editable" name="trackKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив их ;" onclick="trackCheck()">${track.keyWords}</textarea>
                       </#if>
                     </div>
                   </div>
@@ -288,6 +288,7 @@
                   <div class="modal-footer">
                     <button type="submit" id="submitButton" class="btn btn-primary">Добавить трек</button>
                     <button type="submit" id="editTrack" class="btn btn-primary hidden">Редактировать трек</button>
+                    <button type="button" id="sendForApproval" class="btn btn-primary hidden" onclick="sendForApprovalFunc()">Отправить на согласование</button>
                   </div>
                 </div>
               </form>
@@ -1065,6 +1066,8 @@
     <script src="https://dev.track.samsmu.ru/static/js/editModule.js"></script>
     <script src="https://dev.track.samsmu.ru/static/js/editLecture.js"></script>
 
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
     <script src="../js/jquery-3.7.0.min.js"></script>
     <script src="../js/select2.min.js"></script>
     <script src="../js/popper.min.js"></script>
@@ -1091,6 +1094,24 @@
 
 
     <script>
+
+      var jwtReceived = false;
+      var axiosConfig  = {
+        headers: {
+          //           'Content-Type': 'application/json;charset=UTF-8',
+          'Authorization': 'Bearer ',
+        }
+      }
+
+      window.addEventListener('message', function(event) {
+        axiosConfig.headers.Authorization = event.data;
+
+        jwtReceived = true;
+        console.log("appTest JWT -> " + axiosConfig.headers.Authorization);
+        localStorage.setItem('authorization', "Bearer " + axiosConfig.headers.Authorization);
+        console.log("localStorage JWT -> " + localStorage.authorization);
+      });
+
       class Mkb {
         constructor(value, track, module, lecture) {
           this.value = value;
@@ -1250,7 +1271,13 @@
         signature.classList.remove("bg-primary");
         signature.classList.add("bg-white");
         let iconSignature = document.getElementById('iconSignature');
-        iconSignature.classList.add('text-white');
+        iconSignature.classList.remove('text-white');
+        let check = document.getElementById('check');
+        check.classList.remove("bg-white");
+        check.classList.add("bg-success");
+        let iconCheck = document.getElementById('iconCheck');
+        iconCheck.classList.add('text-white');
+        iconCheck.style.transform = 'scale(1.3)';
       }
 
       function addManTrack() {
@@ -1317,6 +1344,8 @@
         addTrack.classList.add("hidden");
         let editTrack = document.getElementById('editTrack');
         editTrack.classList.remove("hidden");
+        let sendForApproval = document.getElementById('sendForApproval');
+        sendForApproval.classList.remove("hidden");
       });
 
       function handleSubmit(event) {

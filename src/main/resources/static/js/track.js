@@ -1,3 +1,22 @@
+//отправить на согласоване процесс
+async function sendForApprovalFunc() {
+    try {
+    const response = await fetch('https://dev.track.samsmu.ru/sendTrack', {
+        method: 'POST',
+        body: JSON.stringify(savedTrack),
+        headers: {
+            'Content-Type': 'application/json',
+            "Authorization": localStorage.authorization
+        }
+    });
+            const data = await response.json();
+            const newTrackId = data.savedTrack;
+            // Используйте полученный ID нового трека для нужных действий на фронтенде
+            console.log('ID отправленного трека на согласование:', newTrackId);
+        } catch(error) {
+            console.error('Ошибка при отправке запроса:', error);
+        }
+}
 
 //чтобы текст в поле наименование трека переносился в шапку дерева
 function updateTrackHeading() {

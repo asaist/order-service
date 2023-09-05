@@ -23,6 +23,7 @@ import static org.springframework.http.HttpStatus.OK;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/track")
+@CrossOrigin(origins = "https://dev.service.samsmu.ru")
 public class TrackController {
 
     private final TrackService service;
