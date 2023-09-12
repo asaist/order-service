@@ -6,19 +6,32 @@ spring:
     driver-class-name: org.postgresql.Driver
     hikari:
       maximum-pool-size: 10
-#  security:
-#    oauth2:
-#      client:
-#        registration:
-#          keycloak:
-#            client-id: course
-#            client-secret: 5f4f078c-f3f1-4cd7-b884-b22abe8c6138
-#            authorization-grant-type: authorization_code
-#            scope:
-#              - openid
-#              - profile
-#              - roles
-#            redirect-uri: https://track.samsmu.ru/login/oauth2/code/course
-#        provider:
-#          keycloak:
-#            issuer-uri: https://sso.samsmu.ru/auth/realms/SAMGMU
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: course
+            client-secret: 5f4f078c-f3f1-4cd7-b884-b22abe8c6138
+            authorization-grant-type: authorization_code
+            scope:
+              - openid
+              - profile
+              - roles
+            redirect-uri: https://track.samsmu.ru/login/oauth2/code/course
+        provider:
+          keycloak:
+            issuer-uri: https://sso.samsmu.ru/auth/realms/SAMGMU
+      resourceserver:
+        jwt:
+          issuer-uri: https://sso.samsmu.ru/auth/realms/SAMGMU
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+files:
+  upload:
+    baseDir: /home/kvn/uploads/
+server:
+  port: 8081
+  servlet:
+    encoding:
+      force: true
+      charset: UTF-8

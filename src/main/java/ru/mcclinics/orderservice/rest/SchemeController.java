@@ -2,8 +2,11 @@ package ru.mcclinics.orderservice.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.itextpdf.text.DocumentException;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +18,7 @@ import ru.mcclinics.orderservice.dto.*;
 import ru.mcclinics.orderservice.service.*;
 
 import java.io.FileNotFoundException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -37,8 +41,36 @@ public class SchemeController {
     private final DocumentProcessingService documentProcessingService;
 
 
-    @GetMapping("/")
-    public String main(Model model) throws JsonProcessingException {
+
+
+    @GetMapping("/public/home")
+    @ResponseStatus(HttpStatus.OK)
+    public String setFlag(@RequestHeader(value = "Authorization", required = false) String authorizationHeader) {
+
+
+            System.out.println("TokenController on track.samsmu.ru: " + "Bearer " + authorizationHeader);
+        Date d = new Date();
+        SimpleDateFormat simpDate;
+        simpDate = new SimpleDateFormat("kk:mm:ss");
+        System.out.println(simpDate.format(d));
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Location", "/public/home");
+            headers.add("Authorization", "Bearer " + authorizationHeader);
+            headers.add("X-Frame-Options", "ALLOWED");
+//            headers.add("Access-Control-Allow-Origin", "");
+//            OAuth2AuthorizedClient authorizedClient = inMemoryOAuth2AuthorizedClientService.loadAuthorizedClient("keycloak", authentication.getName());
+//            String accessToken = authorizedClient.getAccessToken().getTokenValue();
+//            return new ResponseEntity<>(headers, HttpStatus.SEE_OTHER);
+//            return ResponseEntity.ok().headers(headers).build();
+            return "redirect: /";
+//            return "redirect:/public/home";
+
+
+    }
+
+    @GetMapping("/public")
+    public String main(Model model, HttpServletResponse response) throws JsonProcessingException {
+        System.out.println("In / url controller");
         model.addAttribute("tracks", trackService.findTracks());
         model.addAttribute("universities", universityService.getUniversityList());
         model.addAttribute("lectures", lectureService.findLectures());
@@ -53,6 +85,7 @@ public class SchemeController {
 //        entityDtoList.removeIf(obj -> obj.getCode() == null);
 //        entityDtoList.stream().filter(b -> b.getCode().equals(null)).getFirst().ifPresent(books::remove);
         model.addAttribute("mkb10", entityDtoList);
+        response.setHeader("Access-Control-Allow-Origin", "*");
         return "scheme";
     }
 

@@ -21,13 +21,8 @@ springdoc:
 management:
     endpoints:
         web:
-            exposure:
+          exposure:
                 include: "*"
 
-server:
-  port: 8081
-  servlet:
-    encoding:
-      force: true
-      charset: UTF-8
+
 

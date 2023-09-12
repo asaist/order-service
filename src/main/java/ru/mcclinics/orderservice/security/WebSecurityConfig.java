@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import ru.mcclinics.orderservice.service.UserService;
 
 @Configuration
@@ -48,12 +47,21 @@ public class WebSecurityConfig {
                 .csrf()
                 .disable()
                 .authorizeHttpRequests()
+                .requestMatchers("/").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .oauth2Login();
+        http
+                .oauth2ResourceServer()
+                .jwt();
+        http.headers().frameOptions().sameOrigin();
+//        http
+//                .cors(cors -> cors.disable());
         return http.build();
     }
+
+
     @Autowired
     protected void configure2(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userService)
