@@ -27,6 +27,7 @@ import static java.util.stream.Collectors.toList;
 @Slf4j(topic = "order-service")
 @Controller
 @RequiredArgsConstructor
+@CrossOrigin(origins = "https://dev.service.samsmu.ru")
 public class SchemeController {
     private final TrackService trackService;
     private final UniversityService universityService;
@@ -214,11 +215,18 @@ public class SchemeController {
         lectureService.saveAll(lectures);
         keyWordRepository.saveAll(keyWordList);
         Iterable<Track> tracks = trackService.findTracks();
-        String greeting = "Вам направляется на согласование : http://localhost:8081/";
+        String greeting = "Вам направляется на согласование : https://track.samsmu.ru/";
         String base64 = pdfGenertor.generatePdf(greeting + "track/" + track.getId().toString());
         documentProcessingService.launchProcess(base64);
         return ResponseEntity.ok(new TrackDto(track));
     }
+    @PostMapping("/sendTrack")
+    public ResponseEntity<String> sendTrackForApproval(@RequestBody RequestData requestData
+    ){
+        TrackDto messageFromDb = new TrackDto();
+        return ResponseEntity.ok("1");
+    }
+
 
     @PostMapping("/editTrack")
     public ResponseEntity<String> update(@RequestBody RequestData requestData

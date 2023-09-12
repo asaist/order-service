@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-#mvn clean install -U -P prod
+mvn clean install -U -P local
 
 echo 'Copy files...'
 
 scp -i ~/.ssh/id_rsa \
-    C:/Users/Vladimir/IdeaProjects/order-service/target/order-service-1.0.jar \
+    target/order-service-1.0.jar \
     kvn@172.26.0.62:/home/kvn/
 
 echo 'Restart server...'
