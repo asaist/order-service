@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import ru.mcclinics.orderservice.service.UserService;
 
 @Configuration
@@ -34,9 +33,8 @@ public class WebSecurityConfig {
         http
                 .oauth2ResourceServer()
                 .jwt();
-        http
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.headers().frameOptions().sameOrigin();
+
         return http.build();
     }
 
@@ -62,24 +60,7 @@ public class WebSecurityConfig {
 //                .anyRequest().authenticated(); // Все остальные запросы требуют аутентификации
 //        http.csrf().disable();
 
-        //рабочий спек для кейклок oauth2 client
-        http
-                .csrf()
-                .disable()
-                .authorizeHttpRequests()
-                .requestMatchers("/").permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .oauth2Login();
-        http
-                .oauth2ResourceServer()
-                .jwt();
-        http.headers().frameOptions().sameOrigin();
-//        http
-//                .cors(cors -> cors.disable());
-        return http.build();
-    }
+
 
 
     @Autowired

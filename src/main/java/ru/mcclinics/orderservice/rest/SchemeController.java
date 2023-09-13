@@ -44,9 +44,9 @@ public class SchemeController {
 
 
 
-    @GetMapping("/public/home")
+    @GetMapping("/public")
     @ResponseStatus(HttpStatus.OK)
-    public String setFlag(@RequestHeader(value = "Authorization", required = false) String authorizationHeader) {
+    public ResponseEntity setFlag(@RequestHeader(value = "Authorization", required = false) String authorizationHeader) {
 
 
             System.out.println("TokenController on track.samsmu.ru: " + "Bearer " + authorizationHeader);
@@ -58,20 +58,22 @@ public class SchemeController {
             headers.add("Location", "/public/home");
             headers.add("Authorization", "Bearer " + authorizationHeader);
             headers.add("X-Frame-Options", "ALLOWED");
-//            headers.add("Access-Control-Allow-Origin", "");
+            headers.add("Access-Control-Allow-Origin", "*");
+            headers.add("Access-Control-Allow-Headers", "*");
 //            OAuth2AuthorizedClient authorizedClient = inMemoryOAuth2AuthorizedClientService.loadAuthorizedClient("keycloak", authentication.getName());
 //            String accessToken = authorizedClient.getAccessToken().getTokenValue();
-//            return new ResponseEntity<>(headers, HttpStatus.SEE_OTHER);
+            return new ResponseEntity<>(headers, HttpStatus.SEE_OTHER);
 //            return ResponseEntity.ok().headers(headers).build();
-            return "redirect: /";
+//            return "redirect: /";
 //            return "redirect:/public/home";
 
 
     }
 
-    @GetMapping("/public")
-    public String main(Model model, HttpServletResponse response) throws JsonProcessingException {
+    @GetMapping("/public/home")
+    public String main(Model model, HttpServletResponse response, @RequestHeader(value = "Authorization", required = false) String authorizationHeader) throws JsonProcessingException {
         System.out.println("In / url controller");
+        System.out.println("TokenController on track.samsmu.ru: " + "Bearer " + authorizationHeader);
         model.addAttribute("tracks", trackService.findTracks());
         model.addAttribute("universities", universityService.getUniversityList());
         model.addAttribute("lectures", lectureService.findLectures());
@@ -87,6 +89,8 @@ public class SchemeController {
 //        entityDtoList.stream().filter(b -> b.getCode().equals(null)).getFirst().ifPresent(books::remove);
         model.addAttribute("mkb10", entityDtoList);
         response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Headers", "*");
+        response.setHeader("Authorization", authorizationHeader);
         return "scheme";
     }
 

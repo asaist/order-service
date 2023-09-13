@@ -15,19 +15,19 @@ public class GotTokenController {
     public boolean getFlag() {
         return flag;
     }
-    @GetMapping("/public")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Object> setFlag(@RequestHeader(value = "Authorization", required = false) String authorizationHeader) {
-        if (authorizationHeader != null) {
-            this.flag = true;
-            System.out.println("TokenController on track.samsmu.ru: " + authorizationHeader);
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("Location", "/");
-            headers.add("Authorization", authorizationHeader);
-            headers.add("X-Frame-Options", "SAMEORIGIN");
-            return new ResponseEntity<>(headers, HttpStatus.SEE_OTHER);
-        }
-        return null;
-    }
+//    @GetMapping("/public")
+//    @ResponseStatus(HttpStatus.OK)
+//    public ResponseEntity<Object> setFlag(@RequestHeader(value = "Authorization", required = false) String authorizationHeader) {
+//        if (authorizationHeader != null) {
+//            this.flag = true;
+//            System.out.println("TokenController on track.samsmu.ru: " + authorizationHeader);
+//            HttpHeaders headers = new HttpHeaders();
+//            headers.add("Location", "/");
+//            headers.add("Authorization", authorizationHeader);
+//            headers.add("X-Frame-Options", "SAMEORIGIN");
+//            return new ResponseEntity<>(headers, HttpStatus.SEE_OTHER);
+//        }
+//        return null;
+//    }
 
 }
