@@ -232,10 +232,11 @@ function selectAuthor(el) {
         btnViewDoc.classList.remove('hidden');
 
         btnViewDoc.addEventListener('click', function() {
-            fetch(`/pdf/${passportDB}`, {
+            fetch(`https://dev.track.samsmu.ru/pdf/${passportDB}`, {
                 method: 'GET',
                 headers: {
-                    'Content-Type': 'application/pdf'
+                    'Content-Type': 'application/pdf',
+                    "Authorization": localStorage.authorization
                 }
             })
                 .then(response => response.blob())
@@ -367,15 +368,18 @@ function selectAuthor(el) {
     deleteIconDip.classList.add('fas', 'fa-times', 'text-danger');
     btnDeleteDocDip.append(deleteIconDip);
 
+
+
     if (diplomaDB != null){
 
         btnViewDocDip.classList.remove('hidden');
 
         btnViewDocDip.addEventListener('click', function() {
-            fetch(`/pdf/${diplomaDB}`, {
+            fetch(`https://dev.track.samsmu.ru/pdf/${diplomaDB}`, {
                 method: 'GET',
                 headers: {
-                    'Content-Type': 'application/pdf'
+                    'Content-Type': 'application/pdf',
+                    "Authorization": localStorage.authorization
                 }
             })
                 .then(response => response.blob())
@@ -506,15 +510,17 @@ function selectAuthor(el) {
     deleteIconRank.classList.add('fas', 'fa-times', 'text-danger');
     btnDeleteDocRank.append(deleteIconRank);
 
+
     if (diplomaScienceRankDB != null){
 
         btnViewDocRank.classList.remove('hidden');
 
         btnViewDocRank.addEventListener('click', function() {
-            fetch(`/pdf/${diplomaScienceRankDB}`, {
+            fetch(`https://dev.track.samsmu.ru/pdf/${diplomaScienceRankDB}`, {
                 method: 'GET',
                 headers: {
-                    'Content-Type': 'application/pdf'
+                    'Content-Type': 'application/pdf',
+                    "Authorization": localStorage.authorization
                 }
             })
                 .then(response => response.blob())
@@ -645,15 +651,18 @@ function selectAuthor(el) {
     deleteIconDegree.classList.add('fas', 'fa-times', 'text-danger');
     btnDeleteDocDegree.append(deleteIconDegree);
 
+
+
     if (diplomaScienceDegreeDB != null){
 
         btnViewDocDegree.classList.remove('hidden');
 
         btnViewDocDegree.addEventListener('click', function() {
-            fetch(`/pdf/${diplomaScienceDegreeDB}`, {
+            fetch(`https://dev.track.samsmu.ru/pdf/${diplomaScienceDegreeDB}`, {
                 method: 'GET',
                 headers: {
-                    'Content-Type': 'application/pdf'
+                    'Content-Type': 'application/pdf',
+                    "Authorization": localStorage.authorization
                 }
             })
                 .then(response => response.blob())
@@ -789,10 +798,11 @@ function selectAuthor(el) {
         btnViewDocCriminal.classList.remove('hidden');
 
         btnViewDocCriminal.addEventListener('click', function() {
-            fetch(`/pdf/${noCriminalRecordDB}`, {
+            fetch(`https://dev.track.samsmu.ru/pdf/${noCriminalRecordDB}`, {
                 method: 'GET',
                 headers: {
-                    'Content-Type': 'application/pdf'
+                    'Content-Type': 'application/pdf',
+                    "Authorization": localStorage.authorization
                 }
             })
                 .then(response => response.blob())
@@ -923,15 +933,17 @@ function selectAuthor(el) {
     deleteIconHealth.classList.add('fas', 'fa-times', 'text-danger');
     btnDeleteDocHealth.append(deleteIconHealth);
 
+
     if (healthStatusDB != null){
 
         btnViewDocCHealth.classList.remove('hidden');
 
         btnViewDocCHealth.addEventListener('click', function() {
-            fetch(`/pdf/${healthStatusDB}`, {
+            fetch(`https://dev.track.samsmu.ru/pdf/${healthStatusDB}`, {
                 method: 'GET',
                 headers: {
-                    'Content-Type': 'application/pdf'
+                    'Content-Type': 'application/pdf',
+                    "Authorization": localStorage.authorization
                 }
             })
                 .then(response => response.blob())
@@ -1062,15 +1074,17 @@ function selectAuthor(el) {
     deleteIconExperience.classList.add('fas', 'fa-times', 'text-danger');
     btnDeleteDocExperience.append(deleteIconExperience);
 
+
     if (employmentBookDB != null){
 
         btnViewDocExperience.classList.remove('hidden');
 
         btnViewDocExperience.addEventListener('click', function() {
-            fetch(`/pdf/${employmentBookDB}`, {
+            fetch(`https://dev.track.samsmu.ru/pdf/${employmentBookDB}`, {
                 method: 'GET',
                 headers: {
-                    'Content-Type': 'application/pdf'
+                    'Content-Type': 'application/pdf',
+                    "Authorization": localStorage.authorization
                 }
             })
                 .then(response => response.blob())
@@ -1542,9 +1556,10 @@ async function sendAuthorDocs(author) {
     formData.append('healthStatus', author.healthStatus);
     formData.append('employmentBook', author.employmentBook);
     console.log(formData.get('passport'));
-    let response = await fetch('/api/author/docs', {
+    let response = await fetch('https://dev.track.samsmu.ru/public/home/api/author/docs', {
         method: 'POST',
-        body: formData
+        body: formData,
+        headers: {"Authorization": localStorage.authorization}
     }) .then(response => response.json())
         .then(data => {
             const newAuthorId = data;

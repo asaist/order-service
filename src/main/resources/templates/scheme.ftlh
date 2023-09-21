@@ -1295,10 +1295,11 @@
         }
         console.log(data);
 
-        fetch("/addTrack2", {
+        fetch("https://dev.track.samsmu.ru/addTrack2", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": localStorage.authorization
           },
           body: JSON.stringify(data)
         })

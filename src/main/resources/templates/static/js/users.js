@@ -232,7 +232,7 @@ function selectAuthor(el) {
         btnViewDoc.classList.remove('hidden');
 
         btnViewDoc.addEventListener('click', function() {
-            fetch(`/pdf/${passportDB}`, {
+            fetch(`https://dev.track.samsmu.ru/pdf/${passportDB}`, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/pdf'

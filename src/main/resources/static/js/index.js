@@ -18,13 +18,17 @@ function authorSamGMULecture() {
 }
 
 $(document).ready(function() {
+	console.log("In Da select: " + localStorage.authorization);
 	$(".js-data-example-ajax").select2({
 		ajax: {
-			url: "https://track.samsmu.ru/api/author/authors",
+			url: "https://dev.track.samsmu.ru/public/home/api/author/authors",
 			// url: "http://localhost:8081/api/author/authors",
 			type: 'GET',
 			dataType: 'json',
 			delay: 250,
+			headers: {
+				"Authorization": localStorage.authorization
+			},
 			data: function (params) {
 				return {
 					q: params.term, // search term

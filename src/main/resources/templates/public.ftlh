@@ -30,7 +30,7 @@ String JWT ="";
 
       jwtReceived = true;
      console.log("appTest JWT -> " + axiosConfig.headers.Authorization);
-     localStorage.setItem('authorization', axiosConfig.headers.Authorization);
+     localStorage.setItem('authorization', "Bearer " + axiosConfig.headers.Authorization);
      console.log("localStorage JWT -> " + localStorage.authorization);
     });
 
@@ -58,7 +58,7 @@ String JWT ="";
       // Вариант 2 - переадресация c добавлением токена в заголовок
         console.log("2");
       // pgLoadToken('scheme');
-      pgLoadToken('https://dev.track.samsmu.ru/public/home');
+      pgLoadToken('/public/home');
     }
   }
 

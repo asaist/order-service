@@ -47,7 +47,8 @@ public class AuthorController {
                                       @RequestParam(value = "pageSize", defaultValue = "20") int pageSize,
                                       @RequestHeader(value = "Authorization", required = false) String authorizationHeader) {
 
-         log.info("/authors");
+        log.info("/authors");
+        System.out.println("/authors Authorization " + authorizationHeader);
         List<Author> authors = service.findAuthors(query, page, pageSize);
         return authors;
     }
