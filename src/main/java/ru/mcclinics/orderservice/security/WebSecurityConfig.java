@@ -15,7 +15,7 @@ import ru.mcclinics.orderservice.service.UserService;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class WebSecurityConfig {
+public class WebSecurityConfig{
     private final UserService userService;
     public WebSecurityConfig(UserService userService) {
         this.userService = userService;
@@ -47,11 +47,17 @@ public class WebSecurityConfig {
         http
                 .csrf()
                 .disable()
+                .cors().disable()
                 .authorizeHttpRequests()
+                .requestMatchers("/public", "/", "/templates/**", "/static/**", "/api/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .oauth2Login();
+        http
+                .oauth2ResourceServer()
+                .jwt();
+        http.headers().frameOptions().disable();
         return http.build();
     }
     @Autowired

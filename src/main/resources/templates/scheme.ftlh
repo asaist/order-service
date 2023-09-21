@@ -6,9 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
-    <link rel="stylesheet" href="https://track.samsmu.ru/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://track.samsmu.ru/css/styles.css">
-    <link rel="stylesheet" href="https://track.samsmu.ru/css/select2.min.css">
+<#--    <link rel="stylesheet" href="https://track.samsmu.ru/css/bootstrap.min.css">-->
+<#--    <link rel="stylesheet" href="https://track.samsmu.ru/css/styles.css">-->
+<#--    <link rel="stylesheet" href="https://track.samsmu.ru/css/select2.min.css">-->
+    <link rel="stylesheet" href="https://dev.track.samsmu.ru/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://dev.track.samsmu.ru/static/css/styles.css">
+    <link rel="stylesheet" href="https://dev.track.samsmu.ru/static/css/select2.min.css">
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/select2.min.css">
@@ -1036,18 +1039,31 @@
 
 
     <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    <script src="https://track.samsmu.ru/js/select2.min.js"></script>
-    <script src="https://track.samsmu.ru/js/popper.min.js"></script>
-    <script src="https://track.samsmu.ru/js/bootstrap.min.js"></script>
-    <script src="https://track.samsmu.ru/js/bootstrap.bundle.min.js"></script>
-    <script src="https://track.samsmu.ru/js/index.js"></script>
-    <script src="https://track.samsmu.ru/js/track.js"></script>
-    <script src="https://track.samsmu.ru/js/users.js"></script>
-    <script src="https://track.samsmu.ru/js/module.js"></script>
-    <script src="https://track.samsmu.ru/js/lecture.js"></script>
-    <script src="https://track.samsmu.ru/js/editTrack.js"></script>
-    <script src="https://track.samsmu.ru/js/editModule.js"></script>
-    <script src="https://track.samsmu.ru/js/editLecture.js"></script>
+<#--    <script src="https://track.samsmu.ru/js/select2.min.js"></script>-->
+<#--    <script src="https://track.samsmu.ru/js/popper.min.js"></script>-->
+<#--    <script src="https://track.samsmu.ru/js/bootstrap.min.js"></script>-->
+<#--    <script src="https://track.samsmu.ru/js/bootstrap.bundle.min.js"></script>-->
+<#--    <script src="https://track.samsmu.ru/js/index.js"></script>-->
+<#--    <script src="https://track.samsmu.ru/js/track.js"></script>-->
+<#--    <script src="https://track.samsmu.ru/js/users.js"></script>-->
+<#--    <script src="https://track.samsmu.ru/js/module.js"></script>-->
+<#--    <script src="https://track.samsmu.ru/js/lecture.js"></script>-->
+<#--    <script src="https://track.samsmu.ru/js/editTrack.js"></script>-->
+<#--    <script src="https://track.samsmu.ru/js/editModule.js"></script>-->
+<#--    <script src="https://track.samsmu.ru/js/editLecture.js"></script>-->
+
+    <script src="https://dev.track.samsmu.ru/static/js/select2.min.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/popper.min.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/bootstrap.min.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/bootstrap.bundle.min.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/index.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/track.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/users.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/module.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/lecture.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/editTrack.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/editModule.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/editLecture.js"></script>
 
     <script src="../js/jquery-3.7.0.min.js"></script>
     <script src="../js/select2.min.js"></script>

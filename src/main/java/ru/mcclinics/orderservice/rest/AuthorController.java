@@ -19,7 +19,7 @@ import static org.springframework.http.HttpStatus.OK;
 @Slf4j(topic = "order-service")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/author")
+@RequestMapping("/public/home/api/author")
 public class AuthorController {
 
     @Value("${files.upload.baseDir}")
@@ -44,7 +44,8 @@ public class AuthorController {
     @GetMapping("/authors")
     public List<Author> getAllAuthors(@RequestParam(value = "q", required = false) String query,
                                       @RequestParam(value = "page", defaultValue = "1") int page,
-                                      @RequestParam(value = "pageSize", defaultValue = "20") int pageSize) {
+                                      @RequestParam(value = "pageSize", defaultValue = "20") int pageSize,
+                                      @RequestHeader(value = "Authorization", required = false) String authorizationHeader) {
 
          log.info("/authors");
         List<Author> authors = service.findAuthors(query, page, pageSize);

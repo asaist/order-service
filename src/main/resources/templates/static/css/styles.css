@@ -1,0 +1,448 @@
+@font-face {
+    font-family: 'open sans';
+    src: url("fonts/OpenSans-Regular.ttf");
+}
+body {
+    font-family: 'open sans';
+  font-size: 14px;
+}
+h1, h2, h3, h4, h5, h6 {
+    font-weight: 700;
+}
+.fs16 {
+  font-size: 16px;
+}
+h3 {
+  margin-bottom: 20px;
+}
+.mr-10 {
+  margin-right: 10px;
+}
+.ml-10 {
+  margin-left: 10px;
+}
+.mb-10 {
+  margin-bottom: 10px;
+}
+.mb-20 {
+  margin-bottom: 20px;
+}
+.mt-10 {
+  margin-top: 10px;
+}
+.mt-m5 {
+  margin-top: -5px;
+}
+.header-text {
+  display: flex;
+  align-items: center;
+}
+.hidden {
+  display: none;
+}
+.lectureModal {
+  z-index: 5;
+  position: relative;
+  background: #fff;
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 15px;
+  border-radius: 10px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.overlay {
+    opacity: 0.3;
+    background: grey;
+    height: 100vh;
+    width: 100vw;
+    overflow-y: hidden;
+    position: absolute;
+    top: 0;
+    left:0;
+}
+.seriesBlock {
+  width: 80px;
+  height: 80px;  
+  background: #fb727f;
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+  opacity:0.9;
+  border-radius: 3px; 
+  margin: 1px;
+  position: relative;
+}
+.lectureBlock {
+  width: 80px;
+  height: 80px;  
+  background: #2379b2;
+  background-image:url(back.png);
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+  opacity:0.9;
+  border-radius: 3px; 
+  margin: 1px;  
+}
+.empty-block {
+  width: 80px;
+  height: 80px; 
+  border: 1px solid #b8b8b8;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  border-radius: 3px; 
+  margin: 1px;
+}
+.wrapperPlusBlock {
+  width: 80px;
+  height: 80px; 
+  display: flex;
+  margin-left: 10px;
+  align-items: center;  
+}
+.wrapperPlusBlockBegin {
+  margin-top: 25px;
+}
+.plusBlock {
+  border: 1px solid #b8b8b8;
+  border-radius: 5px; 
+  width: 40px;
+  height: 40px; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.plusBlock:hover {
+  background: #f4f4f4;
+}
+.fa-plus {
+  transition: 0.5s;
+}
+.fa-plus:hover {
+  transform: scale(1.2);
+}
+.lectureBlockIn {
+  width: 50px;
+  height: 50px;   
+  background: #0c79c2;
+  transform: 2s; 
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+}
+.lectureBlockIn:hover {
+  transform: 2s; 
+  transform: scale(1.1);
+}
+.arrowLectureBlock {
+  color: #fff;
+  position: absolute;
+  right: 5px;
+  bottom: 0px;  
+}
+.numberBlockCenter {
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
+}
+button {
+  outline: none;
+  margin-top: -5px;
+}
+.plusLecture {
+  margin-top: -1px;
+}
+.modal-wrapper {
+  top: 20px;
+  left: 20vw;
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  flex-flow: column nowrap;
+  width: 60vw;
+}
+.seriesLine {
+  margin-right: 25px;
+}
+.fa-eye {
+  margin-right: 5px;
+}
+.btn.btn-outline-primary .fa-eye {
+    margin-right: 0;
+}
+.cursor-pointer {
+  cursor:pointer;
+}
+.btn-icon {
+  border: none;
+  background: none; 
+}
+.th-table {
+  background: #006cb4;
+  color: #fff;
+}
+.th-table-lecture {
+  background: #28a745;
+  color: #fff;
+}
+tr.cursor-pointer:hover {
+  background: #dcdcdc;
+}
+.status:hover {
+  color: #006cb4;
+}
+.interruptedСircuit {
+  border: 1px solid #c5c5c5;
+  border-radius: 10px;
+  position: relative;
+  margin-top: -13px; 
+  z-index: -1;
+}
+.badge {
+  padding: 8px;
+  margin: 3px;
+}
+/* Schema.html */
+.left-schema {
+  width: 8%;
+  height: 100vh;
+  background: #d5d5d5;
+  padding: 15px;
+}
+.right-body {
+  width: 92%;
+  height: 100vh;
+}
+.nav {
+  padding: 10px;
+}
+.applicationBodySchema {  
+  height: 90vh;
+  overflow-y: auto;
+}
+
+
+
+
+.track-block {  
+  width: 100%;
+  padding: 5px;  
+  border-radius: 5px;
+  background: #fff;;
+}
+.active-track-block {
+  border: 2px solid #006cb4;
+}
+.track-line {
+  border: 1px dashed #000;
+  height: 150px;
+}
+.track-block-text {
+ 
+}
+.icon-circle {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #dcdcdc;
+}
+.active-icon-circle {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #006cb4;
+}
+
+.accordion-button {
+    color: #0c63e4;
+    background-color: #e7f1ff;
+    box-shadow: inset 0 -1px 0 rgba(0,0,0,.125);
+}
+[data-tooltip] {
+    position: relative; /* Относительное позиционирование */
+    /*width: 100%;*/
+}
+[data-tooltip]::after {
+    content: attr(data-tooltip); /* Выводим текст */
+    position: absolute; /* Абсолютное позиционирование */ 
+    top: 3px;   
+    left: 40px;
+    width: 150px;
+    background: #fff; /* Синий цвет фона */
+    color: #000; /* Цвет текста */
+    font-size: 14px;
+    border-radius: 2px;
+    padding: 0.5em; /* Поля вокруг текста */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Параметры тени */
+    pointer-events: none; /* Подсказка */
+    opacity: 0; /* Подсказка невидима */
+    transition: 1s; /* Время появления подсказки */
+    z-index: 1001;
+}
+[data-tooltip]:hover::after {
+    opacity: 1; 
+    left: 60px;
+    top: 3px;   
+}
+[data-tooltip-right] {
+    position: relative; /* Относительное позиционирование */
+    /*width: 100%;*/
+}
+[data-tooltip-right]::after {
+    content: attr(data-tooltip-right); /* Выводим текст */
+    position: absolute; /* Абсолютное позиционирование */
+    top: 2em;
+    right: 0px;
+    width: 150px;
+    background: #fff; /* Синий цвет фона */
+    color: #000; /* Цвет текста */
+    font-size: 14px;
+    border-radius: 2px;
+    padding: 0.5em; /* Поля вокруг текста */
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Параметры тени */
+    pointer-events: none; /* Подсказка */
+    opacity: 0; /* Подсказка невидима */
+    transition: 1s; /* Время появления подсказки */
+    z-index: 1001;
+}
+[data-tooltip-right]:hover::after {
+    opacity: 1; /* Показываем подсказку */
+    top: 3em; /* Положение подсказки */
+}
+.modal-header {
+  border-bottom: none;
+}
+.modal-content, .modal-footer {
+  border: none;
+}
+.lectureBlockScheme {   
+  position: relative;
+}
+.lecBlockScheme {  
+  height: 70px;
+  width: 180px;
+  position: relative;
+    justify-content: space-between;
+}
+.lectureBlockSchemeText {
+  max-width: 150px;
+}
+.lectureBlockSchemeTextHint {
+  position: absolute;
+  top:50px;  
+  max-width: 200px;
+  background: #fff; 
+  color: #000; 
+  font-size: 14px;
+  border-radius: 2px;
+  padding: 0.5em; 
+  pointer-events: none;
+  z-index: 1001;
+
+}
+@media (max-width: 1000px) {
+  .rowScheme {
+    flex-wrap: wrap;
+    } 
+}
+
+#tableAuthor {
+  margin-top: 25px;
+  border: 1px solid #e7f1ff;
+  border-radius: 10px;
+}
+#tableAuthor td{
+  padding: 0px;
+  border: 1px solid #e7f1ff;
+}
+#tableAuthor th{
+  padding: 5px;
+  border: 1px solid #e7f1ff;
+}
+#tableAuthor tr:hover {
+  background: #e7f1ff;
+}
+.nameTd {
+  width: 50%;
+}
+.regTd {
+  width: 20%;
+}
+.docTd {
+  width: 10%;
+}
+.checkTd {
+  width: 10%;
+}
+.removeTd {
+  width: 10%;
+}
+
+.form-check-input[type=radio] {
+  margin: auto;
+  display: grid;
+}
+tbody, td, tfoot, th, thead, tr {
+    border-color: inherit;
+    border-style: none; 
+    border-width: 0;
+}
+.select2  {min-height: calc(1.5em + (0.75rem + 2px));
+    display: block;
+    width: 100%;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;}
+.preview {
+    display: flex;
+    flex-wrap: wrap;
+    padding: .5rem;
+}
+.preview-image {
+    margin-bottom: .5rem;
+    margin-right: .5rem;
+}
+.preview-image img {
+    width: 180px;
+    height: auto;
+}
+.container {
+    padding-top: .5rem;
+    width: 800px;
+}
+.card {
+    border-radius: 6px;
+    background: #fff;
+    padding: 1rem;
+    margin-right: .1rem;
+    box-shadow: 1px 1px 1px rgba(0, 0, 0, .2);
+}
+.iframePdf{
+    width: 100%;
+    height: calc(65vh);
+    border: black 1px;
+    overflow-y: hidden;
+    padding: 0px;
+    margin: 0px;
+}
+.modalShowDocs {
+    z-index: 5;
+    position: absolute;
+    top:10%;
+    left: 20%;
+    background: #fff;
+    width: 60%;
+    padding: 15px;
+    border-radius: 10px;
+    max-height: 85vh;
+}
+#modalShowDocs .modal-header {
+    justify-content: flex-end;
+    padding: 0px;
+}
+#tableAuthor .mb-10 {
+    padding: 10px;
+}

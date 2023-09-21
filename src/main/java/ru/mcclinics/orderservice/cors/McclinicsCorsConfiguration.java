@@ -9,7 +9,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
@@ -24,7 +23,11 @@ public class McclinicsCorsConfiguration implements WebMvcConfigurer {
             .addResourceLocations("file://" + uploadPath +"/");
     registry.addResourceHandler("/static/**")
             .addResourceLocations("classpath:/static/");
+    registry.addResourceHandler("/templates/**")
+            .addResourceLocations("classpath:/templates/");
   }
+
+
 
 //  @Override
 //  public void addViewControllers(ViewControllerRegistry registry) {
