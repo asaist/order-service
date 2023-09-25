@@ -49,7 +49,7 @@ public class WebSecurityConfig{
                 .disable()
                 .cors().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/public", "/", "/templates/**", "/static/**", "/api/**").permitAll()
+                .requestMatchers("/public", "/", "/templates/**", "/static/**", "/api/**", "/resources/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()

@@ -6,41 +6,127 @@
 		<![CDATA[]]>
 	</queryString>
 	<field name="link" class="java.lang.String"/>
+	<field name="name" class="java.lang.String"/>
+	<field name="annotation" class="java.lang.String"/>
+	<field name="keywords" class="java.lang.String"/>
+	<field name="supervisor" class="java.lang.String"/>
+	<field name="authors" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="90" splitType="Stretch">
-			<textField>
-				<reportElement x="180" y="20" width="201" height="70" uuid="ad628b43-7364-4958-881f-7fec1494f03e"/>
-				<textFieldExpression><![CDATA[федеральное государственное бюджетное
+		<band height="207" splitType="Stretch">
+			<staticText>
+				<reportElement x="170" y="50" width="169" height="150" uuid="de5eac3d-d960-430b-a6fd-69eb95b19b3b"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" pdfFontName="times.ttf" pdfEncoding="CP1251" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA["Федеральное государственное бюджетное
 образовательное учреждение высшего образования
 «Самарский государственный медицинский университет»
-Министерства здравоохранения Российской Федерации"]]></textFieldExpression>
-			</textField>
+Министерства здравоохранения Российской Федерации"]]></text>
+			</staticText>
 		</band>
 	</title>
 	<pageHeader>
 		<band height="35" splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="61" splitType="Stretch"/>
+		<band height="37" splitType="Stretch"/>
 	</columnHeader>
 	<detail>
-		<band height="125" splitType="Stretch">
+		<band height="250" splitType="Stretch">
 			<textField>
-				<reportElement x="60" y="15" width="111" height="31" uuid="7ecb0b2e-11dc-46ef-b9a3-896896f8ca34"/>
-				<textFieldExpression><![CDATA[" " + $F{link}]]></textFieldExpression>
+				<reportElement x="149" y="10" width="395" height="30" uuid="186255f2-b573-4e9e-ae3b-5105129f9ff0"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" pdfFontName="times.ttf" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="148" y="50" width="396" height="30" uuid="2cbaefed-4184-4864-afa6-9e8d1f5f1086"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" pdfFontName="times.ttf" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{annotation}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="5" y="10" width="100" height="30" uuid="7637f93f-0d6f-4530-8c6e-06c820a252b1"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" pdfFontName="times.ttf" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Наименование:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="7" y="48" width="70" height="30" uuid="19b13d78-b6ec-414a-94be-0591385e508d"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" pdfFontName="times.ttf" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Аннотация:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="6" y="86" width="128" height="30" uuid="49156aae-17f7-453c-8956-1d5ec7510a0b"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" pdfFontName="times.ttf" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Ключевые слова: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="149" y="86" width="396" height="30" uuid="b47b1dee-ed17-4082-9f03-fb117e705771"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" pdfFontName="times.ttf" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{keywords}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="170" width="128" height="30" uuid="3d1c01b2-1c5b-41c1-af4c-37d7df147ba0"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" pdfFontName="times.ttf" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Руководитель: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="150" y="170" width="396" height="30" uuid="7079fff3-de87-449c-82bd-38ab4bb71e5b"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" pdfFontName="times.ttf" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{supervisor}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="7" y="130" width="128" height="30" uuid="33fc2ea0-7711-4d56-a08b-a816eaed9145"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" pdfFontName="times.ttf" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Авторы: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="150" y="130" width="395" height="30" uuid="3d7a765f-8bb4-4da9-b822-616a818b6356"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" pdfFontName="times.ttf" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{authors}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="45" splitType="Stretch"/>
+		<band height="37" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
 		<band height="54" splitType="Stretch"/>
 	</pageFooter>
 	<summary>
-		<band height="42" splitType="Stretch"/>
+		<band height="42" splitType="Stretch">
+			<staticText>
+				<reportElement x="7" y="6" width="50" height="30" uuid="fdbf2457-3281-4d03-a035-8be3aa28a717"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" pdfFontName="times.ttf" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Ссылка: ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="90" y="6" width="464" height="31" uuid="7ecb0b2e-11dc-46ef-b9a3-896896f8ca34"/>
+				<textFieldExpression><![CDATA[$F{link}]]></textFieldExpression>
+			</textField>
+		</band>
 	</summary>
 </jasperReport>

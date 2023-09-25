@@ -228,20 +228,30 @@ public class SchemeController {
         Iterable<Track> tracks = trackService.findTracks();
         return ResponseEntity.ok(new TrackDto(track));
     }
-    @PostMapping("/sendTrack")
-    public ResponseEntity<String> sendTrackForApproval(@RequestBody String savedTrack
+    @PostMapping(value = "/sendTrack", consumes = {"application/x-www-form-urlencoded"})
+    public ResponseEntity sendTrackForApproval(@RequestParam Long savedTrack
     ) throws DocumentException, IOException, JRException {
 
-        String greeting = "Вам направляется на согласование : https://dev.track.samsmu.ru/";
-        String base64 = pdfGenertor.generatePdf(greeting + "track/" + savedTrack);
-        documentProcessingService.launchProcess(base64);
-
+//        String greeting = "Вам направляется на согласование : https://dev.track.samsmu.ru/";
+//        String base64 = pdfGenertor.generatePdf(greeting + "track/" + savedTrack);
+//        documentProcessingService.launchProcess(base64);
+        Track track = trackService.findTrackById(savedTrack);
         OrderDocument reportData = new OrderDocument("https://dev.track.samsmu.ru/track/" + savedTrack);
+        reportData.setName(track.getTrackName());
+        reportData.setAnnotation(track.getAnnotation());
+        String keyWords = String.join("; ", track.getKeyWords());
+        reportData.setKeywords(keyWords);
+        reportData.setSupervisor(track.getSupervisor());
+        Set<Author> authors = track.getAuthors();
+        String authorsNames = authors.stream()
+                .map(author -> author.getLastName() + " " + author.getFirstName() + " " + author.getMiddleName())
+                .collect(Collectors.joining("; "));
+        reportData.setAuthors(authorsNames);
         List<OrderDocument> orderDocumentList = Arrays.asList(reportData);
-        documentProcessingService.generatePdfJasper((Collection<?>) reportData);
+        documentProcessingService.generatePdfJasper((Collection<?>) orderDocumentList);
 
 
-        return ResponseEntity.ok(savedTrack);
+        return ResponseEntity.ok(200);
     }
 
 

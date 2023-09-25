@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
@@ -102,16 +104,26 @@ public class DocumentProcessingService {
     public void generatePdfJasper(Collection<?> reportData) throws JRException, IOException {
 
         // Загрузка шаблона отчета Jasper Reports из файла
-        InputStream reportStream = getClass().getResourceAsStream("/reports/report.jrxml");
-        JasperReport jasperReport = JasperCompileManager.compileReport(reportStream);
+
+        Resource resource = new ClassPathResource("/reports/order.jrxml");
+        InputStream jasperReportStream = resource.getInputStream();
+
+
+//        InputStream reportStream = getClass().getResourceAsStream("/reports/report.jrxml");
+        JasperReport jasperReport = JasperCompileManager.compileReport(jasperReportStream);
 
         // Получение данных для отчета из базы данных
 //        List<ReportData> reportData = reportService.getReportData();
 
+        String classPath = System.getProperty("user.dir") + "/template/";
+
         // Заполнение отчета данными
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(reportData);
         Map<String, Object> parameters = new HashMap<>();
+        parameters.put("classPath", classPath);
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+
+        JasperExportManager.exportReportToPdfFile(jasperPrint, "report.pdf");
 
         // Преобразование отчета в PDF и кодирование его в Base64
         byte[] pdfBytes = JasperExportManager.exportReportToPdf(jasperPrint);
