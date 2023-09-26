@@ -43,6 +43,11 @@ public class McclinicsCorsConfiguration implements WebMvcConfigurer {
         .allowedHeaders("*")
         .allowedMethods("*")
         .exposedHeaders(HttpHeaders.SET_COOKIE);
+    registry.addMapping("/**")
+            .allowedOrigins("https://dev.service.samsmu.ru") // Specify the allowed origin
+            .allowedMethods("*") // Allowing all methods
+            .allowedHeaders("*") // Allowing all headers
+            .allowCredentials(true); // Allowing credentials
   }
 
   @Bean
