@@ -115,12 +115,12 @@ public class DocumentProcessingService {
         // Получение данных для отчета из базы данных
 //        List<ReportData> reportData = reportService.getReportData();
 
-        String classPath = System.getProperty("user.dir") + "/template/";
+//        String classPath = System.getProperty("user.dir") + "/template/";
 
         // Заполнение отчета данными
         JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(reportData);
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("classPath", classPath);
+//        parameters.put("classPath", classPath);
         JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
 
         JasperExportManager.exportReportToPdfFile(jasperPrint, "report.pdf");

@@ -1,7 +1,7 @@
 //отправить на согласоване процесс
 async function sendForApprovalFunc() {
     try {
-    const response = await fetch('https://dev.track.samsmu.ru/sendTrack', {
+    const response = await fetch(`https://dev.track.samsmu.ru/sendTrack?savedTrack=${savedTrack}`, {
         method: 'POST',
         body: JSON.stringify(savedTrack),
         headers: {

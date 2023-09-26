@@ -228,7 +228,7 @@ public class SchemeController {
         Iterable<Track> tracks = trackService.findTracks();
         return ResponseEntity.ok(new TrackDto(track));
     }
-    @PostMapping(value = "/sendTrack", consumes = {"application/x-www-form-urlencoded"})
+    @PostMapping(value = "/sendTrack", consumes = {"application/json"})
     public ResponseEntity sendTrackForApproval(@RequestParam Long savedTrack
     ) throws DocumentException, IOException, JRException {
 

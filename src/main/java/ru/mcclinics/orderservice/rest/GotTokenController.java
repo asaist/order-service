@@ -1,4 +1,4 @@
-package ru.mcclinics.orderservice.rest;
+//package ru.mcclinics.orderservice.rest;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
