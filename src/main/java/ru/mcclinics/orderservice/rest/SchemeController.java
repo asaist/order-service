@@ -41,6 +41,7 @@ public class SchemeController {
     private final EntityDtoParamService entityDtoParamService;
     private final PdfGenerator pdfGenertor;
     private final DocumentProcessingService documentProcessingService;
+    private final ShapeService shapeService;
 
 
     @GetMapping("/msg")
@@ -92,6 +93,7 @@ public class SchemeController {
             model.addAttribute("universities", universityService.getUniversityList());
             model.addAttribute("lectures", lectureService.findLectures());
             model.addAttribute("series", seriesService.findSeries());
+            model.addAttribute("shapes", shapeService.findShapes());
             model.addAttribute("profileTab", true);
             model.addAttribute("lectureFlag", true);
             model.addAttribute("moduleFlag", true);

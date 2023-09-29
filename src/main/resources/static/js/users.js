@@ -1,9 +1,10 @@
 class Author {
-    constructor(id, fullName, degree, isSupervisor, passport, diploma, diplomaScienceDegree, diplomaScienceRank, noCriminalRecord, healthStatus, employmentBook) {
+    constructor(id, fullName, degree, isSupervisor, lecture, passport, diploma, diplomaScienceDegree, diplomaScienceRank, noCriminalRecord, healthStatus, employmentBook) {
         this.id = id;
         this.fullName = fullName;
         this.degree = degree;
         this.isSupervisor = isSupervisor;
+        this.lecture = lecture;
         this.passport = passport;
         this.diploma = diploma;
         this.diplomaScienceRank = diplomaScienceRank;

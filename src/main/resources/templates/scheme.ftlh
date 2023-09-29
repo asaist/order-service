@@ -103,11 +103,11 @@
           </ul>
         <#else>
         <ul class="nav nav-pills" id="myTab" role="tablist">
-          <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Трек</button>
-          </li>
+<#--          <li class="nav-item" role="presentation">-->
+<#--            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Трек</button>-->
+<#--          </li>-->
           <li class="nav-item" role="presentation" id="moduleHideSeries">
-            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Модуль</button>
+            <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Курс лекций</button>
           </li>
           <li class="nav-item" role="presentation">
             <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Лекция</button>
@@ -128,320 +128,320 @@
 
            <!-- Заявка на Трек -->
 
-            <div class="tab-pane fade <#if !moduleFlag || !lectureFlag> <#else>show active</#if>" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-              <form method="post" action="/addTrack" id="createTrack" enctype="multipart/form-data">
-                <div>
-                  <#if profileTab>
-                    <div class="d-flex justify-content-center">
-                      <h5 class="modal-title">Заявка на создание трека</h5>
-                    </div>
-                  <#else>
-                    <div class="d-flex justify-content-center">
-                      <h5 class="modal-title">Редактирование трека</h5>
-                    </div>
-                  </#if>
-                  <div class="modal-body">
+<#--            <div class="tab-pane fade <#if !moduleFlag || !lectureFlag> <#else>show active</#if>" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab" tabindex="0">-->
+<#--              <form method="post" action="/addTrack" id="createTrack" enctype="multipart/form-data">-->
+<#--                <div>-->
+<#--                  <#if profileTab>-->
+<#--                    <div class="d-flex justify-content-center">-->
+<#--                      <h5 class="modal-title">Заявка на создание трека</h5>-->
+<#--                    </div>-->
+<#--                  <#else>-->
+<#--                    <div class="d-flex justify-content-center">-->
+<#--                      <h5 class="modal-title">Редактирование трека</h5>-->
+<#--                    </div>-->
+<#--                  </#if>-->
+<#--                  <div class="modal-body">-->
 
-                    <select class="form-control editable" name="university">
-                      <#if profileTab>
-                        <option selected="" disabled="">Выберите институт</option>
-                      <#else>
-                        <option selected="" disabled="" value="${track.getUniversity().universityId}">${track.universityName}</option>
-                      </#if>
-                      <#list universities as university>
-                        <option value="${university.universityId}">${university.universityName}</option>
-                      </#list>
-                    </select>
+<#--                    <select class="form-control editable" name="university">-->
+<#--                      <#if profileTab>-->
+<#--                        <option selected="" disabled="">Выберите институт</option>-->
+<#--                      <#else>-->
+<#--                        <option selected="" disabled="" value="${track.getUniversity().universityId}">${track.universityName}</option>-->
+<#--                      </#if>-->
+<#--                      <#list universities as university>-->
+<#--                        <option value="${university.universityId}">${university.universityName}</option>-->
+<#--                      </#list>-->
+<#--                    </select>-->
 
 
-                    <div class="my-4">
-                      <p><i class="fas fa-angle-double-right text-primary mr-10"></i><b>Руководитель образовательного трека</b></p>
-                      <div>
-                        <div class="form-check mb-10">
-                          <input class="form-check-input" type="checkbox" name="is-emsloyee"  onclick="authorSamGMU()">
-                          <label class="form-check-label">Автор является сотрудником СамГМУ</label>
-                        </div>
-                        <div class="hidden" id="authorSamGMU">
-                          <select class="js-data-example-ajax form-control mb-10" name="author" onclick="addManTrack()" onchange="selectAuthor(this.value)" id="select"></select>
-                        </div>
-
-                        <div id="authorWorld">
-                          <input class="form-control mb-10" type="text" id="inputNameAuthor"  placeholder="Введите ФИО автора"></input>
-                          <div class="d-flex mb-10">
-                            <select class="form-control w-75 mr-10" id="regalia" size="1" onclick="selectReg(this.value)">
-                              <option  disabled>Выберите регалии</option>
-                              <option>Профессор</option>
-                              <option>К.М.Н.</option>
-                              <option>Доцент</option>
-                              <option>Зав. кафедрой</option>
-                            </select>
-                          </div>
-
-                          <div class="d-flex" id="addRegalii">
-                          </div>
-
-                          <button type="button" class="btn btn-primary mt-3" id="createAuthorButton">
-                            <i class="fas fa-plus"></i>
-                          </button>
-                        </div>
-
-                        <div>
-                          <table class="table table-hover editable" id="tableAuthor" name="authors">
-                            <tr>
-                              <th class="nameTd">ФИО автора</th>
-                              <th class="text-center regTd">Должность, степень, звание</th>
-                              <th class="text-center checkTd">Руководитель трека</th>
-                              <th class="text-center docTd">Документы</th>
-                              <th class="text-center removeTd"><i class="fas fa-trash-alt"></i></th>
-                            </tr>
-                          </table>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="my-4">
-                      <b>Название образовательного трека</b><br>
-                      <#if profileTab>
-                        <textarea class="form-control editable" id="trackInput" name="trackName" cols="80" rows="1" oninput="updateTrackHeading()" placeholder="Введите название образовательного трека"></textarea>
-                      <#else>
-                        <textarea class="form-control editable" id="trackInput" name="trackName" cols="80" rows="1" oninput="updateTrackHeading()" placeholder="Введите название образовательного трека">${track.trackName}</textarea>
-                      </#if>
-                    </div>
-
-                    <div class="my-4">
-                      <b>Аннотация образовательного трека</b><br>
-                      <#if profileTab>
-                        <textarea class="form-control editable" name="trackAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#" onclick="trackSignature()"></textarea>
-                      <#else>
-                        <textarea class="form-control editable" name="trackAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#" onclick="trackSignature()">${track.annotation}</textarea>
-                      </#if>
-                    </div>
-                    <div class="my-4">
-                      <b>Дополнительные ключевые слова</b> <br>
-                      <#if profileTab>
-                        <textarea class="form-control editable" name="trackKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив их ;" onclick="trackCheck()"></textarea>
-                      <#else>
-                        <textarea class="form-control editable" name="trackKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив их ;" onclick="trackCheck()">${track.keyWords}</textarea>
-                      </#if>
-                    </div>
-                  </div>
-
-                </div>
-                <div class="tab-pane fade show active h-100" id="pills-network-wired" role="tabpanel" aria-labelledby="pills-network-wired-tab" tabindex="0">
-                  <div class="my-3 rounded p-3" style="border: 1px solid #e9e9e9; background: #e9e9e9;">
-                    <div class="d-flex justify-content-end">
-                      <button type="button" class="btn btn-sm rounded px-3" style="border: 1px solid #e9e9e9" data-bs-toggle="modal" data-bs-target="#addContentModal"><i class="fas fa-plus"></i></button>
-                    </div>
-                    <div class="d-flex justify-content-center">
-                      <h5 id="trackHeading" class="text-center m-0 p-0 flex-nowrap w-75">Образовательный трек</h5>
-                    </div>
-                  </div>
-
-                  <div class="modal fade" id="addContentModal" tabindex="-1" aria-labelledby="addContentModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
-                        </div>
-                        <div class="modal-body">
-                          <div class="d-flex justify-content-center mb-3"><h5>Выберите тип добавляемого контента</h5></div>
-                          <div class="d-flex justify-content-center">
-
-<#--                            <button type="button" class="btn btn-primary mx-2" onclick="addModuleScheme()" data-bs-dismiss="modal">Модуль</button>-->
-                            <button type="button" class="btn btn-primary m-2" onclick="addSeriesBegin()" data-bs-dismiss="modal">Серия</button>
-                            <button type="button" class="btn btn-primary m-2" onclick="addLectureModalBegin()" data-bs-dismiss="modal">Лекция</button>
-<#--                            <button type="button" class="btn btn-primary mx-2" onclick="addLectureScheme()" data-bs-dismiss="modal">Лекция</button>-->
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="d-flex rowScheme" id="rowScheme" style="position:relative;">
-                    <div id="rowModule" class="d-flex flex-wrap">
-<#--                      <div class="mx-3">-->
-<#--                        <div class="bg-primary rounded p-3 d-flex">-->
-<#--                          <div class="col-11">-->
-<#--                            <p class="text-center text-white fs16 pb-0 mb-0">Модуль 1</p>-->
-<#--                          </div>-->
-<#--                          <div class="col-1">-->
-<#--                            <button type="button" class="btn btn-sm rounded"><i class="fas fa-plus text-white" onclick="addLecInModule(this)"></i></button>-->
-<#--                          </div>-->
+<#--                    <div class="my-4">-->
+<#--                      <p><i class="fas fa-angle-double-right text-primary mr-10"></i><b>Руководитель образовательного трека</b></p>-->
+<#--                      <div>-->
+<#--                        <div class="form-check mb-10">-->
+<#--                          <input class="form-check-input" type="checkbox" name="is-emsloyee"  onclick="authorSamGMU()">-->
+<#--                          <label class="form-check-label">Автор является сотрудником СамГМУ</label>-->
 <#--                        </div>-->
-<#--                        <div class="d-flex justify-content-between my-2 rowLecInModule">-->
-<#--                          <div class="bg-success m-3 p-3 rounded lectureBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 1</p></div>-->
-<#--                          <div class="bg-success m-3 p-3 rounded lectureBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 2</p></div>-->
-<#--                          <div class="bg-success m-3 p-3 rounded lectureBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 3</p></div>-->
+<#--                        <div class="hidden" id="authorSamGMU">-->
+<#--                          <select class="js-data-example-ajax form-control mb-10" name="author" onclick="addManTrack()" onchange="selectAuthor(this.value)" id="select"></select>-->
+<#--                        </div>-->
+
+<#--                        <div id="authorWorld">-->
+<#--                          <input class="form-control mb-10" type="text" id="inputNameAuthor"  placeholder="Введите ФИО автора"></input>-->
+<#--                          <div class="d-flex mb-10">-->
+<#--                            <select class="form-control w-75 mr-10" id="regalia" size="1" onclick="selectReg(this.value)">-->
+<#--                              <option  disabled>Выберите регалии</option>-->
+<#--                              <option>Профессор</option>-->
+<#--                              <option>К.М.Н.</option>-->
+<#--                              <option>Доцент</option>-->
+<#--                              <option>Зав. кафедрой</option>-->
+<#--                            </select>-->
+<#--                          </div>-->
+
+<#--                          <div class="d-flex" id="addRegalii">-->
+<#--                          </div>-->
+
+<#--                          <button type="button" class="btn btn-primary mt-3" id="createAuthorButton">-->
+<#--                            <i class="fas fa-plus"></i>-->
+<#--                          </button>-->
+<#--                        </div>-->
+
+<#--                        <div>-->
+<#--                          <table class="table table-hover editable" id="tableAuthor" name="authors">-->
+<#--                            <tr>-->
+<#--                              <th class="nameTd">ФИО автора</th>-->
+<#--                              <th class="text-center regTd">Должность, степень, звание</th>-->
+<#--                              <th class="text-center checkTd">Руководитель трека</th>-->
+<#--                              <th class="text-center docTd">Документы</th>-->
+<#--                              <th class="text-center removeTd"><i class="fas fa-trash-alt"></i></th>-->
+<#--                            </tr>-->
+<#--                          </table>-->
 <#--                        </div>-->
 <#--                      </div>-->
-                    </div>
+<#--                    </div>-->
 
-                    <div class="d-flex mx-2 flex-wrap" id="colLec">
+<#--                    <div class="my-4">-->
+<#--                      <b>Название образовательного трека</b><br>-->
+<#--                      <#if profileTab>-->
+<#--                        <textarea class="form-control editable" id="trackInput" name="trackName" cols="80" rows="1" oninput="updateTrackHeading()" placeholder="Введите название образовательного трека"></textarea>-->
+<#--                      <#else>-->
+<#--                        <textarea class="form-control editable" id="trackInput" name="trackName" cols="80" rows="1" oninput="updateTrackHeading()" placeholder="Введите название образовательного трека">${track.trackName}</textarea>-->
+<#--                      </#if>-->
+<#--                    </div>-->
 
-<#--                      <div class="bg-success mx-2 p-3 mb-1 rounded lectureBlockScheme lecBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 1 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p></div>-->
-<#--                      <div class="bg-success mx-2 p-3 mb-1 rounded lectureBlockScheme lecBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 2thgyluiuhgfghj sdafhkl;dsfatryiltrfdcvbnjkiuytf</p></div>-->
-<#--                      <div class="bg-success mx-2 p-3 mb-1 rounded lectureBlockScheme lecBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 3 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</p></div>-->
+<#--                    <div class="my-4">-->
+<#--                      <b>Аннотация образовательного трека</b><br>-->
+<#--                      <#if profileTab>-->
+<#--                        <textarea class="form-control editable" name="trackAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#" onclick="trackSignature()"></textarea>-->
+<#--                      <#else>-->
+<#--                        <textarea class="form-control editable" name="trackAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#" onclick="trackSignature()">${track.annotation}</textarea>-->
+<#--                      </#if>-->
+<#--                    </div>-->
+<#--                    <div class="my-4">-->
+<#--                      <b>Дополнительные ключевые слова</b> <br>-->
+<#--                      <#if profileTab>-->
+<#--                        <textarea class="form-control editable" name="trackKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив их ;" onclick="trackCheck()"></textarea>-->
+<#--                      <#else>-->
+<#--                        <textarea class="form-control editable" name="trackKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив их ;" onclick="trackCheck()">${track.keyWords}</textarea>-->
+<#--                      </#if>-->
+<#--                    </div>-->
+<#--                  </div>-->
+
+<#--                </div>-->
+<#--                <div class="tab-pane fade show active h-100" id="pills-network-wired" role="tabpanel" aria-labelledby="pills-network-wired-tab" tabindex="0">-->
+<#--                  <div class="my-3 rounded p-3" style="border: 1px solid #e9e9e9; background: #e9e9e9;">-->
+<#--                    <div class="d-flex justify-content-end">-->
+<#--                      <button type="button" class="btn btn-sm rounded px-3" style="border: 1px solid #e9e9e9" data-bs-toggle="modal" data-bs-target="#addContentModal"><i class="fas fa-plus"></i></button>-->
+<#--                    </div>-->
+<#--                    <div class="d-flex justify-content-center">-->
+<#--                      <h5 id="trackHeading" class="text-center m-0 p-0 flex-nowrap w-75">Образовательный трек</h5>-->
+<#--                    </div>-->
+<#--                  </div>-->
+
+<#--                  <div class="modal fade" id="addContentModal" tabindex="-1" aria-labelledby="addContentModalLabel" aria-hidden="true">-->
+<#--                    <div class="modal-dialog">-->
+<#--                      <div class="modal-content">-->
+<#--                        <div class="modal-header">-->
+<#--                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>-->
+<#--                        </div>-->
+<#--                        <div class="modal-body">-->
+<#--                          <div class="d-flex justify-content-center mb-3"><h5>Выберите тип добавляемого контента</h5></div>-->
+<#--                          <div class="d-flex justify-content-center">-->
+
+<#--&lt;#&ndash;                            <button type="button" class="btn btn-primary mx-2" onclick="addModuleScheme()" data-bs-dismiss="modal">Модуль</button>&ndash;&gt;-->
+<#--                            <button type="button" class="btn btn-primary m-2" onclick="addSeriesBegin()" data-bs-dismiss="modal">Серия</button>-->
+<#--                            <button type="button" class="btn btn-primary m-2" onclick="addLectureModalBegin()" data-bs-dismiss="modal">Лекция</button>-->
+<#--&lt;#&ndash;                            <button type="button" class="btn btn-primary mx-2" onclick="addLectureScheme()" data-bs-dismiss="modal">Лекция</button>&ndash;&gt;-->
+<#--                          </div>-->
+<#--                        </div>-->
+<#--                      </div>-->
+<#--                    </div>-->
+<#--                  </div>-->
+
+<#--                  <div class="d-flex rowScheme" id="rowScheme" style="position:relative;">-->
+<#--                    <div id="rowModule" class="d-flex flex-wrap">-->
+<#--&lt;#&ndash;                      <div class="mx-3">&ndash;&gt;-->
+<#--&lt;#&ndash;                        <div class="bg-primary rounded p-3 d-flex">&ndash;&gt;-->
+<#--&lt;#&ndash;                          <div class="col-11">&ndash;&gt;-->
+<#--&lt;#&ndash;                            <p class="text-center text-white fs16 pb-0 mb-0">Модуль 1</p>&ndash;&gt;-->
+<#--&lt;#&ndash;                          </div>&ndash;&gt;-->
+<#--&lt;#&ndash;                          <div class="col-1">&ndash;&gt;-->
+<#--&lt;#&ndash;                            <button type="button" class="btn btn-sm rounded"><i class="fas fa-plus text-white" onclick="addLecInModule(this)"></i></button>&ndash;&gt;-->
+<#--&lt;#&ndash;                          </div>&ndash;&gt;-->
+<#--&lt;#&ndash;                        </div>&ndash;&gt;-->
+<#--&lt;#&ndash;                        <div class="d-flex justify-content-between my-2 rowLecInModule">&ndash;&gt;-->
+<#--&lt;#&ndash;                          <div class="bg-success m-3 p-3 rounded lectureBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 1</p></div>&ndash;&gt;-->
+<#--&lt;#&ndash;                          <div class="bg-success m-3 p-3 rounded lectureBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 2</p></div>&ndash;&gt;-->
+<#--&lt;#&ndash;                          <div class="bg-success m-3 p-3 rounded lectureBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 3</p></div>&ndash;&gt;-->
+<#--&lt;#&ndash;                        </div>&ndash;&gt;-->
+<#--&lt;#&ndash;                      </div>&ndash;&gt;-->
+<#--                    </div>-->
+
+<#--                    <div class="d-flex mx-2 flex-wrap" id="colLec">-->
+
+<#--&lt;#&ndash;                      <div class="bg-success mx-2 p-3 mb-1 rounded lectureBlockScheme lecBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 1 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. </p></div>&ndash;&gt;-->
+<#--&lt;#&ndash;                      <div class="bg-success mx-2 p-3 mb-1 rounded lectureBlockScheme lecBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 2thgyluiuhgfghj sdafhkl;dsfatryiltrfdcvbnjkiuytf</p></div>&ndash;&gt;-->
+<#--&lt;#&ndash;                      <div class="bg-success mx-2 p-3 mb-1 rounded lectureBlockScheme lecBlockScheme"><p class="text-center text-white m-0 p-0 text-truncate lectureBlockSchemeText" onmouseover="HintShowbyTamara(this)" onmouseout="HintHidebyTamara(this)">Лекция 3 Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod</p></div>&ndash;&gt;-->
 
 
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="submit" id="submitButton" class="btn btn-primary">Добавить трек</button>
-                    <button type="submit" id="editTrack" class="btn btn-primary hidden">Редактировать трек</button>
-                    <button type="button" id="sendForApproval" class="btn btn-primary hidden" onclick="sendForApprovalFunc()">Отправить на согласование</button>
-                  </div>
-                </div>
-              </form>
-            </div>
-            <!-- Заявка на Модуль всплывающая для дерева -->
-            <div class="modal-wrapper">
-              <div class="lectureModal shadow hidden" id="addSeriesModal" name="modalSeries">
-                <div class="modal-header">
-                  <h5>Добавить Модуль</h5>
-                  <button type="button" class="btn-close" onclick="btnClose()"></button>
-                </div>
-                <div class="modal-content">
-                  <div class="modal-body">
+<#--                    </div>-->
+<#--                  </div>-->
+<#--                  <div class="modal-footer">-->
+<#--                    <button type="submit" id="submitButton" class="btn btn-primary">Добавить трек</button>-->
+<#--                    <button type="submit" id="editTrack" class="btn btn-primary hidden">Редактировать трек</button>-->
+<#--                    <button type="button" id="sendForApproval" class="btn btn-primary hidden" onclick="sendForApprovalFunc()">Отправить на согласование</button>-->
+<#--                  </div>-->
+<#--                </div>-->
+<#--              </form>-->
+<#--            </div>-->
+<#--            <!-- Заявка на Модуль всплывающая для дерева &ndash;&gt;-->
+<#--            <div class="modal-wrapper">-->
+<#--              <div class="lectureModal shadow hidden" id="addSeriesModal" name="modalSeries">-->
+<#--                <div class="modal-header">-->
+<#--                  <h5>Добавить Модуль</h5>-->
+<#--                  <button type="button" class="btn-close" onclick="btnClose()"></button>-->
+<#--                </div>-->
+<#--                <div class="modal-content">-->
+<#--                  <div class="modal-body">-->
 
-                    <div>
-                      <div class="d-flex justify-content-center">
-                        <h5>Заявка на создание модуля</h5>
-                      </div>
-                      <div class="modal-body">
-                        <div class="mb-10">
-                          <p id="trackHeadingInModule" class="m-0 p-0 flex-nowrap w-75">Образовательный трек</p>
-                        </div>
+<#--                    <div>-->
+<#--                      <div class="d-flex justify-content-center">-->
+<#--                        <h5>Заявка на создание модуля</h5>-->
+<#--                      </div>-->
+<#--                      <div class="modal-body">-->
+<#--                        <div class="mb-10">-->
+<#--                          <p id="trackHeadingInModule" class="m-0 p-0 flex-nowrap w-75">Образовательный трек</p>-->
+<#--                        </div>-->
 
-                        <div class="mb-10">
-                          <input type="text" class="form-control mb-2" id="headSeries" placeholder="Название образовательного модуля">
-                        </div>
+<#--                        <div class="mb-10">-->
+<#--                          <input type="text" class="form-control mb-2" id="headSeries" placeholder="Название образовательного модуля">-->
+<#--                        </div>-->
 
-                        <div class="my-4">
-                          <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Аннотация/содержание образовательного модуля</b><br>
-                          <textarea class="form-control" id="moduleModalAnnotation" name="track-annotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#"></textarea>
-                        </div>
+<#--                        <div class="my-4">-->
+<#--                          <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Аннотация/содержание образовательного модуля</b><br>-->
+<#--                          <textarea class="form-control" id="moduleModalAnnotation" name="track-annotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#"></textarea>-->
+<#--                        </div>-->
 
-                        <div class="mt-10 mb-10">
-                          <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Дополнительные ключеные слова</b><br>
-                          <textarea class="form-control" id="moduleModalKeyWords" name="module-annotation" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;"></textarea>
-                        </div>
+<#--                        <div class="mt-10 mb-10">-->
+<#--                          <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Дополнительные ключеные слова</b><br>-->
+<#--                          <textarea class="form-control" id="moduleModalKeyWords" name="module-annotation" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;"></textarea>-->
+<#--                        </div>-->
 
-                      </div>
-                    </div>
+<#--                      </div>-->
+<#--                    </div>-->
 
-                  </div>
-                  <div class="modal-footer">
-                    <!-- Кнопка сохранить-->
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="saveModule" onclick="addModuleScheme(); saveSeries()">Добавить серию</button>
-                    <button type="button" class="btn btn-primary hidden" data-bs-dismiss="modal" id="editModule">Сохранить серию</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Заявка на Лекцию в Модуле всплывающая для дерева -->
-            <div class="modal-wrapper">
-              <div class="lectureModal shadow hidden" id="addLectureInModule">
-                <div class="modal-header">
-                  <h5>Добавить лекцию</h5>
-                  <button type="button" class="btn-close" onclick="btnClose()"></button>
-                </div>
-                <div class="modal-content">
-                  <div class="modal-body">
+<#--                  </div>-->
+<#--                  <div class="modal-footer">-->
+<#--                    <!-- Кнопка сохранить&ndash;&gt;-->
+<#--                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="saveModule" onclick="addModuleScheme(); saveSeries()">Добавить серию</button>-->
+<#--                    <button type="button" class="btn btn-primary hidden" data-bs-dismiss="modal" id="editModule">Сохранить серию</button>-->
+<#--                  </div>-->
+<#--                </div>-->
+<#--              </div>-->
+<#--            </div>-->
+<#--            <!-- Заявка на Лекцию в Модуле всплывающая для дерева &ndash;&gt;-->
+<#--            <div class="modal-wrapper">-->
+<#--              <div class="lectureModal shadow hidden" id="addLectureInModule">-->
+<#--                <div class="modal-header">-->
+<#--                  <h5>Добавить лекцию</h5>-->
+<#--                  <button type="button" class="btn-close" onclick="btnClose()"></button>-->
+<#--                </div>-->
+<#--                <div class="modal-content">-->
+<#--                  <div class="modal-body">-->
 
-                    <div>
-                      <div class="d-flex justify-content-center">
-                        <h5>Заявка на создание лекции</h5>
-                      </div>
-                      <div class="modal-body">
+<#--                    <div>-->
+<#--                      <div class="d-flex justify-content-center">-->
+<#--                        <h5>Заявка на создание лекции</h5>-->
+<#--                      </div>-->
+<#--                      <div class="modal-body">-->
 
-                        <div class="mb-10">
-                          <p id="trackHeadingInLecture" class="m-0 p-0 flex-nowrap w-75">Образовательный трек</p>
-                        </div>
+<#--                        <div class="mb-10">-->
+<#--                          <p id="trackHeadingInLecture" class="m-0 p-0 flex-nowrap w-75">Образовательный трек</p>-->
+<#--                        </div>-->
 
-                        <div class="mb-10">
-                          <p id="moduleHeadingInLecture" class="m-0 p-0 flex-nowrap w-75">Образовательный модуль</p>
-                        </div>
+<#--                        <div class="mb-10">-->
+<#--                          <p id="moduleHeadingInLecture" class="m-0 p-0 flex-nowrap w-75">Образовательный модуль</p>-->
+<#--                        </div>-->
 
-                        <div class="mb-10">
-                          <input type="text" class="form-control mb-2" id="lectureModuleName" placeholder="Название образовательной лекции">
-                        </div>
+<#--                        <div class="mb-10">-->
+<#--                          <input type="text" class="form-control mb-2" id="lectureModuleName" placeholder="Название образовательной лекции">-->
+<#--                        </div>-->
 
-                        <div class="my-4">
-                          <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Аннотация/содержание образовательной лекции</b><br>
-                          <textarea class="form-control" id="lectureModuleAnnotation" name="track-annotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#"></textarea>
-                        </div>
+<#--                        <div class="my-4">-->
+<#--                          <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Аннотация/содержание образовательной лекции</b><br>-->
+<#--                          <textarea class="form-control" id="lectureModuleAnnotation" name="track-annotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#"></textarea>-->
+<#--                        </div>-->
 
-                        <div class="mt-10 mb-10">
-                          <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Дополнительные ключеные слова</b><br>
-                          <textarea class="form-control" id="lectureModuleKeyWords" name="module-annotation" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;"></textarea>
-                        </div>
+<#--                        <div class="mt-10 mb-10">-->
+<#--                          <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Дополнительные ключеные слова</b><br>-->
+<#--                          <textarea class="form-control" id="lectureModuleKeyWords" name="module-annotation" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;"></textarea>-->
+<#--                        </div>-->
 
-                      </div>
-                    </div>
+<#--                      </div>-->
+<#--                    </div>-->
 
-                  </div>
-                  <div class="modal-footer">
-                    <!-- Кнопка сохранить-->
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="saveLectureInModule">Добавить лекцию</button> <!--onclick="addLecInModule()-->
-                    <button type="button" class="btn btn-primary hidden" data-bs-dismiss="modal" id="editLectureInModule">Сохранить лекцию</button> <!--onclick="addLecInModule()-->
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- Заявка на Лекцию всплывающая для дерева -->
-            <div class="modal-wrapper">
-              <div class="lectureModal shadow hidden" id="addLectureModal">
-                <div class="modal-header">
-                  <h5>Добавить лекцию</h5>
-                  <button type="button" class="btn-close" onclick="btnClose()"></button>
-                </div>
-                <div class="modal-content">
-                  <div class="modal-body">
+<#--                  </div>-->
+<#--                  <div class="modal-footer">-->
+<#--                    <!-- Кнопка сохранить&ndash;&gt;-->
+<#--                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="saveLectureInModule">Добавить лекцию</button> <!--onclick="addLecInModule()&ndash;&gt;-->
+<#--                    <button type="button" class="btn btn-primary hidden" data-bs-dismiss="modal" id="editLectureInModule">Сохранить лекцию</button> <!--onclick="addLecInModule()&ndash;&gt;-->
+<#--                  </div>-->
+<#--                </div>-->
+<#--              </div>-->
+<#--            </div>-->
+<#--            <!-- Заявка на Лекцию всплывающая для дерева &ndash;&gt;-->
+<#--            <div class="modal-wrapper">-->
+<#--              <div class="lectureModal shadow hidden" id="addLectureModal">-->
+<#--                <div class="modal-header">-->
+<#--                  <h5>Добавить лекцию</h5>-->
+<#--                  <button type="button" class="btn-close" onclick="btnClose()"></button>-->
+<#--                </div>-->
+<#--                <div class="modal-content">-->
+<#--                  <div class="modal-body">-->
 
-                    <div>
-                      <div class="d-flex justify-content-center">
-                        <h5>Заявка на создание лекции</h5>
-                      </div>
-                      <div class="modal-body">
+<#--                    <div>-->
+<#--                      <div class="d-flex justify-content-center">-->
+<#--                        <h5>Заявка на создание лекции</h5>-->
+<#--                      </div>-->
+<#--                      <div class="modal-body">-->
 
-                        <div class="mb-10">
-                          <p id="trackHeadingInLectureOutOfModule" class="m-0 p-0 flex-nowrap w-75">Образовательный трек</p>
-                        </div>
+<#--                        <div class="mb-10">-->
+<#--                          <p id="trackHeadingInLectureOutOfModule" class="m-0 p-0 flex-nowrap w-75">Образовательный трек</p>-->
+<#--                        </div>-->
 
-                        <div class="mb-10">
-                          <input type="text" class="form-control mb-2" id="lectureModalName" placeholder="Название образовательной лекции">
-                        </div>
+<#--                        <div class="mb-10">-->
+<#--                          <input type="text" class="form-control mb-2" id="lectureModalName" placeholder="Название образовательной лекции">-->
+<#--                        </div>-->
 
-                        <div class="my-4">
-                          <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Аннотация/содержание образовательной лекции</b><br>
-                          <textarea class="form-control" id="lectureModalAnnotation" name="track-annotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#"></textarea>
-                        </div>
+<#--                        <div class="my-4">-->
+<#--                          <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Аннотация/содержание образовательной лекции</b><br>-->
+<#--                          <textarea class="form-control" id="lectureModalAnnotation" name="track-annotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#"></textarea>-->
+<#--                        </div>-->
 
-                        <div class="mt-10 mb-10">
-                          <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Дополнительные ключеные слова</b><br>
-                          <textarea class="form-control" id="lectureModalKeyWords" name="module-annotation" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;"></textarea>
-                        </div>
+<#--                        <div class="mt-10 mb-10">-->
+<#--                          <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Дополнительные ключеные слова</b><br>-->
+<#--                          <textarea class="form-control" id="lectureModalKeyWords" name="module-annotation" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;"></textarea>-->
+<#--                        </div>-->
 
-                      </div>
-                    </div>
+<#--                      </div>-->
+<#--                    </div>-->
 
-                  </div>
-                  <div class="modal-footer">
-                    <!-- Кнопка сохранить-->
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="saveLectureOut" onclick="addLectureScheme()">Добавить лекцию</button>
-                    <button type="button" class="btn btn-primary hidden" data-bs-dismiss="modal" id="editLecture">Сохранить лекцию</button>
-                  </div>
-                </div>
-              </div>
-            </div>
+<#--                  </div>-->
+<#--                  <div class="modal-footer">-->
+<#--                    <!-- Кнопка сохранить&ndash;&gt;-->
+<#--                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="saveLectureOut" onclick="addLectureScheme()">Добавить лекцию</button>-->
+<#--                    <button type="button" class="btn btn-primary hidden" data-bs-dismiss="modal" id="editLecture">Сохранить лекцию</button>-->
+<#--                  </div>-->
+<#--                </div>-->
+<#--              </div>-->
+<#--            </div>-->
 
-            <!-- Заявка на Модуль -->
-            <div class="tab-pane fade <#if !moduleFlag>show active</#if>" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+            <!-- Заявка на Курс лекций -->
+            <div class="tab-pane show active" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
               <form method="post" action="/addSeries" id="createSeries" enctype="multipart/form-data">
               <div>
                 <#if moduleFlag>
                 <div class="d-flex justify-content-center">
-                  <h5>Заявка на создание модуля</h5>                
+                  <h5>Заявка на создание курса лекций</h5>
                 </div>
                 <#else>
                 <div class="d-flex justify-content-center">
@@ -449,16 +449,16 @@
                 </div>
                 </#if>
                 <div class="modal-body"> 
-                    <div class="mb-10">                    
+                    <div class="mb-10">
                       <select class="form-control" class="form-control" id="trackModuleSeries" onchange="updateTrackHeadingModuleSeries()" name="seriesTrack" size="1">
                         <#if moduleFlag>
-                          <option select class="form-control">Выберите образовательный трек</option>
+                          <option select class="form-control">Выберите шаблон</option>
                         <#else>
-                          <option select class="form-control" value="${seriesOne.getTrack().id}">${seriesOne.trackName}</option>
+<#--                          <option select class="form-control" value="${seriesOne.getTrack().id}">${seriesOne.trackName}</option>-->
                         </#if>
                         <#if profileTab>
-                          <#list tracks as track>
-                            <option value="${track.id}">${track.trackName}</option>
+                          <#list shapes as shape>
+                            <option value="${shape.id}">${shape.shapeName}</option>
                           </#list>
                         </#if>
 
@@ -466,7 +466,7 @@
                     </div>
                     <#if moduleFlag>
                       <div class="mb-10">
-                        <input type="text" class="form-control mb-2" id="moduleSeriesName" oninput="updateTrackHeadingModuleSeries()" name="seriesName" placeholder="Название образовательного модуля">
+                        <input type="text" class="form-control mb-2" id="moduleSeriesName" oninput="updateTrackHeadingModuleSeries()" name="seriesName" placeholder="Название курса лекций">
                       </div>
                     <#else>
                         <div class="mb-10">
@@ -474,14 +474,14 @@
                       </div>
                     </#if>
                     <div class="my-4">
-                    <p><b>Автор образовательного модуля</b></p>
+                    <p><b>Руководитель курса лекций</b></p>
                     <div>
                       <div class="form-check mb-10">
                         <input class="form-check-input" type="checkbox" name="is-emsloyeeModule"  onclick="authorSamGMUModule()">
-                        <label class="form-check-label">Автор является сотрудником СамГМУ</label>
+                        <label class="form-check-label">Руководитель является сотрудником СамГМУ</label>
                       </div>
                       <div class="hidden" id="authorSamGMUModule">
-                        <select class="js-data-example-ajax form-control mb-10" name="author" onchange="selectAuthorModule(this.value)" id="selectAuthorToModule"></select>
+                        <select class="js-data-example-ajax form-control mb-10" name="author" onchange="selectAuthorModule(this.value, 'selectAuthorToModule', 'tableAuthorMod', true, true)" id="selectAuthorToModule"></select>
                       </div>
 
                       <div id="authorWorldModule">
@@ -507,9 +507,9 @@
                       <div>
                         <table class="table table-hover editable" id="tableAuthorMod" name="authorsMod">
                           <tr>
-                            <th class="nameTd">ФИО автора</th>
+                            <th class="nameTd">ФИО руководителя</th>
                             <th class="text-center regTd">Должность, степень, звание</th>
-                            <th class="text-center checkTd">Руководитель трека</th>
+                            <th class="text-center checkTd">Руководитель</th>
                             <th class="text-center docTd">Документы</th>
                             <th class="text-center removeTd"><i class="fas fa-trash-alt"></i></th>
                           </tr>
@@ -539,147 +539,147 @@
                           <textarea class="form-control" name="seriesKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;">${seriesOne.keyWords}</textarea>
                          </div>
                     </#if>
-                    <div class="accordion accordion-flush my-4" id="acModuleAdditionalGuide">
-                      <div class="accordion-item">
-                        <h2 class="accordion-header">
-                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseModule" aria-expanded="false" aria-controls="flush-collapseModule">
-                            <b>Расширяемый перечень справочников для описания модуля</b>
-                          </button>
-                        </h2>
-                        <div id="flush-collapseModule" class="accordion-collapse collapse" data-bs-parent="#acModuleAdditionalGuide">
-                          <div class="accordion-body">
-                            <div class="mt-10 mb-10">
-                              <b>Добавить справочник для описания</b><br>
-                              <div class="d-flex">
-                                <select class="form-control w-75 mr-10" name="">
-                                  <option select class="form-control"ed="" disabled="">Выберите справочник</option>
-                                  <option value="Шить">МКБ</option>
-                                  <option value="Брать кровь">Дисциплина/Учебный план</option>
-                                </select>
-                                <button type="button" class="btn btn-primary ml-10">Добавить</button>
-                              </div>
-                            </div>
+<#--                    <div class="accordion accordion-flush my-4" id="acModuleAdditionalGuide">-->
+<#--                      <div class="accordion-item">-->
+<#--                        <h2 class="accordion-header">-->
+<#--                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseModule" aria-expanded="false" aria-controls="flush-collapseModule">-->
+<#--                            <b>Расширяемый перечень справочников для описания модуля</b>-->
+<#--                          </button>-->
+<#--                        </h2>-->
+<#--                        <div id="flush-collapseModule" class="accordion-collapse collapse" data-bs-parent="#acModuleAdditionalGuide">-->
+<#--                          <div class="accordion-body">-->
+<#--                            <div class="mt-10 mb-10">-->
+<#--                              <b>Добавить справочник для описания</b><br>-->
+<#--                              <div class="d-flex">-->
+<#--                                <select class="form-control w-75 mr-10" name="">-->
+<#--                                  <option select class="form-control"ed="" disabled="">Выберите справочник</option>-->
+<#--                                  <option value="Шить">МКБ</option>-->
+<#--                                  <option value="Брать кровь">Дисциплина/Учебный план</option>-->
+<#--                                </select>-->
+<#--                                <button type="button" class="btn btn-primary ml-10">Добавить</button>-->
+<#--                              </div>-->
+<#--                            </div>-->
 
-                            <div class="mt-10 mb-10">
-                              <b>Целевая аудитория</b><br>
-                              <select class="form-control" class="form-control" name="listners" size="1">
-                                <option select class="form-control"ed="" disabled="">Выберите целевую аудиторию</option>
-                                <option value="Студент 1-3 курса">Студент 1-3 курса</option>
-                                <option value="Студент 4- курса">Студент 4- курса</option>
-                                <option value="Студент 1-6 курса">Студент 1-6 курса</option>
-                                <option value="Ординатор">Ординатор</option>
-                                <option value="Аспирант">Аспирант</option>
-                                <option value="Врач-кардиолог">Врач-кардиолог</option>
-                                <option value="Врач-терапевт">Врач-терапевт</option>
-                                <option value="Врач-и т.п.">Врач-и т.п.</option>
-                              </select class="form-control">
-                            </div>
+<#--                            <div class="mt-10 mb-10">-->
+<#--                              <b>Целевая аудитория</b><br>-->
+<#--                              <select class="form-control" class="form-control" name="listners" size="1">-->
+<#--                                <option select class="form-control"ed="" disabled="">Выберите целевую аудиторию</option>-->
+<#--                                <option value="Студент 1-3 курса">Студент 1-3 курса</option>-->
+<#--                                <option value="Студент 4- курса">Студент 4- курса</option>-->
+<#--                                <option value="Студент 1-6 курса">Студент 1-6 курса</option>-->
+<#--                                <option value="Ординатор">Ординатор</option>-->
+<#--                                <option value="Аспирант">Аспирант</option>-->
+<#--                                <option value="Врач-кардиолог">Врач-кардиолог</option>-->
+<#--                                <option value="Врач-терапевт">Врач-терапевт</option>-->
+<#--                                <option value="Врач-и т.п.">Врач-и т.п.</option>-->
+<#--                              </select class="form-control">-->
+<#--                            </div>-->
 
-                            <div class="mt-10 mb-10">
-                              <b>Ось МКБ</b><br>
-                              <input type="text" id="myInput" class="form-control mt-10 mb-10" onkeyup="filterOptions()" placeholder="Параметры поиска...">
-                              <select id="mySelect" class="form-control" name="mkb" onchange="selectMkb('tableMkb')" size="1">
-                                <option select class="form-control"ed="" disabled="">Выберите значение</option>
-                                <#if profileTab>
-                                <#list mkb10 as mkb>
-                                  <option value="${mkb.id}">${mkb.code} ${mkb.name}</option>
-                                </#list>
-                                </#if>
-                              </select class="form-control">
+<#--                            <div class="mt-10 mb-10">-->
+<#--                              <b>Ось МКБ</b><br>-->
+<#--                              <input type="text" id="myInput" class="form-control mt-10 mb-10" onkeyup="filterOptions()" placeholder="Параметры поиска...">-->
+<#--                              <select id="mySelect" class="form-control" name="mkb" onchange="selectMkb('tableMkb')" size="1">-->
+<#--                                <option select class="form-control"ed="" disabled="">Выберите значение</option>-->
+<#--                                <#if profileTab>-->
+<#--                                <#list mkb10 as mkb>-->
+<#--                                  <option value="${mkb.id}">${mkb.code} ${mkb.name}</option>-->
+<#--                                </#list>-->
+<#--                                </#if>-->
+<#--                              </select class="form-control">-->
 
-                              <div>
-                                <table class="table table-hover editable" id="tableMkb" name="tableMkb">
-                                  <tr>
-                                    <th class="text-center regTd">Наименование</th>
-                                    <th class="text-center removeTd"><i class="fas fa-trash-alt"></i></th>
-                                  </tr>
+<#--                              <div>-->
+<#--                                <table class="table table-hover editable" id="tableMkb" name="tableMkb">-->
+<#--                                  <tr>-->
+<#--                                    <th class="text-center regTd">Наименование</th>-->
+<#--                                    <th class="text-center removeTd"><i class="fas fa-trash-alt"></i></th>-->
+<#--                                  </tr>-->
 
-<#--                                  <tbody>-->
-<#--                                  <#list seriesOne.mkbs as mkb>-->
-<#--                                    <tr>-->
-<#--                                      <td>${mkb.value}</td>-->
-<#--                                      <th class="text-center removeTd"><i class="fas fa-trash-alt"></i></th>-->
-<#--                                    </tr>-->
-<#--                                  </#list>-->
-<#--                                  </tbody>-->
-                                </table>
-                              </div>
+<#--&lt;#&ndash;                                  <tbody>&ndash;&gt;-->
+<#--&lt;#&ndash;                                  <#list seriesOne.mkbs as mkb>&ndash;&gt;-->
+<#--&lt;#&ndash;                                    <tr>&ndash;&gt;-->
+<#--&lt;#&ndash;                                      <td>${mkb.value}</td>&ndash;&gt;-->
+<#--&lt;#&ndash;                                      <th class="text-center removeTd"><i class="fas fa-trash-alt"></i></th>&ndash;&gt;-->
+<#--&lt;#&ndash;                                    </tr>&ndash;&gt;-->
+<#--&lt;#&ndash;                                  </#list>&ndash;&gt;-->
+<#--&lt;#&ndash;                                  </tbody>&ndash;&gt;-->
+<#--                                </table>-->
+<#--                              </div>-->
 
-                            </div>
+<#--                            </div>-->
 
 
 
-                            <div class="mt-10 mb-10">
-                              <b>Ось Дисциплин/учебный план</b><br>
-                              <select class="form-control" name="discipline" size="1">
-                                <option select class="form-control"ed="" disabled="">Выберите дисциплину</option>
-                                <option value="Общая анатомия">Общая анатомия</option>
-                                <option value="Биохимия">Биохимия</option>
-                                <option value="Диетолония">Диетолония</option>
-                                <option value="Фармакология">Фармакология</option>
-                              </select class="form-control">
-                            </div>
-                            <div class="mt-10 mb-10">
-                              <b>Ось Локализации</b><br>
-                              <select class="form-control" name="atlas" size="1">
-                                <option select class="form-control"ed="" disabled="">Выберите локализацию</option>
-                                <option value="Мозг">Мозг</option>
-                                <option value="Пищеватительная система">Пищеватительная система</option>
-                                <option value="Сердце">Сердце</option>
-                                <option value="Опорнодвигательная система">Опорнодвигательная система</option>
-                              </select class="form-control">
-                            </div>    
-                            <div class="mt-10 mb-10">
-                              <b>Ось Внешних факторов</b><br>
-                              <select class="form-control" name="exfacts" size="1">
-                                <option select class="form-control"ed="" disabled="">Выберите фактор</option>
-                                <option value="Солнце">Солнце</option>
-                                <option value="Атмосферное давление">Атмосферное давление</option>
-                                <option value="Автомобиль">Автомобиль</option>
-                                <option value="Воздействие радиации">Воздействие радиации</option>
-                              </select class="form-control">
-                            </div>
-                            <div class="mt-10 mb-10">
-                              <b>Ведение и состояния</b><br>
-                              <div class="d-flex">
-                                <select class="form-control w-75 mr-10" name="exfacts" size="1">
-                                  <option select class="form-control"ed="" disabled="">Выберите этап</option>
-                                  <option value="Солнце">Норма</option>
-                                  <option value="Атмосферное давление">Этиология</option>
-                                  <option value="Автомобиль">Пат.анатомия</option>
-                                  <option value="Воздействие радиации">Диагностика</option>
-                                  <option value="Атмосферное давление">Лечение</option>
-                                  <option value="Автомобиль">Реабилитация</option>
-                                </select class="form-control">
-                                <button type="button" class="btn btn-primary ml-10"><i class="fas fa-plus"></i></button>
-                              </div>
-                            </div>
-                            <div class="mt-10 mb-10">
-                              <b>Компетенции</b><br>
-                              <div class="d-flex">
-                                <select class="form-control w-75 mr-10" name="kompetetion" size="1">
-                                  <option select class="form-control"ed="" disabled="">Выберите компетению</option>
-                                  <option value="Шить">Шить</option>
-                                  <option value="Брать кровь">Брать кровь</option>
-                                  <option value="Писать">Писать</option>
-                                  <option value="Проводить аускультацию">Проводить аускультацию</option>
-                                </select class="form-control">
-                                <button type="button" class="btn btn-primary ml-10"><i class="fas fa-plus"></i></button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div> 
+<#--                            <div class="mt-10 mb-10">-->
+<#--                              <b>Ось Дисциплин/учебный план</b><br>-->
+<#--                              <select class="form-control" name="discipline" size="1">-->
+<#--                                <option select class="form-control"ed="" disabled="">Выберите дисциплину</option>-->
+<#--                                <option value="Общая анатомия">Общая анатомия</option>-->
+<#--                                <option value="Биохимия">Биохимия</option>-->
+<#--                                <option value="Диетолония">Диетолония</option>-->
+<#--                                <option value="Фармакология">Фармакология</option>-->
+<#--                              </select class="form-control">-->
+<#--                            </div>-->
+<#--                            <div class="mt-10 mb-10">-->
+<#--                              <b>Ось Локализации</b><br>-->
+<#--                              <select class="form-control" name="atlas" size="1">-->
+<#--                                <option select class="form-control"ed="" disabled="">Выберите локализацию</option>-->
+<#--                                <option value="Мозг">Мозг</option>-->
+<#--                                <option value="Пищеватительная система">Пищеватительная система</option>-->
+<#--                                <option value="Сердце">Сердце</option>-->
+<#--                                <option value="Опорнодвигательная система">Опорнодвигательная система</option>-->
+<#--                              </select class="form-control">-->
+<#--                            </div>    -->
+<#--                            <div class="mt-10 mb-10">-->
+<#--                              <b>Ось Внешних факторов</b><br>-->
+<#--                              <select class="form-control" name="exfacts" size="1">-->
+<#--                                <option select class="form-control"ed="" disabled="">Выберите фактор</option>-->
+<#--                                <option value="Солнце">Солнце</option>-->
+<#--                                <option value="Атмосферное давление">Атмосферное давление</option>-->
+<#--                                <option value="Автомобиль">Автомобиль</option>-->
+<#--                                <option value="Воздействие радиации">Воздействие радиации</option>-->
+<#--                              </select class="form-control">-->
+<#--                            </div>-->
+<#--                            <div class="mt-10 mb-10">-->
+<#--                              <b>Ведение и состояния</b><br>-->
+<#--                              <div class="d-flex">-->
+<#--                                <select class="form-control w-75 mr-10" name="exfacts" size="1">-->
+<#--                                  <option select class="form-control"ed="" disabled="">Выберите этап</option>-->
+<#--                                  <option value="Солнце">Норма</option>-->
+<#--                                  <option value="Атмосферное давление">Этиология</option>-->
+<#--                                  <option value="Автомобиль">Пат.анатомия</option>-->
+<#--                                  <option value="Воздействие радиации">Диагностика</option>-->
+<#--                                  <option value="Атмосферное давление">Лечение</option>-->
+<#--                                  <option value="Автомобиль">Реабилитация</option>-->
+<#--                                </select class="form-control">-->
+<#--                                <button type="button" class="btn btn-primary ml-10"><i class="fas fa-plus"></i></button>-->
+<#--                              </div>-->
+<#--                            </div>-->
+<#--                            <div class="mt-10 mb-10">-->
+<#--                              <b>Компетенции</b><br>-->
+<#--                              <div class="d-flex">-->
+<#--                                <select class="form-control w-75 mr-10" name="kompetetion" size="1">-->
+<#--                                  <option select class="form-control"ed="" disabled="">Выберите компетению</option>-->
+<#--                                  <option value="Шить">Шить</option>-->
+<#--                                  <option value="Брать кровь">Брать кровь</option>-->
+<#--                                  <option value="Писать">Писать</option>-->
+<#--                                  <option value="Проводить аускультацию">Проводить аускультацию</option>-->
+<#--                                </select class="form-control">-->
+<#--                                <button type="button" class="btn btn-primary ml-10"><i class="fas fa-plus"></i></button>-->
+<#--                              </div>-->
+<#--                            </div>-->
+<#--                          </div>-->
+<#--                        </div>-->
+<#--                      </div>-->
+<#--                    </div> -->
 
-                    <div class="form-check mt-10 mb-10">
-                        <input class="form-check-input" type="checkbox" onclick="subshootingModule()">
-                        <label class="form-check-label">Подсъёмки (при наличии)</label>
-                      </div>
+<#--                    <div class="form-check mt-10 mb-10">-->
+<#--                        <input class="form-check-input" type="checkbox" onclick="subshootingModule()">-->
+<#--                        <label class="form-check-label">Подсъёмки (при наличии)</label>-->
+<#--                      </div>-->
 
-                    <div class="mt-10">                    
-                      <textarea id="subsurveyModule" class="hidden form-control" cols="50" rows="2" placeholder="Краткое описание подсъёмки"></textarea>
-                    </div>
+<#--                    <div class="mt-10">                    -->
+<#--                      <textarea id="subsurveyModule" class="hidden form-control" cols="50" rows="2" placeholder="Краткое описание подсъёмки"></textarea>-->
+<#--                    </div>-->
 
                 </div>
                 <div class="tab-pane fade show active h-100" id="pills-network-wired" role="tabpanel" aria-labelledby="pills-network-wired-tab" tabindex="0">
@@ -689,7 +689,7 @@
 <#--                      <button type="button" class="btn btn-primary m-2" onclick="addLectureModalBegin()" data-bs-dismiss="modal">Лекция</button>-->
                     </div>
                     <div class="d-flex justify-content-center">
-                      <h5 id="moduleHeading" class="text-center m-0 p-0 flex-nowrap w-75">Образовательный модуль</h5>
+                      <h5 id="moduleHeading" class="text-center m-0 p-0 flex-nowrap w-75">Курс лекций</h5>
                     </div>
                   </div>
 
@@ -705,6 +705,7 @@
                   <div class="modal-footer">
                     <button type="submit" id="saveModuleM" class="btn btn-primary">Добавить модуль</button>
                     <button type="submit" id="editModuleM" class="btn btn-primary hidden">Редактировать модуль</button>
+                    <button type="button" id="sendForApproval" class="btn btn-primary hidden" onclick="sendForApprovalFunc()">Отправить на согласование</button>
                   </div>
                 </div>
               </div>
@@ -733,6 +734,51 @@
 
                         <div class="mb-10">
                           <p id="moduleHeadingInLectureModuleSeries" class="m-0 p-0 flex-nowrap w-75">Образовательный модуль</p>
+                        </div>
+
+                        <div class="my-4">
+                          <p><b>Авторы лекции</b></p>
+                          <div>
+                            <div class="form-check mb-10">
+                              <input class="form-check-input" type="checkbox" name="is-emsloyeeModule"  onclick="authorSamGMUModal()">
+                              <label class="form-check-label">Автор является сотрудником СамГМУ</label>
+                            </div>
+                            <div class="hidden" id="authorSamGMUModal">
+                              <select class="js-data-example-ajax form-control mb-10" name="author" onchange="selectAuthorModule(this.value, 'selectAuthorToModal', 'tableAuthorModal', false, true)" id="selectAuthorToModal"></select>
+                            </div>
+
+                            <div id="authorWorldModal">
+                              <input class="form-control mb-10" type="text" id="inputNameAuthorModal"  placeholder="Введите ФИО автора"></input>
+                              <div class="d-flex mb-10">
+                                <select class="form-control w-75 mr-10" id="regalia" size="1" onclick="selectReg(this.value)">
+                                  <option  disabled>Выберите регалии</option>
+                                  <option>Профессор</option>
+                                  <option>К.М.Н.</option>
+                                  <option>Доцент</option>
+                                  <option>Зав. кафедрой</option>
+                                </select>
+                              </div>
+
+                              <div class="d-flex" id="addRegalii">
+                              </div>
+
+                              <button type="button" class="btn btn-primary mt-3" id="createAuthorButtonModal">
+                                <i class="fas fa-plus"></i>
+                              </button>
+                            </div>
+
+                            <div>
+                              <table class="table table-hover editable" id="tableAuthorModal" name="authorsModal">
+                                <tr>
+                                  <th class="nameTd">ФИО руководителя</th>
+                                  <th class="text-center regTd">Должность, степень, звание</th>
+                                  <th class="text-center checkTd">Руководитель</th>
+                                  <th class="text-center docTd">Документы</th>
+                                  <th class="text-center removeTd"><i class="fas fa-trash-alt"></i></th>
+                                </tr>
+                              </table>
+                            </div>
+                          </div>
                         </div>
 
                         <div class="mb-10">
@@ -1053,18 +1099,18 @@
 <#--    <script src="https://track.samsmu.ru/js/editModule.js"></script>-->
 <#--    <script src="https://track.samsmu.ru/js/editLecture.js"></script>-->
 
-    <script src="https://dev.track.samsmu.ru/static/js/select2.min.js"></script>
-    <script src="https://dev.track.samsmu.ru/static/js/popper.min.js"></script>
-    <script src="https://dev.track.samsmu.ru/static/js/bootstrap.min.js"></script>
-    <script src="https://dev.track.samsmu.ru/static/js/bootstrap.bundle.min.js"></script>
-    <script src="https://dev.track.samsmu.ru/static/js/index.js"></script>
-    <script src="https://dev.track.samsmu.ru/static/js/track.js"></script>
-    <script src="https://dev.track.samsmu.ru/static/js/users.js"></script>
-    <script src="https://dev.track.samsmu.ru/static/js/module.js"></script>
-    <script src="https://dev.track.samsmu.ru/static/js/lecture.js"></script>
-    <script src="https://dev.track.samsmu.ru/static/js/editTrack.js"></script>
-    <script src="https://dev.track.samsmu.ru/static/js/editModule.js"></script>
-    <script src="https://dev.track.samsmu.ru/static/js/editLecture.js"></script>
+<#--    <script src="https://dev.track.samsmu.ru/static/js/select2.min.js"></script>-->
+<#--    <script src="https://dev.track.samsmu.ru/static/js/popper.min.js"></script>-->
+<#--    <script src="https://dev.track.samsmu.ru/static/js/bootstrap.min.js"></script>-->
+<#--    <script src="https://dev.track.samsmu.ru/static/js/bootstrap.bundle.min.js"></script>-->
+<#--    <script src="https://dev.track.samsmu.ru/static/js/index.js"></script>-->
+<#--    <script src="https://dev.track.samsmu.ru/static/js/track.js"></script>-->
+<#--    <script src="https://dev.track.samsmu.ru/static/js/users.js"></script>-->
+<#--    <script src="https://dev.track.samsmu.ru/static/js/module.js"></script>-->
+<#--    <script src="https://dev.track.samsmu.ru/static/js/lecture.js"></script>-->
+<#--    <script src="https://dev.track.samsmu.ru/static/js/editTrack.js"></script>-->
+<#--    <script src="https://dev.track.samsmu.ru/static/js/editModule.js"></script>-->
+<#--    <script src="https://dev.track.samsmu.ru/static/js/editLecture.js"></script>-->
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
@@ -1235,6 +1281,15 @@
         authorWorldModule.classList.toggle("hidden");
         let createAuthorButtonModule = document.getElementById('createAuthorButtonModule');
         createAuthorButtonModule.classList.toggle("hidden");
+      }
+
+      function authorSamGMUModal() {
+        let authorSamGMUModal = document.getElementById('authorSamGMUModal');
+        authorSamGMUModal.classList.toggle("hidden");
+        let authorWorldModal = document.getElementById('authorWorldModal');
+        authorWorldModal.classList.toggle("hidden");
+        let createAuthorButtonModal = document.getElementById('createAuthorButtonModal');
+        createAuthorButtonModal.classList.toggle("hidden");
       }
 
       function targetAudience() {

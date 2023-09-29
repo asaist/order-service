@@ -43,6 +43,10 @@ public class Series {
     @JoinColumn(name = "track_id")
     @JsonBackReference(value="track-series")
     private Track track;
+    @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "shape_id")
+    @JsonBackReference(value="shape-series")
+    private Shape shape;
     @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "series")
     private List<KeyWord> keyWords;
     @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "series")

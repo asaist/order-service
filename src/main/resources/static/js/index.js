@@ -21,8 +21,8 @@ $(document).ready(function() {
 	console.log("In Da select: " + localStorage.authorization);
 	$(".js-data-example-ajax").select2({
 		ajax: {
-			url: "https://dev.track.samsmu.ru/public/home/api/author/authors",
-			// url: "http://localhost:8081/api/author/authors",
+			// url: "https://dev.track.samsmu.ru/public/home/api/author/authors",
+			url: "http://localhost:8081/public/home/api/author/authors",
 			type: 'GET',
 			dataType: 'json',
 			delay: 250,
@@ -98,7 +98,13 @@ function btnClose() {
 	let viewLectureModal = document.getElementsByClassName('lectureModal');
 		for (var vlec of viewLectureModal) {
 			vlec.classList.add('hidden');
-		} 
+		}
+	document.getElementById('tableAuthorModal').innerHTML = '';
+	document.getElementById('lectureModalNameModule').value = "";
+	document.getElementById('lectureModalAnnotationModule').value = "";
+	document.getElementById('lectureModalKeyWordsModule').value = "";
+	// $('#selectAuthorToModal').val(null).trigger('change');
+
     // let viewOverlay = document.getElementById('overlayViewLectureModal');
     // viewOverlay.classList.add('hidden');
 }
@@ -172,17 +178,17 @@ function addLectureInModuleN() {
 
 }
 
-let saveLectureInModule= document.getElementById('saveLectureInModule');
-saveLectureInModule.setAttribute('onclick', 'addLecInModule(saveElForLecInMod)');
+// let saveLectureInModule= document.getElementById('saveLectureInModule');
+// saveLectureInModule.setAttribute('onclick', 'addLecInModule(saveElForLecInMod)');
 
-let editLectureInModule= document.getElementById('editLectureInModule');
-editLectureInModule.setAttribute('onclick', 'editLecInModule(editElForLecInMod)');
+// let editLectureInModule= document.getElementById('editLectureInModule');
+// editLectureInModule.setAttribute('onclick', 'editLecInModule(editElForLecInMod)');
 
-let editLectureOut= document.getElementById('editLecture');
-editLectureOut.setAttribute('onclick', 'editLecOutOf(editElForLecOut)');
+// let editLectureOut= document.getElementById('editLecture');
+// editLectureOut.setAttribute('onclick', 'editLecOutOf(editElForLecOut)');
 
-let editModuleEl= document.getElementById('editModule');
-editModuleEl.setAttribute('onclick', 'saveEditModule(editElForMod)');
+// let editModuleEl= document.getElementById('editModule');
+// editModuleEl.setAttribute('onclick', 'saveEditModule(editElForMod)');
 
 let editLectureModuleSeries= document.getElementById('editLectureInModuleSeries');
 editLectureModuleSeries.setAttribute('onclick', 'editLecInModuleSeries(editElForLecOut)');
