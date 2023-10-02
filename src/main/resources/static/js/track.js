@@ -68,12 +68,13 @@ class Module {
     }
 }
 class Lecture {
-    constructor(id, moduleId, lectureModuleName, lectureModuleAnnotation, lectureModuleKeyWords) {
+    constructor(id, moduleId, lectureModuleName, lectureModuleAnnotation, lectureModuleKeyWords, authors) {
         this.id = id;
         this.moduleId = moduleId;
         this.lectureModuleName = lectureModuleName;
         this.lectureModuleAnnotation = lectureModuleAnnotation;
         this.lectureModuleKeyWords = lectureModuleKeyWords;
+        this.authors = authors;
     }
 }
 var modules = [];

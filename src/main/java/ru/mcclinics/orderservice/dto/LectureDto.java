@@ -5,6 +5,8 @@ import ru.mcclinics.orderservice.domain.Lecture;
 import ru.mcclinics.orderservice.domain.Track;
 
 import java.io.Serializable;
+import java.util.List;
+
 @Setter
 @Getter
 @ToString
@@ -16,6 +18,7 @@ public class LectureDto extends EntityDto implements Serializable {
     private String lectureModuleName;
     private String lectureModuleAnnotation;
     private String lectureModuleKeyWords;
+    private List<AuthorDto> authors;
 
     public LectureDto(Lecture lecture) {
         this.id = lecture.getId();

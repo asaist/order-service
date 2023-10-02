@@ -39,7 +39,13 @@ function addLectureSchemeModule() {
     let lectureModalName = document.getElementById('lectureModalNameModule').value;
     let lectureModalAnnotation = document.getElementById('lectureModalAnnotationModule').value;
     let lectureModalKeyWords = document.getElementById('lectureModalKeyWordsModule').value;
-    let lecture = new Lecture(lectureModalId, null, lectureModalName, lectureModalAnnotation, lectureModalKeyWords);
+    let authors = [];
+    for (let author of moduleAuthors) {
+        if (author.lecture === parseInt(lectureModalId)) {
+            authors.push(author)
+        }
+    }
+    let lecture = new Lecture(lectureModalId, null, lectureModalName, lectureModalAnnotation, lectureModalKeyWords, authors);
     lectures.push(lecture);
 
 
@@ -115,7 +121,13 @@ function editLecInModuleSeries(el){
     let lectureModuleName = document.getElementById('lectureModalNameModule').value;
     let lectureModuleAnnotation = document.getElementById('lectureModalAnnotationModule').value;
     let lectureModuleKeyWords = document.getElementById('lectureModalKeyWordsModule').value;
-    let lecture = new Lecture(lectureModalId, null, lectureModuleName, lectureModuleAnnotation, lectureModuleKeyWords);
+    let authors = [];
+    for (let author of moduleAuthors) {
+        if (author.lecture === parseInt(lectureModalId)) {
+            authors.push(author)
+        }
+    }
+    let lecture = new Lecture(lectureModalId, null, lectureModuleName, lectureModuleAnnotation, lectureModuleKeyWords, authors);
     lectures [index] = lecture;
     // let div = el.parentNode;
     el.setAttribute('lectureModuleName', lectureModuleName);
@@ -151,7 +163,7 @@ moduleForm.addEventListener('submit', (event) => {
         track,
         seriesName,
         seriesAnnotation,
-        seriesKeyWords
+        seriesKeyWords,
     };
     if (savedSeries) {
         data.seriesId = savedSeries;
