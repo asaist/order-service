@@ -703,8 +703,8 @@
                     </div>
                   </div>
                   <div class="modal-footer">
-                    <button type="submit" id="saveModuleM" class="btn btn-primary">Добавить модуль</button>
-                    <button type="submit" id="editModuleM" class="btn btn-primary hidden">Редактировать модуль</button>
+                    <button type="submit" id="saveModuleM" class="btn btn-primary">Добавить курс лекций</button>
+                    <button type="submit" id="editModuleM" class="btn btn-primary hidden">Редактировать курс лекций</button>
                     <button type="button" id="sendForApproval" class="btn btn-primary hidden" onclick="sendForApprovalFunc()">Отправить на согласование</button>
                   </div>
                 </div>

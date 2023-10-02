@@ -1,4 +1,12 @@
 
+const inputFields = document.querySelectorAll('#profile-tab-pane input, #profile-tab-pane select, #profile-tab-pane textarea');
+inputFields.forEach(input => {
+    input.addEventListener('input', event => {
+        document.getElementById('contact-tab').classList.add('hidden');
+    });
+});
+
+
 function updateTrackHeadingModuleSeries() {
     let trackInput = document.getElementById("trackModuleSeries");
     let selectedOption = trackInput.options[trackInput.selectedIndex];
@@ -141,7 +149,8 @@ moduleForm.addEventListener('submit', (event) => {
     fetch("/addSeries", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": localStorage.authorization
         },
         body: JSON.stringify(data)
     })
