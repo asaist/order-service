@@ -1,8 +1,20 @@
 
-const inputFields = document.querySelectorAll('#profile-tab-pane input, #profile-tab-pane select, #profile-tab-pane textarea');
-inputFields.forEach(input => {
+
+// Listners for Lecture List that hide Lecture panel
+const inputFieldsCourse = document.querySelectorAll('#profile-tab-pane input, #profile-tab-pane select, #profile-tab-pane textarea');
+inputFieldsCourse.forEach(input => {
     input.addEventListener('input', event => {
         document.getElementById('contact-tab').classList.add('hidden');
+
+    });
+});
+
+// Listners for Lecture panel that hide Lecture List panel
+const inputFieldsLecture = document.querySelectorAll('#contact-tab-pane input, #contact-tab-pane select, #contact-tab-pane textarea');
+inputFieldsLecture.forEach(input => {
+    input.addEventListener('input', event => {
+        document.getElementById('profile-tab').classList.add('hidden');
+
     });
 });
 
