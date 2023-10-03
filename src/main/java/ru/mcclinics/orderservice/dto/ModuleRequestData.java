@@ -16,6 +16,7 @@ public class ModuleRequestData extends EntityDto implements Serializable {
     private List<AuthorDto> moduleAuthors;
     private List<Mkb> mkbs;
     private String track;
+    private String shape;
     private String seriesName;
     private String seriesAnnotation;
     private String seriesKeyWords;

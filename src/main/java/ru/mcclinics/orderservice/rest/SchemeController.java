@@ -274,7 +274,7 @@ public class SchemeController {
             series = seriesService.findSeriesById(seriesId);
         }
         List<AuthorDto> authorsDtoList = moduleRequestData.getModuleAuthors();
-        List<LectureDto> lecturesFromFront = moduleRequestData .getLectures();
+        List<LectureDto> lecturesFromFront = moduleRequestData.getLectures();
         String seriesName = moduleRequestData.getSeriesName();
         String seriesAnnotation = moduleRequestData.getSeriesAnnotation();
         String seriesKeyWords = moduleRequestData.getSeriesKeyWords();
@@ -314,6 +314,8 @@ public class SchemeController {
         Set<Author> authorSet = new HashSet<>(authorList);
         series.setAuthors(authorSet);
 
+
+
         Track track = trackService.findTrackById(Long.parseLong(moduleRequestData.getTrack()));
         series.setTrack(track);
 //        series.setKeyWords(keyWordList);
@@ -329,7 +331,7 @@ public class SchemeController {
         List<Lecture> lectures = lecturesFromFront.stream().map(Lecture::new).collect(toList());
         lectures.stream().forEach(lecture -> lecture.setSeries(savedSeries));
         lectures.stream().forEach(lecture -> lecture.setCreateDate(LocalDateTime.now()));
-        lectures.stream().forEach(lecture -> lecture.setAuthors(authorSet));
+//        lectures.stream().forEach(lecture -> lecture.setAuthors(authorSet));
         mkbs.stream().forEach(mkb -> mkb.setSeries(savedSeries));
         lectureService.saveAll(lectures);
         keyWordRepository.saveAll(keyWordList);

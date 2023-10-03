@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import ru.mcclinics.orderservice.dto.AuthorDto;
 import ru.mcclinics.orderservice.dto.LectureDto;
 
 import java.time.LocalDate;
@@ -13,6 +14,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Setter
 @Getter
@@ -52,6 +55,10 @@ public class Lecture {
     @JoinColumn(name = "series_id")
     @JsonBackReference(value="series-lecture")
     private Series series;
+    @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY)
+    @JoinColumn(name = "shape_id")
+    @JsonBackReference(value="shape-lectures")
+    private Shape shape;
     @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "lecture")
     private List<KeyWord> keyWords;
     @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "lecture")
@@ -73,6 +80,9 @@ public class Lecture {
     }
     public String getSeriesName() {
         return series!=null ? series.getSeriesName() : "<Не относится к серии>";
+    }
+    public String getShapeName() {
+        return shape!=null ? shape.getShapeName() : "<Не относится к шаблону>";
     }
     public String getKeyWords(){
         return keyWords!=null ? keyWords.stream()
@@ -123,6 +133,12 @@ public class Lecture {
         System.out.println(lectureDto.getModuleId());
         if (lectureDto.getModuleId() != null) {
             this.frontEndModule = Long.valueOf(lectureDto.getModuleId());
+        }
+        if (lectureDto.getAuthors() != null) {
+            List<Author> authors = lectureDto.getAuthors().stream().map(Author::new).collect(toList());
+            Set<Author> authorsSet = authors.stream()
+                    .collect(Collectors.toSet());
+            this.authors = authorsSet;
         }
     }
 }

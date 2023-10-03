@@ -436,7 +436,7 @@
 <#--            </div>-->
 
             <!-- Заявка на Курс лекций -->
-            <div class="tab-pane show active" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+            <div class="tab-pane fade <#if !profileTab || !lectureFlag> <#else>show active</#if>" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
               <form method="post" action="/addSeries" id="createSeries" enctype="multipart/form-data">
               <div>
                 <#if moduleFlag>
@@ -828,7 +828,7 @@
                         <#if lectureFlag>
                         <option select class="form-control">Выберите образовательный трек</option>
                         <#else>
-                        <option select class="form-control" value="${lecture.getTrack().id}">${lecture.getTrackName()}</option>
+                        <option select class="form-control" value="${lecture.getShape().id}">${lecture.getShapeName()}</option>
                         </#if>
                         <#list tracks as track>
                           <option value="${track.id}">${track.trackName}</option>

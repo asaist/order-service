@@ -34,6 +34,7 @@ public class MainController {
     private final LectureService lectureService;
     private final EntityDtoParamService entityDtoParamService;
     private final KeyWordRepository keyWordRepository;
+    private final ShapeService shapeService;
 
     @Value("${files.upload.baseDir}")
     private String uploadPath;
@@ -165,6 +166,7 @@ public class MainController {
     public String getLecture(@PathVariable("id") Lecture lecture, Model model) throws JsonProcessingException {
         model.addAttribute("lecture", lecture);
         model.addAttribute("series", seriesService.findSeries());
+        model.addAttribute("shapes", shapeService.findShapes());
         model.addAttribute("universities", universityService.getUniversityList());
         model.addAttribute("lectureFlag", false);
         model.addAttribute("moduleFlag", true);

@@ -22,5 +22,8 @@ public class Shape {
     @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "shape")
     @JsonManagedReference(value="shape-series")
     private List<Series> series;
+    @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "shape")
+    @JsonManagedReference(value="shape-lectures")
+    private List<Lecture> lectures;
 
 }
