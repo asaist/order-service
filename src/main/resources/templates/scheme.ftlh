@@ -705,7 +705,7 @@
                   <div class="modal-footer">
                     <button type="submit" id="saveModuleM" class="btn btn-primary">Добавить курс лекций</button>
                     <button type="submit" id="editModuleM" class="btn btn-primary hidden">Редактировать курс лекций</button>
-                    <button type="button" id="sendForApproval" class="btn btn-primary hidden" onclick="sendForApprovalFunc()">Отправить на согласование</button>
+                    <button type="button" id="sendForApproval" class="btn btn-primary hidden" onclick="sendForApprovalCourse()">Отправить на согласование</button>
                   </div>
                 </div>
               </div>
@@ -1099,18 +1099,18 @@
 <#--    <script src="https://track.samsmu.ru/js/editModule.js"></script>-->
 <#--    <script src="https://track.samsmu.ru/js/editLecture.js"></script>-->
 
-<#--    <script src="https://dev.track.samsmu.ru/static/js/select2.min.js"></script>-->
-<#--    <script src="https://dev.track.samsmu.ru/static/js/popper.min.js"></script>-->
-<#--    <script src="https://dev.track.samsmu.ru/static/js/bootstrap.min.js"></script>-->
-<#--    <script src="https://dev.track.samsmu.ru/static/js/bootstrap.bundle.min.js"></script>-->
-<#--    <script src="https://dev.track.samsmu.ru/static/js/index.js"></script>-->
-<#--    <script src="https://dev.track.samsmu.ru/static/js/track.js"></script>-->
-<#--    <script src="https://dev.track.samsmu.ru/static/js/users.js"></script>-->
-<#--    <script src="https://dev.track.samsmu.ru/static/js/module.js"></script>-->
-<#--    <script src="https://dev.track.samsmu.ru/static/js/lecture.js"></script>-->
-<#--    <script src="https://dev.track.samsmu.ru/static/js/editTrack.js"></script>-->
-<#--    <script src="https://dev.track.samsmu.ru/static/js/editModule.js"></script>-->
-<#--    <script src="https://dev.track.samsmu.ru/static/js/editLecture.js"></script>-->
+    <script src="https://dev.track.samsmu.ru/static/js/select2.min.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/popper.min.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/bootstrap.min.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/bootstrap.bundle.min.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/index.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/track.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/users.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/module.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/lecture.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/editTrack.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/editModule.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/editLecture.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 

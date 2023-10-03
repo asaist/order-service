@@ -256,6 +256,25 @@ public class SchemeController {
         return ResponseEntity.ok(200);
     }
 
+    @PostMapping(value = "/sendCourse", consumes = {"application/json"})
+    public ResponseEntity sendCourseForApproval(@RequestParam Long savedSeries
+    ) throws DocumentException, IOException, JRException {
+
+//        String greeting = "Вам направляется на согласование : https://dev.track.samsmu.ru/";
+//        String base64 = pdfGenertor.generatePdf(greeting + "track/" + savedTrack);
+//        documentProcessingService.launchProcess(base64);
+        Series series = seriesService.findSeriesById(savedSeries);
+        List<Lecture> lectures = series.getLectures();
+
+        for (Lecture lecture : lectures) {
+            OrderDocument reportData = new OrderDocument(lecture);
+            List<OrderDocument> orderDocumentList = Arrays.asList(reportData);
+            documentProcessingService.generatePdfJasper((Collection<?>) orderDocumentList);
+        }
+
+        return ResponseEntity.ok(200);
+    }
+
 
 
     @PostMapping("/editTrack")
@@ -331,7 +350,7 @@ public class SchemeController {
         List<Lecture> lectures = lecturesFromFront.stream().map(Lecture::new).collect(toList());
         lectures.stream().forEach(lecture -> lecture.setSeries(savedSeries));
         lectures.stream().forEach(lecture -> lecture.setCreateDate(LocalDateTime.now()));
-//        lectures.stream().forEach(lecture -> lecture.setAuthors(authorSet));
+        lectures.stream().forEach(lecture -> lecture.setAuthors(authorSet));
         mkbs.stream().forEach(mkb -> mkb.setSeries(savedSeries));
         lectureService.saveAll(lectures);
         keyWordRepository.saveAll(keyWordList);

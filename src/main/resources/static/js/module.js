@@ -19,6 +19,26 @@ inputFieldsLecture.forEach(input => {
 });
 
 
+async function sendForApprovalCourse() {
+    try {
+        const response = await fetch(`https://dev.track.samsmu.ru/sendCourse?savedSeries=${savedSeries}`, {
+            method: 'POST',
+            body: JSON.stringify(savedSeries),
+            headers: {
+                'Content-Type': 'application/json',
+                "Authorization": localStorage.authorization
+            }
+        });
+        const data = await response.json();
+        const newSeriesId = data.savedSeries;
+        // Используйте полученный ID нового трека для нужных действий на фронтенде
+        console.log('ID отправленного курса на согласование:', newSeriesId);
+    } catch(error) {
+        console.error('Ошибка при отправке запроса:', error);
+    }
+}
+
+
 function updateTrackHeadingModuleSeries() {
     let trackInput = document.getElementById("trackModuleSeries");
     let selectedOption = trackInput.options[trackInput.selectedIndex];
