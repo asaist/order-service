@@ -98,6 +98,12 @@ public class SchemeController {
             model.addAttribute("lectureFlag", true);
             model.addAttribute("moduleFlag", true);
             List<Mkb10Dto> entityDtoList = entityDtoParamService.getEntityDtoList();
+            List<Mkb10Dto> localization = entityDtoParamService.getEntityLocalizationList();
+            List<Mkb10Dto> discipline = entityDtoParamService.getEntityDisciplineList();
+            List<Mkb10Dto> spravochnik = entityDtoParamService.getEntitySpravochnikList();
+            model.addAttribute("localization", localization);
+            model.addAttribute("discipline", discipline);
+            model.addAttribute("spravochnik", spravochnik);
             model.addAttribute("mkb10", entityDtoList);
             return "scheme";
 

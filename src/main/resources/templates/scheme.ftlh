@@ -938,14 +938,15 @@
                                   <div class="d-flex">
                                     <select class="form-control w-75 mr-10" name="">
                                       <option select class="form-control"ed="" disabled="">Выберите справочник</option>
-                                      <option value="Шить">МКБ</option>
-                                      <option value="Брать кровь">Дисциплина/Учебный план</option>
+                                      <#list spravochnik as spr>
+                                        <option value="${spr.id}">${spr.name}</option>
+                                      </#list>
                                     </select>
                                     <button type="button" class="btn btn-primary ml-10">Добавить</button>
                                   </div>
                                 </div>
 
-                                <div class="mt-10 mb-10">
+                                <div class="mt-10 mb-10 hidden">
                                   <b>Целевая аудитория</b><br>
                                   <select class="form-control" class="form-control" name="listners" size="1">
                                     <option select class="form-control"ed="" disabled="">Выберите целевую аудиторию</option>
@@ -962,7 +963,7 @@
 
                                 <div class="mt-10 mb-10">
                                   <b>Ось МКБ</b><br>
-                                  <input type="text" id="myInputLec" class="form-control mt-10 mb-10" onkeyup="filterOptionsLec()" placeholder="Параметры поиска...">
+                                  <input type="text" id="myInputLec" class="form-control mt-10 mb-10" onkeyup="filterOptionsLec('myInputLec','mySelectLec')" placeholder="Параметры поиска...">
                                   <select id="mySelectLec" class="form-control" name="mkb" onchange="selectMkbLec('tableMkbLec')" size="1">
                                     <option select class="form-control"ed="" disabled="">Выберите значение</option>
                                     <#if profileTab>
@@ -987,25 +988,48 @@
 
                                 <div class="mt-10 mb-10">
                                   <b>Ось Дисциплин/учебный план</b><br>
-                                  <select class="form-control" name="discipline" size="1">
+                                  <input type="text" id="myInputLecDis" class="form-control mt-10 mb-10" onkeyup="filterOptionsLec('myInputLecDis', 'mySelectLecDis')" placeholder="Параметры поиска...">
+                                  <select id="mySelectLecDis" class="form-control" name="discipline" size="1">
                                     <option select class="form-control"ed="" disabled="">Выберите дисциплину</option>
-                                    <option value="Общая анатомия">Общая анатомия</option>
-                                    <option value="Биохимия">Биохимия</option>
-                                    <option value="Диетолония">Диетолония</option>
-                                    <option value="Фармакология">Фармакология</option>
+                                    <#list discipline as dis>
+                                      <option value="${dis.id}">${dis.code} ${dis.name}</option>
+                                    </#list>
                                   </select class="form-control">
+
+                                  <div>
+                                    <table class="table table-hover editable" id="tableDis" name="tableDis">
+                                      <tr>
+                                        <th class="text-center regTd">Наименование</th>
+                                        <th class="text-center removeTd"><i class="fas fa-trash-alt"></i></th>
+                                      </tr>
+
+                                    </table>
+                                  </div>
+
                                 </div>
                                 <div class="mt-10 mb-10">
                                   <b>Ось Локализации</b><br>
-                                  <select class="form-control" name="atlas" size="1">
+                                  <input type="text" id="myInputLecLoc" class="form-control mt-10 mb-10" onkeyup="filterOptionsLec('myInputLecLoc', 'myInputLecLoc')" placeholder="Параметры поиска...">
+                                  <select id="myInputLecLoc" class="form-control" name="atlas" size="1">
                                     <option select class="form-control"ed="" disabled="">Выберите локализацию</option>
-                                    <option value="Мозг">Мозг</option>
-                                    <option value="Пищеватительная система">Пищеватительная система</option>
-                                    <option value="Сердце">Сердце</option>
-                                    <option value="Опорнодвигательная система">Опорнодвигательная система</option>
+                                    <#list localization as loc>
+                                      <option value="${loc.id}">${loc.code} ${loc.name}</option>
+                                    </#list>
                                   </select class="form-control">
+
+                                  <div>
+                                    <table class="table table-hover editable" id="tableLoc" name="tableLoc">
+                                      <tr>
+                                        <th class="text-center regTd">Наименование</th>
+                                        <th class="text-center removeTd"><i class="fas fa-trash-alt"></i></th>
+                                      </tr>
+
+                                    </table>
+                                  </div>
+
+
                                 </div>
-                                <div class="mt-10 mb-10">
+                                <div class="mt-10 mb-10 hidden">
                                   <b>Ось Внешних факторов</b><br>
                                   <select class="form-control" name="exfacts" size="1">
                                     <option select class="form-control"ed="" disabled="">Выберите фактор</option>
@@ -1015,7 +1039,7 @@
                                     <option value="Воздействие радиации">Воздействие радиации</option>
                                   </select class="form-control">
                                 </div>
-                                <div class="mt-10 mb-10">
+                                <div class="mt-10 mb-10 hidden">
                                   <b>Ведение и состояния</b><br>
                                   <div class="d-flex">
                                     <select class="form-control w-75 mr-10" name="exfacts" size="1">
@@ -1030,7 +1054,7 @@
                                     <button type="button" class="btn btn-primary ml-10"><i class="fas fa-plus"></i></button>
                                   </div>
                                 </div>
-                                <div class="mt-10 mb-10">
+                                <div class="mt-10 mb-10 hidden">
                                   <b>Компетенции</b><br>
                                   <div class="d-flex">
                                     <select class="form-control w-75 mr-10" name="kompetetion" size="1">
@@ -1099,18 +1123,18 @@
 <#--    <script src="https://track.samsmu.ru/js/editModule.js"></script>-->
 <#--    <script src="https://track.samsmu.ru/js/editLecture.js"></script>-->
 
-    <script src="https://dev.track.samsmu.ru/static/js/select2.min.js"></script>
-    <script src="https://dev.track.samsmu.ru/static/js/popper.min.js"></script>
-    <script src="https://dev.track.samsmu.ru/static/js/bootstrap.min.js"></script>
-    <script src="https://dev.track.samsmu.ru/static/js/bootstrap.bundle.min.js"></script>
-    <script src="https://dev.track.samsmu.ru/static/js/index.js"></script>
-    <script src="https://dev.track.samsmu.ru/static/js/track.js"></script>
-    <script src="https://dev.track.samsmu.ru/static/js/users.js"></script>
-    <script src="https://dev.track.samsmu.ru/static/js/module.js"></script>
-    <script src="https://dev.track.samsmu.ru/static/js/lecture.js"></script>
-    <script src="https://dev.track.samsmu.ru/static/js/editTrack.js"></script>
-    <script src="https://dev.track.samsmu.ru/static/js/editModule.js"></script>
-    <script src="https://dev.track.samsmu.ru/static/js/editLecture.js"></script>
+<#--    <script src="https://dev.track.samsmu.ru/static/js/select2.min.js"></script>-->
+<#--    <script src="https://dev.track.samsmu.ru/static/js/popper.min.js"></script>-->
+<#--    <script src="https://dev.track.samsmu.ru/static/js/bootstrap.min.js"></script>-->
+<#--    <script src="https://dev.track.samsmu.ru/static/js/bootstrap.bundle.min.js"></script>-->
+<#--    <script src="https://dev.track.samsmu.ru/static/js/index.js"></script>-->
+<#--    <script src="https://dev.track.samsmu.ru/static/js/track.js"></script>-->
+<#--    <script src="https://dev.track.samsmu.ru/static/js/users.js"></script>-->
+<#--    <script src="https://dev.track.samsmu.ru/static/js/module.js"></script>-->
+<#--    <script src="https://dev.track.samsmu.ru/static/js/lecture.js"></script>-->
+<#--    <script src="https://dev.track.samsmu.ru/static/js/editTrack.js"></script>-->
+<#--    <script src="https://dev.track.samsmu.ru/static/js/editModule.js"></script>-->
+<#--    <script src="https://dev.track.samsmu.ru/static/js/editLecture.js"></script>-->
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
@@ -1499,12 +1523,12 @@
     </script>
 
     <script>
-      function filterOptionsLec() {
+      function filterOptionsLec(myInput, mySelect) {
         // Получаем элементы
         var input, filter, select, option, i, txtValue;
-        input = document.getElementById("myInputLec");
+        input = document.getElementById(myInput);
         filter = input.value.toUpperCase();
-        select = document.getElementById("mySelectLec");
+        select = document.getElementById(mySelect);
         option = select.getElementsByTagName("option");
 
         // Проходим по всем опциям и скрываем те, которые не соответствуют поиску

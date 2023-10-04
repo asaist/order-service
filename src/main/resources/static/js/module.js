@@ -21,7 +21,8 @@ inputFieldsLecture.forEach(input => {
 
 async function sendForApprovalCourse() {
     try {
-        const response = await fetch(`https://dev.track.samsmu.ru/sendCourse?savedSeries=${savedSeries}`, {
+        // const response = await fetch(`https://dev.track.samsmu.ru/sendCourse?savedSeries=${savedSeries}`, {
+        const response = await fetch(`http://localhost:8081/sendCourse?savedSeries=${savedSeries}`, {
             method: 'POST',
             body: JSON.stringify(savedSeries),
             headers: {

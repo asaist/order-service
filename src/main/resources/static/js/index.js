@@ -21,8 +21,8 @@ $(document).ready(function() {
 	console.log("In Da select: " + localStorage.authorization);
 	$(".js-data-example-ajax").select2({
 		ajax: {
-			url: "https://dev.track.samsmu.ru/public/home/api/author/authors",
-			// url: "http://localhost:8081/public/home/api/author/authors",
+			// url: "https://dev.track.samsmu.ru/public/home/api/author/authors",
+			url: "http://localhost:8081/public/home/api/author/authors",
 			type: 'GET',
 			dataType: 'json',
 			delay: 250,

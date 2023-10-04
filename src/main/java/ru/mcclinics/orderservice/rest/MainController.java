@@ -174,6 +174,12 @@ public class MainController {
         model.addAttribute("tracks", trackService.findTracks());
         model.addAttribute("lectures", lectureService.findLectures());
         List<Mkb10Dto> entityDtoList = entityDtoParamService.getEntityDtoList();
+        List<Mkb10Dto> localization = entityDtoParamService.getEntityLocalizationList();
+        List<Mkb10Dto> discipline = entityDtoParamService.getEntityDisciplineList();
+        List<Mkb10Dto> spravochnik = entityDtoParamService.getEntitySpravochnikList();
+        model.addAttribute("localization", localization);
+        model.addAttribute("discipline", discipline);
+        model.addAttribute("spravochnik", spravochnik);
         model.addAttribute("mkb10", entityDtoList);
         return "scheme";
 
