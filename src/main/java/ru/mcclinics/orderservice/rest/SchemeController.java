@@ -43,6 +43,9 @@ public class SchemeController {
     private final DocumentProcessingService documentProcessingService;
     private final ShapeService shapeService;
 
+    public static final String ApplicationForApprovalProcessType = "114";
+    public static final String ForExecutionProcessType = "119";
+
 
     @GetMapping("/msg")
     @ResponseStatus(HttpStatus.OK)
@@ -256,7 +259,11 @@ public class SchemeController {
                 .collect(Collectors.joining("; "));
         reportData.setAuthors(authorsNames);
         List<OrderDocument> orderDocumentList = Arrays.asList(reportData);
-        documentProcessingService.generatePdfJasper((Collection<?>) orderDocumentList);
+        documentProcessingService.generatePdfJasper(
+                (Collection<?>) orderDocumentList,
+                ApplicationForApprovalProcessType,
+                track.getSupervisor(),
+                null);
 
 
         return ResponseEntity.ok(200);
@@ -270,12 +277,42 @@ public class SchemeController {
 //        String base64 = pdfGenertor.generatePdf(greeting + "track/" + savedTrack);
 //        documentProcessingService.launchProcess(base64);
         Series series = seriesService.findSeriesById(savedSeries);
+        Author supervisor = series.getSupervisor();
         List<Lecture> lectures = series.getLectures();
 
         for (Lecture lecture : lectures) {
             OrderDocument reportData = new OrderDocument(lecture);
             List<OrderDocument> orderDocumentList = Arrays.asList(reportData);
-            documentProcessingService.generatePdfJasper((Collection<?>) orderDocumentList);
+            documentProcessingService.generatePdfJasper((
+                    Collection<?>) orderDocumentList,
+                    ApplicationForApprovalProcessType,
+                    supervisor.getGuid(),
+                    null);
+        }
+
+        return ResponseEntity.ok(200);
+    }
+    @PostMapping(value = "/sendCourseForExecution", consumes = {"application/json"})
+    public ResponseEntity sendCourseForExecution(@RequestParam Long savedSeries
+    ) throws DocumentException, IOException, JRException {
+
+//        String greeting = "Вам направляется на согласование : https://dev.track.samsmu.ru/";
+//        String base64 = pdfGenertor.generatePdf(greeting + "track/" + savedTrack);
+//        documentProcessingService.launchProcess(base64);
+        Series series = seriesService.findSeriesById(savedSeries);
+        Author supervisor = series.getSupervisor();
+        List<Lecture> lectures = series.getLectures();
+
+        for (Lecture lecture : lectures) {
+            OrderDocument reportData = new OrderDocument(lecture);
+            List<OrderDocument> orderDocumentList = Arrays.asList(reportData);
+            for (Author author : lecture.getAuthors()){
+                documentProcessingService.generatePdfJasper((
+                                Collection<?>) orderDocumentList,
+                        ForExecutionProcessType,
+                        supervisor.getGuid(),
+                        author.getGuid());
+            }
         }
 
         return ResponseEntity.ok(200);
@@ -312,6 +349,17 @@ public class SchemeController {
             keyWord.setValue(line);
             keyWord.setSeries(series);
             keyWordList.add(keyWord);
+        }
+
+        Long index = null;
+        for (AuthorDto authorDto : authorsDtoList) {
+            if (authorDto.getIsSupervisor()) {
+                index = authorDto.getId();
+            }
+        }
+        if (index != null) {
+            Author supervisor = authorService.findAuthorById(index);
+            series.setSupervisor(supervisor);
         }
 
         List<Author> authorsFromDB = new ArrayList<>();

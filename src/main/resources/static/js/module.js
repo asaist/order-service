@@ -19,10 +19,10 @@ inputFieldsLecture.forEach(input => {
 });
 
 
-async function sendForApprovalCourse() {
+async function sendForApprovalCourse(processType) {
     try {
-        // const response = await fetch(`https://dev.track.samsmu.ru/sendCourse?savedSeries=${savedSeries}`, {
-        const response = await fetch(`http://localhost:8081/sendCourse?savedSeries=${savedSeries}`, {
+        // const response = await fetch(`https://dev.track.samsmu.ru/${processType}?savedSeries=${savedSeries}`, {
+        const response = await fetch(`http://localhost:8081/${processType}?savedSeries=${savedSeries}`, {
             method: 'POST',
             body: JSON.stringify(savedSeries),
             headers: {
@@ -214,6 +214,7 @@ moduleForm.addEventListener('submit', (event) => {
     editModule.classList.remove("hidden");
     let sendForApproval = document.getElementById('sendForApproval');
     sendForApproval.classList.remove("hidden");
+    document.getElementById('sendForExecution').classList.remove("hidden");
 });
 
 // function handleSubmit(event) {

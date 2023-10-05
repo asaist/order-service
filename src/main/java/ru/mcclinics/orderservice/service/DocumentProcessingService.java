@@ -34,7 +34,7 @@ import static org.springframework.security.oauth2.core.endpoint.OAuth2ParameterN
 
 public class DocumentProcessingService {
 
-    public ResponseEntity<String> launchProcess(String base64) throws JsonProcessingException {
+    public ResponseEntity<String> launchProcess(String base64, String processType, String supervisorGuid, String executorGuid) throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -69,10 +69,14 @@ public class DocumentProcessingService {
         documentDto.setSenderID("62b9220d-6d49-4bf1-bca5-949c1db40025");
         documentDto.setProcessInitDocBody(base64);
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("processType", "114");
+        params.add("processType", processType);
         params.add("processInitDocBody", base64);
-        params.add("senderID", "62b9220d-6d49-4bf1-bca5-949c1db40025");
-//        params.add("personID", "defecd0d-521b-4414-84f6-87b8476c3b82");
+        params.add("senderID", supervisorGuid);
+        if (executorGuid != null){
+            params.add("personID", executorGuid);
+            params.add("personDivision", "00ЗК-0190");
+            params.add("personPosition", "Главный инженер-программист");
+        }
 
         HttpEntity<?> entity = new HttpEntity<>(params, headers2);
 
@@ -100,8 +104,7 @@ public class DocumentProcessingService {
         return (ResponseEntity<String>) response3;
     }
 
-
-    public void generatePdfJasper(Collection<?> reportData) throws JRException, IOException {
+    public void generatePdfJasper(Collection<?> reportData,  String processType, String supervisorGuid, String executorGuid) throws JRException, IOException {
 
         // Загрузка шаблона отчета Jasper Reports из файла
 
@@ -130,7 +133,7 @@ public class DocumentProcessingService {
         String base64 = Base64.getEncoder().encodeToString(pdfBytes);
         System.out.println(base64);
         // Отправка PDF в виде Base64 через RestTemplate
-        launchProcess(base64);
+        launchProcess(base64, processType, supervisorGuid, executorGuid);
 
     }
 

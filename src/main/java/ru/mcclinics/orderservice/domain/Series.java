@@ -32,6 +32,9 @@ public class Series {
             joinColumns = {@JoinColumn(name = "series_id", referencedColumnName = "series_id")},
             inverseJoinColumns = {@JoinColumn(name = "author_id", referencedColumnName = "author_id")})
     private Set<Author> authors = new HashSet<>();
+    @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "supervisor")
+    private Author supervisor;
     private String annotation;
     @Column(name = "create_date", updatable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")

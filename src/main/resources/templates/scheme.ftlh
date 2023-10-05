@@ -705,7 +705,8 @@
                   <div class="modal-footer">
                     <button type="submit" id="saveModuleM" class="btn btn-primary">Добавить курс лекций</button>
                     <button type="submit" id="editModuleM" class="btn btn-primary hidden">Редактировать курс лекций</button>
-                    <button type="button" id="sendForApproval" class="btn btn-primary hidden" onclick="sendForApprovalCourse()">Отправить на согласование</button>
+                    <button type="button" id="sendForApproval" class="btn btn-primary hidden" onclick="sendForApprovalCourse('sendCourse')">Отправить на согласование</button>
+                    <button type="button" id="sendForExecution" class="btn btn-primary hidden" onclick="sendForApprovalCourse('sendCourseForExecution')">Отправить на исполнение</button>
                   </div>
                 </div>
               </div>
@@ -964,7 +965,7 @@
                                 <div class="mt-10 mb-10">
                                   <b>Ось МКБ</b><br>
                                   <input type="text" id="myInputLec" class="form-control mt-10 mb-10" onkeyup="filterOptionsLec('myInputLec','mySelectLec')" placeholder="Параметры поиска...">
-                                  <select id="mySelectLec" class="form-control" name="mkb" onchange="selectMkbLec('tableMkbLec')" size="1">
+                                  <select id="mySelectLec" class="form-control" name="mkb" onchange="selectMkbLec('mySelectLec', 'tableMkbLec', 'mkb')" size="1">
                                     <option select class="form-control"ed="" disabled="">Выберите значение</option>
                                     <#if profileTab>
                                       <#list mkb10 as mkb>
@@ -989,7 +990,7 @@
                                 <div class="mt-10 mb-10">
                                   <b>Ось Дисциплин/учебный план</b><br>
                                   <input type="text" id="myInputLecDis" class="form-control mt-10 mb-10" onkeyup="filterOptionsLec('myInputLecDis', 'mySelectLecDis')" placeholder="Параметры поиска...">
-                                  <select id="mySelectLecDis" class="form-control" name="discipline" size="1">
+                                  <select id="mySelectLecDis" class="form-control" name="discipline" onchange="selectMkbLec('mySelectLecDis', 'tableDis', 'dis')" size="1">
                                     <option select class="form-control"ed="" disabled="">Выберите дисциплину</option>
                                     <#list discipline as dis>
                                       <option value="${dis.id}">${dis.code} ${dis.name}</option>
@@ -1009,8 +1010,8 @@
                                 </div>
                                 <div class="mt-10 mb-10">
                                   <b>Ось Локализации</b><br>
-                                  <input type="text" id="myInputLecLoc" class="form-control mt-10 mb-10" onkeyup="filterOptionsLec('myInputLecLoc', 'myInputLecLoc')" placeholder="Параметры поиска...">
-                                  <select id="myInputLecLoc" class="form-control" name="atlas" size="1">
+                                  <input type="text" id="myInputLecLoc" class="form-control mt-10 mb-10" onkeyup="filterOptionsLec('myInputLecLoc', 'mySelectLecLoc')" placeholder="Параметры поиска...">
+                                  <select id="mySelectLecLoc" class="form-control" name="atlas" onchange="selectMkbLec('mySelectLecLoc', 'tableLoc', 'loc')" size="1">
                                     <option select class="form-control"ed="" disabled="">Выберите локализацию</option>
                                     <#list localization as loc>
                                       <option value="${loc.id}">${loc.code} ${loc.name}</option>
@@ -1191,6 +1192,8 @@
         }
       }
       let mkbs = [];
+      let diss = [];
+      let locs = [];
       function selectMkb(el) {
         let e = document.getElementById("mySelect");
         let value = e.value;

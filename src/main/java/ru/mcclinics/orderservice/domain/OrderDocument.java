@@ -13,6 +13,7 @@ public class OrderDocument {
     private String keywords;
     private String supervisor;
     private String authors;
+    private String giuds;
     private String link;
 
     public OrderDocument(String link) {
@@ -36,6 +37,11 @@ public class OrderDocument {
         String authorsNames = lecture.getAuthors().stream()
                 .map(author -> author.getLastName() + " " + author.getFirstName() + " " + author.getMiddleName())
                 .collect(Collectors.joining("; "));
+        String authorsGuids = lecture.getAuthors().stream()
+                .map(author -> author.getGuid())
+                .collect(Collectors.joining("; "));
         this.authors = authorsNames;
+        this.giuds = authorsGuids;
+
     }
 }

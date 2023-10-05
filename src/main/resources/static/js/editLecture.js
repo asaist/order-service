@@ -75,16 +75,31 @@ function drawMkbTableLec(mkbs){
     }
 }
 
-function selectMkbLec(el) {
-    let e = document.getElementById("mySelectLec");
+function selectMkbLec(select, table, spravochnik) {
+    let e = document.getElementById(select);
     let value = e.value;
     let text = e.options[e.selectedIndex].text;
     //let select = document.getElementById("select");
     //let value = select.value;
-    let mkb = new Mkb(text, null, null, savedLecture);
-    mkbs.push(mkb);
+    switch(spravochnik) {
+        case 'mkb':
+            let mkb = new Mkb(text, null, null, savedLecture);
+            mkbs.push(mkb);
+            break;
 
-    let tableAuthor = document.getElementById(el);
+        case 'dis':
+            let dis = new Mkb(text, null, null, savedLecture);
+            diss.push(mkb);
+            break;
+
+        case 'dis':
+            let loc = new Mkb(text, null, null, savedLecture);
+            locs.push(mkb);
+            break;
+    }
+
+
+    let tableAuthor = document.getElementById(table);
 
     let divDoc = document.createElement('tr');
     divDoc.classList.add('divDoc');
