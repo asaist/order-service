@@ -28,22 +28,40 @@ function getAuthorsForEditLecture(id) {
                 };
             });
 
+            diss = data.diss.map(mkb => {
+                return {
+                    id : mkb.id,
+                    value: mkb.value
+                    // Здесь можно добавить другие свойства автора, если они есть в объекте AuthorDto
+                };
+            });
+
+            locs = data.locs.map(mkb => {
+                return {
+                    id : mkb.id,
+                    value: mkb.value
+                    // Здесь можно добавить другие свойства автора, если они есть в объекте AuthorDto
+                };
+            });
+
             // Используйте полученный ID нового трека для нужных действий на фронтенде
             console.log('Авторы трека', lectureAuthors);
             savedLecture = id;
             drawAuthorTableLec(lectureAuthors);
-            drawMkbTableLec(mkbs);
+            drawMkbTableLec(mkbs, 'tableMkbLec');
+            drawMkbTableLec(diss, 'tableDis');
+            drawMkbTableLec(locs, 'tableLoc');
         })
         .catch(error => {
             console.error('Ошибка при отправке запроса:', error);
         });
 }
 
-function drawMkbTableLec(mkbs){
+function drawMkbTableLec(mkbs, table){
 
     for (const mkb of mkbs) {
         const index = mkbs.indexOf(mkb);
-        let tableMkb = document.getElementById('tableMkbLec');
+        let tableMkb = document.getElementById(table);
         let divDoc = document.createElement('tr');
         divDoc.classList.add('divDoc');
         tableMkb.append(divDoc);
@@ -89,12 +107,12 @@ function selectMkbLec(select, table, spravochnik) {
 
         case 'dis':
             let dis = new Mkb(text, null, null, savedLecture);
-            diss.push(mkb);
+            diss.push(dis);
             break;
 
-        case 'dis':
+        case 'loc':
             let loc = new Mkb(text, null, null, savedLecture);
-            locs.push(mkb);
+            locs.push(loc);
             break;
     }
 

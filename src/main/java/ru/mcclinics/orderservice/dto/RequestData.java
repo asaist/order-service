@@ -22,10 +22,14 @@ public class RequestData extends EntityDto implements Serializable {
     private List<ModuleDto> modules;
     private List<LectureDto> lectures;
     private List<MkbDto> mkbs;
+    private List<MkbDto> diss;
+    private List<MkbDto> locs;
 
-    public RequestData(List<AuthorDto> authors, List<MkbDto> mkbs) {
+    public RequestData(List<AuthorDto> authors, List<MkbDto> mkbs, List<MkbDto> diss, List<MkbDto> locs) {
         this.authors = authors;
         this.mkbs = mkbs;
+        this.diss = diss;
+        this.locs = locs;
     }
 
     public RequestData(List<AuthorDto> authors, List<ModuleDto> modules, List<LectureDto> lectures) {

@@ -20,4 +20,6 @@ public class LectureRequestData extends EntityDto implements Serializable {
     private String lectureAnnotation;
     private String lectureKeyWords;
     private List<MkbDto> mkbs;
+    private List<MkbDto> diss;
+    private List<MkbDto> locs;
 }

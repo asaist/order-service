@@ -827,12 +827,12 @@
                     <form id="trackForm" method="get" enctype="multipart/form-data">
                       <select  id="track" class="form-control" name="lectureTrack" size="1">
                         <#if lectureFlag>
-                        <option select class="form-control">Выберите образовательный трек</option>
+                        <option select class="form-control">Выберите образовательный шаблон</option>
                         <#else>
                         <option select class="form-control" value="${lecture.getShape().id}">${lecture.getShapeName()}</option>
                         </#if>
-                        <#list tracks as track>
-                          <option value="${track.id}">${track.trackName}</option>
+                        <#list shapes as shape>
+                          <option value="${shape.id}">${shape.getShapeName()}</option>
                         </#list>
                       </select class="form-control">
                     </form>

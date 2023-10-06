@@ -11,7 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.mcclinics.orderservice.dao.DisciplineRepository;
 import ru.mcclinics.orderservice.dao.KeyWordRepository;
+import ru.mcclinics.orderservice.dao.LocalizationRepository;
 import ru.mcclinics.orderservice.dao.MkbRepository;
 import ru.mcclinics.orderservice.domain.*;
 import ru.mcclinics.orderservice.dto.*;
@@ -36,6 +38,8 @@ public class SchemeController {
     private final UserService userService;
     private final KeyWordRepository keyWordRepository;
     private final MkbRepository mkbRepository;
+    private final LocalizationRepository localizationRepository;
+    private final DisciplineRepository disciplineRepository;
     private final SeriesService seriesService;
     private final AuthorService authorService;
     private final EntityDtoParamService entityDtoParamService;
@@ -472,10 +476,23 @@ public class SchemeController {
         lecture.setAnnotation(lectureAnnotation);
         lecture.setCreateDate(LocalDateTime.now());
         Lecture savedLecture = lectureService.save(lecture);
+
         List<MkbDto> mkbs = lectureRequestData.getMkbs();
+        List<MkbDto> diss = lectureRequestData.getDiss();
+        List<MkbDto> locs = lectureRequestData.getLocs();
+
         List<Mkb> mkbs1 = mkbs.stream().map(Mkb::new).collect(toList());
+        List<Discipline> diss1 = diss.stream().map(Discipline::new).collect(toList());
+        List<Localization> locs1 = locs.stream().map(Localization::new).collect(toList());
+
         mkbs1.stream().forEach(mkb -> mkb.setLecture(savedLecture));
+        diss1.stream().forEach(mkb -> mkb.setLecture(savedLecture));
+        locs1.stream().forEach(mkb -> mkb.setLecture(savedLecture));
+
         mkbRepository.saveAll(mkbs1);
+        disciplineRepository.saveAll(diss1);
+        localizationRepository.saveAll(locs1);
+
         keyWordRepository.saveAll(keyWordList);
         log.info("/create [lecture {}]", lecture);
         return ResponseEntity.ok(new LectureDto(lecture));

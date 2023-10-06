@@ -117,9 +117,16 @@ public class MainController {
         List<AuthorDto> authorDtos = authors.stream().map(AuthorDto::new).collect(toList());
         List<Lecture> lectures = lectureService.findLectureBySeriesId(id);
         List<LectureDto> lectureDtos = lectures.stream().map(LectureDto::new).collect(toList());
+
         List<Mkb> mkbs = lecture.getMkbs();
+        List<Discipline> diss = lecture.getDisciplines();
+        List<Localization> locs = lecture.getLocalizations();
+
         List<MkbDto> mkbDtos = mkbs.stream().map(MkbDto::new).collect(toList());
-        RequestData rd = new RequestData(authorDtos, mkbDtos);
+        List<MkbDto> disDtos = diss.stream().map(MkbDto::new).collect(toList());
+        List<MkbDto> locDtos = locs.stream().map(MkbDto::new).collect(toList());
+
+        RequestData rd = new RequestData(authorDtos, mkbDtos, disDtos, locDtos);
         return rd;
     }
 

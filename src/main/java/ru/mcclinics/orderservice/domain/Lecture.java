@@ -63,6 +63,10 @@ public class Lecture {
     private List<KeyWord> keyWords;
     @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "lecture")
     private List<Mkb> mkbs;
+    @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "lecture")
+    private List<Discipline> disciplines;
+    @OneToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.LAZY, mappedBy = "lecture")
+    private List<Localization> localizations;
     @Transient
     private Long frontEndModule;
 

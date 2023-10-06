@@ -74,8 +74,8 @@ public class DocumentProcessingService {
         params.add("senderID", supervisorGuid);
         if (executorGuid != null){
             params.add("personID", executorGuid);
-            params.add("personDivision", "00ЗК-0190");
-            params.add("personPosition", "Главный инженер-программист");
+//            params.add("personDivision", "00ЗК-0190");
+//            params.add("personPosition", "Главный инженер-программист");
         }
 
         HttpEntity<?> entity = new HttpEntity<>(params, headers2);
