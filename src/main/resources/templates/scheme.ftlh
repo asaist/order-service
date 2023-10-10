@@ -83,7 +83,7 @@
             <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="false">Трек</button>
           </li>
           <li class="nav-item" role="presentation" id="moduleHideSeries">
-            <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="true">Модуль</button>
+            <button class="nav-link active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="true">Курс лекций</button>
           </li>
           <li class="nav-item hidden" role="presentation">
             <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Лекция</button>
@@ -445,7 +445,7 @@
                 </div>
                 <#else>
                 <div class="d-flex justify-content-center">
-                  <h5>Редактированиее модуля</h5>
+                  <h5>Редактирование модуля</h5>
                 </div>
                 </#if>
                 <div class="modal-body"> 
@@ -741,7 +741,7 @@
                           <p><b>Авторы лекции</b></p>
                           <div>
                             <div class="form-check mb-10">
-                              <input class="form-check-input" type="checkbox" name="is-emsloyeeModule"  onclick="authorSamGMUModal()">
+                              <input class="form-check-input" type="checkbox" id="is-emsloyeelecture" name="is-emsloyeeModule"  onclick="authorSamGMUModal()">
                               <label class="form-check-label">Автор является сотрудником СамГМУ</label>
                             </div>
                             <div class="hidden" id="authorSamGMUModal">
@@ -1124,18 +1124,18 @@
 <#--    <script src="https://track.samsmu.ru/js/editModule.js"></script>-->
 <#--    <script src="https://track.samsmu.ru/js/editLecture.js"></script>-->
 
-<#--    <script src="https://dev.track.samsmu.ru/static/js/select2.min.js"></script>-->
-<#--    <script src="https://dev.track.samsmu.ru/static/js/popper.min.js"></script>-->
-<#--    <script src="https://dev.track.samsmu.ru/static/js/bootstrap.min.js"></script>-->
-<#--    <script src="https://dev.track.samsmu.ru/static/js/bootstrap.bundle.min.js"></script>-->
-<#--    <script src="https://dev.track.samsmu.ru/static/js/index.js"></script>-->
-<#--    <script src="https://dev.track.samsmu.ru/static/js/track.js"></script>-->
-<#--    <script src="https://dev.track.samsmu.ru/static/js/users.js"></script>-->
-<#--    <script src="https://dev.track.samsmu.ru/static/js/module.js"></script>-->
-<#--    <script src="https://dev.track.samsmu.ru/static/js/lecture.js"></script>-->
-<#--    <script src="https://dev.track.samsmu.ru/static/js/editTrack.js"></script>-->
-<#--    <script src="https://dev.track.samsmu.ru/static/js/editModule.js"></script>-->
-<#--    <script src="https://dev.track.samsmu.ru/static/js/editLecture.js"></script>-->
+    <script src="https://dev.track.samsmu.ru/static/js/select2.min.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/popper.min.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/bootstrap.min.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/bootstrap.bundle.min.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/index.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/track.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/users.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/module.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/lecture.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/editTrack.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/editModule.js"></script>
+    <script src="https://dev.track.samsmu.ru/static/js/editLecture.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 

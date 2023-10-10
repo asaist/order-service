@@ -59,14 +59,14 @@ public class MainController {
 
     @GetMapping("/table_track")
     public String listTrackForTable(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
-        Iterable<Track> tracks = trackService.findTracks();
+        Iterable<Series> series;
         if (filter !=null && !filter.isEmpty()){
-            tracks = trackService.findTrackByName(filter);
+            series = seriesService.findSeriesByName(filter);
         } else {
-            tracks = trackService.findTracks();
+            series = seriesService.findSeries();
         }
 
-        model.addAttribute("tracks", tracks);
+        model.addAttribute("series", series);
         model.addAttribute("filter", filter);
         model.addAttribute("universities", universityService.getUniversityList());
         return "table_track";
@@ -157,6 +157,7 @@ public class MainController {
     public String getModule(@PathVariable("id") Series series, Model model) throws JsonProcessingException {
         model.addAttribute("seriesOne", series);
         model.addAttribute("series", seriesService.findSeries());
+        model.addAttribute("shapes", shapeService.findShapes());
         model.addAttribute("universities", universityService.getUniversityList());
         model.addAttribute("moduleFlag", false);
         model.addAttribute("lectureFlag", true);

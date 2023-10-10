@@ -18,7 +18,7 @@ public class SeriesService {
     public Series save(Series series){
         return seriesRepository.save(series);
     }
-
+    public List<Series> findSeriesByName(String name) { return seriesRepository.findSeriesBySeriesNameStartingWith(name); }
     public List<Series> findSeries(){return seriesRepository.findAll();}
     public List<Series> findSeriesByTrackId(Long id){return seriesRepository.findSeriesByTrackId(id);}
     public List<Series> findSeriesByTrack(Track track){return seriesRepository.findSeriesByTrack(track);}

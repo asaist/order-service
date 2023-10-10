@@ -16,6 +16,7 @@ import java.util.Set;
 public interface SeriesRepository extends JpaRepository<Series, Long> {
     List<Series> findSeriesByTrack(Track track);
     List<Series> findSeriesByTrackId(Long id);
+    List<Series> findSeriesBySeriesNameStartingWith(String name);
     Series findSeriesById(Long id);
     @Query("SELECT t.authors FROM Series t WHERE t.id = :seriesId")
     Set<Author> findAuthorsById(@Param("seriesId")Long id);

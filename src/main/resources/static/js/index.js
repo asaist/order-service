@@ -21,8 +21,8 @@ $(document).ready(function() {
 	console.log("In Da select: " + localStorage.authorization);
 	$(".js-data-example-ajax").select2({
 		ajax: {
-			// url: "https://dev.track.samsmu.ru/public/home/api/author/authors",
-			url: "http://localhost:8081/public/home/api/author/authors",
+			url: "https://dev.track.samsmu.ru/public/home/api/author/authors",
+			// url: "http://localhost:8081/public/home/api/author/authors",
 			type: 'GET',
 			dataType: 'json',
 			delay: 250,
@@ -103,7 +103,8 @@ function btnClose() {
 	document.getElementById('lectureModalNameModule').value = "";
 	document.getElementById('lectureModalAnnotationModule').value = "";
 	document.getElementById('lectureModalKeyWordsModule').value = "";
-	// $('#selectAuthorToModal').val(null).trigger('change');
+	document.getElementById('is-emsloyeelecture').checked = false;
+	// $('#selectAuthorToModal').val('').trigger('change');
 
     // let viewOverlay = document.getElementById('overlayViewLectureModal');
     // viewOverlay.classList.add('hidden');

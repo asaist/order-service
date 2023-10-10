@@ -45,7 +45,7 @@ function getAuthorsForEditLecture(id) {
             });
 
             // Используйте полученный ID нового трека для нужных действий на фронтенде
-            console.log('Авторы трека', lectureAuthors);
+            console.log('Авторы лекции: ', lectureAuthors);
             savedLecture = id;
             drawAuthorTableLec(lectureAuthors);
             drawMkbTableLec(mkbs, 'tableMkbLec');

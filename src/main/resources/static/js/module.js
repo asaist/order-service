@@ -21,8 +21,8 @@ inputFieldsLecture.forEach(input => {
 
 async function sendForApprovalCourse(processType) {
     try {
-        // const response = await fetch(`https://dev.track.samsmu.ru/${processType}?savedSeries=${savedSeries}`, {
-        const response = await fetch(`http://localhost:8081/${processType}?savedSeries=${savedSeries}`, {
+        const response = await fetch(`https://dev.track.samsmu.ru/${processType}?savedSeries=${savedSeries}`, {
+        // const response = await fetch(`http://localhost:8081/${processType}?savedSeries=${savedSeries}`, {
             method: 'POST',
             body: JSON.stringify(savedSeries),
             headers: {
@@ -191,7 +191,7 @@ moduleForm.addEventListener('submit', (event) => {
     }
     console.log(data);
 
-    fetch("/addSeries", {
+    fetch("https://dev.track.samsmu.ru/addSeries", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -1359,4 +1359,18 @@ function selectAuthorModule(el, selectId, tableId, supervisor, addToAuthorsList)
         badge[i].outerHTML = "";
     }
 
+}
+
+function deleteModule(id){
+    const url = '/module/' + id; // здесь id - идентификатор трека
+
+    fetch(url, {
+        method: 'DELETE',
+    })
+        .then(response => {
+            // обработка успешного ответа
+        })
+        .catch(error => {
+            // обработка ошибки
+        });
 }

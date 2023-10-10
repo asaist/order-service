@@ -46,6 +46,7 @@ public class SchemeController {
     private final PdfGenerator pdfGenertor;
     private final DocumentProcessingService documentProcessingService;
     private final ShapeService shapeService;
+    private final CheckTokenService checkTokenService;
 
     public static final String ApplicationForApprovalProcessType = "114";
     public static final String ForExecutionProcessType = "119";
@@ -61,14 +62,14 @@ public class SchemeController {
     @ResponseStatus(HttpStatus.OK)
     public String setFlag(@RequestHeader(value = "Authorization", required = false) String authorizationHeader) {
 
-        System.out.println("TokenController on @GetMapping(\"/public\") track.samsmu.ru: " + "Bearer " + authorizationHeader);
+        System.out.println("TokenController on @GetMapping(\"/public\") track.samsmu.ru: " + authorizationHeader);
         Date d = new Date();
         SimpleDateFormat simpDate;
         simpDate = new SimpleDateFormat("kk:mm:ss");
         System.out.println(simpDate.format(d));
         HttpHeaders headers = new HttpHeaders();
         headers.add("Location", "/public/home");
-        headers.add("Authorization", "Bearer " + authorizationHeader);
+        headers.add("Authorization", authorizationHeader);
         headers.add("X-Frame-Options", "ALLOWED");
 //        headers.add("Access-Control-Allow-Origin", "*");
 //        headers.add("Access-Control-Allow-Headers", "*");
@@ -88,7 +89,6 @@ public class SchemeController {
         if (authorizationHeader != null) {
             System.out.println("TokenController on @GetMapping(\"/public/home\") track.samsmu.ru: " + authorizationHeader);
         }
-
 
 //        model.addAttribute("track", trackService.findTrackById(1L));
 //        model.addAttribute("users", userService.findUsers());
@@ -112,8 +112,7 @@ public class SchemeController {
             model.addAttribute("discipline", discipline);
             model.addAttribute("spravochnik", spravochnik);
             model.addAttribute("mkb10", entityDtoList);
-            return "scheme";
-
+            return checkTokenService.checkToken(authorizationHeader) ? "scheme" : "public";
     }
 
     @PostMapping("/addTrack1")

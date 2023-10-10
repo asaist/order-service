@@ -36,7 +36,7 @@ function getAuthorsForEditModule(id) {
                 };
             });
             // Используйте полученный ID нового трека для нужных действий на фронтенде
-            console.log('Авторы трека', moduleAuthors);
+            console.log('Авторы курса лекций: ', moduleAuthors);
             savedSeries = id;
             drawAuthorTableMod(moduleAuthors);
             drawModScheme(lectures);

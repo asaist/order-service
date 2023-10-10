@@ -35,24 +35,24 @@
           <th class="th-table" scope="col">Дата создания</th>
           <th class="th-table" scope="col"></th>
         </tr>
-        <#list tracks as track>
+        <#list series as ser>
           <tr class="cursor-pointer">
 
-            <th scope="row" onclick="window.location='table_track/${track.id}'">${track.id}</th>
-            <td  onclick="window.location='table_track/${track.id}'">${track.trackName}</td>
-            <td  onclick="window.location='table_track/${track.id}'">${track.supervisor?ifExists}</td>
-            <td  onclick="window.location='table_track/${track.id}'">${track.annotation}</td>
-            <td  onclick="window.location='table_track/${track.id}'"></td>
-            <td  onclick="window.location='table_track/${track.id}'">${track.createDate}</td>
+            <th scope="row" onclick="window.location='table_track/${ser.id}'">${ser.id}</th>
+            <td  onclick="window.location='table_track/${ser.id}'">${ser.seriesName}</td>
+            <td  onclick="window.location='table_track/${ser.id}'">${ser.getSupervisor1()?ifExists}</td>
+            <td  onclick="window.location='table_track/${ser.id}'">${ser.annotation}</td>
+            <td  onclick="window.location='table_track/${ser.id}'"></td>
+            <td  onclick="window.location='table_track/${ser.id}'">${ser.createDate}</td>
             <td>
               <button type="button" class="btn btn-icon btn-sm"  data-tooltip-right="Редактировать трек">
-                <i class="fas fa-edit status text-secondary" onclick="location.href='/track/${track.id}'; getAuthorsForEditTrack(${track.id});"></i>
+                <i class="fas fa-edit status text-secondary" onclick="location.href='/module/${ser.id}'; getAuthorsForEditModule(${ser.id});"></i>
               </button>
-              <i class="fas fa-users mr-10 status text-secondary" id="targetAudienceUsers" onclick="targetAudience()"></i>
-              <i class="fas fa-check-circle mr-10 status text-secondary"></i>
-              <button type="button" id="deleteTrack" track="${track.id}" onclick="deleteTrack(${track.id})" class="btn btn-icon btn-sm mx-2">
-                <i class="fas fa-trash-alt text-secondary"></i>
-              </button>
+<#--              <i class="fas fa-users mr-10 status text-secondary" id="targetAudienceUsers" onclick="targetAudience()"></i>-->
+<#--              <i class="fas fa-check-circle mr-10 status text-secondary"></i>-->
+<#--              <button type="button" id="deleteTrack" track="${ser.id}" onclick="deleteTrack(${ser.id})" class="btn btn-icon btn-sm mx-2">-->
+<#--                <i class="fas fa-trash-alt text-secondary"></i>-->
+<#--              </button>-->
             </td>
           </tr>
         </#list>
@@ -92,7 +92,35 @@
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script> 
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
       <script src="https://track.samsmu.ru/js/track.js"></script>
-      <script src="js/track.js"></script>
+
+      <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+      <script src="https://dev.track.samsmu.ru/static/js/select2.min.js"></script>
+      <script src="https://dev.track.samsmu.ru/static/js/popper.min.js"></script>
+      <script src="https://dev.track.samsmu.ru/static/js/bootstrap.min.js"></script>
+      <script src="https://dev.track.samsmu.ru/static/js/bootstrap.bundle.min.js"></script>
+      <script src="https://dev.track.samsmu.ru/static/js/index.js"></script>
+      <script src="https://dev.track.samsmu.ru/static/js/track.js"></script>
+      <script src="https://dev.track.samsmu.ru/static/js/users.js"></script>
+      <script src="https://dev.track.samsmu.ru/static/js/module.js"></script>
+      <script src="https://dev.track.samsmu.ru/static/js/lecture.js"></script>
+      <script src="https://dev.track.samsmu.ru/static/js/editTrack.js"></script>
+      <script src="https://dev.track.samsmu.ru/static/js/editModule.js"></script>
+      <script src="https://dev.track.samsmu.ru/static/js/editLecture.js"></script>
+
+      <script src="./js/jquery-3.7.0.min.js"></script>
+      <script src="./js/select2.min.js"></script>
+      <script src="./js/popper.min.js"></script>
+      <script src="./js/bootstrap.min.js"></script>
+      <script src="./js/bootstrap.bundle.min.js"></script>
+      <script src="./js/index.js"></script>
+      <script src="./js/track.js"></script>
+      <script src="./js/users.js"></script>
+      <script src="./js/module.js"></script>
+      <script src="./js/lecture.js"></script>
+      <script src="./js/editTrack.js"></script>
+      <script src="./js/editModule.js"></script>
+      <script src="./js/editLecture.js"></script>
+
       <script>
       function authorSamGMU() {
         let authorSamGMU = document.getElementById('authorSamGMU');

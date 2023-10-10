@@ -84,6 +84,9 @@ public class Series {
                 .map(KeyWord::getValue)
                 .collect(Collectors.joining(";")) : "<none>";
     }
+    public String getSupervisor1(){
+        return supervisor!=null ? supervisor.getLastName() + " " + supervisor.getFirstName() + " " + supervisor.getMiddleName() : "<none>";
+    }
 
     public String getTrackName() {
         return track!=null ? track.getTrackName() : "<Не относится к треку>";
