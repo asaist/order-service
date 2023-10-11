@@ -35,7 +35,7 @@ public class AuthorService {
         if (StringUtils.isBlank(query)) {
             return authorRepository.findAll(pageable).getContent();
         } else {
-            return authorRepository.findByFullNameContainingIgnoreCase(query, pageable).getContent();
+            return authorRepository.findByLastNameContainsIgnoreCase(query, pageable).getContent();
         }
     }
     public List<Author> findAuthorsByListId(List<Long> authors){return authorRepository.findAuthorByAuthorIdIn(authors);}

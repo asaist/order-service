@@ -58,16 +58,28 @@ public class MainController {
     }
 
     @GetMapping("/table_track")
-    public String listTrackForTable(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
+    public String listTrackForTable(
+            @RequestParam(required = false, defaultValue = "") String filter,
+            @RequestParam(required = false, defaultValue = "") String lectureFilter,
+            Model model) {
         Iterable<Series> series;
+        Iterable<Lecture> lectures;
         if (filter !=null && !filter.isEmpty()){
             series = seriesService.findSeriesByName(filter);
         } else {
             series = seriesService.findSeries();
         }
 
+        if (lectureFilter !=null && !lectureFilter.isEmpty()){
+            lectures = lectureService.findLectureByName(lectureFilter);
+        } else {
+            lectures = lectureService.findLectures();
+        }
+
         model.addAttribute("series", series);
         model.addAttribute("filter", filter);
+        model.addAttribute("lectures", lectures);
+        model.addAttribute("lectureFilter", lectureFilter);
         model.addAttribute("universities", universityService.getUniversityList());
         return "table_track";
     }

@@ -34,6 +34,9 @@ public class Lecture {
             joinColumns = {@JoinColumn(name = "lecture_id", referencedColumnName = "lecture_id")},
             inverseJoinColumns = {@JoinColumn(name = "author_id", referencedColumnName = "author_id")})
     private Set<Author> authors = new HashSet<>();
+    @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "supervisor")
+    private Author supervisor;
     @Column(name = "video_reference")
     private String videoReference;
     @Column(name = "lecture_annotation")
@@ -144,5 +147,8 @@ public class Lecture {
                     .collect(Collectors.toSet());
             this.authors = authorsSet;
         }
+    }
+    public String getSupervisor1(){
+        return supervisor!=null ? supervisor.getLastName() + " " + supervisor.getFirstName() + " " + supervisor.getMiddleName() : "<none>";
     }
 }
