@@ -46,6 +46,39 @@ function getAuthorsForEditModule(id) {
             console.error('Ошибка при отправке запроса:', error);
         });
 }
+// var supervisor = null;
+// function getSupervisor(id) {
+//     // const url = '/authors_track'; // здесь id - идентификатор трека
+//     return fetch(`/supervisor/${id}`)
+//         .then(response => response.json())
+//         .then(data => {
+//
+//              supervisor = data.supervisor.map(author => {
+//                 return {
+//                     id: author.id,
+//                     fullName: author.fullName,
+//                     degree: author.degree,
+//                     isSupervisor: author.isSupervisor,
+//                     passport: author.passport,
+//                     diploma: author.diploma,
+//                     diplomaScienceRank: author.diplomaScienceRank,
+//                     diplomaScienceDegree: author.diplomaScienceDegree,
+//                     noCriminalRecord: author.noCriminalRecord,
+//                     healthStatus: author.healthStatus,
+//                     employmentBook: author.employmentBook
+//                     // Здесь можно добавить другие свойства автора, если они есть в объекте AuthorDto
+//                 };
+//             });
+//
+//             // Используйте полученный ID нового трека для нужных действий на фронтенде
+//             console.log('Авторы курса лекций: ', moduleAuthors);
+//             savedSeries = id;
+//             drawAuthorTableMod(supervisor);
+//         })
+//         .catch(error => {
+//             console.error('Ошибка при отправке запроса:', error);
+//         });
+// }
 
 function drawModScheme(lectures){
     let indexLec = 0;

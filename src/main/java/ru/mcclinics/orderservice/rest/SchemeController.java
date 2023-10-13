@@ -112,7 +112,9 @@ public class SchemeController {
             model.addAttribute("discipline", discipline);
             model.addAttribute("spravochnik", spravochnik);
             model.addAttribute("mkb10", entityDtoList);
-            return checkTokenService.checkToken(authorizationHeader) ? "scheme" : "public";
+            Author supervisor = checkTokenService.checkToken(authorizationHeader);
+            model.addAttribute("supervisor", supervisor.getAuthorId());
+            return  supervisor!=null ? "scheme" : "public";
     }
 
     @PostMapping("/addTrack1")

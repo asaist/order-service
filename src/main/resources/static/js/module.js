@@ -340,7 +340,7 @@ function selectAuthorModule(el, selectId, tableId, supervisor, addToAuthorsList)
     docTd.setAttribute('onclick','showDoc(this)');
     nameTr.append(docTd);
     let docTdIcon = document.createElement('i');
-    docTdIcon.classList.add('fas', 'fa-file-upload', 'text-primary');
+    docTdIcon.classList.add('fas', 'fa-caret-down', 'text-primary');
 
     docTd.append(docTdIcon);
 

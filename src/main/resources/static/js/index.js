@@ -17,8 +17,21 @@ function authorSamGMULecture() {
 	createAuthorButtonLecture.classList.toggle("hidden");
 }
 
+function showDoc(el) {
+	var tbl = el.parentElement.parentElement;
+	tbl.rows[1].classList.toggle('hidden');
+	let caretIcon = el.querySelector('.fa-caret-down, .fa-caret-up');
+	if (caretIcon.classList.contains('fa-caret-down')) {
+		caretIcon.classList.remove('fa-caret-down');
+		caretIcon.classList.add('fa-caret-up');
+	} else if (caretIcon.classList.contains('fa-caret-up')) {
+		caretIcon.classList.remove('fa-caret-up');
+		caretIcon.classList.add('fa-caret-down');
+	}
+}
+
 $(document).ready(function() {
-	console.log("In Da select: " + localStorage.authorization);
+	console.log("In Da select: " + window.token);
 	$(".js-data-example-ajax").select2({
 		ajax: {
 			url: "https://dev.track.samsmu.ru/public/home/api/author/authors",
@@ -27,7 +40,7 @@ $(document).ready(function() {
 			dataType: 'json',
 			delay: 250,
 			headers: {
-				"Authorization": localStorage.authorization
+				"Authorization": window.token
 			},
 			data: function (params) {
 				return {

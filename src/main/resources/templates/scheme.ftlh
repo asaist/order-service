@@ -476,33 +476,33 @@
                     <div class="my-4">
                     <p><b>Руководитель курса лекций</b></p>
                     <div>
-                      <div class="form-check mb-10">
-                        <input class="form-check-input" type="checkbox" name="is-emsloyeeModule"  onclick="authorSamGMUModule()">
-                        <label class="form-check-label">Руководитель является сотрудником СамГМУ</label>
-                      </div>
-                      <div class="hidden" id="authorSamGMUModule">
-                        <select class="js-data-example-ajax form-control mb-10" name="author" onchange="selectAuthorModule(this.value, 'selectAuthorToModule', 'tableAuthorMod', true, true)" id="selectAuthorToModule"></select>
-                      </div>
+<#--                      <div class="form-check mb-10">-->
+<#--                        <input class="form-check-input" type="checkbox" name="is-emsloyeeModule"  onclick="authorSamGMUModule()">-->
+<#--                        <label class="form-check-label">Руководитель является сотрудником СамГМУ</label>-->
+<#--                      </div>-->
+<#--                      <div class="hidden" id="authorSamGMUModule">-->
+<#--                        <select class="js-data-example-ajax form-control mb-10" name="author" onchange="selectAuthorModule(this.value, 'selectAuthorToModule', 'tableAuthorMod', true, true)" id="selectAuthorToModule"></select>-->
+<#--                      </div>-->
 
-                      <div id="authorWorldModule">
-                        <input class="form-control mb-10" type="text" id="inputNameAuthorModule"  placeholder="Введите ФИО автора"></input>
-                        <div class="d-flex mb-10">
-                          <select class="form-control w-75 mr-10" id="regalia" size="1" onclick="selectReg(this.value)">
-                            <option  disabled>Выберите регалии</option>
-                            <option>Профессор</option>
-                            <option>К.М.Н.</option>
-                            <option>Доцент</option>
-                            <option>Зав. кафедрой</option>
-                          </select>
-                        </div>
+<#--                      <div id="authorWorldModule">-->
+<#--                        <input class="form-control mb-10" type="text" id="inputNameAuthorModule"  placeholder="Введите ФИО автора"></input>-->
+<#--                        <div class="d-flex mb-10">-->
+<#--                          <select class="form-control w-75 mr-10" id="regalia" size="1" onclick="selectReg(this.value)">-->
+<#--                            <option  disabled>Выберите регалии</option>-->
+<#--                            <option>Профессор</option>-->
+<#--                            <option>К.М.Н.</option>-->
+<#--                            <option>Доцент</option>-->
+<#--                            <option>Зав. кафедрой</option>-->
+<#--                          </select>-->
+<#--                        </div>-->
 
-                        <div class="d-flex" id="addRegalii">
-                        </div>
+<#--                        <div class="d-flex" id="addRegalii">-->
+<#--                        </div>-->
 
-                        <button type="button" class="btn btn-primary mt-3" id="createAuthorButtonModule">
-                          <i class="fas fa-plus"></i>
-                        </button>
-                      </div>
+<#--                        <button type="button" class="btn btn-primary mt-3" id="createAuthorButtonModule">-->
+<#--                          <i class="fas fa-plus"></i>-->
+<#--                        </button>-->
+<#--                      </div>-->
 
                       <div>
                         <table class="table table-hover editable" id="tableAuthorMod" name="authorsMod">
@@ -519,12 +519,12 @@
                     </div>
                     <#if moduleFlag>
                       <div class="my-4">
-                        <b>Аннотация/содержание образовательного Модуля</b><br>
+                        <b>Аннотация/содержание образовательного курса лекций</b><br>
                         <textarea class="form-control" name="seriesAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#"></textarea>
                       </div>
                     <#else>
                         <div class="my-4">
-                          <b>Аннотация/содержание образовательного Модуля</b><br>
+                          <b>Аннотация/содержание образовательного курса лекций</b><br>
                           <textarea class="form-control" name="seriesAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#">${seriesOne.annotation}</textarea>
                         </div>
                     </#if>
@@ -1161,11 +1161,9 @@
         overlay.classList.add('hidden');
       }
     </script>
-
-
-
     <script>
-
+      window.token = '';
+      window.supervisor = null;
       var jwtReceived = false;
       var axiosConfig  = {
         headers: {
@@ -1180,8 +1178,40 @@
         jwtReceived = true;
         console.log("appTest JWT -> " + axiosConfig.headers.Authorization);
         localStorage.setItem('authorization', "Bearer " + axiosConfig.headers.Authorization);
+        window.token = "Bearer " + axiosConfig.headers.Authorization;
         console.log("localStorage JWT -> " + localStorage.authorization);
+        console.log("window.token -> " + window.token);
+        // Создание объекта запроса
+        const requestOptions = {
+          method: 'GET',
+          headers: {
+            "Authorization": window.token
+          }
+        };
+
+        // Отправка запроса
+        fetch(`https://dev.track.samsmu.ru/supervisor/`, requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                  window.supervisor = new Author();
+                  window.supervisor.id = data.id;
+                  window.supervisor.fullName = data.fullName;
+                  window.supervisor.degree = data.degree;
+                  window.supervisor.isSupervisor = data.isSupervisor;
+                  window.supervisor.passport = data.passport;
+                  window.supervisor.diploma = data.diploma;
+                  window.supervisor.diplomaScienceRank = data.diplomaScienceRank;
+                  window.supervisor.diplomaScienceDegree = data.diplomaScienceDegree;
+                  window.supervisor.noCriminalRecord = data.noCriminalRecord;
+                  window.supervisor.healthStatus = data.healthStatus;
+                  window.supervisor.employmentBook = data.employmentBook;
+                  console.log('Результат:', window.supervisor);
+                  selectAuthorModule(window.supervisor, null, "tableAuthorMod", true, true);
+                })
+                .catch(error => console.error('Ошибка:', error));
       });
+
+
 
       class Mkb {
         constructor(value, track, module, lecture) {
@@ -1273,6 +1303,12 @@
         getAuthorsForEditLecture(lectureId123);
       });
       </#if>
+
+      // window.onload = function() {
+      //   let timerId = setTimeout(selectAuthorModule(window.supervisor, null, "tableAuthorMod", true, true), 6000);
+      // }
+
+
 
       function real(string){
         if (string === undefined){
@@ -1457,10 +1493,10 @@
         nameProf.append(closeIcon);
       }
 
-      function showDoc(el) {
-        var tbl = el.parentElement.parentElement;
-        tbl.rows[1].classList.toggle('hidden');
-      }
+      // function showDoc(el) {
+      //   var tbl = el.parentElement.parentElement;
+      //   tbl.rows[1].classList.toggle('hidden');
+      // }
 
 
 

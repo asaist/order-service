@@ -35,6 +35,7 @@ public class MainController {
     private final EntityDtoParamService entityDtoParamService;
     private final KeyWordRepository keyWordRepository;
     private final ShapeService shapeService;
+    private final CheckTokenService checkTokenService;
 
     @Value("${files.upload.baseDir}")
     private String uploadPath;
@@ -103,6 +104,16 @@ public class MainController {
         List<LectureDto> lectureDtos = lectures.stream().map(LectureDto::new).collect(toList());
         RequestData rd = new RequestData(authorDtos, moduleDtos, lectureDtos);
         return rd;
+    }
+
+    @GetMapping("/supervisor/")
+    @ResponseStatus(OK)
+    public @ResponseBody AuthorDto getSupervisorById(@RequestHeader(value = "Authorization", required = false) String authorizationHeader) {
+        log.info("/getAuthorsByModuleId");
+        Author supervisor1 = checkTokenService.checkToken(authorizationHeader);
+        System.out.println(supervisor1.getLastName() + " " + LocalDateTime.now());
+        AuthorDto supervisor = new AuthorDto(supervisor1);
+        return supervisor;
     }
 
     @GetMapping("/authors_module/{id}")
