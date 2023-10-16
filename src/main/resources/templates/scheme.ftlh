@@ -1162,6 +1162,7 @@
       }
     </script>
     <script>
+      var supervisorUploaded = false;
       window.token = '';
       window.supervisor = null;
       var jwtReceived = false;
@@ -1206,7 +1207,11 @@
                   window.supervisor.healthStatus = data.healthStatus;
                   window.supervisor.employmentBook = data.employmentBook;
                   console.log('Результат:', window.supervisor);
-                  selectAuthorModule(window.supervisor, null, "tableAuthorMod", true, true);
+                  if (!supervisorUploaded){
+                    selectAuthorModule(window.supervisor, null, "tableAuthorMod", true, true);
+                    supervisorUploaded = true;
+                  }
+
                 })
                 .catch(error => console.error('Ошибка:', error));
       });
