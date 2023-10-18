@@ -12,9 +12,12 @@
     <link rel="stylesheet" href="https://dev.track.samsmu.ru/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://dev.track.samsmu.ru/static/css/styles.css">
     <link rel="stylesheet" href="https://dev.track.samsmu.ru/static/css/select2.min.css">
+    <link rel="stylesheet" href="https://dev.track.samsmu.ru/static/css/dhtmlxgantt.css">
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/select2.min.css">
+    <link rel="stylesheet" href="../css/select2.min.css">
+    <link rel="stylesheet" href="../css/dhtmlxgantt.css">
 
 <#--    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />-->
 <#--    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>-->
@@ -702,6 +705,9 @@
 
                     </div>
                   </div>
+
+                  <div id="gantt_here" class="hidden" style='width:100%; height:100vh;'></div>
+
                   <div class="modal-footer">
                     <button type="submit" id="saveModuleM" class="btn btn-primary">Добавить курс лекций</button>
                     <button type="submit" id="editModuleM" class="btn btn-primary hidden">Редактировать курс лекций</button>
@@ -1123,7 +1129,7 @@
 <#--    <script src="https://track.samsmu.ru/js/editTrack.js"></script>-->
 <#--    <script src="https://track.samsmu.ru/js/editModule.js"></script>-->
 <#--    <script src="https://track.samsmu.ru/js/editLecture.js"></script>-->
-
+    <script src="https://dev.track.samsmu.ru/static/js/dhtmlxgantt.js"></script>
     <script src="https://dev.track.samsmu.ru/static/js/select2.min.js"></script>
     <script src="https://dev.track.samsmu.ru/static/js/popper.min.js"></script>
     <script src="https://dev.track.samsmu.ru/static/js/bootstrap.min.js"></script>
@@ -1136,6 +1142,7 @@
     <script src="https://dev.track.samsmu.ru/static/js/editTrack.js"></script>
     <script src="https://dev.track.samsmu.ru/static/js/editModule.js"></script>
     <script src="https://dev.track.samsmu.ru/static/js/editLecture.js"></script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
@@ -1152,6 +1159,7 @@
     <script src="../js/editTrack.js"></script>
     <script src="../js/editModule.js"></script>
     <script src="../js/editLecture.js"></script>
+    <script src="../js/dhtmlxgantt.js"></script>
 
     <script>
       function closeModal() {
@@ -1160,6 +1168,66 @@
         let overlay = document.getElementById('overlay');
         overlay.classList.add('hidden');
       }
+    </script>
+
+    <script>
+
+      document.getElementById('saveModuleM').addEventListener('click', function() {
+        setTimeout(function() {
+          gantt.config.date_format = "%Y-%m-%d %H:%i";
+          gantt.init("gantt_here");
+          let i = 0;
+          console.log("Лекции: " + module.lectures.length);
+          console.log("Лекция: " + module.lectures[0].lectureModuleName);
+
+          let data = [];
+          for (let i = 0; i < module.lectures.length; i++) {
+            data.push({
+              id: 1, // увеличиваем id на 1, чтобы избежать конфликтов с уже имеющимися данными
+              text: module.lectures[i].lectureModuleName,
+              start_date: getCurrentDateTime(),
+              duration: 15,
+              parent: 0, // указываем id родительского элемента (в данном случае, 1)
+              progress: 0,
+              open: true
+            });
+
+            data.push({
+              id: i+2, // увеличиваем id на 1, чтобы избежать конфликтов с уже имеющимися данными
+              text: "Заполнение лекций авторами",
+              start_date: getCurrentDateTime(),
+              duration: 5,
+              parent: 1, // указываем id родительского элемента (в данном случае, 1)
+              progress: 0
+            });
+            data.push({
+              id: i+3, // увеличиваем id на 1, чтобы избежать конфликтов с уже имеющимися данными
+              text: "Экспертиза",
+              start_date: addDaysToCurrentDateTime(5),
+              duration: 5,
+              parent: 1, // указываем id родительского элемента (в данном случае, 1)
+              progress: 0
+            });
+            data.push({
+              id: i+4, // увеличиваем id на 1, чтобы избежать конфликтов с уже имеющимися данными
+              text: "Производство",
+              start_date: addDaysToCurrentDateTime(10),
+              duration: 5,
+              parent: 1, // указываем id родительского элемента (в данном случае, 1)
+              progress: 0
+            });
+          }
+            console.log(data);
+          gantt.parse({
+            data,
+            links:[
+              {id:1, source:2, target:3, type:"0"},
+              {id:2, source:3, target:4, type:"0"}
+            ]
+          });
+        }, 2000);
+      });
+
     </script>
     <script>
       var supervisorUploaded = false;
@@ -1327,19 +1395,19 @@
 
       //изменить "редактировать" на "сохранить" у submit button для трека
 
-      document.addEventListener("keyup", function(event) {
-        let editTrack = document.getElementById('editTrack');
-        if (!editTrack.classList.contains('hidden')){
-        let inputValue = event.target.value; // Получаем значение поля ввода
-        console.log(inputValue);
-        // Проверяем, является ли целевой элемент полем ввода
-        if (event.target.classList.contains("editable")) {
-          // Меняем название кнопки в зависимости от значения поля ввода
-          console.log('является');
-          editTrack.textContent = "Сохранить трек"
-          }
-        }
-      });
+      // document.addEventListener("keyup", function(event) {
+      //   let editTrack = document.getElementById('editTrack');
+      //   if (!editTrack.classList.contains('hidden')){
+      //   let inputValue = event.target.value; // Получаем значение поля ввода
+      //   console.log(inputValue);
+      //   // Проверяем, является ли целевой элемент полем ввода
+      //   if (event.target.classList.contains("editable")) {
+      //     // Меняем название кнопки в зависимости от значения поля ввода
+      //     console.log('является');
+      //     editTrack.textContent = "Сохранить трек"
+      //     }
+      //   }
+      // });
 
 
       function authorSamGMUModule() {

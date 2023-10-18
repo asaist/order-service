@@ -1,4 +1,28 @@
 
+function getCurrentDateTime() {
+	let currentDate = new Date();
+	let year = currentDate.getFullYear();
+	let month = ("0" + (currentDate.getMonth() + 1)).slice(-2); // добавляем ведущий ноль, если месяц < 10
+	let day = ("0" + currentDate.getDate()).slice(-2); // добавляем ведущий ноль, если день < 10
+	let hours = ("0" + currentDate.getHours()).slice(-2); // добавляем ведущий ноль, если час < 10
+	let minutes = ("0" + currentDate.getMinutes()).slice(-2); // добавляем ведущий ноль, если минута < 10
+
+	return year + "-" + month + "-" + day + " " + hours + ":" + minutes;
+}
+
+function addDaysToCurrentDateTime(days) {
+	var currentDateTime = new Date(getCurrentDateTime());
+	currentDateTime.setDate(currentDateTime.getDate() + days);
+
+	var year = currentDateTime.getFullYear();
+	var month = ("0" + (currentDateTime.getMonth() + 1)).slice(-2);
+	var day = ("0" + currentDateTime.getDate()).slice(-2);
+	var hours = ("0" + currentDateTime.getHours()).slice(-2);
+	var minutes = ("0" + currentDateTime.getMinutes()).slice(-2);
+
+	return year + "-" + month + "-" + day + " " + hours + ":" + minutes;
+}
+
 function authorSamGMU() {
 	let authorSamGMU = document.getElementById('authorSamGMU');
 	authorSamGMU.classList.toggle("hidden");

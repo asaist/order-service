@@ -1,5 +1,57 @@
 
 
+let moduleAuthors = [];
+let savedSeries = null;
+var module = null;
+
+// изменить "редактировать" на "сохранить" у submit button для модуля
+document.addEventListener("keyup", function(event) {
+  let editModule = document.getElementById('editModuleM');
+  if (!editModule.classList.contains('hidden')){
+  let inputValue = event.target.value; // Получаем значение поля ввода
+  console.log(inputValue);
+  // Проверяем, является ли целевой элемент полем ввода
+  if (event.target.classList.contains("editable")) {
+    // Меняем название кнопки в зависимости от значения поля ввода
+    console.log('является');
+    editTrack.textContent = "Сохранить"
+    }
+  }
+});
+
+
+// gantt.config.date_format = "%Y-%m-%d %H:%i";
+// gantt.init("gantt_here");
+// console.log(module);
+// const data = [
+//     {
+//         id: 1,
+//         text: module.seriesName,
+//         start_date: null,
+//         duration: null,
+//         parent: 0,
+//         progress: 0,
+//         open: true
+//     }
+// ];
+//
+// for (let i = 0; i < lectures.length; i++) {
+//     data.push({
+//         id: i + 2, // увеличиваем id на 2, чтобы избежать конфликтов с уже имеющимися данными
+//         text: lectures[i].lectureModuleName,
+//         start_date: null,
+//         duration: null,
+//         parent: 1, // указываем id родительского элемента (в данном случае, 1)
+//         progress: 0,
+//         open: true
+//     });
+// }
+// console.log(data);
+// gantt.parse({
+//     data
+// });
+
+
 // Listners for Lecture List that hide Lecture panel
 const inputFieldsCourse = document.querySelectorAll('#profile-tab-pane input, #profile-tab-pane select, #profile-tab-pane textarea');
 inputFieldsCourse.forEach(input => {
@@ -168,8 +220,6 @@ function editLecInModuleSeries(el){
 
 
 const moduleForm = document.querySelector('#createSeries');
-let moduleAuthors = [];
-let savedSeries = null;
 moduleForm.addEventListener('submit', (event) => {
     event.preventDefault(); // остановить стандартное поведение формы
     const track = moduleForm.seriesTrack.value;
@@ -186,10 +236,12 @@ moduleForm.addEventListener('submit', (event) => {
         seriesAnnotation,
         seriesKeyWords,
     };
+    module = data;
     if (savedSeries) {
         data.seriesId = savedSeries;
     }
     console.log(data);
+    console.log(module);
 
     fetch("https://dev.track.samsmu.ru/addSeries", {
         method: "POST",
@@ -212,8 +264,9 @@ moduleForm.addEventListener('submit', (event) => {
     addModule.classList.add("hidden");
     let editModule = document.getElementById('editModuleM');
     editModule.classList.remove("hidden");
-    let sendForApproval = document.getElementById('sendForApproval');
-    sendForApproval.classList.remove("hidden");
+    // let sendForApproval = document.getElementById('sendForApproval');
+    // sendForApproval.classList.remove("hidden");
+    document.getElementById("gantt_here").classList.remove("hidden");
     document.getElementById('sendForExecution').classList.remove("hidden");
 });
 
