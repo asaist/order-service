@@ -401,6 +401,8 @@ public class SchemeController {
         series.setCreateDate(LocalDateTime.now());
         series.setSeriesName(seriesName);
         series.setAnnotation(seriesAnnotation);
+        //TODO Refactor kostil
+        series.setShape(new Shape(1L));
         Series savedSeries = seriesService.save(series);
         keyWordList.stream().forEach(keyWord -> keyWord.setSeries(savedSeries));
         lecturesFromFront = lecturesFromFront.stream()
@@ -410,6 +412,8 @@ public class SchemeController {
         lectures.stream().forEach(lecture -> lecture.setSeries(savedSeries));
         lectures.stream().forEach(lecture -> lecture.setCreateDate(LocalDateTime.now()));
         lectures.stream().forEach(lecture -> lecture.setAuthors(authorSet));
+        //TODO Refactor kostil
+        lectures.stream().forEach(lecture -> lecture.setShape(new Shape(1L)));
         mkbs.stream().forEach(mkb -> mkb.setSeries(savedSeries));
         lectureService.saveAll(lectures);
         keyWordRepository.saveAll(keyWordList);

@@ -12,6 +12,7 @@
 	<field name="keywords" class="java.lang.String"/>
 	<field name="supervisor" class="java.lang.String"/>
 	<field name="authors" class="java.lang.String"/>
+	<field name="daysToFill" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -38,14 +39,14 @@
 	<detail>
 		<band height="250" splitType="Stretch">
 			<textField>
-				<reportElement x="149" y="10" width="395" height="30" uuid="186255f2-b573-4e9e-ae3b-5105129f9ff0"/>
+				<reportElement x="180" y="10" width="364" height="30" uuid="186255f2-b573-4e9e-ae3b-5105129f9ff0"/>
 				<textElement>
 					<font fontName="Times New Roman" size="14" pdfFontName="times.ttf" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="148" y="50" width="396" height="30" uuid="2cbaefed-4184-4864-afa6-9e8d1f5f1086"/>
+				<reportElement x="180" y="50" width="364" height="30" uuid="2cbaefed-4184-4864-afa6-9e8d1f5f1086"/>
 				<textElement>
 					<font fontName="Times New Roman" size="14" pdfFontName="times.ttf" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
 				</textElement>
@@ -66,47 +67,61 @@
 				<text><![CDATA[Аннотация:]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="6" y="86" width="128" height="30" uuid="49156aae-17f7-453c-8956-1d5ec7510a0b"/>
+				<reportElement x="6" y="86" width="142" height="30" uuid="49156aae-17f7-453c-8956-1d5ec7510a0b"/>
 				<textElement>
 					<font fontName="Times New Roman" size="14" pdfFontName="times.ttf" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[Ключевые слова: ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="149" y="86" width="396" height="30" uuid="b47b1dee-ed17-4082-9f03-fb117e705771"/>
+				<reportElement x="180" y="86" width="365" height="30" uuid="b47b1dee-ed17-4082-9f03-fb117e705771"/>
 				<textElement>
 					<font fontName="Times New Roman" size="14" pdfFontName="times.ttf" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{keywords}]]></textFieldExpression>
 			</textField>
-			<staticText>
-				<reportElement x="6" y="170" width="128" height="30" uuid="3d1c01b2-1c5b-41c1-af4c-37d7df147ba0"/>
-				<textElement>
-					<font fontName="Times New Roman" size="14" pdfFontName="times.ttf" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
-				</textElement>
-				<text><![CDATA[Руководитель: ]]></text>
-			</staticText>
 			<textField>
-				<reportElement x="150" y="170" width="396" height="30" uuid="7079fff3-de87-449c-82bd-38ab4bb71e5b"/>
+				<reportElement x="180" y="170" width="366" height="30" uuid="7079fff3-de87-449c-82bd-38ab4bb71e5b"/>
 				<textElement>
 					<font fontName="Times New Roman" size="14" pdfFontName="times.ttf" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{supervisor}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="7" y="130" width="128" height="30" uuid="33fc2ea0-7711-4d56-a08b-a816eaed9145"/>
+				<reportElement x="7" y="130" width="153" height="30" uuid="33fc2ea0-7711-4d56-a08b-a816eaed9145"/>
 				<textElement>
 					<font fontName="Times New Roman" size="14" pdfFontName="times.ttf" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
 				</textElement>
 				<text><![CDATA[Авторы: ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="150" y="130" width="395" height="30" uuid="3d7a765f-8bb4-4da9-b822-616a818b6356"/>
+				<reportElement x="180" y="130" width="365" height="30" uuid="3d7a765f-8bb4-4da9-b822-616a818b6356"/>
 				<textElement>
 					<font fontName="Times New Roman" size="14" pdfFontName="times.ttf" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{authors}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="6" y="210" width="154" height="30" uuid="d4a0311d-1145-4047-b7d8-53d57dcb3e95"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" pdfFontName="times.ttf" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Дней на заполнение:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="180" y="210" width="366" height="30" uuid="ac6f6dc3-8e2c-4f83-a415-c5bf5de521f9"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" pdfFontName="times.ttf" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{daysToFill}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="7" y="170" width="153" height="30" uuid="3d1c01b2-1c5b-41c1-af4c-37d7df147ba0"/>
+				<textElement>
+					<font fontName="Times New Roman" size="14" pdfFontName="times.ttf" pdfEncoding="Cp1251" isPdfEmbedded="true"/>
+				</textElement>
+				<text><![CDATA[Руководитель: ]]></text>
+			</staticText>
 		</band>
 	</detail>
 	<columnFooter>

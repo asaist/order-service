@@ -45,6 +45,8 @@ public class Lecture {
     private LocalDateTime createDate;
     @Column(name = "end_date")
     private LocalDate endDate;
+    @Column(name = "days_to_fill")
+    private String daysToFill;
     @Column(name = "lecture_status")
     @Enumerated
     private LectureStatus lectureStatus;
@@ -72,6 +74,8 @@ public class Lecture {
     private List<Localization> localizations;
     @Transient
     private Long frontEndModule;
+    @Transient
+    private Long frontEndLecture;
 
 //    public String getAuthorName(){
 //        return author!=null ? author.getFirstName() : "<none>";
@@ -146,6 +150,9 @@ public class Lecture {
             Set<Author> authorsSet = authors.stream()
                     .collect(Collectors.toSet());
             this.authors = authorsSet;
+        }
+        if (lectureDto.getDaysToFill() != null){
+            this.daysToFill = lectureDto.getDaysToFill();
         }
     }
     public String getSupervisor1(){

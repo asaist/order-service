@@ -16,6 +16,8 @@ public class AuthorDto extends EntityDto implements Serializable {
     private Long id;
     @JsonProperty("fullName")
     private String fullName;
+    @JsonProperty("lecture")
+    private String lecture;
     @JsonProperty("degree")
     private String degree;
     @JsonProperty("isSupervisor")

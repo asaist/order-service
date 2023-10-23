@@ -102,8 +102,8 @@ function updateTrackHeadingModuleSeries() {
     let moduleHeading = document.getElementById("moduleHeading");
 
     // Обновление содержимого заголовка с использованием значения из textarea
-    trackHeadingInLectureModuleSeries.innerText = 'Образовательный трек «' + trackName + '» электронной образовательной среды СамГМУ»';
-    moduleHeadingInLectureModuleSeries.innerText = 'Образовательный модуль «' + moduleInput.value + '» электронной образовательной среды СамГМУ»';
+    // trackHeadingInLectureModuleSeries.innerText = 'Образовательный трек «' + trackName + '» электронной образовательной среды СамГМУ»';
+    moduleHeadingInLectureModuleSeries.innerText = 'Образовательный модуль «' + moduleInput.value + '» ';
     moduleHeading.innerText = 'Образовательный модуль «' + moduleInput.value + '» электронной образовательной среды СамГМУ»';
 }
 
@@ -112,13 +112,14 @@ function addLectureSchemeModule() {
     let lectureModalName = document.getElementById('lectureModalNameModule').value;
     let lectureModalAnnotation = document.getElementById('lectureModalAnnotationModule').value;
     let lectureModalKeyWords = document.getElementById('lectureModalKeyWordsModule').value;
+    let lectureDaysToFill = document.getElementById('lectureDaysToFill').value;
     let authors = [];
     for (let author of moduleAuthors) {
         if (author.lecture === parseInt(lectureModalId)) {
             authors.push(author)
         }
     }
-    let lecture = new Lecture(lectureModalId, null, lectureModalName, lectureModalAnnotation, lectureModalKeyWords, authors);
+    let lecture = new Lecture(lectureModalId, null, lectureModalName, lectureModalAnnotation, lectureModalKeyWords, authors, lectureDaysToFill);
     lectures.push(lecture);
 
 
@@ -158,6 +159,7 @@ function addLectureSchemeModule() {
     document.getElementById('lectureModalNameModule').value = "";
     document.getElementById('lectureModalAnnotationModule').value = "";
     document.getElementById('lectureModalKeyWordsModule').value = "";
+    document.getElementById('lectureDaysToFill').value = "";
     document.getElementById('tableAuthorModal').innerHTML = '';
     btnClose();
 }
@@ -175,6 +177,7 @@ function editLecModuleSeries(el){
     lectureModuleAnnotationElement.value = el.getAttribute('lectureModuleAnnotation');
     let lectureModuleKeyWordsElement = document.getElementById('lectureModalKeyWordsModule');
     lectureModuleKeyWordsElement.value = el.getAttribute('lectureModuleKeyWords');
+    document.getElementById('lectureDaysToFill').value = el.getAttribute('daysToFill');
 
     editElForLecOut = el;
 
@@ -194,22 +197,25 @@ function editLecInModuleSeries(el){
     let lectureModuleName = document.getElementById('lectureModalNameModule').value;
     let lectureModuleAnnotation = document.getElementById('lectureModalAnnotationModule').value;
     let lectureModuleKeyWords = document.getElementById('lectureModalKeyWordsModule').value;
+    let lectureDaysToFill = document.getElementById('lectureDaysToFill').value;
     let authors = [];
     for (let author of moduleAuthors) {
         if (author.lecture === parseInt(lectureModalId)) {
             authors.push(author)
         }
     }
-    let lecture = new Lecture(lectureModalId, null, lectureModuleName, lectureModuleAnnotation, lectureModuleKeyWords, authors);
+    let lecture = new Lecture(lectureModalId, null, lectureModuleName, lectureModuleAnnotation, lectureModuleKeyWords, authors, lectureDaysToFill);
     lectures [index] = lecture;
     // let div = el.parentNode;
     el.setAttribute('lectureModuleName', lectureModuleName);
     el.setAttribute('lectureModuleAnnotation', lectureModuleAnnotation);
     el.setAttribute('lectureModuleKeyWords', lectureModuleKeyWords);
+    el.setAttribute('lectureDaysToFill', lectureDaysToFill);
     el.textContent = lectureModuleName;
     document.getElementById('lectureModalNameModule').value = "";
     document.getElementById('lectureModalAnnotationModule').value = "";
     document.getElementById('lectureModalKeyWordsModule').value = "";
+    document.getElementById('lectureDaysToFill').value = "";
     let saveButton = document.getElementById('saveLectureInModuleSeries');
     saveButton.classList.remove('hidden');
     let editButton = document.getElementById('editLectureInModuleSeries');

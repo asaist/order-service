@@ -706,7 +706,7 @@
                     </div>
                   </div>
 
-                  <div id="gantt_here" class="hidden" style='width:100%; height:100vh;'></div>
+                  <div id="gantt_here" class="hidden" style='width:100%; height:400px;'></div>
 
                   <div class="modal-footer">
                     <button type="submit" id="saveModuleM" class="btn btn-primary">Добавить курс лекций</button>
@@ -735,12 +735,12 @@
                       </div>
                       <div class="modal-body">
 
-                        <div class="mb-10">
-                          <p id="trackHeadingInLectureModuleSeries" class="m-0 p-0 flex-nowrap w-75">Образовательный трек</p>
-                        </div>
+<#--                        <div class="mb-10">-->
+<#--                          <p id="trackHeadingInLectureModuleSeries" class="m-0 p-0 flex-nowrap w-75">Образовательный трек</p>-->
+<#--                        </div>-->
 
                         <div class="mb-10">
-                          <p id="moduleHeadingInLectureModuleSeries" class="m-0 p-0 flex-nowrap w-75">Образовательный модуль</p>
+                          <p id="moduleHeadingInLectureModuleSeries" class="m-0 p-0 flex-nowrap w-75">Образовательный курс лекций</p>
                         </div>
 
                         <div class="my-4">
@@ -801,6 +801,12 @@
                           <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Дополнительные ключеные слова</b><br>
                           <textarea class="form-control" id="lectureModalKeyWordsModule" name="module-annotation" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;"></textarea>
                         </div>
+
+                        <div class="mt-10 mb-10">
+                          <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Дней на заполнение</b><br>
+                          <textarea class="form-control" id="lectureDaysToFill" name="module-annotation" cols="80" rows="2" placeholder="Количество дней для автора на заполнение"></textarea>
+                        </div>
+
 
                       </div>
                     </div>
@@ -1179,53 +1185,54 @@
           let i = 0;
           console.log("Лекции: " + module.lectures.length);
           console.log("Лекция: " + module.lectures[0].lectureModuleName);
-
           let data = [];
-          for (let i = 0; i < module.lectures.length; i++) {
+
             data.push({
               id: 1, // увеличиваем id на 1, чтобы избежать конфликтов с уже имеющимися данными
-              text: module.lectures[i].lectureModuleName,
+              text: module.seriesName,
               start_date: getCurrentDateTime(),
-              duration: 15,
+              duration: 30,
               parent: 0, // указываем id родительского элемента (в данном случае, 1)
               progress: 0,
               open: true
             });
-
+          for (i; i < module.lectures.length; i++) {
             data.push({
               id: i+2, // увеличиваем id на 1, чтобы избежать конфликтов с уже имеющимися данными
-              text: "Заполнение лекций авторами",
+              text: "Заполнение лекции " + "< " + module.lectures[i].lectureModuleName + " >" + " авторами",
               start_date: getCurrentDateTime(),
-              duration: 5,
+              duration: module.lectures[i].daysToFill !== null ? parseInt(module.lectures[i].daysToFill) : 7,
               parent: 1, // указываем id родительского элемента (в данном случае, 1)
               progress: 0
-            });
-            data.push({
-              id: i+3, // увеличиваем id на 1, чтобы избежать конфликтов с уже имеющимися данными
-              text: "Экспертиза",
-              start_date: addDaysToCurrentDateTime(5),
-              duration: 5,
-              parent: 1, // указываем id родительского элемента (в данном случае, 1)
-              progress: 0
-            });
-            data.push({
-              id: i+4, // увеличиваем id на 1, чтобы избежать конфликтов с уже имеющимися данными
-              text: "Производство",
-              start_date: addDaysToCurrentDateTime(10),
-              duration: 5,
-              parent: 1, // указываем id родительского элемента (в данном случае, 1)
-              progress: 0
-            });
+            })
           }
-            console.log(data);
+          console.log(i);
+          let exp = i;
+          let maxDay = 1;
+          for (let j = 0; j < module.lectures.length; j++){
+            if (module.lectures[j].daysToFill !== null ? parseInt(module.lectures[j].daysToFill) : 7 > maxDay)
+              maxDay = module.lectures[j].daysToFill !== null ? parseInt(module.lectures[j].daysToFill) : 7 > maxDay;
+          }
+          console.log(maxDay);
+
+          data.push({
+            id: i + module.lectures.length,
+            text: "Экспертиза",
+            start_date: addDaysToCurrentDateTime(maxDay + 1),
+            duration: 5,
+            parent: 1, // указываем id родительского элемента (в данном случае, 1)
+            progress: 0
+          });
+          exp = i + 2;
+          console.log(data);
           gantt.parse({
             data,
             links:[
-              {id:1, source:2, target:3, type:"0"},
-              {id:2, source:3, target:4, type:"0"}
+              {id:1, source:2, target:exp, type:"0"},
+              {id:2, source:3, target:exp, type:"0"}
             ]
           });
-        }, 2000);
+        }, 1000);
       });
 
     </script>
