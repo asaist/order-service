@@ -453,6 +453,7 @@
                 </#if>
                 <div class="modal-body"> 
                     <div class="mb-10">
+                      <b>Шаблон образовательного курса лекций</b><br>
                       <select class="form-control" class="form-control" id="trackModuleSeries" onchange="updateTrackHeadingModuleSeries()" name="seriesTrack" size="1">
                         <#if moduleFlag>
                           <option select class="form-control">Выберите шаблон</option>
@@ -468,10 +469,12 @@
                       </select class="form-control">
                     </div>
                     <#if moduleFlag>
+                      <b>Наименование образовательного курса лекций</b><br>
                       <div class="mb-10">
                         <input type="text" class="form-control mb-2" id="moduleSeriesName" oninput="updateTrackHeadingModuleSeries()" name="seriesName" placeholder="Название курса лекций">
                       </div>
                     <#else>
+                      <b>Наименование образовательного курса лекций</b><br>
                         <div class="mb-10">
                           <input type="text" class="form-control mb-2" id="moduleSeriesName" oninput="updateTrackHeadingModuleSeries()" name="seriesName" value="${seriesOne.seriesName}">
                       </div>
@@ -802,10 +805,10 @@
                           <textarea class="form-control" id="lectureModalKeyWordsModule" name="module-annotation" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;"></textarea>
                         </div>
 
-                        <div class="mt-10 mb-10">
-                          <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Дней на заполнение</b><br>
-                          <textarea class="form-control" id="lectureDaysToFill" name="module-annotation" cols="80" rows="2" placeholder="Количество дней для автора на заполнение"></textarea>
-                        </div>
+<#--                        <div class="mt-10 mb-10">-->
+<#--                          <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Дней на заполнение</b><br>-->
+<#--                          <textarea class="form-control" id="lectureDaysToFill" name="module-annotation" cols="80" rows="2" placeholder="Количество дней для автора на заполнение"></textarea>-->
+<#--                        </div>-->
 
 
                       </div>
@@ -1178,15 +1181,18 @@
 
     <script>
 
-      document.getElementById('saveModuleM').addEventListener('click', function() {
+      document.getElementById('saveLectureInModuleSeries').addEventListener('click', function() {
         setTimeout(function() {
+          gantt.i18n.setLocale("ru");
           gantt.config.date_format = "%Y-%m-%d %H:%i";
           gantt.init("gantt_here");
           let i = 0;
+          let k = 0;
+          let maxDay = 1;
+          let defaultTime = 7;
           console.log("Лекции: " + module.lectures.length);
           console.log("Лекция: " + module.lectures[0].lectureModuleName);
           let data = [];
-
             data.push({
               id: 1, // увеличиваем id на 1, чтобы избежать конфликтов с уже имеющимися данными
               text: module.seriesName,
@@ -1201,36 +1207,44 @@
               id: i+2, // увеличиваем id на 1, чтобы избежать конфликтов с уже имеющимися данными
               text: "Заполнение лекции " + "< " + module.lectures[i].lectureModuleName + " >" + " авторами",
               start_date: getCurrentDateTime(),
-              duration: module.lectures[i].daysToFill !== null ? parseInt(module.lectures[i].daysToFill) : 7,
+              duration: module.lectures[i].daysToFill !== null ? parseInt(module.lectures[i].daysToFill) : defaultTime,
               parent: 1, // указываем id родительского элемента (в данном случае, 1)
               progress: 0
             })
           }
-          console.log(i);
+          console.log("i после прохода по лекциям: " + i);
           let exp = i;
-          let maxDay = 1;
-          for (let j = 0; j < module.lectures.length; j++){
-            if (module.lectures[j].daysToFill !== null ? parseInt(module.lectures[j].daysToFill) : 7 > maxDay)
-              maxDay = module.lectures[j].daysToFill !== null ? parseInt(module.lectures[j].daysToFill) : 7 > maxDay;
-          }
-          console.log(maxDay);
+
+          // for (let j = 0; j < module.lectures.length; j++){
+          //   if (module.lectures[j].daysToFill !== null ? parseInt(module.lectures[j].daysToFill) : 7 > maxDay)
+          //     maxDay = module.lectures[j].daysToFill !== null ? parseInt(module.lectures[j].daysToFill) : 7 > maxDay;
+          // }
+          console.log("maxDay: " + maxDay);
 
           data.push({
-            id: i + module.lectures.length,
+            id: i + 1 + module.lectures.length,
             text: "Экспертиза",
-            start_date: addDaysToCurrentDateTime(maxDay + 1),
+            start_date: addDaysToCurrentDateTime(defaultTime + 1),
             duration: 5,
             parent: 1, // указываем id родительского элемента (в данном случае, 1)
             progress: 0
           });
-          exp = i + 2;
+          exp = i + 1 + module.lectures.length;
           console.log(data);
+
+          let links = [];
+          for (k; k < module.lectures.length; k++) {
+            links.push({
+              id: k+1,
+              source: k+2,
+              target: exp,
+              type:"0"
+            })
+          }
+          console.log(links);
           gantt.parse({
             data,
-            links:[
-              {id:1, source:2, target:exp, type:"0"},
-              {id:2, source:3, target:exp, type:"0"}
-            ]
+            links
           });
         }, 1000);
       });

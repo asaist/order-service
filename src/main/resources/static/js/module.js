@@ -89,6 +89,9 @@ async function sendForApprovalCourse(processType) {
     } catch(error) {
         console.error('Ошибка при отправке запроса:', error);
     }
+    let button = document.getElementById("sendForExecution");
+    button.disabled = true;                 // Делаем кнопку неактивной
+    button.style.backgroundColor = "gray";
 }
 
 
@@ -112,17 +115,22 @@ function addLectureSchemeModule() {
     let lectureModalName = document.getElementById('lectureModalNameModule').value;
     let lectureModalAnnotation = document.getElementById('lectureModalAnnotationModule').value;
     let lectureModalKeyWords = document.getElementById('lectureModalKeyWordsModule').value;
-    let lectureDaysToFill = document.getElementById('lectureDaysToFill').value;
+    // let lectureDaysToFill = document.getElementById('lectureDaysToFill').value;
     let authors = [];
     for (let author of moduleAuthors) {
         if (author.lecture === parseInt(lectureModalId)) {
             authors.push(author)
         }
     }
-    let lecture = new Lecture(lectureModalId, null, lectureModalName, lectureModalAnnotation, lectureModalKeyWords, authors, lectureDaysToFill);
+    let lecture = new Lecture(lectureModalId, null, lectureModalName, lectureModalAnnotation, lectureModalKeyWords, authors, null);
     lectures.push(lecture);
-
-
+    const seriesName = moduleForm.seriesName.value;
+    const data = {
+        lectures,
+        seriesName
+    }
+    module = data;
+    console.log(module);
     let newLecScheme = document.createElement('div');
     newLecScheme.setAttribute("onmouseover","HintShowbyTamara(this)");
     newLecScheme.setAttribute("onmouseout","HintHidebyTamara(this)");
@@ -159,8 +167,9 @@ function addLectureSchemeModule() {
     document.getElementById('lectureModalNameModule').value = "";
     document.getElementById('lectureModalAnnotationModule').value = "";
     document.getElementById('lectureModalKeyWordsModule').value = "";
-    document.getElementById('lectureDaysToFill').value = "";
+    // document.getElementById('lectureDaysToFill').value = "";
     document.getElementById('tableAuthorModal').innerHTML = '';
+    document.getElementById("gantt_here").classList.remove("hidden");
     btnClose();
 }
 
@@ -177,7 +186,7 @@ function editLecModuleSeries(el){
     lectureModuleAnnotationElement.value = el.getAttribute('lectureModuleAnnotation');
     let lectureModuleKeyWordsElement = document.getElementById('lectureModalKeyWordsModule');
     lectureModuleKeyWordsElement.value = el.getAttribute('lectureModuleKeyWords');
-    document.getElementById('lectureDaysToFill').value = el.getAttribute('daysToFill');
+    // document.getElementById('lectureDaysToFill').value = el.getAttribute('daysToFill');
 
     editElForLecOut = el;
 
@@ -197,25 +206,25 @@ function editLecInModuleSeries(el){
     let lectureModuleName = document.getElementById('lectureModalNameModule').value;
     let lectureModuleAnnotation = document.getElementById('lectureModalAnnotationModule').value;
     let lectureModuleKeyWords = document.getElementById('lectureModalKeyWordsModule').value;
-    let lectureDaysToFill = document.getElementById('lectureDaysToFill').value;
+    // let lectureDaysToFill = document.getElementById('lectureDaysToFill').value;
     let authors = [];
     for (let author of moduleAuthors) {
         if (author.lecture === parseInt(lectureModalId)) {
             authors.push(author)
         }
     }
-    let lecture = new Lecture(lectureModalId, null, lectureModuleName, lectureModuleAnnotation, lectureModuleKeyWords, authors, lectureDaysToFill);
+    let lecture = new Lecture(lectureModalId, null, lectureModuleName, lectureModuleAnnotation, lectureModuleKeyWords, authors, null);
     lectures [index] = lecture;
     // let div = el.parentNode;
     el.setAttribute('lectureModuleName', lectureModuleName);
     el.setAttribute('lectureModuleAnnotation', lectureModuleAnnotation);
     el.setAttribute('lectureModuleKeyWords', lectureModuleKeyWords);
-    el.setAttribute('lectureDaysToFill', lectureDaysToFill);
+    // el.setAttribute('lectureDaysToFill', lectureDaysToFill);
     el.textContent = lectureModuleName;
     document.getElementById('lectureModalNameModule').value = "";
     document.getElementById('lectureModalAnnotationModule').value = "";
     document.getElementById('lectureModalKeyWordsModule').value = "";
-    document.getElementById('lectureDaysToFill').value = "";
+    // document.getElementById('lectureDaysToFill').value = "";
     let saveButton = document.getElementById('saveLectureInModuleSeries');
     saveButton.classList.remove('hidden');
     let editButton = document.getElementById('editLectureInModuleSeries');
@@ -272,7 +281,6 @@ moduleForm.addEventListener('submit', (event) => {
     editModule.classList.remove("hidden");
     // let sendForApproval = document.getElementById('sendForApproval');
     // sendForApproval.classList.remove("hidden");
-    document.getElementById("gantt_here").classList.remove("hidden");
     document.getElementById('sendForExecution').classList.remove("hidden");
 });
 
