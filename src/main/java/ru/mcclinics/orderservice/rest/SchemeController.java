@@ -298,7 +298,9 @@ public class SchemeController {
         return ResponseEntity.ok(200);
     }
     @PostMapping(value = "/sendCourseForExecution", consumes = {"application/json"})
-    public ResponseEntity sendCourseForExecution(@RequestParam Long savedSeries
+    public ResponseEntity sendCourseForExecution(
+            @RequestParam Long savedSeries,
+            @RequestParam(required = false) Long savedLecture
     ) throws DocumentException, IOException, JRException {
 
 //        String greeting = "Вам направляется на согласование : https://dev.track.samsmu.ru/";
@@ -306,7 +308,14 @@ public class SchemeController {
 //        documentProcessingService.launchProcess(base64);
         Series series = seriesService.findSeriesById(savedSeries);
         Author supervisor = series.getSupervisor();
-        List<Lecture> lectures = series.getLectures();
+        List<Lecture> lectures = new ArrayList<>();
+        System.out.println("Лекция на отправку ID: " + savedLecture);
+        if (savedLecture != null){
+            lectures.add(lectureService.findLectureById(savedLecture));
+            System.out.println("Лекция: " + lectures.get(0).getLectureName());
+        } else {
+            lectures = series.getLectures();
+        }
 
         for (Lecture lecture : lectures) {
             OrderDocument reportData = new OrderDocument(lecture);
@@ -420,8 +429,9 @@ public class SchemeController {
         mkbRepository.saveAll(mkbs);
         Iterable<Series> series1 = seriesService.findSeries();
         log.info("/create [module {}]", series);
-
-        return ResponseEntity.ok(new ModuleDto(series));
+        Lecture lectureDb = lectures.get(0);
+        System.out.println("ID NEW LECTURE: " + lectures.get(0).getId());
+        return ResponseEntity.ok(new ModuleDto(series, lectureDb));
     }
 
     @PostMapping("/addLecture")

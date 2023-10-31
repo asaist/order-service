@@ -239,7 +239,7 @@ tr.cursor-pointer:hover {
 }
 .track-line {
   border: 1px dashed #000;
-  height: 150px;
+  height: 75px;
 }
 .track-block-text {
  

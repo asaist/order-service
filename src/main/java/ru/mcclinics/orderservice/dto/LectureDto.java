@@ -20,6 +20,7 @@ public class LectureDto extends EntityDto implements Serializable {
     private String lectureModuleKeyWords;
     private String daysToFill;
     private List<AuthorDto> authors;
+    private String status;
 
     public LectureDto(Lecture lecture) {
         this.id = lecture.getId();
@@ -29,5 +30,6 @@ public class LectureDto extends EntityDto implements Serializable {
         this.lectureModuleName = lecture.getLectureName();
         this.lectureModuleAnnotation = lecture.getAnnotation();
         this.daysToFill = lecture.getDaysToFill();
+        this.status = lecture.getLectureStatus().name();
     }
 }

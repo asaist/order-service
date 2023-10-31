@@ -56,7 +56,7 @@
       cnt++;
       console.log("1");
       if (cnt < 10)
-        setTimeout(checkJWT, 500);
+        setTimeout(checkJWT, 100);
       else
         document.location.href = "msg.html";
         // document.location.href = "/msg";
@@ -114,14 +114,14 @@
         document.getElementById("jwt-value").innerHTML = jwt;
         console.log("afterLoad");
         console.log("Bearer " + axiosConfig.headers.Authorization);
-      setTimeout(checkJWT, 500);
+      setTimeout(checkJWT, 100);
     } else {
         checkJWT();
         setTimeout(function() {
             if (!jwtReceived) {
                 document.getElementById("jwt-value").innerHTML = "Не удалось получить токен";
             }
-        }, 5000);
+        }, 100);
     }
   }
 

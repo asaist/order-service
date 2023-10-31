@@ -71,9 +71,11 @@ inputFieldsLecture.forEach(input => {
 });
 
 
-async function sendForApprovalCourse(processType) {
+async function sendForApprovalCourse(processType, el) {
+    console.log("Серия: " + savedSeries);
+    console.log("Лекция: " + savedLecture);
     try {
-        const response = await fetch(`https://dev.track.samsmu.ru/${processType}?savedSeries=${savedSeries}`, {
+        const response = await fetch(`https://dev.track.samsmu.ru/${processType}?savedSeries=${savedSeries}&savedLecture=${savedLecture}`, {
         // const response = await fetch(`http://localhost:8081/${processType}?savedSeries=${savedSeries}`, {
             method: 'POST',
             body: JSON.stringify(savedSeries),
@@ -89,9 +91,19 @@ async function sendForApprovalCourse(processType) {
     } catch(error) {
         console.error('Ошибка при отправке запроса:', error);
     }
+    console.log("До: " + lectures);
+    lectures[lectures.length - 1].id = savedLecture;
+    console.log("После: " + lectures);
     let button = document.getElementById("sendForExecution");
     button.disabled = true;                 // Делаем кнопку неактивной
     button.style.backgroundColor = "gray";
+
+    let button2 = document.getElementById("editModuleM");
+    button2.disabled = true;                 // Делаем кнопку неактивной
+    button2.style.backgroundColor = "gray";
+
+    el.classList.add('hidden');
+    el.disabled = true;
 }
 
 
@@ -122,7 +134,7 @@ function addLectureSchemeModule() {
             authors.push(author)
         }
     }
-    let lecture = new Lecture(lectureModalId, null, lectureModalName, lectureModalAnnotation, lectureModalKeyWords, authors, null);
+    let lecture = new Lecture(lectureModalId, null, lectureModalName, lectureModalAnnotation, lectureModalKeyWords, authors, null, "NOT_SENT");
     lectures.push(lecture);
     const seriesName = moduleForm.seriesName.value;
     const data = {
@@ -152,6 +164,15 @@ function addLectureSchemeModule() {
     lecName.textContent = lectureModalName;
     newLecScheme.append(lecName);
 
+    let sendForExec = document.createElement('button');
+    sendForExec.classList.add('btn', 'btn-sm', 'rounded');
+    sendForExec.setAttribute('type', 'button');
+    sendForExec.setAttribute('onclick', 'sendForApprovalCourse("sendCourseForExecution", this)');
+    let icon1 = document.createElement('i');
+    icon1.classList.add('fas', 'fa-arrow-right', 'text-white');
+    sendForExec.append(icon1);
+    newLecScheme.append(sendForExec);
+
     //кнопка удаления лекции
     let button = document.createElement('button');
     button.classList.add('btn', 'btn-sm', 'rounded');
@@ -170,6 +191,7 @@ function addLectureSchemeModule() {
     // document.getElementById('lectureDaysToFill').value = "";
     document.getElementById('tableAuthorModal').innerHTML = '';
     document.getElementById("gantt_here").classList.remove("hidden");
+    saveSeriesOnServer();
     btnClose();
 }
 
@@ -213,7 +235,7 @@ function editLecInModuleSeries(el){
             authors.push(author)
         }
     }
-    let lecture = new Lecture(lectureModalId, null, lectureModuleName, lectureModuleAnnotation, lectureModuleKeyWords, authors, null);
+    let lecture = new Lecture(lectureModalId, null, lectureModuleName, lectureModuleAnnotation, lectureModuleKeyWords, authors, null, "NOT_SENT");
     lectures [index] = lecture;
     // let div = el.parentNode;
     el.setAttribute('lectureModuleName', lectureModuleName);
@@ -237,6 +259,10 @@ function editLecInModuleSeries(el){
 const moduleForm = document.querySelector('#createSeries');
 moduleForm.addEventListener('submit', (event) => {
     event.preventDefault(); // остановить стандартное поведение формы
+    savedSeries();
+});
+
+function  saveSeriesOnServer(){
     const track = moduleForm.seriesTrack.value;
     const seriesName = moduleForm.seriesName.value;
     const seriesAnnotation = moduleForm.seriesAnnotation.value;
@@ -269,12 +295,17 @@ moduleForm.addEventListener('submit', (event) => {
         .then(response => response.json())
         .then(data => {
             savedSeries = data.id;
+            savedLecture = data.lectureId;
             // Используйте полученный ID нового трека для нужных действий на фронтенде
             console.log('ID нового модуля:', savedSeries);
+            console.log('ID новой лекции:', savedLecture);
         })
         .catch(error => {
             console.error('Ошибка при отправке запроса:', error);
         });
+    console.log("До: " + lectures);
+    lectures[lectures.length - 1].id = savedLecture;
+    console.log("После: " + lectures);
     let addModule = document.getElementById('saveModuleM');
     addModule.classList.add("hidden");
     let editModule = document.getElementById('editModuleM');
@@ -282,7 +313,7 @@ moduleForm.addEventListener('submit', (event) => {
     // let sendForApproval = document.getElementById('sendForApproval');
     // sendForApproval.classList.remove("hidden");
     document.getElementById('sendForExecution').classList.remove("hidden");
-});
+}
 
 // function handleSubmit(event) {
 //     // Отменяем стандартное поведение формы

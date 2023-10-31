@@ -68,7 +68,7 @@ class Module {
     }
 }
 class Lecture {
-    constructor(id, moduleId, lectureModuleName, lectureModuleAnnotation, lectureModuleKeyWords, authors, daysToFill) {
+    constructor(id, moduleId, lectureModuleName, lectureModuleAnnotation, lectureModuleKeyWords, authors, daysToFill, status) {
         this.id = id;
         this.moduleId = moduleId;
         this.lectureModuleName = lectureModuleName;
@@ -76,6 +76,7 @@ class Lecture {
         this.lectureModuleKeyWords = lectureModuleKeyWords;
         this.authors = authors;
         this.daysToFill = daysToFill;
+        this.status = status;
     }
 }
 var modules = [];

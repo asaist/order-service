@@ -30,7 +30,7 @@
       <div class="left-schema d-flex align-items-center justify-content-center">       
         <div>
           <div class="d-flex">
-            <div data-tooltip="Выберите элемент для создания">
+            <div data-tooltip="Создание заявки на курс лекций">
               <div class="d-flex justify-content-center align-items-center rounded-circle p-2 icon-circle bg-primary" id="networkWired">
                 <i class="fas fa-network-wired text-center text-white" id="iconNetworkWired"></i>
               </div>
@@ -42,9 +42,57 @@
           </div>
 
           <div class="d-flex">
-            <div data-tooltip="Заполните заявку">
-              <div class="d-flex justify-content-center align-items-center rounded-circle p-2  icon-circle bg-white" id="signature">
+            <div data-tooltip="Заполнение лекций авторами">
+              <div class="d-flex justify-content-center align-items-center rounded-circle p-2  icon-circle bg-white" id="signatureFilling">
                 <i class="fas fa-file-signature text-center" id="iconSignature"></i>
+              </div>
+              <div class="d-flex justify-content-center">
+                <div class="track-line">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex">
+            <div data-tooltip="Экспертиза">
+              <div class="d-flex justify-content-center align-items-center rounded-circle p-2  icon-circle bg-white" id="expertizeFilling">
+                <i class="fas fa-search text-center" id="iconExpertizeFilling"></i>
+              </div>
+              <div class="d-flex justify-content-center">
+                <div class="track-line">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex">
+            <div data-tooltip="Разработка курса лекций">
+              <div class="d-flex justify-content-center align-items-center rounded-circle p-2  icon-circle bg-white" id="developmentExecution">
+                <i class="fas fa-chart-line text-center" id="iconDevelopmentExecution"></i>
+              </div>
+              <div class="d-flex justify-content-center">
+                <div class="track-line">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex">
+            <div data-tooltip="Орфографическая и антиплагиатная проверка">
+              <div class="d-flex justify-content-center align-items-center rounded-circle p-2  icon-circle bg-white" id="antiplagiatCheck">
+                <i class="fas fa-search text-center" id="iconAntiplagiatCheck"></i>
+              </div>
+              <div class="d-flex justify-content-center">
+                <div class="track-line">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex">
+            <div data-tooltip="Публикация">
+              <div class="d-flex justify-content-center align-items-center rounded-circle p-2  icon-circle bg-white" id="productionExecution">
+                <i class="fas fa-compress-arrows-alt text-center" id="iconProductionExecution"></i>
               </div>
               <div class="d-flex justify-content-center">
                 <div class="track-line">

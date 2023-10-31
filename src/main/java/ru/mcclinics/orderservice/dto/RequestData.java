@@ -32,7 +32,7 @@ public class RequestData extends EntityDto implements Serializable {
         this.locs = locs;
     }
 
-    public RequestData(List<AuthorDto> authors, List<ModuleDto> modules, List<LectureDto> lectures) {
+    public RequestData(List<AuthorDto> authors, List<LectureDto> lectures) {
         this.authors = authors;
         this.modules = modules;
         this.lectures = lectures;

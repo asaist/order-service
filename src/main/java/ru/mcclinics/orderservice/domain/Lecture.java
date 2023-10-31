@@ -2,6 +2,7 @@ package ru.mcclinics.orderservice.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import ru.mcclinics.orderservice.dto.AuthorDto;
@@ -76,6 +77,12 @@ public class Lecture {
     private Long frontEndModule;
     @Transient
     private Long frontEndLecture;
+//    @CollectionTable(name = "lecture_status", joinColumns = @JoinColumn(name = "lecture_id"))
+//    @Enumerated(EnumType.STRING)
+//    @Column(name = "status")
+//    @NotNull
+//    @Convert(converter = TrackStatusConverter.class)
+//    private TrackStatus status;
 
 //    public String getAuthorName(){
 //        return author!=null ? author.getFirstName() : "<none>";
@@ -154,6 +161,9 @@ public class Lecture {
         if (lectureDto.getDaysToFill() != null){
             this.daysToFill = lectureDto.getDaysToFill();
         }
+        String statusAsString = lectureDto.getStatus(); // Assuming lectureDto.getStatus() returns a String value
+        LectureStatus trackStatus = LectureStatus.valueOf(statusAsString);
+        this.lectureStatus = trackStatus;
     }
     public String getSupervisor1(){
         return supervisor!=null ? supervisor.getLastName() + " " + supervisor.getFirstName() + " " + supervisor.getMiddleName() : "<none>";

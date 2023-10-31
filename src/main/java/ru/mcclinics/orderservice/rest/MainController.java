@@ -98,11 +98,11 @@ public class MainController {
                     .filter(authorDto -> authorDto.getId() == supervisorId)
                     .forEach(authorDto -> authorDto.setIsSupervisor(true));
         }
-        List<Series> series = seriesService.findSeriesByTrackId(id);
-        List<ModuleDto> moduleDtos = series.stream().map(ModuleDto::new).collect(toList());
+//        List<Series> series = seriesService.findSeriesByTrackId(id);
+//        List<ModuleDto> moduleDtos = series.stream().map(ModuleDto::new).collect(toList());
         List<Lecture> lectures = lectureService.findLectureByTrackId(id);
         List<LectureDto> lectureDtos = lectures.stream().map(LectureDto::new).collect(toList());
-        RequestData rd = new RequestData(authorDtos, moduleDtos, lectureDtos);
+        RequestData rd = new RequestData(authorDtos, lectureDtos);
         return rd;
     }
 

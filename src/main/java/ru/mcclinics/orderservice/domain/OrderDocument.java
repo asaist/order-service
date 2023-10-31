@@ -16,6 +16,7 @@ public class OrderDocument {
     private String giuds;
     private String link;
     private String daysToFill;
+    private String course;
 
     public OrderDocument(String link) {
         this.link = link;
@@ -44,6 +45,7 @@ public class OrderDocument {
         this.authors = authorsNames;
         this.giuds = authorsGuids;
         this.daysToFill = lecture.getDaysToFill();
+        this.course = lecture.getSeriesName();
         System.out.println("Количество дней на заполнение: " + lecture.getDaysToFill());
     }
 }
