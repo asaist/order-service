@@ -131,7 +131,7 @@
 
             <th scope="row" onclick="window.location='table_track/${lec.id}'">${lec.id}</th>
             <td  onclick="window.location='table_track/${lec.id}'">${lec.seriesName}</td>
-            <td  onclick="window.location='table_track/${lec.id}'">${lec.getSupervisor1()?ifExists}</td>
+            <td  onclick="window.location='table_track/${lec.id}'">${lec.getSupervisor()?ifExists}</td>
             <td  onclick="window.location='table_track/${lec.id}'">${lec.annotation}</td>
             <td  onclick="window.location='table_track/${lec.id}'"></td>
             <td  onclick="window.location='table_track/${lec.id}'">${lec.createDate}</td>

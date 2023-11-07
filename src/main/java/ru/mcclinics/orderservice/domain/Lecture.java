@@ -90,6 +90,7 @@ public class Lecture {
     public String getAnnotation(){
         return annotation!=null ? annotation : "<none>";
     }
+    public String getDaysToFill() { return daysToFill!=null ? daysToFill : ""; }
     public String getVideoReference(){
         return videoReference!=null ? videoReference : "<none>";
     }
@@ -165,7 +166,7 @@ public class Lecture {
         LectureStatus trackStatus = LectureStatus.valueOf(statusAsString);
         this.lectureStatus = trackStatus;
     }
-    public String getSupervisor1(){
+    public String getSupervisor(){
         return supervisor!=null ? supervisor.getLastName() + " " + supervisor.getFirstName() + " " + supervisor.getMiddleName() : "<none>";
     }
 }

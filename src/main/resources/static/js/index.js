@@ -140,7 +140,7 @@ function btnClose() {
 	document.getElementById('lectureModalNameModule').value = "";
 	document.getElementById('lectureModalAnnotationModule').value = "";
 	document.getElementById('lectureModalKeyWordsModule').value = "";
-	document.getElementById('is-emsloyeelecture').checked = false;
+
 	// $('#selectAuthorToModal').val('').trigger('change');
 
     // let viewOverlay = document.getElementById('overlayViewLectureModal');

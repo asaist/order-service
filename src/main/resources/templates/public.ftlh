@@ -1,7 +1,7 @@
-<%@ page language="java"
-         contentType="text/html"
-         pageEncoding="UTF-8"
-%>
+<#--<%@ page language="java"-->
+<#--         contentType="text/html"-->
+<#--         pageEncoding="UTF-8"-->
+<#--%>-->
 <#--<%-->
 <#--String JWT ="";-->
 <#--// Для проверки включения JWT в заголовок запроса. Исключаем передачу JWT через сообщение. Запуск автономно из браузера. Проверка перехода на страницу main.jsp с токеном.-->
@@ -56,7 +56,7 @@
       cnt++;
       console.log("1");
       if (cnt < 10)
-        setTimeout(checkJWT, 100);
+        setTimeout(checkJWT, 10);
       else
         document.location.href = "msg.html";
         // document.location.href = "/msg";
@@ -114,21 +114,21 @@
         document.getElementById("jwt-value").innerHTML = jwt;
         console.log("afterLoad");
         console.log("Bearer " + axiosConfig.headers.Authorization);
-      setTimeout(checkJWT, 100);
+      setTimeout(checkJWT, 10);
     } else {
         checkJWT();
         setTimeout(function() {
             if (!jwtReceived) {
                 document.getElementById("jwt-value").innerHTML = "Не удалось получить токен";
             }
-        }, 100);
+        }, 10);
     }
   }
 
   </script>
 </head>
 <body onload="afterLoad()">
-Стартовая страница. Получение токена. Максимальное время ожидания 5 сек.
-<p>Токен JWT из родителя: <span id="jwt-value"><%= jwt %></span></p>
+<#--Стартовая страница. Получение токена. Максимальное время ожидания 5 сек.-->
+<#--<p>Токен JWT из родителя: <span id="jwt-value"><%= jwt %></span></p>-->
 </body>
 </html>

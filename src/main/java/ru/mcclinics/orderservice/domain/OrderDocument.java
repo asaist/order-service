@@ -46,6 +46,7 @@ public class OrderDocument {
         this.giuds = authorsGuids;
         this.daysToFill = lecture.getDaysToFill();
         this.course = lecture.getSeriesName();
+        this.supervisor = lecture.getSeries().getSupervisor1();
         System.out.println("Количество дней на заполнение: " + lecture.getDaysToFill());
     }
 }

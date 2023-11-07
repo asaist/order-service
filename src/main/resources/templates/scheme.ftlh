@@ -43,7 +43,7 @@
 
           <div class="d-flex">
             <div data-tooltip="Заполнение лекций авторами">
-              <div class="d-flex justify-content-center align-items-center rounded-circle p-2  icon-circle bg-white" id="signatureFilling">
+              <div class="d-flex justify-content-center align-items-center rounded-circle p-2  icon-circle bg-white" id="signature">
                 <i class="fas fa-file-signature text-center" id="iconSignature"></i>
               </div>
               <div class="d-flex justify-content-center">
@@ -510,7 +510,7 @@
                         </#if>
                         <#if profileTab>
                           <#list shapes as shape>
-                            <option value="${shape.id}">${shape.shapeName}</option>
+                            <option value="${shape.id}" <#if shape?index == 0>selected</#if>>${shape.shapeName}</option>
                           </#list>
                         </#if>
 
@@ -763,11 +763,54 @@
                     <button type="submit" id="saveModuleM" class="btn btn-primary">Добавить курс лекций</button>
                     <button type="submit" id="editModuleM" class="btn btn-primary hidden">Редактировать курс лекций</button>
                     <button type="button" id="sendForApproval" class="btn btn-primary hidden" onclick="sendForApprovalCourse('sendCourse')">Отправить на согласование</button>
-                    <button type="button" id="sendForExecution" class="btn btn-primary hidden" onclick="sendForApprovalCourse('sendCourseForExecution')">Отправить на исполнение</button>
+                    <button type="button" id="sendForExecution" class="btn btn-primary hidden" onclick="setDaysForFillingDialog()">Отправить на исполнение</button>
                   </div>
                 </div>
               </div>
               </form>
+            </div>
+
+            <div class="modal-wrapper">
+              <div class="lectureModal shadow hidden" id="daysToFillModal">
+                <div class="modal-header">
+                  <h5>Список лекций</h5>
+                  <button type="button" class="btn-close" onclick="btnClose()"></button>
+                </div>
+                <div class="modal-content">
+                  <div class="modal-body">
+                <table id="lectureTableDaysToFill" class="table table-striped w-100">
+                  <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Название</th>
+                    <th>Дней на заполнение</th>
+                  </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+                    <div class="d-flex">
+                      <label for="daysSelect" class="m-2">Календарных дней на заполнение карточки авторам:</label>
+                      <select  class="form-control w-25 mx-2" id="daysSelect">
+                        <option value="1">1 день</option>
+                        <option value="2">2 дня</option>
+                        <option value="3">3 дня</option>
+                        <option value="4">4 дня</option>
+                        <option value="5">5 дней</option>
+                        <option value="6">6 дней</option>
+                        <option value="7">7 дней</option>
+                        <option value="8">8 дней</option>
+                        <option value="9">9 дней</option>
+                        <option value="10">10 дней</option>
+                      </select>
+                    </div>
+
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="sendForExecutionFromTableDays" onclick="sendForApprovalCourse('sendCourseForExecution', null, true)">Отправить</button>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
             </div>
 
             <!-- Заявка на Лекцию всплывающая для дерева модуля -->
@@ -1228,7 +1271,7 @@
     </script>
 
     <script>
-
+      var defaultTime = 1;
       document.getElementById('saveLectureInModuleSeries').addEventListener('click', function() {
         setTimeout(function() {
           gantt.i18n.setLocale("ru");
@@ -1237,7 +1280,7 @@
           let i = 0;
           let k = 0;
           let maxDay = 1;
-          let defaultTime = 7;
+
           console.log("Лекции: " + module.lectures.length);
           console.log("Лекция: " + module.lectures[0].lectureModuleName);
           let data = [];
