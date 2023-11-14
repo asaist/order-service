@@ -49,4 +49,11 @@ public class OrderDocument {
         this.supervisor = lecture.getSeries().getSupervisor1();
         System.out.println("Количество дней на заполнение: " + lecture.getDaysToFill());
     }
+
+    public OrderDocument(Series series){
+        this.name = series.getSeriesName();
+        this.annotation = series.getAnnotation();
+        this.keywords = series.getKeyWords();
+        this.supervisor = series.getSupervisor1();
+    }
 }

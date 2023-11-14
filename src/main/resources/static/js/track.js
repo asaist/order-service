@@ -68,7 +68,7 @@ class Module {
     }
 }
 class Lecture {
-    constructor(id, moduleId, lectureModuleName, lectureModuleAnnotation, lectureModuleKeyWords, authors, daysToFill, status) {
+    constructor(id, moduleId, lectureModuleName, lectureModuleAnnotation, lectureModuleKeyWords, authors, daysToFill, status, idDb) {
         this.id = id;
         this.moduleId = moduleId;
         this.lectureModuleName = lectureModuleName;
@@ -77,6 +77,7 @@ class Lecture {
         this.authors = authors;
         this.daysToFill = daysToFill;
         this.status = status;
+        this.idDb = idDb;
     }
 }
 var modules = [];
@@ -409,7 +410,7 @@ function HintShowbyTamara(el) {    // для каждого из зеленых 
     if (el.textContent != ""){
         lectureBlockSchemeTextHint.textContent = (el.textContent);   // содержимое подсказки
     } else {
-        lectureBlockSchemeTextHint.textContent = 'Отправить на согласование';
+        lectureBlockSchemeTextHint.textContent = 'Отправить на исполнение';
     }
 
 }

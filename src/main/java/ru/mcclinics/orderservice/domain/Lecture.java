@@ -132,7 +132,14 @@ public class Lecture {
         this.series = series;
     }
     public Lecture(LectureDto lectureDto) {
+
         if (lectureDto.getModuleId() != null){
+            this.id = lectureDto.getId();
+        }
+
+        System.out.println("IDDB: " + lectureDto.getIdDb());
+
+        if (lectureDto.getIdDb()){
             this.id = lectureDto.getId();
         }
 

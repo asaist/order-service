@@ -21,6 +21,7 @@ import ru.mcclinics.orderservice.service.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -50,7 +51,7 @@ public class SchemeController {
 
     public static final String ApplicationForApprovalProcessType = "114";
     public static final String ForExecutionProcessType = "119";
-
+    public static final String initDocType = "1";
 
     @GetMapping("/msg")
     @ResponseStatus(HttpStatus.OK)
@@ -268,7 +269,7 @@ public class SchemeController {
                 (Collection<?>) orderDocumentList,
                 ApplicationForApprovalProcessType,
                 track.getSupervisor(),
-                null);
+                null, null, null, null);
 
 
         return ResponseEntity.ok(200);
@@ -281,20 +282,32 @@ public class SchemeController {
 //        String greeting = "Вам направляется на согласование : https://dev.track.samsmu.ru/";
 //        String base64 = pdfGenertor.generatePdf(greeting + "track/" + savedTrack);
 //        documentProcessingService.launchProcess(base64);
+        System.out.println("CONTROLLER: " + "/sendCourse");
         Series series = seriesService.findSeriesById(savedSeries);
         Author supervisor = series.getSupervisor();
         List<Lecture> lectures = series.getLectures();
+        List<LectureDto> lectureDtos = lectures.stream().map(LectureDto::new).collect(toList());
 
-        for (Lecture lecture : lectures) {
-            OrderDocument reportData = new OrderDocument(lecture);
+        OrderDocument reportData = new OrderDocument(series);
+        System.out.println("Наименование курса: " + reportData.getName());
+        System.out.println("Аннотация курса: " + reportData.getAnnotation());
+        System.out.println("Ключевые слова курса: " + reportData.getKeywords());
+
+        lectureDtos.stream().forEach(lectureDto -> {
+            System.out.println("Наименование лекции: " + lectureDto.getLectureModuleName());
+            System.out.println("Наименование  ID: " + lectureDto.getId());
+            System.out.println("Аннотация лекции: " + lectureDto.getLectureModuleAnnotation());
+            System.out.println("Ключевые слова лекции: " + lectureDto.getLectureModuleKeyWords());
+            System.out.println("Руководитель лекции: " + lectureDto.getSupervisor());
+            // Выведите остальные поля, если они есть
+        });
+
             List<OrderDocument> orderDocumentList = Arrays.asList(reportData);
-            documentProcessingService.generatePdfJasper((
+            documentProcessingService.generatePdfForApprove((
                     Collection<?>) orderDocumentList,
                     ApplicationForApprovalProcessType,
                     supervisor.getGuid(),
-                    null);
-        }
-
+                    null, null, null, lectureDtos);
         return ResponseEntity.ok(200);
     }
     @PostMapping(value = "/sendCourseForExecution", consumes = {"application/json"})
@@ -325,7 +338,7 @@ public class SchemeController {
                                 Collection<?>) orderDocumentList,
                         ForExecutionProcessType,
                         supervisor.getGuid(),
-                        author.getGuid());
+                        author.getGuid(), reportData.getLink(), initDocType, null);
             }
         }
 
@@ -418,6 +431,7 @@ public class SchemeController {
                 .filter(element -> element != null && !element.toString().isEmpty())
                 .collect(Collectors.toList());
         List<Lecture> lectures = lecturesFromFront.stream().map(Lecture::new).collect(toList());
+        System.out.println("ID LECTURE: " + lectures.get(0).getId());
         lectures.stream().forEach(lecture -> lecture.setSeries(savedSeries));
         lectures.stream().forEach(lecture -> lecture.setCreateDate(LocalDateTime.now()));
         lectures.stream().forEach(lecture -> lecture.setAuthors(authorSet));
@@ -429,8 +443,8 @@ public class SchemeController {
         mkbRepository.saveAll(mkbs);
         Iterable<Series> series1 = seriesService.findSeries();
         log.info("/create [module {}]", series);
-        Lecture lectureDb = lectures.get(0);
-        System.out.println("ID NEW LECTURE: " + lectures.get(0).getId());
+        Lecture lectureDb = lectures.get(lectures.size() - 1);
+        System.out.println("ID NEW LECTURE: " + lectures.get(lectures.size() - 1).getId());
         return ResponseEntity.ok(new ModuleDto(series, lectureDb));
     }
 

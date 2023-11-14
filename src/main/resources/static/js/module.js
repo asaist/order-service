@@ -106,12 +106,16 @@ async function sendForApprovalCourse(processType, el, batch) {
     lectures.forEach((lecture) => {
         lecture.daysToFill = dayFromDialog;
     });
-    saveSeriesOnServer();
+    // saveSeriesOnServer();
     btnClose();
     if (batch){
         savedLecture = null;
         url1 = `https://dev.track.samsmu.ru/${processType}?savedSeries=${savedSeries}`;
     } else {
+        el.classList.add('hidden');
+        el.disabled = true;
+    }
+    if (el != null) {
         el.classList.add('hidden');
         el.disabled = true;
     }
@@ -175,7 +179,7 @@ function addLectureSchemeModule() {
             authors.push(author)
         }
     }
-    let lecture = new Lecture(lectureModalId, null, lectureModalName, lectureModalAnnotation, lectureModalKeyWords, authors, defaultTime, "NOT_SENT");
+    let lecture = new Lecture(lectureModalId, null, lectureModalName, lectureModalAnnotation, lectureModalKeyWords, authors, defaultTime, "NOT_SENT", false);
     lectures.push(lecture);
     const seriesName = moduleForm.seriesName.value;
     const data = {
@@ -239,6 +243,7 @@ function addLectureSchemeModule() {
     saveSeriesOnServer();
     console.log("До: " + lectures);
     lectures[lectures.length - 1].id = savedLecture;
+    lectures[lectures.length - 1].idDb = true;
     console.log("После: " + lectures);
     btnClose();
 }

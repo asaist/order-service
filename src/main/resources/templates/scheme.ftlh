@@ -762,7 +762,7 @@
                   <div class="modal-footer">
                     <button type="submit" id="saveModuleM" class="btn btn-primary">Добавить курс лекций</button>
                     <button type="submit" id="editModuleM" class="btn btn-primary hidden">Редактировать курс лекций</button>
-                    <button type="button" id="sendForApproval" class="btn btn-primary hidden" onclick="sendForApprovalCourse('sendCourse')">Отправить на согласование</button>
+                    <button type="button" id="sendForApproval" class="btn btn-primary" onclick="sendForApprovalCourse('sendCourse', this, true)">Отправить на согласование</button>
                     <button type="button" id="sendForExecution" class="btn btn-primary hidden" onclick="setDaysForFillingDialog()">Отправить на исполнение</button>
                   </div>
                 </div>
