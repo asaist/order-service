@@ -35,6 +35,7 @@ public class MainController {
     private final EntityDtoParamService entityDtoParamService;
     private final KeyWordRepository keyWordRepository;
     private final ShapeService shapeService;
+    private final CheckTokenService checkTokenService;
 
     @Value("${files.upload.baseDir}")
     private String uploadPath;
@@ -58,16 +59,28 @@ public class MainController {
     }
 
     @GetMapping("/table_track")
-    public String listTrackForTable(@RequestParam(required = false, defaultValue = "") String filter, Model model) {
+    public String listTrackForTable(
+            @RequestParam(required = false, defaultValue = "") String filter,
+            @RequestParam(required = false, defaultValue = "") String lectureFilter,
+            Model model) {
         Iterable<Series> series;
+        Iterable<Lecture> lectures;
         if (filter !=null && !filter.isEmpty()){
             series = seriesService.findSeriesByName(filter);
         } else {
             series = seriesService.findSeries();
         }
 
+        if (lectureFilter !=null && !lectureFilter.isEmpty()){
+            lectures = lectureService.findLectureByName(lectureFilter);
+        } else {
+            lectures = lectureService.findLectures();
+        }
+
         model.addAttribute("series", series);
         model.addAttribute("filter", filter);
+        model.addAttribute("lectures", lectures);
+        model.addAttribute("lectureFilter", lectureFilter);
         model.addAttribute("universities", universityService.getUniversityList());
         return "table_track";
     }
@@ -85,12 +98,22 @@ public class MainController {
                     .filter(authorDto -> authorDto.getId() == supervisorId)
                     .forEach(authorDto -> authorDto.setIsSupervisor(true));
         }
-        List<Series> series = seriesService.findSeriesByTrackId(id);
-        List<ModuleDto> moduleDtos = series.stream().map(ModuleDto::new).collect(toList());
+//        List<Series> series = seriesService.findSeriesByTrackId(id);
+//        List<ModuleDto> moduleDtos = series.stream().map(ModuleDto::new).collect(toList());
         List<Lecture> lectures = lectureService.findLectureByTrackId(id);
         List<LectureDto> lectureDtos = lectures.stream().map(LectureDto::new).collect(toList());
-        RequestData rd = new RequestData(authorDtos, moduleDtos, lectureDtos);
+        RequestData rd = new RequestData(authorDtos, lectureDtos);
         return rd;
+    }
+
+    @GetMapping("/supervisor/")
+    @ResponseStatus(OK)
+    public @ResponseBody AuthorDto getSupervisorById(@RequestHeader(value = "Authorization", required = false) String authorizationHeader) {
+        log.info("/getAuthorsByModuleId");
+        Author supervisor1 = checkTokenService.checkToken(authorizationHeader);
+        System.out.println(supervisor1.getLastName() + " " + LocalDateTime.now());
+        AuthorDto supervisor = new AuthorDto(supervisor1);
+        return supervisor;
     }
 
     @GetMapping("/authors_module/{id}")

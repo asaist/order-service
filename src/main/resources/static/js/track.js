@@ -68,13 +68,16 @@ class Module {
     }
 }
 class Lecture {
-    constructor(id, moduleId, lectureModuleName, lectureModuleAnnotation, lectureModuleKeyWords, authors) {
+    constructor(id, moduleId, lectureModuleName, lectureModuleAnnotation, lectureModuleKeyWords, authors, daysToFill, status, idDb) {
         this.id = id;
         this.moduleId = moduleId;
         this.lectureModuleName = lectureModuleName;
         this.lectureModuleAnnotation = lectureModuleAnnotation;
         this.lectureModuleKeyWords = lectureModuleKeyWords;
         this.authors = authors;
+        this.daysToFill = daysToFill;
+        this.status = status;
+        this.idDb = idDb;
     }
 }
 var modules = [];
@@ -404,7 +407,12 @@ function HintShowbyTamara(el) {    // для каждого из зеленых 
     lectureBlockSchemeTextHint.classList.add("lectureBlockSchemeTextHint", "shadow", "text-wrap"); // созданному диву добавили классы (что бы он стал подсказкой)
     lectureBlockSchemeTextHint.setAttribute('id','lectureBlockSchemeTextHint'); //добавили идентификатор блоку с подсказкой
     el.append(lectureBlockSchemeTextHint); // пытаюсь вставить подсказку в массив зеленых блоков, обращаясь к элементу по индексу
-    lectureBlockSchemeTextHint.textContent = (el.textContent);   // содержимое подсказки
+    if (el.textContent != ""){
+        lectureBlockSchemeTextHint.textContent = (el.textContent);   // содержимое подсказки
+    } else {
+        lectureBlockSchemeTextHint.textContent = 'Отправить на исполнение';
+    }
+
 }
 
 function HintHidebyTamara(el){

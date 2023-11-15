@@ -239,7 +239,7 @@ tr.cursor-pointer:hover {
 }
 .track-line {
   border: 1px dashed #000;
-  height: 150px;
+  height: 75px;
 }
 .track-block-text {
  
@@ -384,11 +384,11 @@ tr.cursor-pointer:hover {
   margin: auto;
   display: grid;
 }
-tbody, td, tfoot, th, thead, tr {
-    border-color: inherit;
-    border-style: none; 
-    border-width: 0;
-}
+/*tbody, td, tfoot, th, thead, tr {*/
+/*    border-color: inherit;*/
+/*    border-style: none; */
+/*    border-width: 0;*/
+/*}*/
 .select2  {min-height: calc(1.5em + (0.75rem + 2px));
     display: block;
     width: 100%;

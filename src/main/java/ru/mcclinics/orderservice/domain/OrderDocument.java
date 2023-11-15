@@ -15,6 +15,8 @@ public class OrderDocument {
     private String authors;
     private String giuds;
     private String link;
+    private String daysToFill;
+    private String course;
 
     public OrderDocument(String link) {
         this.link = link;
@@ -42,6 +44,16 @@ public class OrderDocument {
                 .collect(Collectors.joining("; "));
         this.authors = authorsNames;
         this.giuds = authorsGuids;
+        this.daysToFill = lecture.getDaysToFill();
+        this.course = lecture.getSeriesName();
+        this.supervisor = lecture.getSeries().getSupervisor1();
+        System.out.println("Количество дней на заполнение: " + lecture.getDaysToFill());
+    }
 
+    public OrderDocument(Series series){
+        this.name = series.getSeriesName();
+        this.annotation = series.getAnnotation();
+        this.keywords = series.getKeyWords();
+        this.supervisor = series.getSupervisor1();
     }
 }

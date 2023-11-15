@@ -16,3 +16,5 @@ nohup java -jar order-service-1.0.jar > log.txt &
 EOF
 
 echo 'Bye'
+
+ps aux | grep java

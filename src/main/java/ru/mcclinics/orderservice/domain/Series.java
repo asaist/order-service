@@ -85,7 +85,7 @@ public class Series {
                 .collect(Collectors.joining(";")) : "<none>";
     }
     public String getSupervisor1(){
-        return supervisor!=null ? supervisor.getLastName() + " " + supervisor.getFirstName() + " " + supervisor.getMiddleName() : "<none>";
+        return supervisor!=null ? supervisor.getLastName() + " " + supervisor.getFirstName() + " " + supervisor.getMiddleName() : "";
     }
 
     public String getTrackName() {

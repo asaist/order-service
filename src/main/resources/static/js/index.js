@@ -1,4 +1,28 @@
 
+function getCurrentDateTime() {
+	let currentDate = new Date();
+	let year = currentDate.getFullYear();
+	let month = ("0" + (currentDate.getMonth() + 1)).slice(-2); // добавляем ведущий ноль, если месяц < 10
+	let day = ("0" + currentDate.getDate()).slice(-2); // добавляем ведущий ноль, если день < 10
+	let hours = ("0" + currentDate.getHours()).slice(-2); // добавляем ведущий ноль, если час < 10
+	let minutes = ("0" + currentDate.getMinutes()).slice(-2); // добавляем ведущий ноль, если минута < 10
+
+	return year + "-" + month + "-" + day + " " + hours + ":" + minutes;
+}
+
+function addDaysToCurrentDateTime(days) {
+	var currentDateTime = new Date(getCurrentDateTime());
+	currentDateTime.setDate(currentDateTime.getDate() + days);
+
+	var year = currentDateTime.getFullYear();
+	var month = ("0" + (currentDateTime.getMonth() + 1)).slice(-2);
+	var day = ("0" + currentDateTime.getDate()).slice(-2);
+	var hours = ("0" + currentDateTime.getHours()).slice(-2);
+	var minutes = ("0" + currentDateTime.getMinutes()).slice(-2);
+
+	return year + "-" + month + "-" + day + " " + hours + ":" + minutes;
+}
+
 function authorSamGMU() {
 	let authorSamGMU = document.getElementById('authorSamGMU');
 	authorSamGMU.classList.toggle("hidden");
@@ -17,8 +41,21 @@ function authorSamGMULecture() {
 	createAuthorButtonLecture.classList.toggle("hidden");
 }
 
+function showDoc(el) {
+	var tbl = el.parentElement.parentElement;
+	tbl.rows[1].classList.toggle('hidden');
+	let caretIcon = el.querySelector('.fa-caret-down, .fa-caret-up');
+	if (caretIcon.classList.contains('fa-caret-down')) {
+		caretIcon.classList.remove('fa-caret-down');
+		caretIcon.classList.add('fa-caret-up');
+	} else if (caretIcon.classList.contains('fa-caret-up')) {
+		caretIcon.classList.remove('fa-caret-up');
+		caretIcon.classList.add('fa-caret-down');
+	}
+}
+
 $(document).ready(function() {
-	console.log("In Da select: " + localStorage.authorization);
+	console.log("In Da select: " + window.token);
 	$(".js-data-example-ajax").select2({
 		ajax: {
 			url: "https://dev.track.samsmu.ru/public/home/api/author/authors",
@@ -27,7 +64,7 @@ $(document).ready(function() {
 			dataType: 'json',
 			delay: 250,
 			headers: {
-				"Authorization": localStorage.authorization
+				"Authorization": window.token
 			},
 			data: function (params) {
 				return {
@@ -103,7 +140,7 @@ function btnClose() {
 	document.getElementById('lectureModalNameModule').value = "";
 	document.getElementById('lectureModalAnnotationModule').value = "";
 	document.getElementById('lectureModalKeyWordsModule').value = "";
-	document.getElementById('is-emsloyeelecture').checked = false;
+
 	// $('#selectAuthorToModal').val('').trigger('change');
 
     // let viewOverlay = document.getElementById('overlayViewLectureModal');

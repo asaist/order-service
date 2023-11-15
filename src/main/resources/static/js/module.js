@@ -1,5 +1,57 @@
 
 
+let moduleAuthors = [];
+let savedSeries = null;
+var module = null;
+
+// изменить "редактировать" на "сохранить" у submit button для модуля
+document.addEventListener("keyup", function(event) {
+  let editModule = document.getElementById('editModuleM');
+  if (!editModule.classList.contains('hidden')){
+  let inputValue = event.target.value; // Получаем значение поля ввода
+  console.log(inputValue);
+  // Проверяем, является ли целевой элемент полем ввода
+  if (event.target.classList.contains("editable")) {
+    // Меняем название кнопки в зависимости от значения поля ввода
+    console.log('является');
+    editTrack.textContent = "Сохранить"
+    }
+  }
+});
+
+
+// gantt.config.date_format = "%Y-%m-%d %H:%i";
+// gantt.init("gantt_here");
+// console.log(module);
+// const data = [
+//     {
+//         id: 1,
+//         text: module.seriesName,
+//         start_date: null,
+//         duration: null,
+//         parent: 0,
+//         progress: 0,
+//         open: true
+//     }
+// ];
+//
+// for (let i = 0; i < lectures.length; i++) {
+//     data.push({
+//         id: i + 2, // увеличиваем id на 2, чтобы избежать конфликтов с уже имеющимися данными
+//         text: lectures[i].lectureModuleName,
+//         start_date: null,
+//         duration: null,
+//         parent: 1, // указываем id родительского элемента (в данном случае, 1)
+//         progress: 0,
+//         open: true
+//     });
+// }
+// console.log(data);
+// gantt.parse({
+//     data
+// });
+
+
 // Listners for Lecture List that hide Lecture panel
 const inputFieldsCourse = document.querySelectorAll('#profile-tab-pane input, #profile-tab-pane select, #profile-tab-pane textarea');
 inputFieldsCourse.forEach(input => {
@@ -18,10 +70,59 @@ inputFieldsLecture.forEach(input => {
     });
 });
 
+function fillLectureTable() {
+    const tableBody = document.querySelector("#lectureTableDaysToFill tbody");
 
-async function sendForApprovalCourse(processType) {
+    lectures.forEach((lecture) => {
+        const row = document.createElement("tr");
+
+        const idCell = document.createElement("td");
+        idCell.textContent = lecture.id;
+        row.appendChild(idCell);
+
+        const nameCell = document.createElement("td");
+        nameCell.textContent = lecture.lectureModuleName;
+        row.appendChild(nameCell);
+
+        const daysCell = document.createElement("td");
+        daysCell.textContent = lecture.daysToFill;
+        row.appendChild(daysCell);
+
+        tableBody.appendChild(row);
+    });
+}
+function setDaysForFillingDialog(){
+    console.log("Серия: " + savedSeries);
+    console.log("Лекция: " + savedLecture);
+    fillLectureTable();
+    document.getElementById("daysToFillModal").classList.remove('hidden');
+}
+
+
+async function sendForApprovalCourse(processType, el, batch) {
+    let dayFromDialog = null;
+    let url1 = `https://dev.track.samsmu.ru/${processType}?savedSeries=${savedSeries}&savedLecture=${savedLecture}`;
+    dayFromDialog = document.querySelector("#daysSelect").value;
+    lectures.forEach((lecture) => {
+        lecture.daysToFill = dayFromDialog;
+    });
+    // saveSeriesOnServer();
+    btnClose();
+    if (batch){
+        savedLecture = null;
+        url1 = `https://dev.track.samsmu.ru/${processType}?savedSeries=${savedSeries}`;
+    } else {
+        el.classList.add('hidden');
+        el.disabled = true;
+    }
+    if (el != null) {
+        el.classList.add('hidden');
+        el.disabled = true;
+    }
+
+
     try {
-        const response = await fetch(`https://dev.track.samsmu.ru/${processType}?savedSeries=${savedSeries}`, {
+        const response = await fetch(url1, {
         // const response = await fetch(`http://localhost:8081/${processType}?savedSeries=${savedSeries}`, {
             method: 'POST',
             body: JSON.stringify(savedSeries),
@@ -37,6 +138,17 @@ async function sendForApprovalCourse(processType) {
     } catch(error) {
         console.error('Ошибка при отправке запроса:', error);
     }
+    console.log("До: " + lectures);
+    lectures[lectures.length - 1].id = savedLecture;
+    console.log("После: " + lectures);
+    let button = document.getElementById("sendForExecution");
+    button.disabled = true;                 // Делаем кнопку неактивной
+    button.style.backgroundColor = "gray";
+
+    let button2 = document.getElementById("editModuleM");
+    button2.disabled = true;                 // Делаем кнопку неактивной
+    button2.style.backgroundColor = "gray";
+    trackSignature();
 }
 
 
@@ -50,8 +162,8 @@ function updateTrackHeadingModuleSeries() {
     let moduleHeading = document.getElementById("moduleHeading");
 
     // Обновление содержимого заголовка с использованием значения из textarea
-    trackHeadingInLectureModuleSeries.innerText = 'Образовательный трек «' + trackName + '» электронной образовательной среды СамГМУ»';
-    moduleHeadingInLectureModuleSeries.innerText = 'Образовательный модуль «' + moduleInput.value + '» электронной образовательной среды СамГМУ»';
+    // trackHeadingInLectureModuleSeries.innerText = 'Образовательный трек «' + trackName + '» электронной образовательной среды СамГМУ»';
+    moduleHeadingInLectureModuleSeries.innerText = 'Образовательный модуль «' + moduleInput.value + '» ';
     moduleHeading.innerText = 'Образовательный модуль «' + moduleInput.value + '» электронной образовательной среды СамГМУ»';
 }
 
@@ -60,19 +172,25 @@ function addLectureSchemeModule() {
     let lectureModalName = document.getElementById('lectureModalNameModule').value;
     let lectureModalAnnotation = document.getElementById('lectureModalAnnotationModule').value;
     let lectureModalKeyWords = document.getElementById('lectureModalKeyWordsModule').value;
+    // let lectureDaysToFill = document.getElementById('lectureDaysToFill').value;
     let authors = [];
     for (let author of moduleAuthors) {
         if (author.lecture === parseInt(lectureModalId)) {
             authors.push(author)
         }
     }
-    let lecture = new Lecture(lectureModalId, null, lectureModalName, lectureModalAnnotation, lectureModalKeyWords, authors);
+    let lecture = new Lecture(lectureModalId, null, lectureModalName, lectureModalAnnotation, lectureModalKeyWords, authors, defaultTime, "NOT_SENT", false);
     lectures.push(lecture);
-
-
+    const seriesName = moduleForm.seriesName.value;
+    const data = {
+        lectures,
+        seriesName
+    }
+    module = data;
+    console.log(module);
     let newLecScheme = document.createElement('div');
-    newLecScheme.setAttribute("onmouseover","HintShowbyTamara(this)");
-    newLecScheme.setAttribute("onmouseout","HintHidebyTamara(this)");
+    // newLecScheme.setAttribute("onmouseover","HintShowbyTamara(this)");
+    // newLecScheme.setAttribute("onmouseout","HintHidebyTamara(this)");
     newLecScheme.classList.add('bg-success','mx-2', 'p-3', 'mb-1', 'rounded','lectureBlockScheme', 'lecBlockScheme', 'd-flex');
     newLectureSchemeNumber++; // Присваиваем id
     newLecScheme.id = "Lecture_" + newLectureSchemeNumber;
@@ -89,7 +207,20 @@ function addLectureSchemeModule() {
     lecName.setAttribute('lectureModuleKeyWords', lectureModalKeyWords);
     lecName.setAttribute('lectureModalId', lectureModalId);
     lecName.textContent = lectureModalName;
+    lecName.setAttribute("onmouseover","HintShowbyTamara(this)");
+    lecName.setAttribute("onmouseout","HintHidebyTamara(this)");
     newLecScheme.append(lecName);
+
+    let sendForExec = document.createElement('button');
+    sendForExec.classList.add('btn', 'btn-sm', 'rounded');
+    sendForExec.setAttribute('type', 'button');
+    sendForExec.setAttribute('onclick', 'sendForApprovalCourse("sendCourseForExecution", this)');
+    sendForExec.setAttribute("onmouseover","HintShowbyTamara(this)");
+    sendForExec.setAttribute("onmouseout","HintHidebyTamara(this)");
+    let icon1 = document.createElement('i');
+    icon1.classList.add('fas', 'fa-arrow-right', 'text-white');
+    sendForExec.append(icon1);
+    newLecScheme.append(sendForExec);
 
     //кнопка удаления лекции
     let button = document.createElement('button');
@@ -106,7 +237,14 @@ function addLectureSchemeModule() {
     document.getElementById('lectureModalNameModule').value = "";
     document.getElementById('lectureModalAnnotationModule').value = "";
     document.getElementById('lectureModalKeyWordsModule').value = "";
+    // document.getElementById('lectureDaysToFill').value = "";
     document.getElementById('tableAuthorModal').innerHTML = '';
+    document.getElementById("gantt_here").classList.remove("hidden");
+    saveSeriesOnServer();
+    console.log("До: " + lectures);
+    lectures[lectures.length - 1].id = savedLecture;
+    lectures[lectures.length - 1].idDb = true;
+    console.log("После: " + lectures);
     btnClose();
 }
 
@@ -123,6 +261,7 @@ function editLecModuleSeries(el){
     lectureModuleAnnotationElement.value = el.getAttribute('lectureModuleAnnotation');
     let lectureModuleKeyWordsElement = document.getElementById('lectureModalKeyWordsModule');
     lectureModuleKeyWordsElement.value = el.getAttribute('lectureModuleKeyWords');
+    // document.getElementById('lectureDaysToFill').value = el.getAttribute('daysToFill');
 
     editElForLecOut = el;
 
@@ -142,22 +281,25 @@ function editLecInModuleSeries(el){
     let lectureModuleName = document.getElementById('lectureModalNameModule').value;
     let lectureModuleAnnotation = document.getElementById('lectureModalAnnotationModule').value;
     let lectureModuleKeyWords = document.getElementById('lectureModalKeyWordsModule').value;
+    // let lectureDaysToFill = document.getElementById('lectureDaysToFill').value;
     let authors = [];
     for (let author of moduleAuthors) {
         if (author.lecture === parseInt(lectureModalId)) {
             authors.push(author)
         }
     }
-    let lecture = new Lecture(lectureModalId, null, lectureModuleName, lectureModuleAnnotation, lectureModuleKeyWords, authors);
+    let lecture = new Lecture(lectureModalId, null, lectureModuleName, lectureModuleAnnotation, lectureModuleKeyWords, authors, defaultTime, "NOT_SENT");
     lectures [index] = lecture;
     // let div = el.parentNode;
     el.setAttribute('lectureModuleName', lectureModuleName);
     el.setAttribute('lectureModuleAnnotation', lectureModuleAnnotation);
     el.setAttribute('lectureModuleKeyWords', lectureModuleKeyWords);
+    // el.setAttribute('lectureDaysToFill', lectureDaysToFill);
     el.textContent = lectureModuleName;
     document.getElementById('lectureModalNameModule').value = "";
     document.getElementById('lectureModalAnnotationModule').value = "";
     document.getElementById('lectureModalKeyWordsModule').value = "";
+    // document.getElementById('lectureDaysToFill').value = "";
     let saveButton = document.getElementById('saveLectureInModuleSeries');
     saveButton.classList.remove('hidden');
     let editButton = document.getElementById('editLectureInModuleSeries');
@@ -168,10 +310,12 @@ function editLecInModuleSeries(el){
 
 
 const moduleForm = document.querySelector('#createSeries');
-let moduleAuthors = [];
-let savedSeries = null;
 moduleForm.addEventListener('submit', (event) => {
     event.preventDefault(); // остановить стандартное поведение формы
+    savedSeries();
+});
+
+function  saveSeriesOnServer(){
     const track = moduleForm.seriesTrack.value;
     const seriesName = moduleForm.seriesName.value;
     const seriesAnnotation = moduleForm.seriesAnnotation.value;
@@ -186,36 +330,42 @@ moduleForm.addEventListener('submit', (event) => {
         seriesAnnotation,
         seriesKeyWords,
     };
+    module = data;
     if (savedSeries) {
         data.seriesId = savedSeries;
     }
     console.log(data);
+    console.log(module);
 
-    fetch("https://dev.track.samsmu.ru/addSeries", {
-        method: "POST",
+    $.ajax({
+        type: "POST",
+        url: "https://dev.track.samsmu.ru/addSeries",
         headers: {
             "Content-Type": "application/json",
             "Authorization": localStorage.authorization
         },
-        body: JSON.stringify(data)
-    })
-        .then(response => response.json())
-        .then(data => {
-            savedSeries = data.id;
-            // Используйте полученный ID нового трека для нужных действий на фронтенде
+        data: JSON.stringify(data),
+        async: false,
+        success: function(response) {
+            // Обработка успешного ответа
+            savedSeries = response.id;
+            savedLecture = response.lectureId;
             console.log('ID нового модуля:', savedSeries);
-        })
-        .catch(error => {
+            console.log('ID новой лекции:', savedLecture);
+        },
+        error: function(error) {
             console.error('Ошибка при отправке запроса:', error);
-        });
+        }
+    });
+
     let addModule = document.getElementById('saveModuleM');
     addModule.classList.add("hidden");
     let editModule = document.getElementById('editModuleM');
     editModule.classList.remove("hidden");
-    let sendForApproval = document.getElementById('sendForApproval');
-    sendForApproval.classList.remove("hidden");
+    // let sendForApproval = document.getElementById('sendForApproval');
+    // sendForApproval.classList.remove("hidden");
     document.getElementById('sendForExecution').classList.remove("hidden");
-});
+}
 
 // function handleSubmit(event) {
 //     // Отменяем стандартное поведение формы
@@ -340,7 +490,7 @@ function selectAuthorModule(el, selectId, tableId, supervisor, addToAuthorsList)
     docTd.setAttribute('onclick','showDoc(this)');
     nameTr.append(docTd);
     let docTdIcon = document.createElement('i');
-    docTdIcon.classList.add('fas', 'fa-file-upload', 'text-primary');
+    docTdIcon.classList.add('fas', 'fa-caret-down', 'text-primary');
 
     docTd.append(docTdIcon);
 

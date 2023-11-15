@@ -2,6 +2,7 @@ package ru.mcclinics.orderservice.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import ru.mcclinics.orderservice.dto.AuthorDto;
@@ -34,6 +35,9 @@ public class Lecture {
             joinColumns = {@JoinColumn(name = "lecture_id", referencedColumnName = "lecture_id")},
             inverseJoinColumns = {@JoinColumn(name = "author_id", referencedColumnName = "author_id")})
     private Set<Author> authors = new HashSet<>();
+    @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "supervisor")
+    private Author supervisor;
     @Column(name = "video_reference")
     private String videoReference;
     @Column(name = "lecture_annotation")
@@ -42,6 +46,8 @@ public class Lecture {
     private LocalDateTime createDate;
     @Column(name = "end_date")
     private LocalDate endDate;
+    @Column(name = "days_to_fill")
+    private String daysToFill;
     @Column(name = "lecture_status")
     @Enumerated
     private LectureStatus lectureStatus;
@@ -69,6 +75,14 @@ public class Lecture {
     private List<Localization> localizations;
     @Transient
     private Long frontEndModule;
+    @Transient
+    private Long frontEndLecture;
+//    @CollectionTable(name = "lecture_status", joinColumns = @JoinColumn(name = "lecture_id"))
+//    @Enumerated(EnumType.STRING)
+//    @Column(name = "status")
+//    @NotNull
+//    @Convert(converter = TrackStatusConverter.class)
+//    private TrackStatus status;
 
 //    public String getAuthorName(){
 //        return author!=null ? author.getFirstName() : "<none>";
@@ -76,6 +90,7 @@ public class Lecture {
     public String getAnnotation(){
         return annotation!=null ? annotation : "<none>";
     }
+    public String getDaysToFill() { return daysToFill!=null ? daysToFill : ""; }
     public String getVideoReference(){
         return videoReference!=null ? videoReference : "<none>";
     }
@@ -117,7 +132,14 @@ public class Lecture {
         this.series = series;
     }
     public Lecture(LectureDto lectureDto) {
+
         if (lectureDto.getModuleId() != null){
+            this.id = lectureDto.getId();
+        }
+
+        System.out.println("IDDB: " + lectureDto.getIdDb());
+
+        if (lectureDto.getIdDb()){
             this.id = lectureDto.getId();
         }
 
@@ -144,5 +166,14 @@ public class Lecture {
                     .collect(Collectors.toSet());
             this.authors = authorsSet;
         }
+        if (lectureDto.getDaysToFill() != null){
+            this.daysToFill = lectureDto.getDaysToFill();
+        }
+        String statusAsString = lectureDto.getStatus(); // Assuming lectureDto.getStatus() returns a String value
+        LectureStatus trackStatus = LectureStatus.valueOf(statusAsString);
+        this.lectureStatus = trackStatus;
+    }
+    public String getSupervisor(){
+        return supervisor!=null ? supervisor.getLastName() + " " + supervisor.getFirstName() + " " + supervisor.getMiddleName() : "<none>";
     }
 }

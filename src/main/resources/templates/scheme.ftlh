@@ -12,9 +12,12 @@
     <link rel="stylesheet" href="https://dev.track.samsmu.ru/static/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://dev.track.samsmu.ru/static/css/styles.css">
     <link rel="stylesheet" href="https://dev.track.samsmu.ru/static/css/select2.min.css">
+    <link rel="stylesheet" href="https://dev.track.samsmu.ru/static/css/dhtmlxgantt.css">
     <link rel="stylesheet" href="../css/bootstrap.min.css">
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/select2.min.css">
+    <link rel="stylesheet" href="../css/select2.min.css">
+    <link rel="stylesheet" href="../css/dhtmlxgantt.css">
 
 <#--    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />-->
 <#--    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>-->
@@ -27,7 +30,7 @@
       <div class="left-schema d-flex align-items-center justify-content-center">       
         <div>
           <div class="d-flex">
-            <div data-tooltip="Выберите элемент для создания">
+            <div data-tooltip="Создание заявки на курс лекций">
               <div class="d-flex justify-content-center align-items-center rounded-circle p-2 icon-circle bg-primary" id="networkWired">
                 <i class="fas fa-network-wired text-center text-white" id="iconNetworkWired"></i>
               </div>
@@ -39,9 +42,57 @@
           </div>
 
           <div class="d-flex">
-            <div data-tooltip="Заполните заявку">
+            <div data-tooltip="Заполнение лекций авторами">
               <div class="d-flex justify-content-center align-items-center rounded-circle p-2  icon-circle bg-white" id="signature">
                 <i class="fas fa-file-signature text-center" id="iconSignature"></i>
+              </div>
+              <div class="d-flex justify-content-center">
+                <div class="track-line">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex">
+            <div data-tooltip="Экспертиза">
+              <div class="d-flex justify-content-center align-items-center rounded-circle p-2  icon-circle bg-white" id="expertizeFilling">
+                <i class="fas fa-search text-center" id="iconExpertizeFilling"></i>
+              </div>
+              <div class="d-flex justify-content-center">
+                <div class="track-line">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex">
+            <div data-tooltip="Разработка курса лекций">
+              <div class="d-flex justify-content-center align-items-center rounded-circle p-2  icon-circle bg-white" id="developmentExecution">
+                <i class="fas fa-chart-line text-center" id="iconDevelopmentExecution"></i>
+              </div>
+              <div class="d-flex justify-content-center">
+                <div class="track-line">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex">
+            <div data-tooltip="Орфографическая и антиплагиатная проверка">
+              <div class="d-flex justify-content-center align-items-center rounded-circle p-2  icon-circle bg-white" id="antiplagiatCheck">
+                <i class="fas fa-search text-center" id="iconAntiplagiatCheck"></i>
+              </div>
+              <div class="d-flex justify-content-center">
+                <div class="track-line">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="d-flex">
+            <div data-tooltip="Публикация">
+              <div class="d-flex justify-content-center align-items-center rounded-circle p-2  icon-circle bg-white" id="productionExecution">
+                <i class="fas fa-compress-arrows-alt text-center" id="iconProductionExecution"></i>
               </div>
               <div class="d-flex justify-content-center">
                 <div class="track-line">
@@ -450,6 +501,7 @@
                 </#if>
                 <div class="modal-body"> 
                     <div class="mb-10">
+                      <b>Шаблон образовательного курса лекций</b><br>
                       <select class="form-control" class="form-control" id="trackModuleSeries" onchange="updateTrackHeadingModuleSeries()" name="seriesTrack" size="1">
                         <#if moduleFlag>
                           <option select class="form-control">Выберите шаблон</option>
@@ -458,17 +510,19 @@
                         </#if>
                         <#if profileTab>
                           <#list shapes as shape>
-                            <option value="${shape.id}">${shape.shapeName}</option>
+                            <option value="${shape.id}" <#if shape?index == 0>selected</#if>>${shape.shapeName}</option>
                           </#list>
                         </#if>
 
                       </select class="form-control">
                     </div>
                     <#if moduleFlag>
+                      <b>Наименование образовательного курса лекций</b><br>
                       <div class="mb-10">
                         <input type="text" class="form-control mb-2" id="moduleSeriesName" oninput="updateTrackHeadingModuleSeries()" name="seriesName" placeholder="Название курса лекций">
                       </div>
                     <#else>
+                      <b>Наименование образовательного курса лекций</b><br>
                         <div class="mb-10">
                           <input type="text" class="form-control mb-2" id="moduleSeriesName" oninput="updateTrackHeadingModuleSeries()" name="seriesName" value="${seriesOne.seriesName}">
                       </div>
@@ -476,33 +530,33 @@
                     <div class="my-4">
                     <p><b>Руководитель курса лекций</b></p>
                     <div>
-                      <div class="form-check mb-10">
-                        <input class="form-check-input" type="checkbox" name="is-emsloyeeModule"  onclick="authorSamGMUModule()">
-                        <label class="form-check-label">Руководитель является сотрудником СамГМУ</label>
-                      </div>
-                      <div class="hidden" id="authorSamGMUModule">
-                        <select class="js-data-example-ajax form-control mb-10" name="author" onchange="selectAuthorModule(this.value, 'selectAuthorToModule', 'tableAuthorMod', true, true)" id="selectAuthorToModule"></select>
-                      </div>
+<#--                      <div class="form-check mb-10">-->
+<#--                        <input class="form-check-input" type="checkbox" name="is-emsloyeeModule"  onclick="authorSamGMUModule()">-->
+<#--                        <label class="form-check-label">Руководитель является сотрудником СамГМУ</label>-->
+<#--                      </div>-->
+<#--                      <div class="hidden" id="authorSamGMUModule">-->
+<#--                        <select class="js-data-example-ajax form-control mb-10" name="author" onchange="selectAuthorModule(this.value, 'selectAuthorToModule', 'tableAuthorMod', true, true)" id="selectAuthorToModule"></select>-->
+<#--                      </div>-->
 
-                      <div id="authorWorldModule">
-                        <input class="form-control mb-10" type="text" id="inputNameAuthorModule"  placeholder="Введите ФИО автора"></input>
-                        <div class="d-flex mb-10">
-                          <select class="form-control w-75 mr-10" id="regalia" size="1" onclick="selectReg(this.value)">
-                            <option  disabled>Выберите регалии</option>
-                            <option>Профессор</option>
-                            <option>К.М.Н.</option>
-                            <option>Доцент</option>
-                            <option>Зав. кафедрой</option>
-                          </select>
-                        </div>
+<#--                      <div id="authorWorldModule">-->
+<#--                        <input class="form-control mb-10" type="text" id="inputNameAuthorModule"  placeholder="Введите ФИО автора"></input>-->
+<#--                        <div class="d-flex mb-10">-->
+<#--                          <select class="form-control w-75 mr-10" id="regalia" size="1" onclick="selectReg(this.value)">-->
+<#--                            <option  disabled>Выберите регалии</option>-->
+<#--                            <option>Профессор</option>-->
+<#--                            <option>К.М.Н.</option>-->
+<#--                            <option>Доцент</option>-->
+<#--                            <option>Зав. кафедрой</option>-->
+<#--                          </select>-->
+<#--                        </div>-->
 
-                        <div class="d-flex" id="addRegalii">
-                        </div>
+<#--                        <div class="d-flex" id="addRegalii">-->
+<#--                        </div>-->
 
-                        <button type="button" class="btn btn-primary mt-3" id="createAuthorButtonModule">
-                          <i class="fas fa-plus"></i>
-                        </button>
-                      </div>
+<#--                        <button type="button" class="btn btn-primary mt-3" id="createAuthorButtonModule">-->
+<#--                          <i class="fas fa-plus"></i>-->
+<#--                        </button>-->
+<#--                      </div>-->
 
                       <div>
                         <table class="table table-hover editable" id="tableAuthorMod" name="authorsMod">
@@ -519,12 +573,12 @@
                     </div>
                     <#if moduleFlag>
                       <div class="my-4">
-                        <b>Аннотация/содержание образовательного Модуля</b><br>
+                        <b>Аннотация/содержание образовательного курса лекций</b><br>
                         <textarea class="form-control" name="seriesAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#"></textarea>
                       </div>
                     <#else>
                         <div class="my-4">
-                          <b>Аннотация/содержание образовательного Модуля</b><br>
+                          <b>Аннотация/содержание образовательного курса лекций</b><br>
                           <textarea class="form-control" name="seriesAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#">${seriesOne.annotation}</textarea>
                         </div>
                     </#if>
@@ -702,15 +756,61 @@
 
                     </div>
                   </div>
+
+                  <div id="gantt_here" class="hidden" style='width:100%; height:400px;'></div>
+
                   <div class="modal-footer">
                     <button type="submit" id="saveModuleM" class="btn btn-primary">Добавить курс лекций</button>
                     <button type="submit" id="editModuleM" class="btn btn-primary hidden">Редактировать курс лекций</button>
-                    <button type="button" id="sendForApproval" class="btn btn-primary hidden" onclick="sendForApprovalCourse('sendCourse')">Отправить на согласование</button>
-                    <button type="button" id="sendForExecution" class="btn btn-primary hidden" onclick="sendForApprovalCourse('sendCourseForExecution')">Отправить на исполнение</button>
+                    <button type="button" id="sendForApproval" class="btn btn-primary" onclick="sendForApprovalCourse('sendCourse', this, true)">Отправить на согласование</button>
+                    <button type="button" id="sendForExecution" class="btn btn-primary hidden" onclick="setDaysForFillingDialog()">Отправить на исполнение</button>
                   </div>
                 </div>
               </div>
               </form>
+            </div>
+
+            <div class="modal-wrapper">
+              <div class="lectureModal shadow hidden" id="daysToFillModal">
+                <div class="modal-header">
+                  <h5>Список лекций</h5>
+                  <button type="button" class="btn-close" onclick="btnClose()"></button>
+                </div>
+                <div class="modal-content">
+                  <div class="modal-body">
+                <table id="lectureTableDaysToFill" class="table table-striped w-100">
+                  <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Название</th>
+                    <th>Дней на заполнение</th>
+                  </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+                    <div class="d-flex">
+                      <label for="daysSelect" class="m-2">Календарных дней на заполнение карточки авторам:</label>
+                      <select  class="form-control w-25 mx-2" id="daysSelect">
+                        <option value="1">1 день</option>
+                        <option value="2">2 дня</option>
+                        <option value="3">3 дня</option>
+                        <option value="4">4 дня</option>
+                        <option value="5">5 дней</option>
+                        <option value="6">6 дней</option>
+                        <option value="7">7 дней</option>
+                        <option value="8">8 дней</option>
+                        <option value="9">9 дней</option>
+                        <option value="10">10 дней</option>
+                      </select>
+                    </div>
+
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="sendForExecutionFromTableDays" onclick="sendForApprovalCourse('sendCourseForExecution', null, true)">Отправить</button>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
             </div>
 
             <!-- Заявка на Лекцию всплывающая для дерева модуля -->
@@ -729,12 +829,12 @@
                       </div>
                       <div class="modal-body">
 
-                        <div class="mb-10">
-                          <p id="trackHeadingInLectureModuleSeries" class="m-0 p-0 flex-nowrap w-75">Образовательный трек</p>
-                        </div>
+<#--                        <div class="mb-10">-->
+<#--                          <p id="trackHeadingInLectureModuleSeries" class="m-0 p-0 flex-nowrap w-75">Образовательный трек</p>-->
+<#--                        </div>-->
 
                         <div class="mb-10">
-                          <p id="moduleHeadingInLectureModuleSeries" class="m-0 p-0 flex-nowrap w-75">Образовательный модуль</p>
+                          <p id="moduleHeadingInLectureModuleSeries" class="m-0 p-0 flex-nowrap w-75">Образовательный курс лекций</p>
                         </div>
 
                         <div class="my-4">
@@ -795,6 +895,12 @@
                           <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Дополнительные ключеные слова</b><br>
                           <textarea class="form-control" id="lectureModalKeyWordsModule" name="module-annotation" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;"></textarea>
                         </div>
+
+<#--                        <div class="mt-10 mb-10">-->
+<#--                          <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Дней на заполнение</b><br>-->
+<#--                          <textarea class="form-control" id="lectureDaysToFill" name="module-annotation" cols="80" rows="2" placeholder="Количество дней для автора на заполнение"></textarea>-->
+<#--                        </div>-->
+
 
                       </div>
                     </div>
@@ -1123,7 +1229,7 @@
 <#--    <script src="https://track.samsmu.ru/js/editTrack.js"></script>-->
 <#--    <script src="https://track.samsmu.ru/js/editModule.js"></script>-->
 <#--    <script src="https://track.samsmu.ru/js/editLecture.js"></script>-->
-
+    <script src="https://dev.track.samsmu.ru/static/js/dhtmlxgantt.js"></script>
     <script src="https://dev.track.samsmu.ru/static/js/select2.min.js"></script>
     <script src="https://dev.track.samsmu.ru/static/js/popper.min.js"></script>
     <script src="https://dev.track.samsmu.ru/static/js/bootstrap.min.js"></script>
@@ -1136,6 +1242,7 @@
     <script src="https://dev.track.samsmu.ru/static/js/editTrack.js"></script>
     <script src="https://dev.track.samsmu.ru/static/js/editModule.js"></script>
     <script src="https://dev.track.samsmu.ru/static/js/editLecture.js"></script>
+
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
@@ -1152,6 +1259,7 @@
     <script src="../js/editTrack.js"></script>
     <script src="../js/editModule.js"></script>
     <script src="../js/editLecture.js"></script>
+    <script src="../js/dhtmlxgantt.js"></script>
 
     <script>
       function closeModal() {
@@ -1162,10 +1270,81 @@
       }
     </script>
 
-
-
     <script>
+      var defaultTime = 1;
+      document.getElementById('saveLectureInModuleSeries').addEventListener('click', function() {
+        setTimeout(function() {
+          gantt.i18n.setLocale("ru");
+          gantt.config.date_format = "%Y-%m-%d %H:%i";
+          gantt.init("gantt_here");
+          let i = 0;
+          let k = 0;
+          let maxDay = 1;
 
+          console.log("Лекции: " + module.lectures.length);
+          console.log("Лекция: " + module.lectures[0].lectureModuleName);
+          let data = [];
+            data.push({
+              id: 1, // увеличиваем id на 1, чтобы избежать конфликтов с уже имеющимися данными
+              text: module.seriesName,
+              start_date: getCurrentDateTime(),
+              duration: 30,
+              parent: 0, // указываем id родительского элемента (в данном случае, 1)
+              progress: 0,
+              open: true
+            });
+          for (i; i < module.lectures.length; i++) {
+            data.push({
+              id: i+2, // увеличиваем id на 1, чтобы избежать конфликтов с уже имеющимися данными
+              text: "Заполнение лекции " + "< " + module.lectures[i].lectureModuleName + " >" + " авторами",
+              start_date: getCurrentDateTime(),
+              duration: module.lectures[i].daysToFill !== null ? parseInt(module.lectures[i].daysToFill) : defaultTime,
+              parent: 1, // указываем id родительского элемента (в данном случае, 1)
+              progress: 0
+            })
+          }
+          console.log("i после прохода по лекциям: " + i);
+          let exp = i;
+
+          // for (let j = 0; j < module.lectures.length; j++){
+          //   if (module.lectures[j].daysToFill !== null ? parseInt(module.lectures[j].daysToFill) : 7 > maxDay)
+          //     maxDay = module.lectures[j].daysToFill !== null ? parseInt(module.lectures[j].daysToFill) : 7 > maxDay;
+          // }
+          console.log("maxDay: " + maxDay);
+
+          data.push({
+            id: i + 1 + module.lectures.length,
+            text: "Экспертиза",
+            start_date: addDaysToCurrentDateTime(defaultTime + 1),
+            duration: 5,
+            parent: 1, // указываем id родительского элемента (в данном случае, 1)
+            progress: 0
+          });
+          exp = i + 1 + module.lectures.length;
+          console.log(data);
+
+          let links = [];
+          for (k; k < module.lectures.length; k++) {
+            links.push({
+              id: k+1,
+              source: k+2,
+              target: exp,
+              type:"0"
+            })
+          }
+          console.log(links);
+          gantt.parse({
+            data,
+            links
+          });
+        }, 1000);
+      });
+
+    </script>
+    <script>
+      var supervisorUploaded = false;
+      window.token = '';
+      window.supervisor = null;
       var jwtReceived = false;
       var axiosConfig  = {
         headers: {
@@ -1180,8 +1359,44 @@
         jwtReceived = true;
         console.log("appTest JWT -> " + axiosConfig.headers.Authorization);
         localStorage.setItem('authorization', "Bearer " + axiosConfig.headers.Authorization);
+        window.token = "Bearer " + axiosConfig.headers.Authorization;
         console.log("localStorage JWT -> " + localStorage.authorization);
+        console.log("window.token -> " + window.token);
+        // Создание объекта запроса
+        const requestOptions = {
+          method: 'GET',
+          headers: {
+            "Authorization": window.token
+          }
+        };
+
+        // Отправка запроса
+        fetch(`https://dev.track.samsmu.ru/supervisor/`, requestOptions)
+                .then(response => response.json())
+                .then(data => {
+                  window.supervisor = new Author();
+                  window.supervisor.id = data.id;
+                  window.supervisor.fullName = data.fullName;
+                  window.supervisor.degree = data.degree;
+                  window.supervisor.isSupervisor = data.isSupervisor;
+                  window.supervisor.passport = data.passport;
+                  window.supervisor.diploma = data.diploma;
+                  window.supervisor.diplomaScienceRank = data.diplomaScienceRank;
+                  window.supervisor.diplomaScienceDegree = data.diplomaScienceDegree;
+                  window.supervisor.noCriminalRecord = data.noCriminalRecord;
+                  window.supervisor.healthStatus = data.healthStatus;
+                  window.supervisor.employmentBook = data.employmentBook;
+                  console.log('Результат:', window.supervisor);
+                  if (!supervisorUploaded){
+                    selectAuthorModule(window.supervisor, null, "tableAuthorMod", true, true);
+                    supervisorUploaded = true;
+                  }
+
+                })
+                .catch(error => console.error('Ошибка:', error));
       });
+
+
 
       class Mkb {
         constructor(value, track, module, lecture) {
@@ -1274,6 +1489,12 @@
       });
       </#if>
 
+      // window.onload = function() {
+      //   let timerId = setTimeout(selectAuthorModule(window.supervisor, null, "tableAuthorMod", true, true), 6000);
+      // }
+
+
+
       function real(string){
         if (string === undefined){
           return '';
@@ -1286,19 +1507,19 @@
 
       //изменить "редактировать" на "сохранить" у submit button для трека
 
-      document.addEventListener("keyup", function(event) {
-        let editTrack = document.getElementById('editTrack');
-        if (!editTrack.classList.contains('hidden')){
-        let inputValue = event.target.value; // Получаем значение поля ввода
-        console.log(inputValue);
-        // Проверяем, является ли целевой элемент полем ввода
-        if (event.target.classList.contains("editable")) {
-          // Меняем название кнопки в зависимости от значения поля ввода
-          console.log('является');
-          editTrack.textContent = "Сохранить трек"
-          }
-        }
-      });
+      // document.addEventListener("keyup", function(event) {
+      //   let editTrack = document.getElementById('editTrack');
+      //   if (!editTrack.classList.contains('hidden')){
+      //   let inputValue = event.target.value; // Получаем значение поля ввода
+      //   console.log(inputValue);
+      //   // Проверяем, является ли целевой элемент полем ввода
+      //   if (event.target.classList.contains("editable")) {
+      //     // Меняем название кнопки в зависимости от значения поля ввода
+      //     console.log('является');
+      //     editTrack.textContent = "Сохранить трек"
+      //     }
+      //   }
+      // });
 
 
       function authorSamGMUModule() {
@@ -1457,10 +1678,10 @@
         nameProf.append(closeIcon);
       }
 
-      function showDoc(el) {
-        var tbl = el.parentElement.parentElement;
-        tbl.rows[1].classList.toggle('hidden');
-      }
+      // function showDoc(el) {
+      //   var tbl = el.parentElement.parentElement;
+      //   tbl.rows[1].classList.toggle('hidden');
+      // }
 
 
 
