@@ -172,6 +172,10 @@ function addLectureSchemeModule() {
     let lectureModalName = document.getElementById('lectureModalNameModule').value;
     let lectureModalAnnotation = document.getElementById('lectureModalAnnotationModule').value;
     let lectureModalKeyWords = document.getElementById('lectureModalKeyWordsModule').value;
+    let learnCompetenceOne = document.getElementById('learnCompetenceOne').value;
+    let learnCompetenceTwo = document.getElementById('learnCompetenceTwo').value;
+    let learnCompetenceThree = document.getElementById('learnCompetenceThree').value;
+    let learnCompetenceFour = document.getElementById('learnCompetenceFour').value;
     // let lectureDaysToFill = document.getElementById('lectureDaysToFill').value;
     let authors = [];
     for (let author of moduleAuthors) {
@@ -179,7 +183,11 @@ function addLectureSchemeModule() {
             authors.push(author)
         }
     }
-    let lecture = new Lecture(lectureModalId, null, lectureModalName, lectureModalAnnotation, lectureModalKeyWords, authors, defaultTime, "NOT_SENT", false);
+    let lecture = new Lecture(lectureModalId, null, lectureModalName,
+        lectureModalAnnotation, lectureModalKeyWords,
+        authors, defaultTime, "NOT_SENT", false,
+        learnCompetenceOne, learnCompetenceTwo,
+        learnCompetenceThree, learnCompetenceFour);
     lectures.push(lecture);
     const seriesName = moduleForm.seriesName.value;
     const data = {
@@ -237,6 +245,10 @@ function addLectureSchemeModule() {
     document.getElementById('lectureModalNameModule').value = "";
     document.getElementById('lectureModalAnnotationModule').value = "";
     document.getElementById('lectureModalKeyWordsModule').value = "";
+    document.getElementById('learnCompetenceOne').value = "";
+    document.getElementById('learnCompetenceTwo').value = "";
+    document.getElementById('learnCompetenceThree').value = "";
+    document.getElementById('learnCompetenceFour').value = "";
     // document.getElementById('lectureDaysToFill').value = "";
     document.getElementById('tableAuthorModal').innerHTML = '';
     document.getElementById("gantt_here").classList.remove("hidden");

@@ -48,6 +48,14 @@ public class Lecture {
     private LocalDate endDate;
     @Column(name = "days_to_fill")
     private String daysToFill;
+    @Column(name = "learn_competence_one")
+    private String learnCompetenceOne;
+    @Column(name = "learn_competence_two")
+    private String learnCompetenceTwo;
+    @Column(name = "learn_competence_three")
+    private String learnCompetenceThree;
+    @Column(name = "learn_competence_four")
+    private String learnCompetenceFour;
     @Column(name = "lecture_status")
     @Enumerated
     private LectureStatus lectureStatus;
@@ -172,6 +180,19 @@ public class Lecture {
         String statusAsString = lectureDto.getStatus(); // Assuming lectureDto.getStatus() returns a String value
         LectureStatus trackStatus = LectureStatus.valueOf(statusAsString);
         this.lectureStatus = trackStatus;
+
+        if (lectureDto.getLearnCompetenceOne() != null){
+            this.learnCompetenceOne = lectureDto.getLearnCompetenceOne();
+        }
+        if (lectureDto.getLearnCompetenceTwo() != null){
+            this.learnCompetenceTwo = lectureDto.getLearnCompetenceTwo();
+        }
+        if (lectureDto.getLearnCompetenceThree() != null){
+            this.learnCompetenceThree = lectureDto.getLearnCompetenceThree();
+        }
+        if (lectureDto.getLearnCompetenceFour() != null){
+            this.learnCompetenceFour = lectureDto.getLearnCompetenceFour();
+        }
     }
     public String getSupervisor(){
         return supervisor!=null ? supervisor.getLastName() + " " + supervisor.getFirstName() + " " + supervisor.getMiddleName() : "<none>";

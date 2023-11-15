@@ -84,21 +84,21 @@
 	<table>
 		<tr>
 			<th>Вы узнаете</th>
-			<td>как оперировать</td>
+			<td>${lecture.learnCompetenceOne}</td>
 		</tr>
 		<tr>
 			<th>Вы поймете</th>
-			<td>что делать</td>
+			<td>${lecture.learnCompetenceTwo}</td>
 		</tr>
 		<tr>
 			<th>Вы научитесь</th>
-			<td>зашивать</td>
+			<td>${lecture.learnCompetenceThree}</td>
 		</tr>
 		<tr>
 			<th>Вы сможете
 				делать это
 				самостоятельно</th>
-			<td>заполнять отчеты</td>
+			<td>${lecture.learnCompetenceFour}</td>
 		</tr>
 
 	</table>

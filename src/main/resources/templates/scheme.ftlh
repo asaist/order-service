@@ -143,8 +143,7 @@
         <#elseif !lectureFlag>
           <ul class="nav nav-pills" id="myTab" role="tablist">
             <li class="nav-item hidden" role="presentation">
-              <button class="nav-link" id="home-tab" data-bs-toggle="tab" data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="false">Трек</button>
-            </li>
+             </li>
             <li class="nav-item hidden" role="presentation" id="moduleHideSeries">
               <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Модуль</button>
             </li>
@@ -900,6 +899,25 @@
 <#--                          <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Дней на заполнение</b><br>-->
 <#--                          <textarea class="form-control" id="lectureDaysToFill" name="module-annotation" cols="80" rows="2" placeholder="Количество дней для автора на заполнение"></textarea>-->
 <#--                        </div>-->
+                        <div class="mb-10">
+                          <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Компетенции: </b><br>
+                        <div class="mt-10 mb-10">
+                          <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Вы узнаете: </b><br>
+                          <textarea class="form-control" id="learnCompetenceOne" name="module-annotation" cols="80" rows="2" placeholder="Вы узнаете: "></textarea>
+                        </div>
+                          <div class="mt-10 mb-10">
+                            <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Вы поймете: </b><br>
+                            <textarea class="form-control" id="learnCompetenceTwo" name="module-annotation" cols="80" rows="2" placeholder="Вы поймете: "></textarea>
+                          </div>
+                          <div class="mt-10 mb-10">
+                            <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Вы научитесь: </b><br>
+                            <textarea class="form-control" id="learnCompetenceThree" name="module-annotation" cols="80" rows="2" placeholder="Вы научитесь: "></textarea>
+                          </div>
+                          <div class="mt-10 mb-10">
+                            <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Вы сможете делать это самостоятельно: </b><br>
+                            <textarea class="form-control" id="learnCompetenceFour" name="module-annotation" cols="80" rows="2" placeholder="Вы сможете делать это самостоятельно: "></textarea>
+                          </div>
+                        </div>
 
 
                       </div>
