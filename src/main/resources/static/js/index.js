@@ -260,3 +260,26 @@ function allLecture() {
 	let allLecture = document.getElementById('allLecture');
 	allLecture.classList.remove('hidden');
 }
+
+document.addEventListener("DOMContentLoaded", function() {
+	// Получаем ссылку на пункт "Profile" и контейнер <div container fluid>
+	var profileLink = document.querySelector("#profile-tab");
+	var container = document.querySelector("div[container]");
+
+	// Обрабатываем клик по ссылке "Profile"
+	profileLink.addEventListener("click", function(event) {
+		event.preventDefault(); // Предотвращаем переход по ссылке
+
+		// Удаляем класс "active" у других пунктов навигации, если есть
+		var navItems = document.querySelectorAll(".nav-item");
+		for (var i = 0; i < navItems.length; i++) {
+			navItems[i].classList.remove("active");
+		}
+
+		// Добавляем класс "active" к пункту "Profile"
+		profileLink.parentNode.classList.add("active");
+
+		// Удаляем атрибут "hidden" из контейнера <div container fluid>
+		container.removeAttribute("hidden");
+	});
+});

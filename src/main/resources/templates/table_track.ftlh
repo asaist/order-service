@@ -14,23 +14,34 @@
 
   <body>
 
-    <div class="container-fluid p-3">
-      <h3>Доступные треки</h3>
+  <div class="d-flex">
+    <ul class="nav nav-pills" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation" id="moduleHideSeries">
+        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Курсы лекций</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane" aria-selected="false">Лекции</button>
+      </li>
+    </ul>
+  </div>
+
+    <div class="container-fluid p-3 hidden">
+      <h3>Доступные курсы лекций</h3>
 
       <form class="d-flex my-2">
         <form method="get" action="/table_track" class="form-inline">
-          <input type="text" name="filter" class="form-control ml-2 w-50" value="${filter?ifExists}" placeholder="Введите название трека">
+          <input type="text" name="filter" class="form-control ml-2 w-50 hidden" value="${filter?ifExists}" placeholder="Введите название курса лекций">
           <button class="btn btn-icon btn-sm mx-2" type="submit" ><i class="fas fa-search"></i></button>
-          <button class="btn btn-outline-primary btn-sm mx-2" type="button" data-tooltip="Добавить трек" onclick="location.href='/';"><i class="fas fa-plus mx-1"></i></button>
+          <button class="btn btn-outline-primary btn-sm mx-2" type="button" data-tooltip="Добавить курс лекций" onclick="location.href='/';"><i class="fas fa-plus mx-1"></i></button>
         </form>
       </form>
 
       <table class="table table-bordered">
         <tr class="th-table">
           <th class="th-table" scope="col">№</th>
-          <th class="th-table" scope="col">Название трека</th>
-          <th class="th-table" scope="col">Руководитель трека</th>
-          <th class="th-table" scope="col">Аннотация трека</th>
+          <th class="th-table" scope="col">Название </th>
+          <th class="th-table" scope="col">Руководитель </th>
+          <th class="th-table" scope="col">Аннотация </th>
           <th class="th-table" scope="col">Эксперт</th>
           <th class="th-table" scope="col">Дата создания</th>
           <th class="th-table" scope="col"></th>
@@ -135,6 +146,7 @@
         let targetAudienceUsers = document.getElementById('targetAudienceUsers');
         targetAudienceUsers.classList.toggle("text-primary");
       }
+
     </script>     
   </body>  
 </html>
