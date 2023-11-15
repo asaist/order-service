@@ -2,6 +2,7 @@ package ru.mcclinics.orderservice.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.itextpdf.text.DocumentException;
+import freemarker.template.TemplateException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.sf.jasperreports.engine.JRException;
@@ -277,7 +278,7 @@ public class SchemeController {
 
     @PostMapping(value = "/sendCourse", consumes = {"application/json"})
     public ResponseEntity sendCourseForApproval(@RequestParam Long savedSeries
-    ) throws DocumentException, IOException, JRException {
+    ) throws DocumentException, IOException, JRException, TemplateException {
 
 //        String greeting = "Вам направляется на согласование : https://dev.track.samsmu.ru/";
 //        String base64 = pdfGenertor.generatePdf(greeting + "track/" + savedTrack);
@@ -303,11 +304,10 @@ public class SchemeController {
         });
 
             List<OrderDocument> orderDocumentList = Arrays.asList(reportData);
-            documentProcessingService.generatePdfForApprove((
-                    Collection<?>) orderDocumentList,
+            documentProcessingService.generatePdfForApprove(reportData,
                     ApplicationForApprovalProcessType,
                     supervisor.getGuid(),
-                    null, null, null, lectureDtos);
+                    null, null, initDocType, lectureDtos);
         return ResponseEntity.ok(200);
     }
     @PostMapping(value = "/sendCourseForExecution", consumes = {"application/json"})

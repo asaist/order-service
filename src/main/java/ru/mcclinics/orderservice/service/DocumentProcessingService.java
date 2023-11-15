@@ -3,6 +3,7 @@ package ru.mcclinics.orderservice.service;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import freemarker.template.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
@@ -17,17 +18,19 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.client.RestTemplate;
 import ru.mcclinics.orderservice.domain.OrderDocument;
+import ru.mcclinics.orderservice.domain.Series;
 import ru.mcclinics.orderservice.dto.DocumentDto;
 import ru.mcclinics.orderservice.dto.LectureDto;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 import static org.springframework.security.oauth2.core.OAuth2TokenIntrospectionClaimNames.CLIENT_ID;
 import static org.springframework.security.oauth2.core.endpoint.OAuth2ParameterNames.CLIENT_SECRET;
-import static ru.mcclinics.orderservice.rest.SchemeController.ApplicationForApprovalProcessType;
 
 @Slf4j(topic = "order-service")
 @Service
@@ -188,32 +191,96 @@ public class DocumentProcessingService {
     }
 
 
-    public void generatePdfForApprove(Collection<?> reportData, String processType,
-                                  String supervisorGuid, String executorGuid,
-                                  String link, String initDocType, List<LectureDto> lectureDtos)
-            throws JRException, IOException {
+    public void generatePdfForApprove(OrderDocument reportData, String processType,
+                                      String supervisorGuid, String executorGuid,
+                                      String link, String initDocType, List<LectureDto> lectureDtos)
+            throws JRException, IOException, TemplateException {
+        //------------------------------------------------------------------------------------------------------------
+//        // Загрузка шаблона отчета Jasper Reports из файла
+//        Resource resource = null;
+//        resource = new ClassPathResource("/reports/order_to_expert.jrxml");
+//
+//        InputStream jasperReportStream = resource.getInputStream();
+//        JasperReport jasperReport = JasperCompileManager.compileReport(jasperReportStream);
+//
+//        // Заполнение отчета данными
+//        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(reportData);
+//        JRBeanCollectionDataSource itemJRBean = new JRBeanCollectionDataSource(lectureDtos);
+//        Map<String, Object> parameters = new HashMap<>();
+//        parameters.put("CollectionBeanParam", itemJRBean);
+//        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+//        JasperExportManager.exportReportToPdfFile(jasperPrint, "report.pdf");
+//
+//        // Преобразование отчета в PDF и кодирование его в Base64
+//        byte[] pdfBytes = JasperExportManager.exportReportToPdf(jasperPrint);
+//        String base64 = Base64.getEncoder().encodeToString(pdfBytes);
+//        System.out.println(base64);
+        //------------------------------------------------------------------------------------------------------------
+        String base64 = null;
+        try {
 
-        // Загрузка шаблона отчета Jasper Reports из файла
-        Resource resource = null;
-        resource = new ClassPathResource("/reports/order_to_expert.jrxml");
-        InputStream jasperReportStream = resource.getInputStream();
-        JasperReport jasperReport = JasperCompileManager.compileReport(jasperReportStream);
+            // Подготовка данных модели
+            Series series = new Series();
+            series.setSeriesName("Your Series Name");
 
-        // Заполнение отчета данными
-        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(reportData);
-        JRBeanCollectionDataSource itemJRBean = new JRBeanCollectionDataSource(lectureDtos);
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("CollectionBeanParam", itemJRBean);
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-        JasperExportManager.exportReportToPdfFile(jasperPrint, "report.pdf");
+            Map<String, Object> model = new HashMap<>();
+            model.put("reportData", reportData);
+            model.put("lectures", lectureDtos);
 
-        // Преобразование отчета в PDF и кодирование его в Base64
-        byte[] pdfBytes = JasperExportManager.exportReportToPdf(jasperPrint);
-        String base64 = Base64.getEncoder().encodeToString(pdfBytes);
-        System.out.println(base64);
+            // Создание объекта конфигурации FreeMarker
+            Configuration configuration = new Configuration();
+
+            // Установка пути к шаблонам (директория, где находятся .ftlh файлы)
+            configuration.setClassForTemplateLoading(FreemarkerUtils.class, "/templates");
+            configuration.setDefaultEncoding("UTF-8");
+            configuration.setObjectWrapper(new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_31).build());
+            // Загрузка и компиляция шаблона
+            Template template = configuration.getTemplate("annotation_to_track.ftlh", StandardCharsets.UTF_8.name());
+
+            // Отрисовка шаблона с данными
+            StringWriter writer = new StringWriter();
+            template.process(model, writer);
+            String renderedHtmlContent = writer.toString();
+
+            System.out.println("FTLH -> HTML: " + renderedHtmlContent);
+
+            String fileName = "output.html";
+            try (PrintWriter writer1 = new PrintWriter(fileName, "UTF-8")) {
+                writer1.print(renderedHtmlContent);
+            } catch (FileNotFoundException | UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+
+            // Кодирование HTML-документа в формат Base64
+            base64 = Base64.getEncoder().encodeToString(renderedHtmlContent.getBytes(StandardCharsets.UTF_8));
+
+            System.out.println(base64);
+        } catch (IOException | TemplateException e) {
+            // Обработка исключения, если файл не найден, возникла ошибка чтения или отрисовки шаблона
+            e.printStackTrace();
+        }
 
         // Отправка PDF в виде Base64 через RestTemplate
-//        launchProcess(base64, processType, supervisorGuid, executorGuid, initDocType);
+        launchProcess(base64, processType, supervisorGuid, executorGuid, initDocType);
+
+
+    }
+
+    public void testFreeMarker() throws Exception {
+
+        Series series = new Series();
+        series.setSeriesName("Your Series Name");
+        Map<String, Object> root = new HashMap<String, Object>();
+        root.put("series", series );
+        StringWriter out = new StringWriter();
+
+        Configuration cfg = new Configuration();
+        cfg.setClassForTemplateLoading(FreemarkerUtils.class, "/templates" );
+        cfg.setObjectWrapper( new DefaultObjectWrapper());
+        Template temp = cfg.getTemplate( "annotation_to_track.ftlh" );
+        temp.process(root, out);
+
+        System.out.println(out.getBuffer().toString());
     }
 
 }
