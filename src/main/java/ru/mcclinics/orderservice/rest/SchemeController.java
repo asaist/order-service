@@ -22,7 +22,6 @@ import ru.mcclinics.orderservice.service.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -266,45 +265,26 @@ public class SchemeController {
                 .collect(Collectors.joining("; "));
         reportData.setAuthors(authorsNames);
         List<OrderDocument> orderDocumentList = Arrays.asList(reportData);
-        documentProcessingService.generatePdfJasper(
-                (Collection<?>) orderDocumentList,
+        LectureDto lectureDto = new LectureDto();
+        documentProcessingService.generatePdfForExecution(
+                lectureDto,
                 ApplicationForApprovalProcessType,
                 track.getSupervisor(),
-                null, null, null, null);
+                null, null);
 
 
         return ResponseEntity.ok(200);
     }
 
     @PostMapping(value = "/sendCourse", consumes = {"application/json"})
-    public ResponseEntity sendCourseForApproval(@RequestParam Long savedSeries
-    ) throws DocumentException, IOException, JRException, TemplateException {
-
-//        String greeting = "Вам направляется на согласование : https://dev.track.samsmu.ru/";
-//        String base64 = pdfGenertor.generatePdf(greeting + "track/" + savedTrack);
-//        documentProcessingService.launchProcess(base64);
+    public ResponseEntity sendCourseForApproval(@RequestParam Long savedSeries) throws IOException {
         System.out.println("CONTROLLER: " + "/sendCourse");
         Series series = seriesService.findSeriesById(savedSeries);
         Author supervisor = series.getSupervisor();
         List<Lecture> lectures = series.getLectures();
         List<LectureDto> lectureDtos = lectures.stream().map(LectureDto::new).collect(toList());
-
-        OrderDocument reportData = new OrderDocument(series);
-        System.out.println("Наименование курса: " + reportData.getName());
-        System.out.println("Аннотация курса: " + reportData.getAnnotation());
-        System.out.println("Ключевые слова курса: " + reportData.getKeywords());
-
-        lectureDtos.stream().forEach(lectureDto -> {
-            System.out.println("Наименование лекции: " + lectureDto.getLectureModuleName());
-            System.out.println("Наименование  ID: " + lectureDto.getId());
-            System.out.println("Аннотация лекции: " + lectureDto.getLectureModuleAnnotation());
-            System.out.println("Ключевые слова лекции: " + lectureDto.getLectureModuleKeyWords());
-            System.out.println("Руководитель лекции: " + lectureDto.getSupervisor());
-            // Выведите остальные поля, если они есть
-        });
-
-            List<OrderDocument> orderDocumentList = Arrays.asList(reportData);
-            documentProcessingService.generatePdfForApprove(reportData,
+        ModuleDto moduleDto = new ModuleDto(series);
+        documentProcessingService.generatePdfForApprove(moduleDto,
                     ApplicationForApprovalProcessType,
                     supervisor.getGuid(),
                     null, null, initDocType, lectureDtos);
@@ -314,11 +294,7 @@ public class SchemeController {
     public ResponseEntity sendCourseForExecution(
             @RequestParam Long savedSeries,
             @RequestParam(required = false) Long savedLecture
-    ) throws DocumentException, IOException, JRException {
-
-//        String greeting = "Вам направляется на согласование : https://dev.track.samsmu.ru/";
-//        String base64 = pdfGenertor.generatePdf(greeting + "track/" + savedTrack);
-//        documentProcessingService.launchProcess(base64);
+    ) throws IOException, JRException {
         Series series = seriesService.findSeriesById(savedSeries);
         Author supervisor = series.getSupervisor();
         List<Lecture> lectures = new ArrayList<>();
@@ -329,19 +305,16 @@ public class SchemeController {
         } else {
             lectures = series.getLectures();
         }
-
         for (Lecture lecture : lectures) {
-            OrderDocument reportData = new OrderDocument(lecture);
-            List<OrderDocument> orderDocumentList = Arrays.asList(reportData);
+            LectureDto lectureDto = new LectureDto(lecture);
             for (Author author : lecture.getAuthors()){
-                documentProcessingService.generatePdfJasper((
-                                Collection<?>) orderDocumentList,
+                documentProcessingService.generatePdfForExecution(
+                        lectureDto,
                         ForExecutionProcessType,
                         supervisor.getGuid(),
-                        author.getGuid(), reportData.getLink(), initDocType, null);
+                        author.getGuid(), initDocType);
             }
         }
-
         return ResponseEntity.ok(200);
     }
 
@@ -358,6 +331,10 @@ public class SchemeController {
     ){
         Long seriesId = null;
         Series series = new Series();
+        series.setModuleLearnCompetenceOne(moduleRequestData.getModuleLearnCompetenceOne());
+        series.setModuleLearnCompetenceTwo(moduleRequestData.getModuleLearnCompetenceTwo());
+        series.setModuleLearnCompetenceThree(moduleRequestData.getModuleLearnCompetenceThree());
+        series.setModuleLearnCompetenceFour(moduleRequestData.getModuleLearnCompetenceFour());
         if(moduleRequestData.getSeriesId() != null){
             seriesId = Long.parseLong(moduleRequestData.getSeriesId());
             series = seriesService.findSeriesById(seriesId);

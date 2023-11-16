@@ -592,6 +592,24 @@
                           <textarea class="form-control" name="seriesKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;">${seriesOne.keyWords}</textarea>
                          </div>
                     </#if>
+                  <div class="mb-10">
+                    <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Общая матрица компетенций: </b><br>
+                    <div class="mt-10 mb-10">
+                      <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Вы узнаете: </b><br>
+                      <textarea class="form-control" id="moduleLearnCompetenceOne" name="module-annotation" cols="80" rows="2" placeholder="Вы узнаете: "></textarea>
+                    </div>
+                    <div class="mt-10 mb-10">
+                      <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Вы поймете: </b><br>
+                      <textarea class="form-control" id="moduleLearnCompetenceTwo" name="module-annotation" cols="80" rows="2" placeholder="Вы поймете: "></textarea>
+                    </div>
+                    <div class="mt-10 mb-10">
+                      <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Вы научитесь: </b><br>
+                      <textarea class="form-control" id="moduleLearnCompetenceThree" name="module-annotation" cols="80" rows="2" placeholder="Вы научитесь: "></textarea>
+                    </div>
+                    <div class="mt-10 mb-10">
+                      <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Вы сможете делать это самостоятельно: </b><br>
+                      <textarea class="form-control" id="moduleLearnCompetenceFour" name="module-annotation" cols="80" rows="2" placeholder="Вы сможете делать это самостоятельно: "></textarea>
+                    </div>
 <#--                    <div class="accordion accordion-flush my-4" id="acModuleAdditionalGuide">-->
 <#--                      <div class="accordion-item">-->
 <#--                        <h2 class="accordion-header">-->

@@ -8,22 +8,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
 import net.sf.jasperreports.engine.*;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import net.sf.jasperreports.engine.export.HtmlExporter;
-import net.sf.jasperreports.export.SimpleExporterInput;
-import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.util.StreamUtils;
 import org.springframework.web.client.RestTemplate;
-import ru.mcclinics.orderservice.domain.OrderDocument;
 import ru.mcclinics.orderservice.domain.Series;
 import ru.mcclinics.orderservice.dto.DocumentDto;
 import ru.mcclinics.orderservice.dto.LectureDto;
+import ru.mcclinics.orderservice.dto.ModuleDto;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -109,122 +102,62 @@ public class DocumentProcessingService {
         return (ResponseEntity<String>) response3;
     }
 
-    public void generatePdfJasper(Collection<?> reportData, String processType,
-                                  String supervisorGuid, String executorGuid,
-                                  String link, String initDocType, List<LectureDto> lectureDtos)
+    public void generatePdfForExecution(LectureDto lecture, String processType,
+                                        String supervisorGuid, String executorGuid,
+                                        String initDocType)
             throws JRException, IOException {
+        String base64 = null;
 
-        // Загрузка шаблона отчета Jasper Reports из файла
-        Resource resource = null;
-//        if (processType.equals(ApplicationForApprovalProcessType)){
-//            resource = new ClassPathResource("/reports/order_to_expert.jrxml");
-//        } else {
-//            resource = new ClassPathResource("/reports/order.jrxml");
-//        }
-        resource = new ClassPathResource("/reports/order.jrxml");
-        InputStream jasperReportStream = resource.getInputStream();
+        try {
+            Map<String, Object> model = new HashMap<>();
+            model.put("lecture", lecture);
 
+            // Создание объекта конфигурации FreeMarker
+            Configuration configuration = new Configuration();
 
-//        InputStream reportStream = getClass().getResourceAsStream("/reports/report.jrxml");
-        JasperReport jasperReport = JasperCompileManager.compileReport(jasperReportStream);
+            // Установка пути к шаблонам (директория, где находятся .ftlh файлы)
+            configuration.setClassForTemplateLoading(FreemarkerUtils.class, "/templates");
+            configuration.setDefaultEncoding("UTF-8");
+            configuration.setObjectWrapper(new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_31).build());
+            // Загрузка и компиляция шаблона
+            Template template = configuration.getTemplate("execute_course.ftlh", StandardCharsets.UTF_8.name());
 
-        // Получение данных для отчета из базы данных
-//        List<ReportData> reportData = reportService.getReportData();
+            // Отрисовка шаблона с данными
+            StringWriter writer = new StringWriter();
+            template.process(model, writer);
+            String renderedHtmlContent = writer.toString();
 
-//        String classPath = System.getProperty("user.dir") + "/template/";
+            System.out.println("FTLH -> HTML: " + renderedHtmlContent);
 
-        // Заполнение отчета данными
-        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(reportData);
-//        JRBeanCollectionDataSource itemJRBean = new JRBeanCollectionDataSource(lectureDtos);
-        Map<String, Object> parameters = new HashMap<>();
-//        parameters.put("CollectionBeanParam", itemJRBean);
-//        parameters.put("classPath", classPath);
-        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+            String fileName = "output.html";
+            try (PrintWriter writer1 = new PrintWriter(fileName, "UTF-8")) {
+                writer1.print(renderedHtmlContent);
+            } catch (FileNotFoundException | UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
 
-        // Экспорт отчета в формат HTML
-        HtmlExporter exporter = new HtmlExporter();
-        exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+            // Кодирование HTML-документа в формат Base64
+            base64 = Base64.getEncoder().encodeToString(renderedHtmlContent.getBytes(StandardCharsets.UTF_8));
 
-        ByteArrayOutputStream htmlOutputStream = new ByteArrayOutputStream();
-        exporter.setExporterOutput(new SimpleHtmlExporterOutput(htmlOutputStream));
-        exporter.exportReport();
-
-        String htmlContent = htmlOutputStream.toString("UTF-8");
-
-        String test = "<html><head>\n" +
-                "    <meta charset=\"UTF-8\">\n" +
-                "  </head>\n" +
-                "<body>Hello world! <p> Здравствуйте, товарищи! </p></body></html>";
-
-        String wrappedHtml = "<a href=\"" + link + "\">" + htmlContent + "</a>";
-
-        System.out.println("wrappedHtml" + new String(wrappedHtml.getBytes("UTF-8"), "UTF-8"));
-        JasperExportManager.exportReportToPdfFile(jasperPrint, "report.pdf");
-        String fileName = "output.html";
-        try (PrintWriter writer = new PrintWriter(fileName, "UTF-8")) {
-            writer.print(wrappedHtml);
-        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            System.out.println(base64);
+        } catch (IOException | TemplateException e) {
+            // Обработка исключения, если файл не найден, возникла ошибка чтения или отрисовки шаблона
             e.printStackTrace();
         }
 
-        // Преобразование отчета в PDF и кодирование его в Base64
-//        byte[] pdfBytes = JasperExportManager.exportReportToPdf(jasperPrint);
-//
-//
-//        String base64 = Base64.getEncoder().encodeToString(pdfBytes);
-//        System.out.println(base64);
-        //////
-        // Convert wrappedHtml to Base64
-
-
-        byte[] testBytes = test.getBytes("UTF-8");
-        String testBytesBase64 = Base64.getEncoder().encodeToString(testBytes);
-        System.out.println("base64" + testBytesBase64);
-
-
-        byte[] wrappedHtmlBytes = wrappedHtml.getBytes("UTF-8");
-        String base64 = Base64.getEncoder().encodeToString(wrappedHtmlBytes);
-        System.out.println("base64" + base64);
-        //////
         // Отправка PDF в виде Base64 через RestTemplate
         launchProcess(base64, processType, supervisorGuid, executorGuid, initDocType);
     }
 
 
-    public void generatePdfForApprove(OrderDocument reportData, String processType,
+    public void generatePdfForApprove(ModuleDto moduleDto, String processType,
                                       String supervisorGuid, String executorGuid,
                                       String link, String initDocType, List<LectureDto> lectureDtos)
-            throws JRException, IOException, TemplateException {
-        //------------------------------------------------------------------------------------------------------------
-//        // Загрузка шаблона отчета Jasper Reports из файла
-//        Resource resource = null;
-//        resource = new ClassPathResource("/reports/order_to_expert.jrxml");
-//
-//        InputStream jasperReportStream = resource.getInputStream();
-//        JasperReport jasperReport = JasperCompileManager.compileReport(jasperReportStream);
-//
-//        // Заполнение отчета данными
-//        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(reportData);
-//        JRBeanCollectionDataSource itemJRBean = new JRBeanCollectionDataSource(lectureDtos);
-//        Map<String, Object> parameters = new HashMap<>();
-//        parameters.put("CollectionBeanParam", itemJRBean);
-//        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
-//        JasperExportManager.exportReportToPdfFile(jasperPrint, "report.pdf");
-//
-//        // Преобразование отчета в PDF и кодирование его в Base64
-//        byte[] pdfBytes = JasperExportManager.exportReportToPdf(jasperPrint);
-//        String base64 = Base64.getEncoder().encodeToString(pdfBytes);
-//        System.out.println(base64);
-        //------------------------------------------------------------------------------------------------------------
+            throws IOException {
         String base64 = null;
         try {
-
-            // Подготовка данных модели
-            Series series = new Series();
-            series.setSeriesName("Your Series Name");
-
             Map<String, Object> model = new HashMap<>();
-            model.put("reportData", reportData);
+            model.put("moduleDto", moduleDto);
             model.put("lectures", lectureDtos);
 
             // Создание объекта конфигурации FreeMarker
@@ -261,7 +194,7 @@ public class DocumentProcessingService {
         }
 
         // Отправка PDF в виде Base64 через RestTemplate
-//        launchProcess(base64, processType, supervisorGuid, executorGuid, initDocType);
+        launchProcess(base64, processType, supervisorGuid, executorGuid, initDocType);
 
 
     }
@@ -283,4 +216,104 @@ public class DocumentProcessingService {
         System.out.println(out.getBuffer().toString());
     }
 
+    //-----------------------------------JasperReports---------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------
+//        // Загрузка шаблона отчета Jasper Reports из файла
+//        Resource resource = null;
+//        resource = new ClassPathResource("/reports/order_to_expert.jrxml");
+//
+//        InputStream jasperReportStream = resource.getInputStream();
+//        JasperReport jasperReport = JasperCompileManager.compileReport(jasperReportStream);
+//
+//        // Заполнение отчета данными
+//        JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(reportData);
+//        JRBeanCollectionDataSource itemJRBean = new JRBeanCollectionDataSource(lectureDtos);
+//        Map<String, Object> parameters = new HashMap<>();
+//        parameters.put("CollectionBeanParam", itemJRBean);
+//        JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+//        JasperExportManager.exportReportToPdfFile(jasperPrint, "report.pdf");
+//
+//        // Преобразование отчета в PDF и кодирование его в Base64
+//        byte[] pdfBytes = JasperExportManager.exportReportToPdf(jasperPrint);
+//        String base64 = Base64.getEncoder().encodeToString(pdfBytes);
+//        System.out.println(base64);
+    //------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------
+    //-----------------------------------Отчеты в pdf и HTML со ссылкой-------------------------------------------
+    //------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------
+    // Загрузка шаблона отчета Jasper Reports из файла
+//    Resource resource = null;
+////        if (processType.equals(ApplicationForApprovalProcessType)){
+////            resource = new ClassPathResource("/reports/order_to_expert.jrxml");
+////        } else {
+////            resource = new ClassPathResource("/reports/order.jrxml");
+////        }
+//    resource = new ClassPathResource("/reports/order.jrxml");
+//    InputStream jasperReportStream = resource.getInputStream();
+//
+//
+//    //        InputStream reportStream = getClass().getResourceAsStream("/reports/report.jrxml");
+//    JasperReport jasperReport = JasperCompileManager.compileReport(jasperReportStream);
+//
+//    // Получение данных для отчета из базы данных
+////        List<ReportData> reportData = reportService.getReportData();
+//
+////        String classPath = System.getProperty("user.dir") + "/template/";
+//
+//    // Заполнение отчета данными
+//    JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(reportData);
+//    //        JRBeanCollectionDataSource itemJRBean = new JRBeanCollectionDataSource(lectureDtos);
+//    Map<String, Object> parameters = new HashMap<>();
+//    //        parameters.put("CollectionBeanParam", itemJRBean);
+////        parameters.put("classPath", classPath);
+//    JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, parameters, dataSource);
+//
+//    // Экспорт отчета в формат HTML
+//    HtmlExporter exporter = new HtmlExporter();
+//        exporter.setExporterInput(new SimpleExporterInput(jasperPrint));
+//
+//    ByteArrayOutputStream htmlOutputStream = new ByteArrayOutputStream();
+//        exporter.setExporterOutput(new SimpleHtmlExporterOutput(htmlOutputStream));
+//        exporter.exportReport();
+//
+//    String htmlContent = htmlOutputStream.toString("UTF-8");
+//
+//    String test = "<html><head>\n" +
+//            "    <meta charset=\"UTF-8\">\n" +
+//            "  </head>\n" +
+//            "<body>Hello world! <p> Здравствуйте, товарищи! </p></body></html>";
+//
+//    String wrappedHtml = "<a href=\"" + link + "\">" + htmlContent + "</a>";
+//
+//        System.out.println("wrappedHtml" + new String(wrappedHtml.getBytes("UTF-8"), "UTF-8"));
+//        JasperExportManager.exportReportToPdfFile(jasperPrint, "report.pdf");
+//    String fileName = "output.html";
+//        try (PrintWriter writer = new PrintWriter(fileName, "UTF-8")) {
+//        writer.print(wrappedHtml);
+//    } catch (FileNotFoundException | UnsupportedEncodingException e) {
+//        e.printStackTrace();
+//    }
+//
+//    // Преобразование отчета в PDF и кодирование его в Base64
+////        byte[] pdfBytes = JasperExportManager.exportReportToPdf(jasperPrint);
+////
+////
+////        String base64 = Base64.getEncoder().encodeToString(pdfBytes);
+////        System.out.println(base64);
+//    //////
+//    // Convert wrappedHtml to Base64
+//
+//
+//    byte[] testBytes = test.getBytes("UTF-8");
+//    String testBytesBase64 = Base64.getEncoder().encodeToString(testBytes);
+//        System.out.println("base64" + testBytesBase64);
+//
+//
+//    byte[] wrappedHtmlBytes = wrappedHtml.getBytes("UTF-8");
+//    String base64 = Base64.getEncoder().encodeToString(wrappedHtmlBytes);
+//        System.out.println("base64" + base64);
+//    //////
+    //------------------------------------------------------------------------------------------------------------
+    //------------------------------------------------------------------------------------------------------------
 }

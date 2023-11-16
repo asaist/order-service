@@ -6,6 +6,7 @@ import ru.mcclinics.orderservice.domain.Track;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Setter
 @Getter
@@ -21,9 +22,11 @@ public class LectureDto extends EntityDto implements Serializable {
     private String lectureModuleAnnotation;
     private String lectureModuleKeyWords;
     private String daysToFill;
-    private List<AuthorDto> authors;
     private String status;
     private String supervisor;
+    private String authorsNames;
+    private String link;
+    private List<AuthorDto> authors;
     private String learnCompetenceOne;
     private String learnCompetenceTwo;
     private String learnCompetenceThree;
@@ -43,5 +46,11 @@ public class LectureDto extends EntityDto implements Serializable {
         this.learnCompetenceTwo = lecture.getLearnCompetenceTwo();
         this.learnCompetenceThree = lecture.getLearnCompetenceThree();
         this.learnCompetenceFour = lecture.getLearnCompetenceFour();
+        this.authorsNames = lecture.getAuthors().stream()
+                .map(author -> author.getLastName() + " "
+                        + author.getFirstName() + " "
+                        + author.getMiddleName())
+                .collect(Collectors.joining("; "));
+        this.link = "https://dev.track.samsmu.ru/lecture/" + lecture.getId();
     }
 }

@@ -332,6 +332,10 @@ function  saveSeriesOnServer(){
     const seriesName = moduleForm.seriesName.value;
     const seriesAnnotation = moduleForm.seriesAnnotation.value;
     const seriesKeyWords = moduleForm.seriesKeyWords.value;
+    const moduleLearnCompetenceOne = moduleForm.moduleLearnCompetenceOne.value;
+    const moduleLearnCompetenceTwo = moduleForm.moduleLearnCompetenceTwo.value;
+    const moduleLearnCompetenceThree = moduleForm.moduleLearnCompetenceThree.value;
+    const moduleLearnCompetenceFour = moduleForm.moduleLearnCompetenceFour.value;
 
     const data = {
         lectures,
@@ -341,6 +345,10 @@ function  saveSeriesOnServer(){
         seriesName,
         seriesAnnotation,
         seriesKeyWords,
+        moduleLearnCompetenceOne,
+        moduleLearnCompetenceTwo,
+        moduleLearnCompetenceThree,
+        moduleLearnCompetenceFour
     };
     module = data;
     if (savedSeries) {

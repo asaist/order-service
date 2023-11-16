@@ -3,47 +3,41 @@
 	<meta http-equiv="Content-Type" content="text/html; UTF-8">
 	<meta charset="UTF-8">
 	<meta http-equiv="Cache-Control" content="no-cache">
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" integrity="sha384-gfdkjb5BdAXd+lj+gudLWI+BXq4IuLW5IT+brZEZsLFm++aCMlF1V92rMkPaX4PP" crossorigin="anonymous">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css">
-	<link rel="stylesheet" href="https://dev.track.samsmu.ru/static/css/bootstrap.min.css">
-	<link rel="stylesheet" href="https://dev.track.samsmu.ru/static/css/styleForAnnotation.css">
-	<link rel="stylesheet" href="../css/bootstrap.min.css">
-	<link rel="stylesheet" href="../css/styleForAnnotation.css">
 	<title>Служебная записка</title>
 </head>
 <body>
 <h3>Служебная записка</h3>
-<p>Просим рассмотреть план межвузовского образовательного трека для студентов и клинических ординаторов <b>«${reportData.name}»</b>
+<p>Просим рассмотреть план межвузовского образовательного трека для студентов и клинических ординаторов <b>«${moduleDto.moduleNameModal}»</b>
    в рамках создания 3D архитектуры медицинского знания электронной образовательной среды СамГМУ</p>
-<p>${reportData.annotation}</p>
-<p>Темы	для лекций курса: «${reportData.name}»</p>
-<table>
+<p>${moduleDto.moduleModalAnnotation}</p>
+<p>Темы	для лекций курса: «${moduleDto.moduleNameModal}»</p>
+<table style="border: 1px solid grey">
 	<thead>
-	<tr>
-		<th>№</th>
-		<th>Наименование лекции</th>
-		<th>ФИО лектора</th>
-		<th>Кол-во видео-роликов</th>
-		<th>Подсъёмки</th>
-		<th></th>
+	<tr style="border: 1px solid grey">
+		<th style="border: 1px solid grey">№</th>
+		<th style="border: 1px solid grey">Наименование лекции</th>
+		<th style="border: 1px solid grey">ФИО лектора</th>
+		<th style="border: 1px solid grey">Кол-во видео-роликов</th>
+		<th style="border: 1px solid grey">Подсъёмки</th>
+
 	</tr>
 	</thead>
 	<tbody>
 	<#list lectures as lecture>
-		<tr>
-			<td>${lecture.id}</td>
-			<td>${lecture.lectureModuleName}</td>
-			<td>${lecture.supervisor}</td>
-			<td>1</td>
-			<td>-</td>
+		<tr style="border: 1px solid grey">
+			<td style="border: 1px solid grey">${lecture.id}</td>
+			<td style="border: 1px solid grey">${lecture.lectureModuleName}</td>
+			<td style="border: 1px solid grey">${lecture.supervisor}</td>
+			<td style="border: 1px solid grey">1</td>
+			<td style="border: 1px solid grey">-</td>
 		</tr>
 	</#list>
 	</tbody>
 </table>
 <p><b>Список ключевых слов: </b></p>
-<p>${reportData.keywords}</p>
+<p>${moduleDto.moduleModalKeyWords}</p>
 <p><b>Базовый ролик (навигатор)</b></p>
-<p>Данный образовательный трек <b>«${reportData.name}»</b> разработан
+<p>Данный образовательный трек <b>«${moduleDto.moduleNameModal}»</b> разработан
    в рамках создания 3D архитектуры медицинского знания электронной образовательной среды СамГМУ</p>
 <p>изложены современные подходы к диагностике, лечению и
 	профилактике.  Данный образовательный трек  предназначен для
@@ -51,54 +45,54 @@
 <p>а также для ординаторов, обучающихся по
 	специальностям терапия, эндокринология, кардиология, ревматология
 	лабораторная диагностика. Курс  состоит из ${lectures?size} лекций - видеороликов.</p>
-<p><b>Общая матрица компетенций</b> (ко всему образовательному курсу <b>«${reportData.name}»</b>)</p>
-<table>
-	<tr>
-		<th>Вы узнаете</th>
-		<td>как шить</td>
+<p><b>Общая матрица компетенций</b> (ко всему образовательному курсу <b>«${moduleDto.moduleNameModal}»</b>)</p>
+<table  style="border: 1px solid grey">
+	<tr style="border: 1px solid grey">
+		<th style="border: 1px solid grey">Вы узнаете</th>
+		<td style="border: 1px solid grey">${moduleDto.moduleLearnCompetenceOne}</td>
 	</tr>
-	<tr>
-			<th>Вы поймете</th>
-			<td>кто вы</td>
+	<tr style="border: 1px solid grey">
+			<th style="border: 1px solid grey">Вы поймете</th>
+			<td style="border: 1px solid grey">${moduleDto.moduleLearnCompetenceTwo}</td>
 	</tr>
-	<tr>
-			<th>Вы научитесь</th>
-			<td>убегать от волков</td>
+	<tr style="border: 1px solid grey">
+			<th style="border: 1px solid grey">Вы научитесь</th>
+			<td style="border: 1px solid grey">${moduleDto.moduleLearnCompetenceThree}</td>
 	</tr>
-	<tr>
-			<th>Вы сможете
+	<tr style="border: 1px solid grey">
+			<th style="border: 1px solid grey">Вы сможете
 				делать это
 				самостоятельно</th>
-		<td>варить борщи</td>
+		<td style="border: 1px solid grey">${moduleDto.moduleLearnCompetenceFour}</td>
 	</tr>
 
 </table>
 <p><b>Ключевые слова: </b></p>
-<p>${reportData.keywords}</p>
+<p>${moduleDto.moduleModalKeyWords}</p>
 
 <#list lectures as lecture>
 	<p><b>Аннотация  к лекции ${lecture.lectureModuleName}</b></p>
 	<p>${lecture.lectureModuleAnnotation}</p>
 	<p><b>Матрица компетенций</b> к лекции «${lecture.lectureModuleName}»</p>
 
-	<table>
-		<tr>
-			<th>Вы узнаете</th>
-			<td>${lecture.learnCompetenceOne}</td>
+	<table style="border: 1px solid grey">
+		<tr style="border: 1px solid grey">
+			<th style="border: 1px solid grey">Вы узнаете</th>
+			<td style="border: 1px solid grey">${lecture.learnCompetenceOne}</td>
 		</tr>
-		<tr>
-			<th>Вы поймете</th>
-			<td>${lecture.learnCompetenceTwo}</td>
+		<tr style="border: 1px solid grey">
+			<th style="border: 1px solid grey">Вы поймете</th>
+			<td style="border: 1px solid grey">${lecture.learnCompetenceTwo}</td>
 		</tr>
-		<tr>
-			<th>Вы научитесь</th>
-			<td>${lecture.learnCompetenceThree}</td>
+		<tr style="border: 1px solid grey">
+			<th style="border: 1px solid grey">Вы научитесь</th>
+			<td style="border: 1px solid grey">${lecture.learnCompetenceThree}</td>
 		</tr>
-		<tr>
-			<th>Вы сможете
+		<tr style="border: 1px solid grey">
+			<th style="border: 1px solid grey">Вы сможете
 				делать это
 				самостоятельно</th>
-			<td>${lecture.learnCompetenceFour}</td>
+			<td style="border: 1px solid grey">${lecture.learnCompetenceFour}</td>
 		</tr>
 
 	</table>

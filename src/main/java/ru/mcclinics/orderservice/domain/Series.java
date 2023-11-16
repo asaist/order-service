@@ -36,6 +36,14 @@ public class Series {
     @JoinColumn(name = "supervisor")
     private Author supervisor;
     private String annotation;
+    @Column(name = "module_learn_competence_one")
+    private String moduleLearnCompetenceOne;
+    @Column(name = "module_learn_competence_two")
+    private String moduleLearnCompetenceTwo;
+    @Column(name = "module_learn_competence_three")
+    private String moduleLearnCompetenceThree;
+    @Column(name = "module_learn_competence_four")
+    private String moduleLearnCompetenceFour;
     @Column(name = "create_date", updatable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createDate;
