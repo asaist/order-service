@@ -6,12 +6,12 @@
 	<title>Служебная записка</title>
 </head>
 <body>
-<h3>Служебная записка</h3>
-<p>Просим рассмотреть план межвузовского образовательного трека для студентов и клинических ординаторов <b>«${moduleDto.moduleNameModal}»</b>
+<h3 style="text-align: center;">Служебная записка</h3>
+<p style="text-align: center;">Просим рассмотреть план межвузовского образовательного трека для студентов и клинических ординаторов <b>«${moduleDto.moduleNameModal}»</b>
    в рамках создания 3D архитектуры медицинского знания электронной образовательной среды СамГМУ</p>
 <p>${moduleDto.moduleModalAnnotation}</p>
 <p>Темы	для лекций курса: «${moduleDto.moduleNameModal}»</p>
-<table style="border: 1px solid grey">
+<table style="border: 1px solid grey; margin: 0 auto; text-align: center">
 	<thead>
 	<tr style="border: 1px solid grey">
 		<th style="border: 1px solid grey">№</th>

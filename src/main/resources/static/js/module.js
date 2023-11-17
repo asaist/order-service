@@ -52,7 +52,7 @@ document.addEventListener("keyup", function(event) {
 // });
 
 
-// Listners for Lecture List that hide Lecture panel
+// Listners for Course List that hide Lecture panel
 const inputFieldsCourse = document.querySelectorAll('#profile-tab-pane input, #profile-tab-pane select, #profile-tab-pane textarea');
 inputFieldsCourse.forEach(input => {
     input.addEventListener('input', event => {

@@ -1,0 +1,1 @@
+<a href='${lecture.link}' target='_blank' >Hello world! <p> Здравствуйте, товарищи! </p></a>

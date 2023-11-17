@@ -146,7 +146,7 @@ public class DocumentProcessingService {
         }
 
         // Отправка PDF в виде Base64 через RestTemplate
-        launchProcess(base64, processType, supervisorGuid, executorGuid, initDocType);
+//        launchProcess(base64, processType, supervisorGuid, executorGuid, initDocType);
     }
 
 
