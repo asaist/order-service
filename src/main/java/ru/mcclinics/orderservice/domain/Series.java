@@ -35,6 +35,7 @@ public class Series {
     @ManyToOne(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "supervisor")
     private Author supervisor;
+    @Column(length = 1000)
     private String annotation;
     @Column(name = "module_learn_competence_one")
     private String moduleLearnCompetenceOne;

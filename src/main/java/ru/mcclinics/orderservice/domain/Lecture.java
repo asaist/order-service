@@ -40,7 +40,7 @@ public class Lecture {
     private Author supervisor;
     @Column(name = "video_reference")
     private String videoReference;
-    @Column(name = "lecture_annotation")
+    @Column(name = "lecture_annotation", length = 1000)
     private String annotation;
     @Column(name = "create_date")
     private LocalDateTime createDate;

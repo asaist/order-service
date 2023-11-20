@@ -7,11 +7,13 @@
 </head>
 <body>
 <h3 style="text-align: center;">Служебная записка</h3>
-<p style="text-align: center;">Просим рассмотреть план межвузовского образовательного трека для студентов и клинических ординаторов <b>«${moduleDto.moduleNameModal}»</b>
+<br>
+<p style="text-indent: 20px; text-align: justify;">Просим рассмотреть план межвузовского образовательного трека для студентов и клинических ординаторов <b>«${moduleDto.moduleNameModal}»</b>
    в рамках создания 3D архитектуры медицинского знания электронной образовательной среды СамГМУ</p>
-<p>${moduleDto.moduleModalAnnotation}</p>
-<p>Темы	для лекций курса: «${moduleDto.moduleNameModal}»</p>
-<table style="border: 1px solid grey; margin: 0 auto; text-align: center">
+<p style="text-indent: 20px; text-align: justify;">${moduleDto.moduleModalAnnotation}</p>
+<p style="margin: 20px;">Темы для лекций курса: «${moduleDto.moduleNameModal}»</p>
+<br>
+<table style="border: 1px solid grey;">
 	<thead>
 	<tr style="border: 1px solid grey">
 		<th style="border: 1px solid grey">№</th>
@@ -25,7 +27,7 @@
 	<tbody>
 	<#list lectures as lecture>
 		<tr style="border: 1px solid grey">
-			<td style="border: 1px solid grey">${lecture.id}</td>
+			<td style="border: 1px solid grey">${lecture?index + 1}</td>
 			<td style="border: 1px solid grey">${lecture.lectureModuleName}</td>
 			<td style="border: 1px solid grey">${lecture.supervisor}</td>
 			<td style="border: 1px solid grey">1</td>
@@ -34,10 +36,14 @@
 	</#list>
 	</tbody>
 </table>
+<br>
 <p><b>Список ключевых слов: </b></p>
-<p>${moduleDto.moduleModalKeyWords}</p>
-<p><b>Базовый ролик (навигатор)</b></p>
-<p>Данный образовательный трек <b>«${moduleDto.moduleNameModal}»</b> разработан
+<br>
+<p style="text-align: justify;">${moduleDto.moduleModalKeyWords}</p>
+<br>
+<p style="margin: 20px;"><b>1. Базовый ролик (навигатор)</b></p>
+<br>
+<p style="text-indent: 20px; text-align: justify;">Данный образовательный трек <b>«${moduleDto.moduleNameModal}»</b> разработан
    в рамках создания 3D архитектуры медицинского знания электронной образовательной среды СамГМУ</p>
 <p>изложены современные подходы к диагностике, лечению и
 	профилактике.  Данный образовательный трек  предназначен для
@@ -45,7 +51,9 @@
 <p>а также для ординаторов, обучающихся по
 	специальностям терапия, эндокринология, кардиология, ревматология
 	лабораторная диагностика. Курс  состоит из ${lectures?size} лекций - видеороликов.</p>
-<p><b>Общая матрица компетенций</b> (ко всему образовательному курсу <b>«${moduleDto.moduleNameModal}»</b>)</p>
+<br>
+<p style="text-indent: 20px;"><b>Общая матрица компетенций</b> (ко всему образовательному курсу <b>«${moduleDto.moduleNameModal}»</b>)</p>
+<br>
 <table  style="border: 1px solid grey">
 	<tr style="border: 1px solid grey">
 		<th style="border: 1px solid grey">Вы узнаете</th>
@@ -67,13 +75,15 @@
 	</tr>
 
 </table>
-<p><b>Ключевые слова: </b></p>
+<br>
+<p style="text-indent: 20px;"><b>Ключевые слова: </b></p>
 <p>${moduleDto.moduleModalKeyWords}</p>
-
+<br>
 <#list lectures as lecture>
-	<p><b>Аннотация  к лекции ${lecture.lectureModuleName}</b></p>
-	<p>${lecture.lectureModuleAnnotation}</p>
-	<p><b>Матрица компетенций</b> к лекции «${lecture.lectureModuleName}»</p>
+
+	<p style="text-indent: 20px; text-align: justify;"><b>${lecture?index + 2}. Аннотация  к лекции ${lecture.lectureModuleName}</b></p>
+	<p style="text-indent: 20px; text-align: justify;">${lecture.lectureModuleAnnotation}</p>
+	<p style="text-indent: 20px; text-align: justify;"><b>Матрица компетенций</b> к лекции «${lecture.lectureModuleName}»</p>
 
 	<table style="border: 1px solid grey">
 		<tr style="border: 1px solid grey">
@@ -96,8 +106,11 @@
 		</tr>
 
 	</table>
-	<p><b>Ключевые слова: </b></p>
-	<p>${lecture.lectureModuleKeyWords?ifExists}</p>
+	<p style="margin: 20px;"><b>Ключевые слова: </b></p>
+	<p style="margin: 20px; text-align: justify;">${lecture.lectureModuleKeyWords?ifExists}</p>
+	<br>
+	<br>
+	<br>
 
 </#list>
 
