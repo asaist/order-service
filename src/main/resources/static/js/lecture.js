@@ -2,13 +2,22 @@
 const lectureForm = document.querySelector('#createLecture');
 let lectureAuthors = [];
 let savedLecture = null;
+
 lectureForm.addEventListener('submit', (event) => {
     event.preventDefault(); // остановить стандартное поведение формы
-    const track = lectureForm.lectureTrack.value;
-    const series = lectureForm.lectureSeries.value;
-    const lectureName = lectureForm.lectureName.value;
-    const lectureAnnotation = lectureForm.lectureAnnotation.value;
-    const lectureKeyWords = lectureForm.lectureKeyWords.value;
+    saveLectureonServer();
+});
+
+function saveLectureonServer(savedSeriesBoolean, lecture){
+    const track = savedSeriesBoolean ? moduleForm.seriesTrack.value : lectureForm.lectureTrack.value;
+    const series = savedSeriesBoolean ? savedSeries : lectureForm.lectureSeries.value;
+    const lectureName = savedSeriesBoolean ? lecture.lectureModuleName : lectureForm.lectureName.value;
+    const lectureAnnotation = savedSeriesBoolean ? lecture.lectureModuleAnnotation : lectureForm.lectureAnnotation.value;
+    const lectureKeyWords = savedSeriesBoolean ? lecture.lectureModuleKeyWords : lectureForm.lectureKeyWords.value;
+    const learnCompetenceOne = lecture.learnCompetenceOne;
+    const learnCompetenceTwo = lecture.learnCompetenceTwo;
+    const learnCompetenceThree = lecture.learnCompetenceThree;
+    const learnCompetenceFour = lecture.learnCompetenceFour;
 
     const data = {
         lectureAuthors,
@@ -19,34 +28,42 @@ lectureForm.addEventListener('submit', (event) => {
         lectureKeyWords,
         mkbs,
         diss,
-        locs
+        locs,
+        learnCompetenceOne,
+        learnCompetenceTwo,
+        learnCompetenceThree,
+        learnCompetenceFour
     };
     if (savedLecture) {
         data.lectureId = savedLecture;
     }
     console.log(data);
 
-    fetch("/addLecture", {
-        method: "POST",
+    $.ajax({
+        type: "POST",
+        url: "https://dev.track.samsmu.ru/addLecture",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": localStorage.authorization
         },
-        body: JSON.stringify(data)
-    })
-        .then(response => response.json())
-        .then(data => {
-            savedLecture = data.id;
-            // Используйте полученный ID нового трека для нужных действий на фронтенде
+        data: JSON.stringify(data),
+        async: false,
+        success: function(response) {
+            // Обработка успешного ответа
+            savedLecture = response.id;
             console.log('ID новой лекции:', savedLecture);
-        })
-        .catch(error => {
+        },
+        error: function(error) {
             console.error('Ошибка при отправке запроса:', error);
-        });
+        }
+    });
+
     let addLecture = document.getElementById('saveLectureL');
     addLecture.classList.add("hidden");
     let editLecture = document.getElementById('editLectureL');
     editLecture.classList.remove("hidden");
-});
+}
+
 
 function selectAuthorLecture(el) {
     let e = document.getElementById("selectAuthorToLecture");

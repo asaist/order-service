@@ -178,7 +178,7 @@ function addLectureSchemeModule() {
     let learnCompetenceFour = document.getElementById('learnCompetenceFour').value;
     // let lectureDaysToFill = document.getElementById('lectureDaysToFill').value;
     let authors = [];
-    for (let author of moduleAuthors) {
+    for (let author of lectureAuthors) {
         if (author.lecture === parseInt(lectureModalId)) {
             authors.push(author)
         }
@@ -195,7 +195,7 @@ function addLectureSchemeModule() {
         seriesName
     }
     module = data;
-    console.log(module);
+    console.log("МодульДата: " + module);
     let newLecScheme = document.createElement('div');
     // newLecScheme.setAttribute("onmouseover","HintShowbyTamara(this)");
     // newLecScheme.setAttribute("onmouseout","HintHidebyTamara(this)");
@@ -253,9 +253,12 @@ function addLectureSchemeModule() {
     document.getElementById('tableAuthorModal').innerHTML = '';
     document.getElementById("gantt_here").classList.remove("hidden");
     saveSeriesOnServer();
+    saveLectureonServer(true, lecture);
     console.log("До: " + lectures);
     lectures[lectures.length - 1].id = savedLecture;
     lectures[lectures.length - 1].idDb = true;
+    savedLecture = null;
+    lectureAuthors = [];
     console.log("После: " + lectures);
     btnClose();
 }
@@ -281,7 +284,7 @@ function editLecModuleSeries(el){
     let table = document.getElementById('tableAuthorModal');
     for (let author of moduleAuthors) {
         if (author.lecture === parseInt(el.getAttribute('lecturemodalid'))) {
-            selectAuthorModule(author, null, 'tableAuthorModal', false, false);
+            selectAuthorModule(author, null, 'tableAuthorModal', false, false, true);
         }
     }
 
@@ -320,11 +323,10 @@ function editLecInModuleSeries(el){
 }
 
 
-
 const moduleForm = document.querySelector('#createSeries');
 moduleForm.addEventListener('submit', (event) => {
     event.preventDefault(); // остановить стандартное поведение формы
-    savedSeries();
+    saveSeriesOnServer();
 });
 
 function  saveSeriesOnServer(){
@@ -338,7 +340,6 @@ function  saveSeriesOnServer(){
     const moduleLearnCompetenceFour = moduleForm.moduleLearnCompetenceFour.value;
 
     const data = {
-        lectures,
         moduleAuthors,
         mkbs,
         track,
@@ -350,12 +351,12 @@ function  saveSeriesOnServer(){
         moduleLearnCompetenceThree,
         moduleLearnCompetenceFour
     };
-    module = data;
+    // module = data;
     if (savedSeries) {
         data.seriesId = savedSeries;
     }
     console.log(data);
-    console.log(module);
+    // console.log(module);
 
     $.ajax({
         type: "POST",
@@ -369,9 +370,9 @@ function  saveSeriesOnServer(){
         success: function(response) {
             // Обработка успешного ответа
             savedSeries = response.id;
-            savedLecture = response.lectureId;
+            // savedLecture = response.lectureId;
             console.log('ID нового модуля:', savedSeries);
-            console.log('ID новой лекции:', savedLecture);
+            // console.log('ID новой лекции:', savedLecture);
         },
         error: function(error) {
             console.error('Ошибка при отправке запроса:', error);
@@ -397,7 +398,7 @@ function  saveSeriesOnServer(){
 //     // Другие действия по обработке отправки формы...
 // }
 
-function selectAuthorModule(el, selectId, tableId, supervisor, addToAuthorsList) {
+function selectAuthorModule(el, selectId, tableId, supervisor, addToAuthorsList, toLectureAuthorList) {
     let e = document.getElementById(selectId);
 
     let selectData = $('#' + selectId).select2('data');
@@ -471,10 +472,17 @@ function selectAuthorModule(el, selectId, tableId, supervisor, addToAuthorsList)
     let author = new Author(value, text, academicDegreeName, supervisor.toString(), supervisor ? null : lectureModalId);
 
     // console.log(e.value.replace(/\s/g, ""));
+
     if (addToAuthorsList) {
-        moduleAuthors.push(author);
+        if(toLectureAuthorList){
+            lectureAuthors.push(author);
+        } else {
+            moduleAuthors.push(author);
+        }
+
     }
-    console.log(moduleAuthors);
+    console.log("Авторы курса: " + moduleAuthors);
+    console.log("Авторы лекции: " + lectureAuthors);
     author.passport = null;
     author.diploma = null;
     author.diplomaScienceRank = null;
@@ -495,7 +503,12 @@ function selectAuthorModule(el, selectId, tableId, supervisor, addToAuthorsList)
     radioBtn.setAttribute('name','flexRadioDefault');
     radioBtn.setAttribute('onclick','AuthorIsSupervisor(this)');
     radioBtn.setAttribute('id','isSupervisor');
-    radioBtn.setAttribute('authorIndex', (moduleAuthors.length - 1).toString());
+    if (toLectureAuthorList){
+        radioBtn.setAttribute('authorIndex', (lectureAuthors.length - 1).toString());
+    } else {
+        radioBtn.setAttribute('authorIndex', (moduleAuthors.length - 1).toString());
+    }
+
     radioBtn.classList.add('form-check-input');
     if (supervisor){
         radioBtn.checked = true;
@@ -521,7 +534,12 @@ function selectAuthorModule(el, selectId, tableId, supervisor, addToAuthorsList)
     close.classList.add('fas', 'fa-times', 'text-danger');
     close.setAttribute('id', 'removeAuthorFromTable');
     close.setAttribute('onclick','removeAuthorFromArray(this)');
-    close.setAttribute('authorIndex', (moduleAuthors.length - 1).toString());
+    if (toLectureAuthorList){
+        close.setAttribute('authorIndex', (lectureAuthors.length - 1).toString());
+    } else {
+        close.setAttribute('authorIndex', (moduleAuthors.length - 1).toString());
+    }
+
     removeTd.append(close);
 
 

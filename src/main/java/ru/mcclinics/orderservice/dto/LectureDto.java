@@ -36,12 +36,12 @@ public class LectureDto extends EntityDto implements Serializable {
         this.id = lecture.getId();
         if (lecture.getSeries() != null) {
             this.moduleId = lecture.getSeries().getId();
-            this.supervisor = lecture.getSeries().getSupervisor1();
+            this.supervisor = lecture.getSupervisor();
         }
         this.lectureModuleName = lecture.getLectureName();
         this.lectureModuleAnnotation = lecture.getAnnotation();
         this.daysToFill = lecture.getDaysToFill();
-        this.status = lecture.getLectureStatus().name();
+//        this.status = lecture.getLectureStatus().name();
         this.learnCompetenceOne = lecture.getLearnCompetenceOne();
         this.learnCompetenceTwo = lecture.getLearnCompetenceTwo();
         this.learnCompetenceThree = lecture.getLearnCompetenceThree();

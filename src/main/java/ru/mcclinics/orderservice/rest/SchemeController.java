@@ -341,6 +341,7 @@ public class SchemeController {
         }
         List<AuthorDto> authorsDtoList = moduleRequestData.getModuleAuthors();
         List<LectureDto> lecturesFromFront = moduleRequestData.getLectures();
+        System.out.println("lecturesFromFront: " + lecturesFromFront);
         String seriesName = moduleRequestData.getSeriesName();
         String seriesAnnotation = moduleRequestData.getSeriesAnnotation();
         String seriesKeyWords = moduleRequestData.getSeriesKeyWords();
@@ -404,25 +405,27 @@ public class SchemeController {
         series.setShape(new Shape(1L));
         Series savedSeries = seriesService.save(series);
         keyWordList.stream().forEach(keyWord -> keyWord.setSeries(savedSeries));
-        lecturesFromFront = lecturesFromFront.stream()
-                .filter(element -> element != null && !element.toString().isEmpty())
-                .collect(Collectors.toList());
-        List<Lecture> lectures = lecturesFromFront.stream().map(Lecture::new).collect(toList());
-        System.out.println("ID LECTURE: " + lectures.get(0).getId());
-        lectures.stream().forEach(lecture -> lecture.setSeries(savedSeries));
-        lectures.stream().forEach(lecture -> lecture.setCreateDate(LocalDateTime.now()));
-        lectures.stream().forEach(lecture -> lecture.setAuthors(authorSet));
-        //TODO Refactor kostil
-        lectures.stream().forEach(lecture -> lecture.setShape(new Shape(1L)));
+        if (lecturesFromFront != null) {
+            lecturesFromFront = lecturesFromFront.stream()
+                    .filter(element -> element != null && !element.toString().isEmpty())
+                    .collect(Collectors.toList());
+            List<Lecture> lectures = lecturesFromFront.stream().map(Lecture::new).collect(toList());
+            System.out.println("ID LECTURE: " + lectures.get(0).getId());
+            lectures.stream().forEach(lecture -> lecture.setSeries(savedSeries));
+            lectures.stream().forEach(lecture -> lecture.setCreateDate(LocalDateTime.now()));
+            lectures.stream().forEach(lecture -> lecture.setAuthors(authorSet));
+            //TODO Refactor kostil
+            lectures.stream().forEach(lecture -> lecture.setShape(new Shape(1L)));
+            lectureService.saveAll(lectures);
+            Lecture lectureDb = lectures.get(lectures.size() - 1);
+            System.out.println("ID NEW LECTURE: " + lectures.get(lectures.size() - 1).getId());
+        }
         mkbs.stream().forEach(mkb -> mkb.setSeries(savedSeries));
-        lectureService.saveAll(lectures);
         keyWordRepository.saveAll(keyWordList);
         mkbRepository.saveAll(mkbs);
-        Iterable<Series> series1 = seriesService.findSeries();
         log.info("/create [module {}]", series);
-        Lecture lectureDb = lectures.get(lectures.size() - 1);
-        System.out.println("ID NEW LECTURE: " + lectures.get(lectures.size() - 1).getId());
-        return ResponseEntity.ok(new ModuleDto(series, lectureDb));
+        System.out.println("ID NEW COURSE: " + series.getId());
+        return ResponseEntity.ok(new ModuleDto(series));
     }
 
     @PostMapping("/addLecture")
@@ -430,8 +433,8 @@ public class SchemeController {
     ) {
         Long lectureId = null;
         Lecture lecture = new Lecture();
-        if(lectureRequestData.getLectureId() != null){
-            lectureId = Long.parseLong(lectureRequestData.getLectureId());
+        if(lectureRequestData.getId() != null){
+            lectureId = Long.parseLong(lectureRequestData.getId());
             lecture = lectureService.findLectureById(lectureId);
         }
         List<AuthorDto> authorsDtoList = lectureRequestData.getLectureAuthors();
@@ -439,6 +442,11 @@ public class SchemeController {
         String lectureName = lectureRequestData.getLectureName();
         String lectureAnnotation = lectureRequestData.getLectureAnnotation();
         String lectureKeyWords = lectureRequestData.getLectureKeyWords();
+        String learnCompetenceOne = lectureRequestData.getLearnCompetenceOne();
+        String learnCompetenceTwo = lectureRequestData.getLearnCompetenceTwo();
+        String learnCompetenceThree = lectureRequestData.getLearnCompetenceThree();
+        String learnCompetenceFour = lectureRequestData.getLearnCompetenceFour();
+        String daysToFill = lectureRequestData.getDaysToFill();
 
         String[] strMain = lectureKeyWords.split(";");
         List<KeyWord> keyWordList = new ArrayList<>();
@@ -473,14 +481,25 @@ public class SchemeController {
         authorList.addAll(authorsFrontSavedDB);
         Set<Author> authorSet = new HashSet<>(authorList);
         lecture.setAuthors(authorSet);
+        lecture.setSupervisor(authorSet.iterator().next());
         Track track = trackService.findTrackById(Long.parseLong(lectureRequestData.getTrack()));
-        lecture.setTrack(track);
+//        lecture.setTrack(track);
+        lecture.setShape(new Shape(1L));
         Series series = seriesService.findSeriesById(Long.parseLong(lectureRequestData.getSeries()));
         lecture.setSeries(series);
         lecture.setKeyWords(keyWordList);
         lecture.setLectureName(lectureName);
         lecture.setAnnotation(lectureAnnotation);
         lecture.setCreateDate(LocalDateTime.now());
+        lecture.setLearnCompetenceOne(learnCompetenceOne);
+        lecture.setLearnCompetenceTwo(learnCompetenceTwo);
+        lecture.setLearnCompetenceThree(learnCompetenceThree);
+        lecture.setLearnCompetenceFour(learnCompetenceFour);
+        lecture.setDaysToFill(daysToFill);
+//        String statusAsString = lectureRequestData.getStatus(); // Assuming lectureDto.getStatus() returns a String value
+//        System.out.println("lectureRequestData.getStatus(): " + lectureRequestData.getStatus());
+//        LectureStatus trackStatus = LectureStatus.valueOf(statusAsString);
+//        lecture.setLectureStatus(trackStatus);
         Lecture savedLecture = lectureService.save(lecture);
 
         List<MkbDto> mkbs = lectureRequestData.getMkbs();

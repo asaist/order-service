@@ -143,14 +143,14 @@ function btnClose() {
 
 	// $('#selectAuthorToModal').val('').trigger('change');
 
-    // let viewOverlay = document.getElementById('overlayViewLectureModal');
-    // viewOverlay.classList.add('hidden');
+    let viewOverlay = document.getElementById('overlay');
+    viewOverlay.classList.add('hidden');
 }
 
 function addLecture() {
  	let addLectureModal = document.getElementById('addLectureModal');
 	addLectureModal.classList.remove('hidden');
-	// showOverlay();
+	showOverlay();
 }
 
 function addLectureInModuleSeries() {
@@ -200,7 +200,8 @@ function addLectureModalBegin() {
 }
 
 function addLectureModalModuleBegin() {
-	btnClose();
+	document.getElementById("overlay").classList.remove("hidden");
+	// btnClose();
 	addLectureInModuleSeries();
 }
 

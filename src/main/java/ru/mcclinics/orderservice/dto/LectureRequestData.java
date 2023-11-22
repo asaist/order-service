@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @ToString
 public class LectureRequestData extends EntityDto implements Serializable {
-    private String lectureId;
+    private String id;
     private List<AuthorDto> lectureAuthors;
     private String track;
     private String series;
@@ -22,4 +22,10 @@ public class LectureRequestData extends EntityDto implements Serializable {
     private List<MkbDto> mkbs;
     private List<MkbDto> diss;
     private List<MkbDto> locs;
+    private String learnCompetenceOne;
+    private String learnCompetenceTwo;
+    private String learnCompetenceThree;
+    private String learnCompetenceFour;
+    private String daysToFill;
+    private String status;
 }
