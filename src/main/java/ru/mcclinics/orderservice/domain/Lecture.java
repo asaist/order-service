@@ -169,6 +169,7 @@ public class Lecture {
         if (lectureDto.getModuleId() != null) {
             this.series = new Series(Long.valueOf(lectureDto.getModuleId()));
         }
+
         if (lectureDto.getAuthors() != null) {
             List<Author> authors = lectureDto.getAuthors().stream().map(Author::new).collect(toList());
             Set<Author> authorsSet = authors.stream()
