@@ -253,6 +253,7 @@ function addLectureSchemeModule() {
     document.getElementById('tableAuthorModal').innerHTML = '';
     document.getElementById("gantt_here").classList.remove("hidden");
     saveSeriesOnServer();
+    lecture.moduleId = savedSeries;
     saveLectureonServer(true, lecture);
     console.log("До: " + lectures);
     lectures[lectures.length - 1].id = savedLecture;

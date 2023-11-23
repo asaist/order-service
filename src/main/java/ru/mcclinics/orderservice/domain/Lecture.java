@@ -146,6 +146,7 @@ public class Lecture {
         }
 
         System.out.println("IDDB: " + lectureDto.getIdDb());
+        System.out.println("keyWords: " + lectureDto.getLectureModuleKeyWords());
 
         if (lectureDto.getIdDb()){
             this.id = lectureDto.getId();
@@ -166,7 +167,7 @@ public class Lecture {
 
         System.out.println(lectureDto.getModuleId());
         if (lectureDto.getModuleId() != null) {
-            this.frontEndModule = Long.valueOf(lectureDto.getModuleId());
+            this.series = new Series(Long.valueOf(lectureDto.getModuleId()));
         }
         if (lectureDto.getAuthors() != null) {
             List<Author> authors = lectureDto.getAuthors().stream().map(Author::new).collect(toList());
@@ -193,6 +194,12 @@ public class Lecture {
         if (lectureDto.getLearnCompetenceFour() != null){
             this.learnCompetenceFour = lectureDto.getLearnCompetenceFour();
         }
+        this.shape = new Shape(1L);
+        this.createDate = LocalDateTime.now();
+        if (authors != null){
+            this.supervisor = authors.iterator().next();
+        }
+
     }
     public String getSupervisor(){
         return supervisor!=null ? supervisor.getLastName() + " " + supervisor.getFirstName() + " " + supervisor.getMiddleName() : "<none>";

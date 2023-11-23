@@ -431,76 +431,23 @@ public class SchemeController {
     @PostMapping("/addLecture")
     public ResponseEntity<LectureDto> addLecture(@RequestBody LectureRequestData lectureRequestData
     ) {
-        Long lectureId = null;
-        Lecture lecture = new Lecture();
-        if(lectureRequestData.getId() != null){
-            lectureId = Long.parseLong(lectureRequestData.getId());
-            lecture = lectureService.findLectureById(lectureId);
-        }
-        List<AuthorDto> authorsDtoList = lectureRequestData.getLectureAuthors();
-
-        String lectureName = lectureRequestData.getLectureName();
-        String lectureAnnotation = lectureRequestData.getLectureAnnotation();
-        String lectureKeyWords = lectureRequestData.getLectureKeyWords();
-        String learnCompetenceOne = lectureRequestData.getLearnCompetenceOne();
-        String learnCompetenceTwo = lectureRequestData.getLearnCompetenceTwo();
-        String learnCompetenceThree = lectureRequestData.getLearnCompetenceThree();
-        String learnCompetenceFour = lectureRequestData.getLearnCompetenceFour();
-        String daysToFill = lectureRequestData.getDaysToFill();
-
+        Lecture lecture = new Lecture(lectureRequestData.getLecture());
+        Lecture savedLecture = lectureService.save(lecture);
+        System.out.println("SavedLectireId: " + savedLecture.getId());
+        String lectureKeyWords = lectureRequestData.getLecture().getLectureModuleKeyWords();
         String[] strMain = lectureKeyWords.split(";");
         List<KeyWord> keyWordList = new ArrayList<>();
         for (String line : strMain) {
             KeyWord keyWord = new KeyWord();
             keyWord.setValue(line);
-            keyWord.setLecture(lecture);
+            keyWord.setLecture(savedLecture);
             keyWordList.add(keyWord);
         }
 
-        List<Author> authorsFromDB = new ArrayList<>();
-        List<Author> authorsFront = new ArrayList<>();
-        List<Author> authorsFrontSavedDB = new ArrayList<>();
-        List<Author> authors = authorsDtoList.stream().map(Author::new).collect(toList());
-        for (Author author : authors) {
-            if (author.getAuthorId() == null) {
-                authorsFront.add(author);
-            } else {
-                authorsFromDB.add(author);
-            }
-        }
-        List<Long> ids = authorsFromDB.stream()
-                .filter(author -> author.getAuthorId() != null)
-                .map(Author::getAuthorId)
-                .toList();
-        List<Author> authorList = authorService.findAuthorsByListId(ids);
-
-        for(Author author : authorsFront){
-            authorService.create(author);
-            authorsFrontSavedDB.add(author);
-        }
-        authorList.addAll(authorsFrontSavedDB);
-        Set<Author> authorSet = new HashSet<>(authorList);
-        lecture.setAuthors(authorSet);
-        lecture.setSupervisor(authorSet.iterator().next());
-        Track track = trackService.findTrackById(Long.parseLong(lectureRequestData.getTrack()));
-//        lecture.setTrack(track);
-        lecture.setShape(new Shape(1L));
-        Series series = seriesService.findSeriesById(Long.parseLong(lectureRequestData.getSeries()));
-        lecture.setSeries(series);
-        lecture.setKeyWords(keyWordList);
-        lecture.setLectureName(lectureName);
-        lecture.setAnnotation(lectureAnnotation);
-        lecture.setCreateDate(LocalDateTime.now());
-        lecture.setLearnCompetenceOne(learnCompetenceOne);
-        lecture.setLearnCompetenceTwo(learnCompetenceTwo);
-        lecture.setLearnCompetenceThree(learnCompetenceThree);
-        lecture.setLearnCompetenceFour(learnCompetenceFour);
-        lecture.setDaysToFill(daysToFill);
-//        String statusAsString = lectureRequestData.getStatus(); // Assuming lectureDto.getStatus() returns a String value
-//        System.out.println("lectureRequestData.getStatus(): " + lectureRequestData.getStatus());
-//        LectureStatus trackStatus = LectureStatus.valueOf(statusAsString);
-//        lecture.setLectureStatus(trackStatus);
-        Lecture savedLecture = lectureService.save(lecture);
+        System.out.println("key words in lecture: ");
+        keyWordList.stream()
+                .map(KeyWord::getValue)
+                .forEach(System.out::println);
 
         List<MkbDto> mkbs = lectureRequestData.getMkbs();
         List<MkbDto> diss = lectureRequestData.getDiss();
@@ -519,8 +466,8 @@ public class SchemeController {
         localizationRepository.saveAll(locs1);
 
         keyWordRepository.saveAll(keyWordList);
-        log.info("/create [lecture {}]", lecture);
-        return ResponseEntity.ok(new LectureDto(lecture));
+        log.info("/create [lecture {}]", savedLecture);
+        return ResponseEntity.ok(new LectureDto(savedLecture));
     }
 
 }

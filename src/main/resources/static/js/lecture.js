@@ -18,25 +18,16 @@ function saveLectureonServer(savedSeriesBoolean, lecture){
     const learnCompetenceTwo = lecture.learnCompetenceTwo;
     const learnCompetenceThree = lecture.learnCompetenceThree;
     const learnCompetenceFour = lecture.learnCompetenceFour;
-
+    if (savedLecture) {
+        lecture.id = savedLecture;
+    }
     const data = {
-        lectureAuthors,
-        track,
-        series,
-        lectureName,
-        lectureAnnotation,
-        lectureKeyWords,
+        lecture,
         mkbs,
         diss,
-        locs,
-        learnCompetenceOne,
-        learnCompetenceTwo,
-        learnCompetenceThree,
-        learnCompetenceFour
+        locs
     };
-    if (savedLecture) {
-        data.lectureId = savedLecture;
-    }
+
     console.log(data);
 
     $.ajax({

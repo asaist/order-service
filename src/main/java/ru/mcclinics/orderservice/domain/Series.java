@@ -69,6 +69,10 @@ public class Series {
     public Series() {
     }
 
+    public Series(Long id) {
+        this.id = id;
+    }
+
     public Series(String seriesName, String annotation, Track track) {
         this.seriesName = seriesName;
         this.annotation = annotation;
