@@ -17,6 +17,7 @@ public class RequestData extends EntityDto implements Serializable {
     private List<AuthorDto> authors;
     private String university;
     private String trackName;
+    private String seriesName;
     private String trackAnnotation;
     private String trackKeyWords;
     private List<ModuleDto> modules;
@@ -38,11 +39,12 @@ public class RequestData extends EntityDto implements Serializable {
         this.lectures = lectures;
     }
 
-    public RequestData(List<AuthorDto> authors, List<LectureDto> lectures, List<MkbDto> mkbs, String seriesId) {
+    public RequestData(List<AuthorDto> authors, List<LectureDto> lectures, List<MkbDto> mkbs, String seriesId, String seriesName) {
         this.authors = authors;
         this.lectures = lectures;
         this.mkbs = mkbs;
         this.seriesId = seriesId;
+        this.seriesName = seriesName;
     }
 
 }

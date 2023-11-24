@@ -1310,7 +1310,9 @@
 
     <script>
       var defaultTime = 1;
-      document.getElementById('saveLectureInModuleSeries').addEventListener('click', function() {
+      document.getElementById('saveLectureInModuleSeries').addEventListener('click', drawGantt());
+
+      function drawGantt() {
         setTimeout(function() {
           gantt.i18n.setLocale("ru");
           gantt.config.date_format = "%Y-%m-%d %H:%i";
@@ -1376,7 +1378,7 @@
             links
           });
         }, 1000);
-      });
+      }
 
     </script>
     <script>
@@ -1503,6 +1505,7 @@
 
       <#if !moduleFlag>
       var seriesOneId123 = real(${seriesOne.id})
+      supervisorUploaded = true;
       <#else>
       var seriesOneId123 = 0;
       </#if>

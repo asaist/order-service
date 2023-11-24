@@ -127,7 +127,8 @@ public class MainController {
         List<LectureDto> lectureDtos = lectures.stream().map(LectureDto::new).collect(toList());
         List<Mkb> mkbs = series.getMkbs();
         List<MkbDto> mkbDtos = mkbs.stream().map(MkbDto::new).collect(toList());
-        RequestData rd = new RequestData(authorDtos, lectureDtos, mkbDtos, series.getId().toString());
+        String seriesName = series.getSeriesName();
+        RequestData rd = new RequestData(authorDtos, lectureDtos, mkbDtos, series.getId().toString(), seriesName);
         return rd;
     }
 
@@ -187,7 +188,13 @@ public class MainController {
         model.addAttribute("profileTab", true);
         model.addAttribute("tracks", trackService.findTracks());
         model.addAttribute("lectures", lectureService.findLectures());
+        List<Mkb10Dto> localization = entityDtoParamService.getEntityLocalizationList();
+        List<Mkb10Dto> discipline = entityDtoParamService.getEntityDisciplineList();
+        List<Mkb10Dto> spravochnik = entityDtoParamService.getEntitySpravochnikList();
         List<Mkb10Dto> entityDtoList = entityDtoParamService.getEntityDtoList();
+        model.addAttribute("localization", localization);
+        model.addAttribute("discipline", discipline);
+        model.addAttribute("spravochnik", spravochnik);
         model.addAttribute("mkb10", entityDtoList);
         return "scheme";
 

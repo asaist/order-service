@@ -28,6 +28,14 @@ function getAuthorsForEditModule(id) {
                     lectureModuleAnnotation: lecture.lectureModuleAnnotation
                 };
             });
+            let seriesName = data.seriesName;
+            const data2 = {
+                lectures,
+                seriesName
+            }
+            module = data2;
+            // console.log("Наименование курса: " + document.getElementById("moduleSeriesName").value);
+            // module.seriesName = document.getElementById("moduleSeriesName").value;
             mkbs = data.mkbs.map(mkb => {
                 return {
                     id: mkb.id,
@@ -37,10 +45,15 @@ function getAuthorsForEditModule(id) {
             });
             // Используйте полученный ID нового трека для нужных действий на фронтенде
             console.log('Авторы курса лекций: ', moduleAuthors);
+            console.log('Авторы курса лекций: ', lectures);
+            console.log('Авторы курса лекций: ', mkbs);
             savedSeries = id;
+            document.getElementById("gantt_here").classList.remove("hidden");
             drawAuthorTableMod(moduleAuthors);
             drawModScheme(lectures);
             drawMkbTableMod(mkbs);
+            drawGantt();
+
         })
         .catch(error => {
             console.error('Ошибка при отправке запроса:', error);
