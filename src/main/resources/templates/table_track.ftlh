@@ -27,8 +27,9 @@
     </li>
   </ul>
 
-
-    <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+  <div class="applicationBodySchema">
+    <div class="tab-content" id="myTabContentSeriesList">
+        <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
       <h3>Доступные курсы лекций</h3>
 
       <form class="d-flex my-2">
@@ -102,82 +103,81 @@
       </div>
 
     </div>
+        <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">
+      <h3>Доступные лекции</h3>
 
+      <form class="d-flex my-2">
+        <form method="get" action="/table_track" class="form-inline">
+          <input type="text" name="filter" class="form-control ml-2 w-50" value="${lectureFilter?ifExists}" placeholder="Введите название курса">
+          <button class="btn btn-icon btn-sm mx-2" type="submit" ><i class="fas fa-search"></i></button>
+          <button class="btn btn-outline-primary btn-sm mx-2" type="button" data-tooltip="Добавить лекцию" onclick="location.href='/';"><i class="fas fa-plus mx-1"></i></button>
+        </form>
+      </form>
 
+      <table class="table table-bordered">
+        <tr class="th-table">
+          <th class="th-table" scope="col">№</th>
+          <th class="th-table" scope="col">Название</th>
+          <th class="th-table" scope="col">Руководитель</th>
+          <th class="th-table" scope="col">Аннотация</th>
+          <th class="th-table" scope="col">Эксперт</th>
+          <th class="th-table" scope="col">Дата создания</th>
+          <th class="th-table" scope="col"></th>
+        </tr>
+        <#list lectures as lec>
+          <tr class="cursor-pointer">
 
-<#--    <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab" tabindex="0">-->
-<#--      <h3>Доступные лекции</h3>-->
+            <th scope="row" onclick="window.location='table_track/${lec.id}'">${lec.id}</th>
+            <td  onclick="window.location='table_track/${lec.id}'">${lec.seriesName}</td>
+            <td  onclick="window.location='table_track/${lec.id}'">${lec.getSupervisor()?ifExists}</td>
+            <td  onclick="window.location='table_track/${lec.id}'">${lec.annotation}</td>
+            <td  onclick="window.location='table_track/${lec.id}'"></td>
+            <td  onclick="window.location='table_track/${lec.id}'">${lec.createDate}</td>
+            <td>
+              <button type="button" class="btn btn-icon btn-sm"  data-tooltip-right="Редактировать трек">
+                <i class="fas fa-edit status text-secondary" onclick="location.href='/lecture/${lec.id}'; getAuthorsForEditLecture(${lec.id});"></i>
+              </button>
+              <#--              <i class="fas fa-users mr-10 status text-secondary" id="targetAudienceUsers" onclick="targetAudience()"></i>-->
+              <#--              <i class="fas fa-check-circle mr-10 status text-secondary"></i>-->
+              <#--              <button type="button" id="deleteTrack" track="${ser.id}" onclick="deleteTrack(${ser.id})" class="btn btn-icon btn-sm mx-2">-->
+              <#--                <i class="fas fa-trash-alt text-secondary"></i>-->
+              <#--              </button>-->
+            </td>
+          </tr>
+        </#list>
+      </table>
 
-<#--      <form class="d-flex my-2">-->
-<#--        <form method="get" action="/table_track" class="form-inline">-->
-<#--          <input type="text" name="filter" class="form-control ml-2 w-50" value="${lectureFilter?ifExists}" placeholder="Введите название курса">-->
-<#--          <button class="btn btn-icon btn-sm mx-2" type="submit" ><i class="fas fa-search"></i></button>-->
-<#--          <button class="btn btn-outline-primary btn-sm mx-2" type="button" data-tooltip="Добавить лекцию" onclick="location.href='/';"><i class="fas fa-plus mx-1"></i></button>-->
-<#--        </form>-->
-<#--      </form>-->
+      <#--      <div class="modal fade" id="deleteTrackModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">-->
+      <#--        <div class="modal-dialog">-->
+      <#--          <div class="modal-content">-->
 
-<#--      <table class="table table-bordered">-->
-<#--        <tr class="th-table">-->
-<#--          <th class="th-table" scope="col">№</th>-->
-<#--          <th class="th-table" scope="col">Название</th>-->
-<#--          <th class="th-table" scope="col">Руководитель</th>-->
-<#--          <th class="th-table" scope="col">Аннотация</th>-->
-<#--          <th class="th-table" scope="col">Эксперт</th>-->
-<#--          <th class="th-table" scope="col">Дата создания</th>-->
-<#--          <th class="th-table" scope="col"></th>-->
-<#--        </tr>-->
-<#--        <#list lectures as lec>-->
-<#--          <tr class="cursor-pointer">-->
+      <#--            <div class="modal-body">-->
+      <#--              <div class="d-flex justify-content-end">-->
+      <#--                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>-->
+      <#--              </div>-->
+      <#--              <h5 class="text-center my-4">Вы уверены, что хотите удалить трек?</h5>-->
+      <#--              <div class="d-flex justify-content-center mt-10">-->
+      <#--                <button type="button" id="deleteTrack" class="btn btn-primary mx-2">Удалить</button>-->
+      <#--                <button type="button" class="btn btn-outline-secondary mx-2">Отмена</button>-->
+      <#--              </div>-->
+      <#--            </div>-->
+      <#--          </div>-->
+      <#--        </div>-->
+      <#--      </div>-->
 
-<#--            <th scope="row" onclick="window.location='table_track/${lec.id}'">${lec.id}</th>-->
-<#--            <td  onclick="window.location='table_track/${lec.id}'">${lec.seriesName}</td>-->
-<#--            <td  onclick="window.location='table_track/${lec.id}'">${lec.getSupervisor()?ifExists}</td>-->
-<#--            <td  onclick="window.location='table_track/${lec.id}'">${lec.annotation}</td>-->
-<#--            <td  onclick="window.location='table_track/${lec.id}'"></td>-->
-<#--            <td  onclick="window.location='table_track/${lec.id}'">${lec.createDate}</td>-->
-<#--            <td>-->
-<#--              <button type="button" class="btn btn-icon btn-sm"  data-tooltip-right="Редактировать трек">-->
-<#--                <i class="fas fa-edit status text-secondary" onclick="location.href='/lecture/${lec.id}'; getAuthorsForEditLecture(${lec.id});"></i>-->
-<#--              </button>-->
-<#--              &lt;#&ndash;              <i class="fas fa-users mr-10 status text-secondary" id="targetAudienceUsers" onclick="targetAudience()"></i>&ndash;&gt;-->
-<#--              &lt;#&ndash;              <i class="fas fa-check-circle mr-10 status text-secondary"></i>&ndash;&gt;-->
-<#--              &lt;#&ndash;              <button type="button" id="deleteTrack" track="${ser.id}" onclick="deleteTrack(${ser.id})" class="btn btn-icon btn-sm mx-2">&ndash;&gt;-->
-<#--              &lt;#&ndash;                <i class="fas fa-trash-alt text-secondary"></i>&ndash;&gt;-->
-<#--              &lt;#&ndash;              </button>&ndash;&gt;-->
-<#--            </td>-->
-<#--          </tr>-->
-<#--        </#list>-->
-<#--      </table>-->
-
-<#--      &lt;#&ndash;      <div class="modal fade" id="deleteTrackModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">&ndash;&gt;-->
-<#--      &lt;#&ndash;        <div class="modal-dialog">&ndash;&gt;-->
-<#--      &lt;#&ndash;          <div class="modal-content">&ndash;&gt;-->
-
-<#--      &lt;#&ndash;            <div class="modal-body">&ndash;&gt;-->
-<#--      &lt;#&ndash;              <div class="d-flex justify-content-end">&ndash;&gt;-->
-<#--      &lt;#&ndash;                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>&ndash;&gt;-->
-<#--      &lt;#&ndash;              </div>&ndash;&gt;-->
-<#--      &lt;#&ndash;              <h5 class="text-center my-4">Вы уверены, что хотите удалить трек?</h5>&ndash;&gt;-->
-<#--      &lt;#&ndash;              <div class="d-flex justify-content-center mt-10">&ndash;&gt;-->
-<#--      &lt;#&ndash;                <button type="button" id="deleteTrack" class="btn btn-primary mx-2">Удалить</button>&ndash;&gt;-->
-<#--      &lt;#&ndash;                <button type="button" class="btn btn-outline-secondary mx-2">Отмена</button>&ndash;&gt;-->
-<#--      &lt;#&ndash;              </div>&ndash;&gt;-->
-<#--      &lt;#&ndash;            </div>&ndash;&gt;-->
-<#--      &lt;#&ndash;          </div>&ndash;&gt;-->
-<#--      &lt;#&ndash;        </div>&ndash;&gt;-->
-<#--      &lt;#&ndash;      </div>&ndash;&gt;-->
-
-<#--      <div class="hidden" id="targetAudienceBlock">-->
-<#--        <span class="bg-white mx-3 px-2" style="font-size: 14px;"><b>Целевая аудитория</b></span>-->
-<#--        <div class="interruptedСircuit p-3">-->
-<#--          <span class="badge rounded-pill bg-success" id="badge"><i class="fas fa-plus-circle mx-2"></i></span>-->
-<#--          <span class="badge rounded-pill bg-primary" id="badge">Студенты<i class="far fa-times-circle ml-10 closeBadge" id="closeBadge"></i></span>-->
-<#--          <span class="badge rounded-pill bg-primary">Ординаторы<i class="far fa-times-circle ml-10 closeBadge"></i></span>-->
-<#--          <span class="badge rounded-pill bg-primary">Аспиранты<i class="far fa-times-circle ml-10 closeBadge"></i></span>-->
-<#--          <span class="badge rounded-pill bg-primary">Врач терапевт<i class="far fa-times-circle ml-10 closeBadge"></i></span>-->
-<#--        </div>-->
-<#--      </div>-->
-<#--    </div>-->
+      <div class="hidden" id="targetAudienceBlock">
+        <span class="bg-white mx-3 px-2" style="font-size: 14px;"><b>Целевая аудитория</b></span>
+        <div class="interruptedСircuit p-3">
+          <span class="badge rounded-pill bg-success" id="badge"><i class="fas fa-plus-circle mx-2"></i></span>
+          <span class="badge rounded-pill bg-primary" id="badge">Студенты<i class="far fa-times-circle ml-10 closeBadge" id="closeBadge"></i></span>
+          <span class="badge rounded-pill bg-primary">Ординаторы<i class="far fa-times-circle ml-10 closeBadge"></i></span>
+          <span class="badge rounded-pill bg-primary">Аспиранты<i class="far fa-times-circle ml-10 closeBadge"></i></span>
+          <span class="badge rounded-pill bg-primary">Врач терапевт<i class="far fa-times-circle ml-10 closeBadge"></i></span>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
 
 
 
