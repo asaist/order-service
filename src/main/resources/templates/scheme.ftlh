@@ -182,65 +182,42 @@
                   <h5>Редактирование модуля</h5>
                 </div>
                 </#if>
-                <div class="modal-body"> 
-                    <div class="mb-10">
-                      <b>Шаблон образовательного курса лекций</b><br>
-                      <select class="form-control" class="form-control" id="trackModuleSeries" onchange="updateTrackHeadingModuleSeries()" name="seriesTrack" size="1">
-                        <#if moduleFlag>
-                          <option select class="form-control">Выберите шаблон</option>
-                        <#else>
-<#--                          <option select class="form-control" value="${seriesOne.getTrack().id}">${seriesOne.trackName}</option>-->
-                        </#if>
-                        <#if profileTab>
-                          <#list shapes as shape>
-                            <option value="${shape.id}" <#if shape?index == 0>selected</#if>>${shape.shapeName}</option>
-                          </#list>
-                        </#if>
+                <div class="modal-body">
+                  <div class="mb-10">
+                    <b>Шаблон образовательного курса лекций</b><br>
+                    <select class="form-control" class="form-control" id="trackModuleSeries"
+                            onchange="updateTrackHeadingModuleSeries()" name="seriesTrack" size="1">
+                      <#if moduleFlag>
+                        <option select class="form-control">Выберите шаблон</option>
+                      <#else>
+                      <#--                          <option select class="form-control" value="${seriesOne.getTrack().id}">${seriesOne.trackName}</option>-->
+                      </#if>
+                      <#if profileTab>
+                        <#list shapes as shape>
+                          <option value="${shape.id}" <#if shape?index == 0>selected</#if>>${shape.shapeName}</option>
+                        </#list>
+                      </#if>
 
-                      </select>
+                    </select>
+                  </div>
+                  <#if moduleFlag>
+                    <b>Наименование образовательного курса лекций</b><br>
+                    <div class="mb-10">
+                      <input type="text" class="form-control mb-2" id="moduleSeriesName"
+                             oninput="updateTrackHeadingModuleSeries()" name="seriesName"
+                             placeholder="Название курса лекций">
                     </div>
-                    <#if moduleFlag>
-                      <b>Наименование образовательного курса лекций</b><br>
-                      <div class="mb-10">
-                        <input type="text" class="form-control mb-2" id="moduleSeriesName" oninput="updateTrackHeadingModuleSeries()" name="seriesName" placeholder="Название курса лекций">
-                      </div>
-                    <#else>
-                      <b>Наименование образовательного курса лекций</b><br>
-                        <div class="mb-10">
-                          <input type="text" class="form-control mb-2" id="moduleSeriesName" oninput="updateTrackHeadingModuleSeries()" name="seriesName" value="${seriesOne.seriesName}">
-                      </div>
-                    </#if>
-                    <div class="my-4">
+                  <#else>
+                    <b>Наименование образовательного курса лекций</b><br>
+                    <div class="mb-10">
+                      <input type="text" class="form-control mb-2" id="moduleSeriesName"
+                             oninput="updateTrackHeadingModuleSeries()" name="seriesName"
+                             value="${seriesOne.seriesName}">
+                    </div>
+                  </#if>
+                  <div class="my-4">
                     <p><b>Руководитель курса лекций</b></p>
                     <div>
-<#--                      <div class="form-check mb-10">-->
-<#--                        <input class="form-check-input" type="checkbox" name="is-emsloyeeModule"  onclick="authorSamGMUModule()">-->
-<#--                        <label class="form-check-label">Руководитель является сотрудником СамГМУ</label>-->
-<#--                      </div>-->
-<#--                      <div class="hidden" id="authorSamGMUModule">-->
-<#--                        <select class="js-data-example-ajax form-control mb-10" name="author" onchange="selectAuthorModule(this.value, 'selectAuthorToModule', 'tableAuthorMod', true, true)" id="selectAuthorToModule"></select>-->
-<#--                      </div>-->
-
-<#--                      <div id="authorWorldModule">-->
-<#--                        <input class="form-control mb-10" type="text" id="inputNameAuthorModule"  placeholder="Введите ФИО автора"></input>-->
-<#--                        <div class="d-flex mb-10">-->
-<#--                          <select class="form-control w-75 mr-10" id="regalia" size="1" onclick="selectReg(this.value)">-->
-<#--                            <option  disabled>Выберите регалии</option>-->
-<#--                            <option>Профессор</option>-->
-<#--                            <option>К.М.Н.</option>-->
-<#--                            <option>Доцент</option>-->
-<#--                            <option>Зав. кафедрой</option>-->
-<#--                          </select>-->
-<#--                        </div>-->
-
-<#--                        <div class="d-flex" id="addRegalii">-->
-<#--                        </div>-->
-
-<#--                        <button type="button" class="btn btn-primary mt-3" id="createAuthorButtonModule">-->
-<#--                          <i class="fas fa-plus"></i>-->
-<#--                        </button>-->
-<#--                      </div>-->
-
                       <div>
                         <table class="table table-hover editable" id="tableAuthorMod" name="authorsMod">
                           <tr>
@@ -253,189 +230,58 @@
                         </table>
                       </div>
                     </div>
+                  </div>
+                  <#if moduleFlag>
+                    <div class="my-4">
+                      <b>Аннотация/содержание образовательного курса лекций</b><br>
+                      <textarea class="form-control" name="seriesAnnotation" cols="80" rows="5"
+                                placeholder="Заполните аннотацию, выделите #ключевые слова#"></textarea>
                     </div>
-                    <#if moduleFlag>
-                      <div class="my-4">
-                        <b>Аннотация/содержание образовательного курса лекций</b><br>
-                        <textarea class="form-control" name="seriesAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#"></textarea>
-                      </div>
-                    <#else>
-                        <div class="my-4">
-                          <b>Аннотация/содержание образовательного курса лекций</b><br>
-                          <textarea class="form-control" name="seriesAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#">${seriesOne.annotation}</textarea>
-                        </div>
-                    </#if>
-                    <#if moduleFlag>
-                        <div class="mt-10 mb-10">
-                          <b>Дополнительные ключеные слова</b><br>
-                          <textarea class="form-control" name="seriesKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;"></textarea>
-                        </div>
-                    <#else>
-                        <div class="mt-10 mb-10">
-                          <b>Дополнительные ключеные слова</b><br>
-                          <textarea class="form-control" name="seriesKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;">${seriesOne.keyWords}</textarea>
-                         </div>
-                    </#if>
+                  <#else>
+                    <div class="my-4">
+                      <b>Аннотация/содержание образовательного курса лекций</b><br>
+                      <textarea class="form-control" name="seriesAnnotation" cols="80" rows="5"
+                                placeholder="Заполните аннотацию, выделите #ключевые слова#">${seriesOne.annotation}</textarea>
+                    </div>
+                  </#if>
+                  <#if moduleFlag>
+                    <div class="mt-10 mb-10">
+                      <b>Дополнительные ключеные слова</b><br>
+                      <textarea class="form-control" name="seriesKeyWords" cols="80" rows="2"
+                                placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;"></textarea>
+                    </div>
+                  <#else>
+                    <div class="mt-10 mb-10">
+                      <b>Дополнительные ключеные слова</b><br>
+                      <textarea class="form-control" name="seriesKeyWords" cols="80" rows="2"
+                                placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;">${seriesOne.keyWords}</textarea>
+                    </div>
+                  </#if>
+
                   <div class="mb-10">
                     <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Общая матрица компетенций: </b><br>
                     <div class="mt-10 mb-10">
                       <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Вы узнаете: </b><br>
-                      <textarea class="form-control" id="moduleLearnCompetenceOne" name="module-annotation" cols="80" rows="2" placeholder="Вы узнаете: "></textarea>
+                      <textarea class="form-control" id="moduleLearnCompetenceOne" name="module-annotation" cols="80"
+                                rows="2" placeholder="Вы узнаете: "></textarea>
                     </div>
                     <div class="mt-10 mb-10">
                       <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Вы поймете: </b><br>
-                      <textarea class="form-control" id="moduleLearnCompetenceTwo" name="module-annotation" cols="80" rows="2" placeholder="Вы поймете: "></textarea>
+                      <textarea class="form-control" id="moduleLearnCompetenceTwo" name="module-annotation" cols="80"
+                                rows="2" placeholder="Вы поймете: "></textarea>
                     </div>
                     <div class="mt-10 mb-10">
                       <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Вы научитесь: </b><br>
-                      <textarea class="form-control" id="moduleLearnCompetenceThree" name="module-annotation" cols="80" rows="2" placeholder="Вы научитесь: "></textarea>
+                      <textarea class="form-control" id="moduleLearnCompetenceThree" name="module-annotation" cols="80"
+                                rows="2" placeholder="Вы научитесь: "></textarea>
                     </div>
                     <div class="mt-10 mb-10">
-                      <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Вы сможете делать это самостоятельно: </b><br>
-                      <textarea class="form-control" id="moduleLearnCompetenceFour" name="module-annotation" cols="80" rows="2" placeholder="Вы сможете делать это самостоятельно: "></textarea>
+                      <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Вы сможете делать это
+                        самостоятельно: </b><br>
+                      <textarea class="form-control" id="moduleLearnCompetenceFour" name="module-annotation" cols="80"
+                                rows="2" placeholder="Вы сможете делать это самостоятельно: "></textarea>
                     </div>
-<#--                    <div class="accordion accordion-flush my-4" id="acModuleAdditionalGuide">-->
-<#--                      <div class="accordion-item">-->
-<#--                        <h2 class="accordion-header">-->
-<#--                          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseModule" aria-expanded="false" aria-controls="flush-collapseModule">-->
-<#--                            <b>Расширяемый перечень справочников для описания модуля</b>-->
-<#--                          </button>-->
-<#--                        </h2>-->
-<#--                        <div id="flush-collapseModule" class="accordion-collapse collapse" data-bs-parent="#acModuleAdditionalGuide">-->
-<#--                          <div class="accordion-body">-->
-<#--                            <div class="mt-10 mb-10">-->
-<#--                              <b>Добавить справочник для описания</b><br>-->
-<#--                              <div class="d-flex">-->
-<#--                                <select class="form-control w-75 mr-10" name="">-->
-<#--                                  <option select class="form-control"ed="" disabled="">Выберите справочник</option>-->
-<#--                                  <option value="Шить">МКБ</option>-->
-<#--                                  <option value="Брать кровь">Дисциплина/Учебный план</option>-->
-<#--                                </select>-->
-<#--                                <button type="button" class="btn btn-primary ml-10">Добавить</button>-->
-<#--                              </div>-->
-<#--                            </div>-->
-
-<#--                            <div class="mt-10 mb-10">-->
-<#--                              <b>Целевая аудитория</b><br>-->
-<#--                              <select class="form-control" class="form-control" name="listners" size="1">-->
-<#--                                <option select class="form-control"ed="" disabled="">Выберите целевую аудиторию</option>-->
-<#--                                <option value="Студент 1-3 курса">Студент 1-3 курса</option>-->
-<#--                                <option value="Студент 4- курса">Студент 4- курса</option>-->
-<#--                                <option value="Студент 1-6 курса">Студент 1-6 курса</option>-->
-<#--                                <option value="Ординатор">Ординатор</option>-->
-<#--                                <option value="Аспирант">Аспирант</option>-->
-<#--                                <option value="Врач-кардиолог">Врач-кардиолог</option>-->
-<#--                                <option value="Врач-терапевт">Врач-терапевт</option>-->
-<#--                                <option value="Врач-и т.п.">Врач-и т.п.</option>-->
-<#--                              </select class="form-control">-->
-<#--                            </div>-->
-
-<#--                            <div class="mt-10 mb-10">-->
-<#--                              <b>Ось МКБ</b><br>-->
-<#--                              <input type="text" id="myInput" class="form-control mt-10 mb-10" onkeyup="filterOptions()" placeholder="Параметры поиска...">-->
-<#--                              <select id="mySelect" class="form-control" name="mkb" onchange="selectMkb('tableMkb')" size="1">-->
-<#--                                <option select class="form-control"ed="" disabled="">Выберите значение</option>-->
-<#--                                <#if profileTab>-->
-<#--                                <#list mkb10 as mkb>-->
-<#--                                  <option value="${mkb.id}">${mkb.code} ${mkb.name}</option>-->
-<#--                                </#list>-->
-<#--                                </#if>-->
-<#--                              </select class="form-control">-->
-
-<#--                              <div>-->
-<#--                                <table class="table table-hover editable" id="tableMkb" name="tableMkb">-->
-<#--                                  <tr>-->
-<#--                                    <th class="text-center regTd">Наименование</th>-->
-<#--                                    <th class="text-center removeTd"><i class="fas fa-trash-alt"></i></th>-->
-<#--                                  </tr>-->
-
-<#--&lt;#&ndash;                                  <tbody>&ndash;&gt;-->
-<#--&lt;#&ndash;                                  <#list seriesOne.mkbs as mkb>&ndash;&gt;-->
-<#--&lt;#&ndash;                                    <tr>&ndash;&gt;-->
-<#--&lt;#&ndash;                                      <td>${mkb.value}</td>&ndash;&gt;-->
-<#--&lt;#&ndash;                                      <th class="text-center removeTd"><i class="fas fa-trash-alt"></i></th>&ndash;&gt;-->
-<#--&lt;#&ndash;                                    </tr>&ndash;&gt;-->
-<#--&lt;#&ndash;                                  </#list>&ndash;&gt;-->
-<#--&lt;#&ndash;                                  </tbody>&ndash;&gt;-->
-<#--                                </table>-->
-<#--                              </div>-->
-
-<#--                            </div>-->
-
-
-
-<#--                            <div class="mt-10 mb-10">-->
-<#--                              <b>Ось Дисциплин/учебный план</b><br>-->
-<#--                              <select class="form-control" name="discipline" size="1">-->
-<#--                                <option select class="form-control"ed="" disabled="">Выберите дисциплину</option>-->
-<#--                                <option value="Общая анатомия">Общая анатомия</option>-->
-<#--                                <option value="Биохимия">Биохимия</option>-->
-<#--                                <option value="Диетолония">Диетолония</option>-->
-<#--                                <option value="Фармакология">Фармакология</option>-->
-<#--                              </select class="form-control">-->
-<#--                            </div>-->
-<#--                            <div class="mt-10 mb-10">-->
-<#--                              <b>Ось Локализации</b><br>-->
-<#--                              <select class="form-control" name="atlas" size="1">-->
-<#--                                <option select class="form-control"ed="" disabled="">Выберите локализацию</option>-->
-<#--                                <option value="Мозг">Мозг</option>-->
-<#--                                <option value="Пищеватительная система">Пищеватительная система</option>-->
-<#--                                <option value="Сердце">Сердце</option>-->
-<#--                                <option value="Опорнодвигательная система">Опорнодвигательная система</option>-->
-<#--                              </select class="form-control">-->
-<#--                            </div>    -->
-<#--                            <div class="mt-10 mb-10">-->
-<#--                              <b>Ось Внешних факторов</b><br>-->
-<#--                              <select class="form-control" name="exfacts" size="1">-->
-<#--                                <option select class="form-control"ed="" disabled="">Выберите фактор</option>-->
-<#--                                <option value="Солнце">Солнце</option>-->
-<#--                                <option value="Атмосферное давление">Атмосферное давление</option>-->
-<#--                                <option value="Автомобиль">Автомобиль</option>-->
-<#--                                <option value="Воздействие радиации">Воздействие радиации</option>-->
-<#--                              </select class="form-control">-->
-<#--                            </div>-->
-<#--                            <div class="mt-10 mb-10">-->
-<#--                              <b>Ведение и состояния</b><br>-->
-<#--                              <div class="d-flex">-->
-<#--                                <select class="form-control w-75 mr-10" name="exfacts" size="1">-->
-<#--                                  <option select class="form-control"ed="" disabled="">Выберите этап</option>-->
-<#--                                  <option value="Солнце">Норма</option>-->
-<#--                                  <option value="Атмосферное давление">Этиология</option>-->
-<#--                                  <option value="Автомобиль">Пат.анатомия</option>-->
-<#--                                  <option value="Воздействие радиации">Диагностика</option>-->
-<#--                                  <option value="Атмосферное давление">Лечение</option>-->
-<#--                                  <option value="Автомобиль">Реабилитация</option>-->
-<#--                                </select class="form-control">-->
-<#--                                <button type="button" class="btn btn-primary ml-10"><i class="fas fa-plus"></i></button>-->
-<#--                              </div>-->
-<#--                            </div>-->
-<#--                            <div class="mt-10 mb-10">-->
-<#--                              <b>Компетенции</b><br>-->
-<#--                              <div class="d-flex">-->
-<#--                                <select class="form-control w-75 mr-10" name="kompetetion" size="1">-->
-<#--                                  <option select class="form-control"ed="" disabled="">Выберите компетению</option>-->
-<#--                                  <option value="Шить">Шить</option>-->
-<#--                                  <option value="Брать кровь">Брать кровь</option>-->
-<#--                                  <option value="Писать">Писать</option>-->
-<#--                                  <option value="Проводить аускультацию">Проводить аускультацию</option>-->
-<#--                                </select class="form-control">-->
-<#--                                <button type="button" class="btn btn-primary ml-10"><i class="fas fa-plus"></i></button>-->
-<#--                              </div>-->
-<#--                            </div>-->
-<#--                          </div>-->
-<#--                        </div>-->
-<#--                      </div>-->
-<#--                    </div> -->
-
-<#--                    <div class="form-check mt-10 mb-10">-->
-<#--                        <input class="form-check-input" type="checkbox" onclick="subshootingModule()">-->
-<#--                        <label class="form-check-label">Подсъёмки (при наличии)</label>-->
-<#--                      </div>-->
-
-<#--                    <div class="mt-10">                    -->
-<#--                      <textarea id="subsurveyModule" class="hidden form-control" cols="50" rows="2" placeholder="Краткое описание подсъёмки"></textarea>-->
-<#--                    </div>-->
-
+                  </div>
                 </div>
                 <div class="tab-pane fade show active h-100" id="pills-network-wired" role="tabpanel" aria-labelledby="pills-network-wired-tab" tabindex="0">
                   <div class="my-3 rounded p-3" style="border: 1px solid #e9e9e9; background: #e9e9e9;">
@@ -447,19 +293,11 @@
                       <h5 id="moduleHeading" class="text-center m-0 p-0 flex-nowrap w-75">Курс лекций</h5>
                     </div>
                   </div>
-
                   <div class="d-flex rowScheme" id="rowSchemeModuleSeries" style="position:relative;">
-                    <div id="rowModuleSeries" class="d-flex flex-wrap">
-
-                    </div>
-
-                    <div class="d-flex mx-2 flex-wrap" id="colLecModule">
-
-                    </div>
+                    <div id="rowModuleSeries" class="d-flex flex-wrap"></div>
+                    <div class="d-flex mx-2 flex-wrap" id="colLecModule"></div>
                   </div>
-
                   <div id="gantt_here" class="hidden" style='width:100%; height:400px;'></div>
-
                   <div class="modal-footer">
                     <button type="submit" id="saveModuleM" class="btn btn-primary">Добавить курс лекций</button>
                     <button type="submit" id="editModuleM" class="btn btn-primary hidden">Редактировать курс лекций</button>
@@ -917,7 +755,7 @@
                       </div>
                 </form>
               </div>
-          </div>
+
           <div class="overlay hidden" id="overlay" style="z-index: 10;"></div>
         </div>
       </div>
