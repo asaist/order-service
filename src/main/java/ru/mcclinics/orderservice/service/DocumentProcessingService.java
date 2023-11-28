@@ -13,10 +13,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import ru.mcclinics.orderservice.domain.Lecture;
+import ru.mcclinics.orderservice.domain.Process;
 import ru.mcclinics.orderservice.domain.Series;
 import ru.mcclinics.orderservice.dto.DocumentDto;
 import ru.mcclinics.orderservice.dto.LectureDto;
 import ru.mcclinics.orderservice.dto.ModuleDto;
+import ru.mcclinics.orderservice.dto.ProcessDto;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -31,7 +34,7 @@ import static org.springframework.security.oauth2.core.endpoint.OAuth2ParameterN
 
 public class DocumentProcessingService {
 
-    public ResponseEntity<String> launchProcess(String base64, String processType, String supervisorGuid, String executorGuid, String initDocType) throws JsonProcessingException {
+    public ProcessDto launchProcess(String base64, String processType, String supervisorGuid, String executorGuid, String initDocType) throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
 
         HttpHeaders headers = new HttpHeaders();
@@ -80,29 +83,19 @@ public class DocumentProcessingService {
 
 
 
-        ResponseEntity<String> response3 = restTemplate.postForEntity(
+        ResponseEntity<ProcessDto> response3 = restTemplate.postForEntity(
                 "https://dev.service.samsmu.ru/document-processing/documentProcessing/processToPeople",
                 entity,
-                String.class
+                ProcessDto.class
         );
-//                HttpEntity<String>  response2 = restTemplate.exchange(
-//                "https://dev.service.samsmu.ru/document-processing/documentProcessing/processToPeople",
-//                HttpMethod.POST,
-//                entity,
-//                String.class
-//        );
-//        ResponseEntity<EmployeeDto[]> response4 = restTemplate.exchange(
-//                "https://dev.service.samsmu.ru/users/users/employee",
-//                HttpMethod.GET,
-//                entity,
-//                EmployeeDto[].class
-//        );
-//        EmployeeDto[] employeeDtos = response4.getBody();
+        System.out.println(response3);
+
+        ProcessDto processDto = response3.getBody();
 //        List<EmployeeDto> employeeDtoList = Arrays.asList(employeeDtos);
-        return (ResponseEntity<String>) response3;
+        return processDto;
     }
 
-    public void generatePdfForExecution(LectureDto lecture, String processType,
+    public Process generatePdfForExecution(LectureDto lecture, String processType,
                                         String supervisorGuid, String executorGuid,
                                         String initDocType)
             throws JRException, IOException {
@@ -146,7 +139,9 @@ public class DocumentProcessingService {
         }
 
         // Отправка PDF в виде Base64 через RestTemplate
-//        launchProcess(base64, processType, supervisorGuid, executorGuid, initDocType);
+        ProcessDto processDto = launchProcess(base64, processType, supervisorGuid, executorGuid, initDocType);
+        Process process = new Process(processDto);
+        return process;
     }
 
 

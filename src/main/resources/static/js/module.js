@@ -149,6 +149,7 @@ async function sendForApprovalCourse(processType, el, batch) {
     button2.disabled = true;                 // Делаем кнопку неактивной
     button2.style.backgroundColor = "gray";
     trackSignature();
+    document.getElementById("announcement").classList.remove('hidden');
 }
 
 
@@ -251,7 +252,6 @@ function addLectureSchemeModule() {
     document.getElementById('learnCompetenceFour').value = "";
     // document.getElementById('lectureDaysToFill').value = "";
     document.getElementById('tableAuthorModal').innerHTML = '';
-    document.getElementById("gantt_here").classList.remove("hidden");
     saveSeriesOnServer();
     lecture.moduleId = savedSeries;
     saveLectureonServer(true, lecture);
@@ -261,6 +261,8 @@ function addLectureSchemeModule() {
     savedLecture = null;
     lectureAuthors = [];
     console.log("После: " + lectures);
+    drawGantt();
+    document.getElementById("gantt_here").classList.remove("hidden");
     btnClose();
 }
 

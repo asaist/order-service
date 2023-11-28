@@ -80,7 +80,7 @@
     function pgLoadToken(url) {
       var xhr = new XMLHttpRequest();
       console.log(url);
-      console.log("Bearer " + axiosConfig.headers.Authorization);
+      console.log("Токен получил на /public, передаю в /public/home: Bearer " + axiosConfig.headers.Authorization);
       xhr.open('GET', url);
       xhr.onreadystatechange = handler;
       xhr.responseType = 'blob';

@@ -33,11 +33,10 @@ public class CheckTokenService {
                 entity,
                 UserInfoDto.class);
         UserInfoDto userinfo = response.getBody();
+        System.out.println("USER_GUID: " + userinfo.getSub());
         Author supervisor = authorService.findAuthorByGuid(userinfo.getSub());
         System.out.println("User: " + userinfo.getSub() + userinfo.getGivenName() + userinfo.getFamilyName());
 //        return userinfo.getSub() != null;
         return supervisor;
     }
-
-
 }

@@ -12,11 +12,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import ru.mcclinics.orderservice.dao.DisciplineRepository;
-import ru.mcclinics.orderservice.dao.KeyWordRepository;
-import ru.mcclinics.orderservice.dao.LocalizationRepository;
-import ru.mcclinics.orderservice.dao.MkbRepository;
+import ru.mcclinics.orderservice.dao.*;
 import ru.mcclinics.orderservice.domain.*;
+import ru.mcclinics.orderservice.domain.Process;
 import ru.mcclinics.orderservice.dto.*;
 import ru.mcclinics.orderservice.service.*;
 
@@ -38,6 +36,7 @@ public class SchemeController {
     private final LectureService lectureService;
     private final UserService userService;
     private final KeyWordRepository keyWordRepository;
+    private final ProcessRepository processRepository;
     private final MkbRepository mkbRepository;
     private final LocalizationRepository localizationRepository;
     private final DisciplineRepository disciplineRepository;
@@ -308,11 +307,15 @@ public class SchemeController {
         for (Lecture lecture : lectures) {
             LectureDto lectureDto = new LectureDto(lecture);
             for (Author author : lecture.getAuthors()){
-                documentProcessingService.generatePdfForExecution(
+                Process process = documentProcessingService.generatePdfForExecution(
                         lectureDto,
                         ForExecutionProcessType,
                         supervisor.getGuid(),
                         author.getGuid(), initDocType);
+                process.setLecture(lecture);
+                process.setSeries(series);
+                processRepository.save(process);
+
             }
         }
         return ResponseEntity.ok(200);

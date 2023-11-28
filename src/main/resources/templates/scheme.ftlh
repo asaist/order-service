@@ -301,7 +301,7 @@
                   <div class="modal-footer">
                     <button type="submit" id="saveModuleM" class="btn btn-primary">Добавить курс лекций</button>
                     <button type="submit" id="editModuleM" class="btn btn-primary hidden">Редактировать курс лекций</button>
-                    <button type="button" id="sendForApproval" class="btn btn-primary" onclick="sendForApprovalCourse('sendCourse', this, true)">Отправить на согласование</button>
+                    <button type="button" id="sendForApproval" class="btn btn-primary hidden" onclick="sendForApprovalCourse('sendCourse', this, true)">Отправить на согласование</button>
                     <button type="button" id="sendForExecution" class="btn btn-primary hidden" onclick="setDaysForFillingDialog()">Отправить на исполнение</button>
                   </div>
                 </div>
@@ -351,6 +351,14 @@
                   </div>
                 </div>
               </div>
+            <div class="modal-wrapper">
+              <div class="lectureModal shadow hidden" id="announcement">
+                <div class="modal-header">
+                  <h5>Задание отправлено на исполнение</h5>
+                  <button type="button" class="btn-close" onclick="btnClose()"></button>
+                </div>
+              </div>
+            </div>
             <!-- Заявка на Лекцию всплывающая для дерева модуля -->
             <div class="modal-wrapper" style="z-index: 100;">
                 <div class="lectureModal shadow hidden" id="addLectureModalModule">
@@ -762,7 +770,7 @@
     </div>
 
     <!-- Модальное окно для просмотра паспорта автора-->
-    <div class="hidden modalShowDocs" id="modalShowDocs">
+    <div class="hidden modalShowDocs" id="modalShowDocs" style="z-index: 20">
       <div class="modal-header">
         <button type="button" class="btn"><i class="fas fa-times" onclick="closeModal()"></i></button>
       </div>
@@ -829,7 +837,7 @@
 
     <script>
       var defaultTime = 1;
-      document.getElementById('saveLectureInModuleSeries').addEventListener('click', drawGantt());
+      // document.getElementById('saveLectureInModuleSeries').addEventListener('click', drawGantt());
 
       function drawGantt() {
         setTimeout(function() {
