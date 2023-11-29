@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import ru.mcclinics.orderservice.dto.AuthorDto;
 import ru.mcclinics.orderservice.dto.LectureDto;
+import ru.mcclinics.orderservice.service.AuthorService;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -22,7 +24,6 @@ import static java.util.stream.Collectors.toList;
 @Getter
 @Table(name = "lecture")
 @Entity
-
 public class Lecture {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -85,6 +86,7 @@ public class Lecture {
     private Long frontEndModule;
     @Transient
     private Long frontEndLecture;
+
 //    @CollectionTable(name = "lecture_status", joinColumns = @JoinColumn(name = "lecture_id"))
 //    @Enumerated(EnumType.STRING)
 //    @Column(name = "status")
@@ -170,12 +172,7 @@ public class Lecture {
             this.series = new Series(Long.valueOf(lectureDto.getModuleId()));
         }
 
-        if (lectureDto.getAuthors() != null) {
-            List<Author> authors = lectureDto.getAuthors().stream().map(Author::new).collect(toList());
-            Set<Author> authorsSet = authors.stream()
-                    .collect(Collectors.toSet());
-            this.authors = authorsSet;
-        }
+
         if (lectureDto.getDaysToFill() != null){
             this.daysToFill = lectureDto.getDaysToFill();
         }
@@ -197,10 +194,6 @@ public class Lecture {
         }
         this.shape = new Shape(1L);
         this.createDate = LocalDateTime.now();
-        if (authors != null){
-            this.supervisor = authors.iterator().next();
-        }
-
     }
     public String getSupervisor(){
         return supervisor!=null ? supervisor.getLastName() + " " + supervisor.getFirstName() + " " + supervisor.getMiddleName() : "<none>";

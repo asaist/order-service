@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.minidev.json.JSONObject;
 import net.sf.jasperreports.engine.*;
 import org.springframework.http.*;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -33,6 +34,8 @@ import static org.springframework.security.oauth2.core.endpoint.OAuth2ParameterN
 @RequiredArgsConstructor
 
 public class DocumentProcessingService {
+
+    private final ProcessService processService;
 
     public ProcessDto launchProcess(String base64, String processType, String supervisorGuid, String executorGuid, String initDocType) throws JsonProcessingException {
         RestTemplate restTemplate = new RestTemplate();
@@ -81,18 +84,17 @@ public class DocumentProcessingService {
 
         HttpEntity<?> entity = new HttpEntity<>(params, headers2);
 
-
-
-        ResponseEntity<ProcessDto> response3 = restTemplate.postForEntity(
+        ResponseEntity<ProcessDto[]> response3 = restTemplate.exchange(
                 "https://dev.service.samsmu.ru/document-processing/documentProcessing/processToPeople",
+                HttpMethod.POST,
                 entity,
-                ProcessDto.class
+                ProcessDto[].class
         );
-        System.out.println(response3);
+        System.out.println("RESPONSE_FROM_DOCUMENT_PROCESSING: " + response3);
 
-        ProcessDto processDto = response3.getBody();
+        ProcessDto[] processDto = response3.getBody();
 //        List<EmployeeDto> employeeDtoList = Arrays.asList(employeeDtos);
-        return processDto;
+        return processDto[0];
     }
 
     public Process generatePdfForExecution(LectureDto lecture, String processType,
@@ -132,12 +134,15 @@ public class DocumentProcessingService {
             // Кодирование HTML-документа в формат Base64
             base64 = Base64.getEncoder().encodeToString(renderedHtmlContent.getBytes(StandardCharsets.UTF_8));
 
-            System.out.println(base64);
+            System.out.println("DOCUMENT_FOR_EXECUTION_IN_BASE64: " + base64);
         } catch (IOException | TemplateException e) {
             // Обработка исключения, если файл не найден, возникла ошибка чтения или отрисовки шаблона
             e.printStackTrace();
         }
-
+        System.out.println("processType: " + processType);
+        System.out.println("supervisorGuid: " + supervisorGuid);
+        System.out.println("executorGuid: " + executorGuid);
+        System.out.println("initDocType: " + initDocType);
         // Отправка PDF в виде Base64 через RestTemplate
         ProcessDto processDto = launchProcess(base64, processType, supervisorGuid, executorGuid, initDocType);
         Process process = new Process(processDto);
@@ -192,6 +197,69 @@ public class DocumentProcessingService {
         launchProcess(base64, processType, supervisorGuid, executorGuid, initDocType);
 
 
+    }
+    @Scheduled(cron = "0 */1 * * * *")
+    public void updateProcess() throws JsonProcessingException {
+        List<Process> processes = processService.findActiveProcesses();
+        for (Process process : processes){
+            String processState = checkProcessState(process.getId().toString());
+            System.out.println("processState after getting: " + processState);
+            process.setProcessState(Long.parseLong(processState));
+            processService.save(process);
+        }
+        System.out.println("Processes were updated...");
+    }
+
+
+
+    public String checkProcessState(String processID) throws JsonProcessingException {
+        RestTemplate restTemplate = new RestTemplate();
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        headers.setBasicAuth(CLIENT_ID, CLIENT_SECRET);
+
+        MultiValueMap<String, String> map= new LinkedMultiValueMap<>();
+        map.add("grant_type", "client_credentials");
+        map.add("client_id", "track-samsmu-service");
+        map.add("client_secret", "775f3ea5-e6b3-47c3-b4ba-d00aaceb3da7");
+
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<>(map, headers);
+
+        ResponseEntity<String> response = restTemplate.postForEntity("https://sso.samsmu.ru/auth/realms/SAMGMU/protocol/openid-connect/token", request , String.class);
+
+        String responseBody = response.getBody();
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, Object> map1 = mapper.readValue(responseBody, new TypeReference<Map<String,Object>>(){});
+
+        // парсим JSON-строку
+        JSONObject jsonObject = new JSONObject(map1);
+        String tokenKeyCloak = jsonObject.getAsString("access_token");
+        int i =1;
+
+        HttpHeaders headers2 = new HttpHeaders();
+//        headers2.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
+        headers2.set(HttpHeaders.AUTHORIZATION, "Bearer " + tokenKeyCloak);
+        System.out.println("tokenKeyCloak to get ProcessState " + tokenKeyCloak);
+        headers2.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("processID", processID);
+        System.out.println("processID FROM DB: " + processID);
+        HttpEntity<?> entity = new HttpEntity<>(params, headers2);
+
+        ResponseEntity<ProcessDto[]> response3 = restTemplate.exchange(
+                "https://dev.service.samsmu.ru/document-processing/documentProcessing/processToPeople?processID=" + processID,
+                HttpMethod.GET,
+                entity,
+                ProcessDto[].class
+        );
+        ProcessDto[] processDto = response3.getBody();
+        System.out.println("response3: " + response3);
+
+        System.out.println("processID: " + processDto[0].getProcessID());
+        System.out.println("processState: " + processDto[0].getProcessState());
+        return processDto[0].getProcessState();
     }
 
     public void testFreeMarker() throws Exception {

@@ -435,6 +435,22 @@ public class SchemeController {
     public ResponseEntity<LectureDto> addLecture(@RequestBody LectureRequestData lectureRequestData
     ) {
         Lecture lecture = new Lecture(lectureRequestData.getLecture());
+        List<AuthorDto> authors = lectureRequestData.getLecture().getAuthors();
+        Set<Author> authorsSet = new HashSet<>();
+        if (authors != null) {
+            List<Author> authorsFront = authors.stream().map(Author::new).collect(toList());
+
+            List<Long> ids = authorsFront.stream()
+                    .filter(author -> author.getAuthorId() != null)
+                    .map(Author::getAuthorId)
+                    .toList();
+            List<Author> authorList = authorService.findAuthorsByListId(ids);
+
+            authorsSet = authorList.stream()
+                    .collect(Collectors.toSet());
+        }
+        lecture.setAuthors(authorsSet);
+        lecture.setSupervisor(authorsSet.iterator().next());
         Lecture savedLecture = lectureService.save(lecture);
         System.out.println("SavedLectireId: " + savedLecture.getId());
         String lectureKeyWords = lectureRequestData.getLecture().getLectureModuleKeyWords();
@@ -446,6 +462,10 @@ public class SchemeController {
             keyWord.setLecture(savedLecture);
             keyWordList.add(keyWord);
         }
+
+
+
+
 
         System.out.println("key words in lecture: ");
         keyWordList.stream()
