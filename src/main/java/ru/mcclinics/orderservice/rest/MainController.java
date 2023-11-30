@@ -17,10 +17,9 @@ import ru.mcclinics.orderservice.service.*;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import static java.util.stream.Collectors.toList;
 import static org.springframework.http.HttpStatus.OK;
@@ -78,10 +77,16 @@ public class MainController {
         } else {
             lectures = lectureService.findLectures();
         }
-
-        model.addAttribute("series", series);
+        // Sort series by descending createDate
+        List<Series> sortedSeries = StreamSupport.stream(series.spliterator(), false)
+                .sorted(Comparator.comparing(Series::getCreateDate).reversed())
+                .collect(Collectors.toList());
+        List<Lecture> sortedLectures = StreamSupport.stream(lectures.spliterator(), false)
+                .sorted(Comparator.comparing(Lecture::getCreateDate).reversed())
+                .collect(Collectors.toList());
+        model.addAttribute("series", sortedSeries);
         model.addAttribute("filter", filter);
-        model.addAttribute("lectures", lectures);
+        model.addAttribute("lectures", sortedLectures);
         model.addAttribute("lectureFilter", lectureFilter);
         model.addAttribute("universities", universityService.getUniversityList());
         return "table_track";

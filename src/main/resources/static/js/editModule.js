@@ -25,7 +25,8 @@ function getAuthorsForEditModule(id) {
                     id: lecture.id,
                     moduleId: lecture.moduleId,
                     lectureModuleName: lecture.lectureModuleName,
-                    lectureModuleAnnotation: lecture.lectureModuleAnnotation
+                    lectureModuleAnnotation: lecture.lectureModuleAnnotation,
+                    executed: lecture.executed
                 };
             });
             let seriesName = data.seriesName;
@@ -53,12 +54,26 @@ function getAuthorsForEditModule(id) {
             drawModScheme(lectures);
             drawMkbTableMod(mkbs);
             drawGantt();
-
+            showSendToApproveButton(lectures);
+            if (toShowSendToApproveButton){
+                document.getElementById('sendForApproval').classList.remove('hidden');
+            }
         })
         .catch(error => {
             console.error('Ошибка при отправке запроса:', error);
         });
 }
+    let toShowSendToApproveButton = true;
+    function showSendToApproveButton(lectures)
+    {
+
+        for (const lecture of lectures ){
+            if (!lecture.executed) {
+                toShowSendToApproveButton = false;
+                break;
+            }
+        }
+    }
 // var supervisor = null;
 // function getSupervisor(id) {
 //     // const url = '/authors_track'; // здесь id - идентификатор трека
@@ -135,9 +150,9 @@ function drawModScheme(lectures){
             let icon = document.createElement('i');
             icon.classList.add('fas', 'fa-times', 'text-white');
             button.append(icon);
-            document.getElementById('lectureModalName').value = "";
-            document.getElementById('lectureModalAnnotation').value = "";
-            document.getElementById('lectureModalKeyWords').value = "";
+            // document.getElementById('lectureModalName').value = "";
+            // document.getElementById('lectureModalAnnotation').value = "";
+            // document.getElementById('lectureModalKeyWords').value = "";
             btnClose();
         }
 

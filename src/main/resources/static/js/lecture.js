@@ -11,22 +11,55 @@ lectureForm.addEventListener('submit', (event) => {
 function saveLectureonServer(savedSeriesBoolean, lecture){
     const track = savedSeriesBoolean ? moduleForm.seriesTrack.value : lectureForm.lectureTrack.value;
     const series = savedSeriesBoolean ? savedSeries : lectureForm.lectureSeries.value;
-    const lectureName = savedSeriesBoolean ? lecture.lectureModuleName : lectureForm.lectureName.value;
-    const lectureAnnotation = savedSeriesBoolean ? lecture.lectureModuleAnnotation : lectureForm.lectureAnnotation.value;
-    const lectureKeyWords = savedSeriesBoolean ? lecture.lectureModuleKeyWords : lectureForm.lectureKeyWords.value;
-    const learnCompetenceOne = lecture.learnCompetenceOne;
-    const learnCompetenceTwo = lecture.learnCompetenceTwo;
-    const learnCompetenceThree = lecture.learnCompetenceThree;
-    const learnCompetenceFour = lecture.learnCompetenceFour;
+    // if (lecture === undefined){
+    //     const lectureName = lectureForm.lectureName.value;
+    //     const lectureAnnotation = lectureForm.lectureAnnotation.value;
+    //     const lectureKeyWords = lectureForm.lectureKeyWords.value;
+    //     const learnCompetenceOne = lectureForm.lectureLearnCompetenceOne.value;
+    //     const learnCompetenceTwo = lectureForm.lectureLearnCompetenceTwo.value;
+    //     const learnCompetenceThree = lectureForm.lectureLearnCompetenceThree.value;
+    //     const learnCompetenceFour = lectureForm.lectureLearnCompetenceFour.value;
+    // } else {
+    //     const lectureName = savedSeriesBoolean ? lecture.lectureModuleName : lectureForm.lectureName.value;
+    //     const lectureAnnotation = savedSeriesBoolean ? lecture.lectureModuleAnnotation : lectureForm.lectureAnnotation.value;
+    //     const lectureKeyWords = savedSeriesBoolean ? lecture.lectureModuleKeyWords : lectureForm.lectureKeyWords.value;
+    //     const learnCompetenceOne = lecture == null ? lectureForm.lectureLearnCompetenceOne.value : lecture.learnCompetenceOne;
+    //     const learnCompetenceTwo = lecture == null ? lectureForm.lectureLearnCompetenceTwo.value : lecture.learnCompetenceTwo;
+    //     const learnCompetenceThree = lecture == null ? lectureForm.lectureLearnCompetenceThree.value : lecture.learnCompetenceThree;
+    //     const learnCompetenceFour = lecture == null ? lectureForm.lectureLearnCompetenceFour.value : lecture.learnCompetenceFour;
+    // }
+
+
+    let lectureEdited = null;
+
     if (savedLecture) {
-        lecture.id = savedLecture;
+        if (lecture != undefined) {
+            lecture.id = savedLecture;
+        }else {
+            lectureEdited = new Lecture(savedLecture, savedSeries, lectureForm.lectureName.value,
+            lectureForm.lectureAnnotation.value, lectureForm.lectureKeyWords.value, lectureAuthors, defaultTime,
+            "NOT_SENT", true, lectureForm.lectureLearnCompetenceOne.value,
+            lectureForm.lectureLearnCompetenceTwo.value, lectureForm.lectureLearnCompetenceThree.value,
+            lectureForm.lectureLearnCompetenceFour.value);
+        }
     }
-    const data = {
-        lecture,
-        mkbs,
-        diss,
-        locs
-    };
+    let data = null;
+    if (lecture === undefined){
+        let lecture = lectureEdited
+        data = {
+            lecture,
+            mkbs,
+            diss,
+            locs
+        };
+    } else {
+        data = {
+            lecture,
+            mkbs,
+            diss,
+            locs
+        };
+    }
 
     console.log(data);
 

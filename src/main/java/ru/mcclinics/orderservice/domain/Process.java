@@ -38,7 +38,7 @@ public class Process {
 
     public Process(ProcessDto processDto) {
         this.id = Long.parseLong(processDto.getProcessID());
-        this.processType = Long.parseLong(processDto.getProcessType());
+//        this.processType = processDto.getProcessType();
         this.processState = Long.parseLong(processDto.getProcessState());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
         this.processDate = LocalDate.parse(processDto.getProcessDate(), formatter);

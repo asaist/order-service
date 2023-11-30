@@ -72,7 +72,7 @@ class Lecture {
                 lectureModuleAnnotation, lectureModuleKeyWords,
                 authors, daysToFill, status, idDb,
                 learnCompetenceOne, learnCompetenceTwo,
-                learnCompetenceThree, learnCompetenceFour) {
+                learnCompetenceThree, learnCompetenceFour, executed) {
         this.id = id;
         this.moduleId = moduleId;
         this.lectureModuleName = lectureModuleName;
@@ -86,6 +86,7 @@ class Lecture {
         this.learnCompetenceTwo = learnCompetenceTwo;
         this.learnCompetenceThree = learnCompetenceThree;
         this.learnCompetenceFour = learnCompetenceFour;
+        this.executed = executed;
     }
 }
 var modules = [];

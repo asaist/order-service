@@ -575,12 +575,12 @@
                     </div>
                     <#if lectureFlag>
                           <div class="my-4">
-                            <b>Аннотация/содержание образовательного Модуля</b><br>
+                            <b>Аннотация/содержание образовательной лекции</b><br>
                             <textarea class="form-control" name="lectureAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#"></textarea>
                           </div>
                     <#else>
                     <div class="my-4">
-                      <b>Аннотация/содержание образовательного Модуля</b><br>
+                      <b>Аннотация/содержание образовательнной лекции</b><br>
                       <textarea class="form-control" name="lectureAnnotation" cols="80" rows="5" placeholder="Заполните аннотацию, выделите #ключевые слова#">${lecture.annotation}</textarea>
                     </div>
                     </#if>
@@ -595,6 +595,50 @@
                       <textarea class="form-control" name="lectureKeyWords" cols="80" rows="2" placeholder="Заполните список с ключевыми словами, не включенных в аннотацию, разделив ;">${lecture.keyWords}</textarea>
                     </div>
                     </#if>
+
+                    <div class="mb-10">
+                      <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Компетенции: </b><br>
+                      <#if lectureFlag>
+                      <div class="mt-10 mb-10">
+                        <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Вы узнаете: </b><br>
+                        <textarea class="form-control" id="lectureLearnCompetenceOne" name="lectureLearnCompetenceOne" cols="80" rows="2" placeholder="Вы узнаете: "></textarea>
+                      </div>
+                      <div class="mt-10 mb-10">
+                        <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Вы поймете: </b><br>
+                        <textarea class="form-control" id="lectureLearnCompetenceTwo" name="lectureLearnCompetenceOne" cols="80" rows="2" placeholder="Вы поймете: "></textarea>
+                      </div>
+                      <div class="mt-10 mb-10">
+                        <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Вы научитесь: </b><br>
+                        <textarea class="form-control" id="lectureLearnCompetenceThree" name="lectureLearnCompetenceOne" cols="80" rows="2" placeholder="Вы научитесь: "></textarea>
+                      </div>
+                      <div class="mt-10 mb-10">
+                        <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Вы сможете делать это самостоятельно: </b><br>
+                        <textarea class="form-control" id="lectureLearnCompetenceFour" name="lectureLearnCompetenceOne" cols="80" rows="2" placeholder="Вы сможете делать это самостоятельно: "></textarea>
+                      </div>
+                      <#else>
+                      <div class="mt-10 mb-10">
+                        <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Вы узнаете: </b><br>
+                        <textarea class="form-control" id="lectureLearnCompetenceOne" name="lectureLearnCompetenceOne" cols="80" rows="2" placeholder="Вы узнаете: ">${lecture.learnCompetenceOne?if_exists}</textarea>
+                      </div>
+                      <div class="mt-10 mb-10">
+                        <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Вы поймете: </b><br>
+                        <textarea class="form-control" id="lectureLearnCompetenceTwo" name="lectureLearnCompetenceOne" cols="80" rows="2" placeholder="Вы поймете: ">${lecture.learnCompetenceTwo?if_exists}</textarea>
+                      </div>
+                      <div class="mt-10 mb-10">
+                        <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Вы научитесь: </b><br>
+                        <textarea class="form-control" id="lectureLearnCompetenceThree" name="lectureLearnCompetenceOne" cols="80" rows="2" placeholder="Вы научитесь: ">${lecture.learnCompetenceThree?if_exists}</textarea>
+                      </div>
+                      <div class="mt-10 mb-10">
+                        <i class="fas fa-angle-double-right text-primary mr-10"></i><b>Вы сможете делать это самостоятельно: </b><br>
+                        <textarea class="form-control" id="lectureLearnCompetenceFour" name="lectureLearnCompetenceOne" cols="80" rows="2" placeholder="Вы сможете делать это самостоятельно: ">${lecture.learnCompetenceFour?if_exists}</textarea>
+                      </div>
+                      </#if>
+                    </div>
+
+
+
+
+
                           <div class="accordion accordion-flush my-4" id="acLectureAdditionalGuide">
                             <div class="accordion-item">
                               <h2 class="accordion-header">
@@ -1046,6 +1090,7 @@
 
       <#if !lectureFlag>
       var lectureId123 = real(${lecture.id})
+      savedSeries = real(${lecture.getSeries().id})
       <#else>
       var lectureId123 = 0;
       </#if>
@@ -1054,6 +1099,7 @@
       document.addEventListener("DOMContentLoaded", function(event) {
         // ваш код для выполнения после загрузки страницы
         getAuthorsForEditLecture(lectureId123);
+
       });
       </#if>
 

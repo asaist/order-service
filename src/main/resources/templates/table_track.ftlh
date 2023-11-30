@@ -53,12 +53,12 @@
         <#list series as ser>
           <tr class="cursor-pointer">
 
-            <th scope="row" onclick="window.location='table_track/${ser.id}'">${ser.id}</th>
-            <td  onclick="window.location='table_track/${ser.id}'">${ser.seriesName}</td>
-            <td  onclick="window.location='table_track/${ser.id}'">${ser.getSupervisor1()?ifExists}</td>
-            <td  onclick="window.location='table_track/${ser.id}'">${ser.annotation}</td>
-            <td  onclick="window.location='table_track/${ser.id}'"></td>
-            <td  onclick="window.location='table_track/${ser.id}'">${ser.createDate}</td>
+            <th scope="row" onclick="window.location='module/${ser.id}'">${ser.id}</th>
+            <td  onclick="window.location='module/${ser.id}'">${ser.seriesName}</td>
+            <td  onclick="window.location='module/${ser.id}'">${ser.getSupervisor1()?ifExists}</td>
+            <td  onclick="window.location='module/${ser.id}'">${ser.annotation}</td>
+            <td  onclick="window.location='module/${ser.id}'"></td>
+            <td  onclick="window.location='module/${ser.id}'">${ser.createDate}</td>
             <td>
               <button type="button" class="btn btn-icon btn-sm"  data-tooltip-right="Редактировать курс">
                 <i class="fas fa-edit status text-secondary" onclick="location.href='/module/${ser.id}'; getAuthorsForEditModule(${ser.id});"></i>
@@ -127,12 +127,12 @@
         <#list lectures as lec>
           <tr class="cursor-pointer">
 
-            <th scope="row" onclick="window.location='table_track/${lec.id}'">${lec.id}</th>
-            <td  onclick="window.location='table_track/${lec.id}'">${lec.lectureName}</td>
-            <td  onclick="window.location='table_track/${lec.id}'">${lec.getSupervisor()?ifExists}</td>
-            <td  onclick="window.location='table_track/${lec.id}'">${lec.annotation}</td>
-            <td  onclick="window.location='table_track/${lec.id}'"></td>
-            <td  onclick="window.location='table_track/${lec.id}'">${lec.createDate}</td>
+            <th scope="row" onclick="window.location='lecture/${lec.id}'">${lec.id}</th>
+            <td  onclick="window.location='lecture/${lec.id}'">${lec.lectureName}</td>
+            <td  onclick="window.location='lecture/${lec.id}'">${lec.getSupervisor()?ifExists}</td>
+            <td  onclick="window.location='lecture/${lec.id}'">${lec.annotation}</td>
+            <td  onclick="window.location='lecture/${lec.id}'"></td>
+            <td  onclick="window.location='lecture/${lec.id}'">${lec.createDate}</td>
             <td>
               <button type="button" class="btn btn-icon btn-sm"  data-tooltip-right="Редактировать трек">
                 <i class="fas fa-edit status text-secondary" onclick="location.href='/lecture/${lec.id}'; getAuthorsForEditLecture(${lec.id});"></i>
