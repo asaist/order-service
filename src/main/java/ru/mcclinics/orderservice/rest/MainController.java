@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.mcclinics.orderservice.dao.KeyWordRepository;
 import ru.mcclinics.orderservice.domain.*;
+import ru.mcclinics.orderservice.domain.Process;
 import ru.mcclinics.orderservice.dto.*;
 import ru.mcclinics.orderservice.service.*;
 
@@ -36,6 +37,7 @@ public class MainController {
     private final KeyWordRepository keyWordRepository;
     private final ShapeService shapeService;
     private final CheckTokenService checkTokenService;
+    private final ProcessService processService;
 
     @Value("${files.upload.baseDir}")
     private String uploadPath;
@@ -125,6 +127,21 @@ public class MainController {
         List<AuthorDto> authorDtos = authors.stream().map(AuthorDto::new).collect(toList());
         List<Lecture> lectures = lectureService.findLectureBySeriesId(id);
         List<LectureDto> lectureDtos = lectures.stream().map(LectureDto::new).collect(toList());
+        for (LectureDto lectureDto : lectureDtos){
+            boolean allProcessesCompleted = true;
+
+            List<Process> processes = processService.findProcessByLectureId(lectureDto.getId());
+            for (Process process : processes) {
+                if (process.getProcessState() != 0) {
+                    allProcessesCompleted = false;
+                    break;
+                }
+            }
+
+            if (allProcessesCompleted) {
+                lectureDto.setExecuted(true);
+            }
+        }
         List<Mkb> mkbs = series.getMkbs();
         List<MkbDto> mkbDtos = mkbs.stream().map(MkbDto::new).collect(toList());
         String seriesName = series.getSeriesName();

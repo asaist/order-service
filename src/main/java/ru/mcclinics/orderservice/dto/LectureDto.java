@@ -18,6 +18,7 @@ public class LectureDto extends EntityDto implements Serializable {
     private Long id;
     private Long moduleId;
     private Boolean idDb;
+    private Boolean executed;
     private String lectureModuleName;
     private String lectureModuleAnnotation;
     private String lectureModuleKeyWords;

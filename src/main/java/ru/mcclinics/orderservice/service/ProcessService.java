@@ -18,5 +18,6 @@ public class ProcessService {
     private final ProcessRepository processRepository;
     public Process save(Process process){return processRepository.save(process);}
     public List<Process> findActiveProcesses(){return processRepository.findByProcessState(1);}
+    public List<Process> findProcessByLectureId(Long lectureId){return processRepository.findProcessByLectureId(lectureId);}
 
 }
