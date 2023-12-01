@@ -50,14 +50,16 @@ public class WebSecurityConfig{
                 .cors().disable()
                 .authorizeHttpRequests()
 //                .requestMatchers("/public", "/", "/templates/**", "/static/**", "/api/**", "/resources/**", "/table_track", "/module/**").permitAll()
-                .requestMatchers("/**").permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .oauth2Login();
-        http
-                .oauth2ResourceServer()
-                .jwt();
+                .requestMatchers("/**").permitAll();
+        ///----Отключил 01.12.2023 для демонстрации Денису работы приложения --- //////
+//                .anyRequest()
+//                .authenticated()
+//                .and()
+//                .oauth2Login();
+//        http
+//                .oauth2ResourceServer()
+//                .jwt();
+        //////------------------------------------------------------------------//////
         http.headers().frameOptions().disable();
         return http.build();
     }

@@ -1077,6 +1077,7 @@
       <#if !moduleFlag>
       var seriesOneId123 = real(${seriesOne.id})
       supervisorUploaded = true;
+      document.getElementById("saveModuleM").textContent = "Сохранить курс лекций"
       <#else>
       var seriesOneId123 = 0;
       </#if>
@@ -1090,7 +1091,8 @@
 
       <#if !lectureFlag>
       var lectureId123 = real(${lecture.id})
-      savedSeries = real(${lecture.getSeries().id})
+          savedSeries = real(${lecture.getSeries().id})
+          document.getElementById("saveLectureL").textContent = "Сохранить лекцию"
       <#else>
       var lectureId123 = 0;
       </#if>

@@ -110,7 +110,7 @@ async function sendForApprovalCourse(processType, el, batch) {
     btnClose();
     if (batch){
         savedLecture = null;
-        url1 = `https://dev.track.samsmu.ru/${processType}?savedSeries=${savedSeries}`;
+        url1 = `https://dev.track.samsmu.ru/${processType}?savedSeries=${savedSeries}&daysToFill=${dayFromDialog}`;
     } else {
         el.classList.add('hidden');
         el.disabled = true;

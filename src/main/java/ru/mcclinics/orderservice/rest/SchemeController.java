@@ -292,9 +292,15 @@ public class SchemeController {
     @PostMapping(value = "/sendCourseForExecution", consumes = {"application/json"})
     public ResponseEntity sendCourseForExecution(
             @RequestParam Long savedSeries,
-            @RequestParam(required = false) Long savedLecture
+            @RequestParam(required = false) Long savedLecture,
+            @RequestParam(required = false) String daysToFill
     ) throws IOException, JRException {
         Series series = seriesService.findSeriesById(savedSeries);
+        if (daysToFill != null){
+            series.getLectures().stream()
+                    .forEach(lecture -> lecture.setDaysToFill(daysToFill));
+            lectureService.saveAll(series.getLectures());
+        }
         Author supervisor = series.getSupervisor();
         List<Lecture> lectures = new ArrayList<>();
         System.out.println("Лекция на отправку ID: " + savedLecture);
@@ -315,7 +321,6 @@ public class SchemeController {
                 process.setLecture(lecture);
                 process.setSeries(series);
                 processRepository.save(process);
-
             }
         }
         return ResponseEntity.ok(200);
@@ -462,10 +467,6 @@ public class SchemeController {
             keyWord.setLecture(savedLecture);
             keyWordList.add(keyWord);
         }
-
-
-
-
 
         System.out.println("key words in lecture: ");
         keyWordList.stream()
